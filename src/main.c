@@ -31,7 +31,7 @@ int main(void)
 		return (EXIT_FAILURE);
 	}
 	parsing(&data); // argv
-	//render_first_image(data, img);
+	render_first_image(&data);
 	mlx_put_image_to_window(mlx, win, img, 0, 0);
 	mlx_loop(mlx);
 }

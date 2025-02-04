@@ -5,7 +5,7 @@ void	parsing(t_data *data)
 	t_sphere	*sph_1;
 	t_sphere	*sph_2;
 	t_plane		*pl_1;
-	t_camera	cam = {70, {0, 2, -10}, {0,0,1}};
+	t_camera	cam = {90, {0, 2, -10}, {0,0,1}};
 
 	
 	sph_1 = malloc(sizeof(t_sphere));
