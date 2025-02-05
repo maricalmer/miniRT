@@ -1,5 +1,0 @@
-// float *find_frame()
-// {
-
-	
-// }
