@@ -9,9 +9,10 @@
 # include <float.h>
 # include <stdio.h>
 
-# define WIDTH		600
-# define HEIGHT		600
+# define WIDTH		800
+# define HEIGHT		800
 # define EPSILON    0.001 // adjust
+# define SPECULAR_POWER 50
 
 typedef enum e_obj_type
 {
@@ -89,7 +90,7 @@ void	parsing(t_data *data);
 void	render_first_image(t_data *data, int *img);
 
 /*phong.c*/
-int		phong(t_intersect *first, t_data *data);
+int		phong(t_intersect *first, t_data *data, float p_ray[3]);
 
 
 /* tests*/

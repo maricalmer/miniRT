@@ -20,7 +20,7 @@ void	render_first_image(t_data *data, int *img)
 		intersection_tests(data, &first, i); // => the first inter point is returned
 		get_normal_intersect(&first);
 		//norm = calculate_normal(data, obj, hit_pt);
-		img[i] = phong(&first, data); // => color = object color in the first prototype.)
+		img[i] = phong(&first, data, data->primary_rays[i / WIDTH][i % WIDTH]); // => color = object color in the first prototype.)
 		
 		
 		i++;
@@ -36,6 +36,7 @@ void intersection_tests(t_data *data, t_intersect *first, int i)
 	obj = data->objects;
 	t_min = FLT_MAX;
 
+	t = 0;
 	while (obj->type)
 	{
 		if (obj->type == SPHERE)

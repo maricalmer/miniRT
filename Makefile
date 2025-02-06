@@ -21,7 +21,7 @@ LIBMLX:=			$(MLX_DIRECTORY)/libmlx.a
 LIB_FLAGS:=			-L$(LIBFT_DIRECTORY) -lft -L$(MLX_DIRECTORY) -lmlx_Linux -lXext -lX11 -lm
 
 CC:=				cc
-CFLAGS:=			-Wall -Wextra -Werror -g -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY)
+CFLAGS:=			-Wall -Wextra -Werror -g -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) #-Ofast -march=native 
 
 all: $(OBJECTS_DIRECTORY) $(LIBMLX) $(LIBFT) $(NAME)
 
