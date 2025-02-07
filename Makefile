@@ -7,6 +7,7 @@ SOURCES_DIRECTORY:=		src
 SOURCES:=			$(SOURCES_DIRECTORY)/main.c \
 					$(SOURCES_DIRECTORY)/parsing.c \
 					$(SOURCES_DIRECTORY)/render.c \
+					$(SOURCES_DIRECTORY)/math.c \
 					$(SOURCES_DIRECTORY)/phong.c
 
 OBJECTS_DIRECTORY:=		build
