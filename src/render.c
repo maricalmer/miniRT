@@ -1,5 +1,5 @@
 #include "minirt.h"
-
+// david: is memcpy usage fixing bugs??
 
 void 	calculate_img(t_data *data, int *img);
 void	calculate_ray_prim_dir(t_data *data);
@@ -22,13 +22,13 @@ void 	calculate_img(t_data *data, int *img)
 	int			i;
 	int			j;
 
-	first_shoot.src = data->cam.origin;
+	ft_memcpy(first_shoot.src, data->cam.origin, sizeof(first_shoot.src));
 	first_shoot.depth = 0;
 	i = 0;
 	space = WIDTH * HEIGHT;
 	while (i < space)
 	{
-		first_shoot.dir = &data->primary_rays[i * 3];
+		ft_memcpy(first_shoot.dir, &data->primary_rays[i * 3], sizeof(first_shoot.dir));
 		
 		
 		shoot_ray(data, &first_shoot);
@@ -73,9 +73,9 @@ void visibility_intersection_tests(t_data *data, t_shoot *shoot)
 	}
 	if (t_min != FLT_MAX)
 	{
-		shoot->hit_pt[0] = data->cam.origin[0] + t_min * shoot->dir[0];
-		shoot->hit_pt[1] = data->cam.origin[1] + t_min * shoot->dir[1];
-		shoot->hit_pt[2] = data->cam.origin[2] + t_min * shoot->dir[2];
+		shoot->hit_pt[0] = shoot->src[0] + t_min * shoot->dir[0];
+		shoot->hit_pt[1] = shoot->src[1] + t_min * shoot->dir[1];
+		shoot->hit_pt[2] = shoot->src[2] + t_min * shoot->dir[2];
 	}
 	else
 		shoot->obj = NULL;
@@ -106,7 +106,7 @@ void calculate_ray_prim_dir(t_data *data)
 			data->primary_rays[i * WIDTH * 3 + j * 3 + 0] = -max_x + (j + 0.5) * dx;
 			data->primary_rays[i * WIDTH * 3 + j * 3 + 1] = max_y - (i + 0.5) * dx;
 			data->primary_rays[i * WIDTH * 3 + j * 3 + 2] = -1;
-			normalize(&data->primary_rays[i * WIDTH + j * 3]);
+			normalize(&data->primary_rays[i * WIDTH * 3 + j * 3]);
 			// cam rotation missing here...
 			j++;
 		}
@@ -241,24 +241,3 @@ void get_normal_intersect(t_shoot *shoot)
 	}
 	// other SWITCHES ....
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

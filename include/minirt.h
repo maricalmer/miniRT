@@ -13,8 +13,8 @@
 # define WIDTH				600
 # define HEIGHT				600
 # define EPSILON    		0.001 // adjust
-# define SPECULAR_POWER 	200
-# define DEPTH_MAX			5
+# define SPECULAR_POWER 	50
+# define DEPTH_MAX			20
 
 typedef enum e_obj_type
 {
@@ -84,8 +84,8 @@ typedef struct s_data
 typedef struct s_shoot
 {
 	// input
-	float			*src;
-	float			*dir;
+	float			src[3];
+	float			dir[3];
 	int				depth;
 	// output
 	int				res_rgb[3];
