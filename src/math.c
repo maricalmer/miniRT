@@ -24,3 +24,12 @@ float	dot_13_13(float a[3], float b[3])
 {
 	return (a[0] * b[0] + a[1] * b[1] + a[2] * b[2]);
 }
+
+void	vec_substr(float p1[3], float p2[3], float result[3])
+{
+	int i;
+
+	i = -1;
+	while (++i < 3)
+		result[i] = p2[i] - p1[i]; 
+}

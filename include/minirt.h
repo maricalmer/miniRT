@@ -10,11 +10,11 @@
 # include <float.h>
 # include <stdio.h>
 
-# define WIDTH				1600
-# define HEIGHT				900
+# define WIDTH				600
+# define HEIGHT				600
 # define EPSILON    		0.001 // adjust
 # define SPECULAR_POWER 	50
-# define DEPTH_MAX			20
+# define DEPTH_MAX			4
 # define ANTIALIASING_FACT	4
 
 typedef enum e_obj_type
@@ -123,4 +123,5 @@ float	intersection_test_plane(t_plane *plane, float p_ray[3], float origin[3]);
 float	dot_13_13(float a[3], float b[3]);
 void 	normalize(float vector[3]);
 int 	imin(int a, int b);
+void	vec_substr(float p1[3], float p2[3], float result[3]);
 #endif

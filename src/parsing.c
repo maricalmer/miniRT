@@ -34,7 +34,8 @@ void	parsing(t_data *data)
 
 	t_sphere sph_1_data = {{0, 1, 0}, 1.0};
 	t_plane pl_1_data = {{0, 0, 0}, {0, 1, 0}};
-	t_light lgt_1_data = {0.6, {5, 5, 5}, {255, 255, 255}};
+	t_light lgt_1_data = {0.6, {5, 3, 5}, {200, 200, 0}};
+	t_light lgt_2_data = {0.4, {-5, 3, 5}, {150, 0, 150}};
 	t_plane pl_2_data = {{1.5, 0, 0}, {-1, 0, 0}};
 	t_plane pl_3_data = {{-1.5, 0, 0}, {1, 0, 0}};
 	t_plane pl_4_data = {{0, 5, 0}, {0, -1, 0}};
@@ -75,8 +76,8 @@ void	parsing(t_data *data)
 	data->objects[0].type = SPHERE;
 	data->objects[0].geo = sph_1;
 	data->objects[0].mat.rgb[0] = 255;
-	data->objects[0].mat.rgb[1] = 0;
-	data->objects[0].mat.rgb[2] = 0;
+	data->objects[0].mat.rgb[1] = 255;
+	data->objects[0].mat.rgb[2] = 255;
 	data->objects[0].mat.refl_coeff = 0;
 	// data->objects[1].type = SPHERE;
 	// data->objects[1].geo = sph_2;
@@ -134,7 +135,10 @@ void	parsing(t_data *data)
 	data->objects[5].mat.refl_coeff = 0.00;
 
 	data->objects[6].type = END;
-	data->lights = malloc(sizeof(t_light) * 2);
+
+	// LIGHTS
+	data->lights = malloc(sizeof(t_light) * 3);
 	data->lights[0] = lgt_1_data;
-	data->lights[1].brightness = -1;
+	data->lights[1] = lgt_2_data;
+	data->lights[2].brightness = -1;
 }
