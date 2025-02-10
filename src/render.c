@@ -10,8 +10,14 @@ void 	get_normal_intersect(t_shoot *shoot);
 void	render_first_image(t_data *data, int *img) // img + mlx + win in data (??)
 {
 	data->primary_rays = malloc(sizeof(float) * HEIGHT * WIDTH * 3);
-	calculate_ray_prim_dir(data);
+	calculate_ray_prim_dir(data); // for antialiasing resolution
+	// calulate BVH tree();
 	calculate_img(data, img);
+	// if antialising
+	// 	img_buffer = average(high_resolution_image)
+	// else 
+	// 	img_buffer = high_resolution_image;
+	put_image()
 }
 
 
@@ -22,15 +28,13 @@ void 	calculate_img(t_data *data, int *img)
 	int			i;
 	int			j;
 
-	ft_memcpy(first_shoot.src, data->cam.origin, sizeof(first_shoot.src));
+	first_shoot.src = data->cam.origin;
 	first_shoot.depth = 0;
 	i = 0;
 	space = WIDTH * HEIGHT;
 	while (i < space)
 	{
-		ft_memcpy(first_shoot.dir, &data->primary_rays[i * 3], sizeof(first_shoot.dir));
-		
-		
+		first_shoot.dir = &data->primary_rays[i * 3];
 		shoot_ray(data, &first_shoot);
 		j = -1;
 		while (++j < 3)
@@ -42,6 +46,7 @@ void 	calculate_img(t_data *data, int *img)
 
 void	shoot_ray(t_data *data, t_shoot *shoot)
 {
+	// isolate bounding box of interrest 
 	visibility_intersection_tests(data, shoot);
 	get_normal_intersect(shoot);
 	shading(shoot, data);

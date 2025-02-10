@@ -15,7 +15,7 @@ void	shading(t_shoot *shoot, t_data *data)
 	memset(&shoot->res_rgb, 0, sizeof(shoot->res_rgb));
 	if (!shoot->obj)
 		{		
-			shoot->res_rgb[0] = 70;   // david: default background values ?? green walls block bckground??
+			shoot->res_rgb[0] = 70; // move to define header and set ambient color based on 'sky'
 			shoot->res_rgb[1] = 130;
 			shoot->res_rgb[2] = 180;
 			return ;
@@ -24,7 +24,7 @@ void	shading(t_shoot *shoot, t_data *data)
 	// ambiant part ==> at the moment white light !
 	i = -1;
 	while (++i < 3)
-		shoot->res_rgb[i] += data->ambient.brightness * rgb[i];
+		shoot->res_rgb[i] += data->ambient.brightness * rgb[i]; // pr color lights --> *light_color[i]/255
 	// lights ==> at the moment white light and only one !
 	shadow_ray[0] = data->lights[0].origin[0] - shoot->hit_pt[0];
 	shadow_ray[1] = data->lights[0].origin[1] - shoot->hit_pt[1];
@@ -64,8 +64,8 @@ void	shading(t_shoot *shoot, t_data *data)
 		bouncing_ray[2] = + shoot->dir[2] - 2 * theta_LN * shoot->normal[2];
 		normalize(bouncing_ray);
 
-		ft_memcpy(new_shoot.src, shoot->hit_pt, sizeof(new_shoot.src));
-		ft_memcpy(new_shoot.dir, bouncing_ray, sizeof(new_shoot.dir));
+		new_shoot.src = shoot->hit_pt;
+		new_shoot.dir = bouncing_ray;
 		new_shoot.depth = shoot->depth + 1;
 		shoot_ray(data, &new_shoot);
 		i = -1;

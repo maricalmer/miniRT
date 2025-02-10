@@ -10,11 +10,12 @@
 # include <float.h>
 # include <stdio.h>
 
-# define WIDTH				600
-# define HEIGHT				600
+# define WIDTH				1200
+# define HEIGHT				900
 # define EPSILON    		0.001 // adjust
 # define SPECULAR_POWER 	50
 # define DEPTH_MAX			20
+# define ANTIALIASING_FACT	1
 
 typedef enum e_obj_type
 {
@@ -84,8 +85,8 @@ typedef struct s_data
 typedef struct s_shoot
 {
 	// input
-	float			src[3];
-	float			dir[3];
+	float			*src;
+	float			*dir;
 	int				depth;
 	// output
 	int				res_rgb[3];
@@ -93,8 +94,6 @@ typedef struct s_shoot
 	t_object		*obj;
 	float			normal[3];
 	float			hit_pt[3];
-	float			refl[3];
-	float			refr[3];
 }	t_shoot;
 
 
