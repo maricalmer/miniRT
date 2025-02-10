@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"ft_printf.h": "c",
+		"cstdlib": "c",
+		"resource.h": "c",
+		"cmath": "c"
+	}
+}

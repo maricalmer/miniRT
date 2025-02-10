@@ -1,47 +1,68 @@
 #include "minirt.h"
-// david: is memcpy usage fixing bugs??
 
 void 	calculate_img(t_data *data, int *img);
+void	average_hd_pixel(int hd_res[ANTIALIASING_FACT * ANTIALIASING_FACT][3]);
 void	calculate_ray_prim_dir(t_data *data);
+void	iterate_hd_pxl(float *primary_rays, float dx, float top_left_x, float top_left_y);
 void 	normalize(float vector[3]);
 void 	visibility_intersection_tests(t_data *data, t_shoot *shoot);
 void 	get_normal_intersect(t_shoot *shoot);
 
 void	render_first_image(t_data *data, int *img) // img + mlx + win in data (??)
 {
-	data->primary_rays = malloc(sizeof(float) * HEIGHT * WIDTH * 3);
+	data->primary_rays = malloc(sizeof(float) * HEIGHT * WIDTH * 3 * ANTIALIASING_FACT * ANTIALIASING_FACT);
 	calculate_ray_prim_dir(data); // for antialiasing resolution
 	// calulate BVH tree();
 	calculate_img(data, img);
-	// if antialising
-	// 	img_buffer = average(high_resolution_image)
-	// else 
-	// 	img_buffer = high_resolution_image;
-	put_image()
 }
 
 
 void 	calculate_img(t_data *data, int *img)
 {
-	t_shoot 	first_shoot;
-	int			space;
-	int			i;
-	int			j;
+	t_shoot 		first_shoot;
+	int				space;
+	int				i;
+	int				j;
+	int				k;
+	int	hd_res[ANTIALIASING_FACT * ANTIALIASING_FACT][3];
 
 	first_shoot.src = data->cam.origin;
 	first_shoot.depth = 0;
-	i = 0;
+	i = -1;
 	space = WIDTH * HEIGHT;
-	while (i < space)
+	while (++i < space)
 	{
-		first_shoot.dir = &data->primary_rays[i * 3];
-		shoot_ray(data, &first_shoot);
+		j = -1;
+		while (++j < ANTIALIASING_FACT * ANTIALIASING_FACT)
+		{
+			first_shoot.dir = &data->primary_rays[i * 3 * ANTIALIASING_FACT * ANTIALIASING_FACT + j * 3];
+			shoot_ray(data, &first_shoot);
+			k = -1;
+			while (++k < 3)
+				hd_res[j][k] = imin(first_shoot.res_rgb[k], 255);
+		}
+		average_hd_pixel(hd_res);
+		img[i] = (hd_res[0][0] << 16 | hd_res[0][1] << 8 | hd_res[0][2]);
+	}
+}
+
+void	average_hd_pixel(int hd_res[ANTIALIASING_FACT * ANTIALIASING_FACT][3])
+{
+	int		i;
+	int		j;
+	float	divisor;
+
+	i = 0;
+	while (++i < ANTIALIASING_FACT * ANTIALIASING_FACT)
+	{
 		j = -1;
 		while (++j < 3)
-			first_shoot.res_rgb[j] = imin(first_shoot.res_rgb[j], 255);
-		img[i] = (first_shoot.res_rgb[0] << 16 | first_shoot.res_rgb[1] << 8 | first_shoot.res_rgb[2]);
-		i++;
+			hd_res[0][j] += hd_res[i][j];
 	}
+	j = -1;
+	divisor = (float)1 / (ANTIALIASING_FACT * ANTIALIASING_FACT);
+	while (++j < 3)
+		hd_res[0][j] *= divisor;
 }
 
 void	shoot_ray(t_data *data, t_shoot *shoot)
@@ -91,34 +112,66 @@ void calculate_ray_prim_dir(t_data *data)
 {
 	float max_x;
 	float max_y;
+	float top_left_x;
+	float top_left_y;
 	float dx;
+	float hd_dx;
 	float cam_origin[3];
 	int	i;
 	int	j;
+	int index;
+	int size_hd;
 
 	max_x = tan(data->cam.fov * M_PI / 360);
-
 	ft_memset(cam_origin, 0, sizeof(float) * 3);
 	max_y = max_x * HEIGHT / WIDTH;
+	size_hd = ANTIALIASING_FACT * ANTIALIASING_FACT * 3;
+	
 	dx = 2 * max_x / WIDTH;
+	hd_dx = dx / ANTIALIASING_FACT;
 	i = 0;
+	top_left_y = max_y;
 	while (i < HEIGHT)
+	{
+		// optimize index with += instead of i * WIDTH here ...
+		j = 0;
+		top_left_x = - max_x;
+		while (j < WIDTH)
+		{	
+			index = i * WIDTH * size_hd + j * size_hd;
+			iterate_hd_pxl(&data->primary_rays[index], hd_dx, top_left_x, top_left_y);
+			j++;
+			top_left_x += dx;
+			
+			// cam rotation missing here...
+		}
+		i++;
+		top_left_y -= dx;
+	}
+}
+
+
+void	iterate_hd_pxl(float *primary_rays, float dx, float top_left_x, float top_left_y)
+{
+	int i;
+	int j;
+	
+	i = 0;
+	while (i < ANTIALIASING_FACT)
 	{
 		// optimize calc i * WIDTH here ...
 		j = 0;
-		while (j < WIDTH)
-		{
-			data->primary_rays[i * WIDTH * 3 + j * 3 + 0] = -max_x + (j + 0.5) * dx;
-			data->primary_rays[i * WIDTH * 3 + j * 3 + 1] = max_y - (i + 0.5) * dx;
-			data->primary_rays[i * WIDTH * 3 + j * 3 + 2] = -1;
-			normalize(&data->primary_rays[i * WIDTH * 3 + j * 3]);
-			// cam rotation missing here...
+		while (j < ANTIALIASING_FACT)
+		{	
+			primary_rays[i * ANTIALIASING_FACT * 3 + j * 3 + 0] = top_left_x + (j + 0.5) * dx;
+			primary_rays[i * ANTIALIASING_FACT * 3 + j * 3 + 1] = top_left_y - (i + 0.5) * dx;
+			primary_rays[i * ANTIALIASING_FACT * 3 + j * 3 + 2] = -1;
+			normalize(&primary_rays[i * ANTIALIASING_FACT * 3 + j * 3]);
 			j++;
 		}
 		i++;
 	}
 }
-
 
 
 // float	intersection_test_sphere(t_sphere *sphere, t_shoot *shoot)

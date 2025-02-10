@@ -10,12 +10,12 @@
 # include <float.h>
 # include <stdio.h>
 
-# define WIDTH				1200
+# define WIDTH				1600
 # define HEIGHT				900
 # define EPSILON    		0.001 // adjust
 # define SPECULAR_POWER 	50
 # define DEPTH_MAX			20
-# define ANTIALIASING_FACT	1
+# define ANTIALIASING_FACT	4
 
 typedef enum e_obj_type
 {
@@ -76,6 +76,7 @@ typedef struct s_data
 	t_object			*objects;
 	t_light				*lights;
 	t_ambient_light		ambient;
+	char				*img_buf;
 	// first shoot only
 	t_camera			cam;
 	float				*primary_rays;	
