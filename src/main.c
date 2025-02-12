@@ -31,7 +31,9 @@ int main(void)
 		return (EXIT_FAILURE);
 	}
 	parsing(&data); // argv
+	launch_pool(&data);
 	render_first_image(&data, addr);
 	mlx_put_image_to_window(mlx, win, img, 0, 0);
 	mlx_loop(mlx);
+	// free dyn alloc mem (incl. pthread_mutex_destroy)
 }

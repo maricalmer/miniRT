@@ -13,8 +13,8 @@ void	parsing(t_data *data)
 	// t_sphere		*sph_9;
 	// t_sphere		*sph_10;
 	t_plane			*pl_1;
-	t_camera		cam = {70, {0, 1.7, 6}, {0,0,-1}};
-	t_ambient_light	ambient = {0.2, {255, 255, 255}};
+	t_camera		cam = {70, {0, 1.7, 20}, {0,0,-1}};
+	t_ambient_light	ambient = {0.2, {1, 1 , 1}}; // normalized light color
 
 	sph_1 = malloc(sizeof(t_sphere));
 	sph_2 = malloc(sizeof(t_sphere));
@@ -34,10 +34,10 @@ void	parsing(t_data *data)
 
 	t_sphere sph_1_data = {{0, 1, 0}, 1.0};
 	t_plane pl_1_data = {{0, 0, 0}, {0, 1, 0}};
-	t_light lgt_1_data = {0.6, {5, 3, 5}, {200, 200, 0}};
-	t_light lgt_2_data = {0.4, {-5, 3, 5}, {150, 0, 150}};
+	t_light lgt_1_data = {0.8, {2, 0.5, 20}, {200.0/255, 200.0/255, 0.0/255}};
+	t_light lgt_2_data = {0.4, {-5, 3, 5}, {150.0/255, 0.0/255, 150.0/255}};
 	t_plane pl_2_data = {{1.5, 0, 0}, {-1, 0, 0}};
-	t_plane pl_3_data = {{-1.5, 0, 0}, {1, 0, 0}};
+	t_plane pl_3_data = {{0, 2.5, 0}, {0, -1, 0}};
 	t_plane pl_4_data = {{0, 5, 0}, {0, -1, 0}};
 	t_plane pl_5_data = {{0, 0, -10}, {0, 0, 1}};
 
@@ -104,7 +104,7 @@ void	parsing(t_data *data)
 	data->objects[1].mat.rgb[0] = 100;
 	data->objects[1].mat.rgb[1] = 100;
 	data->objects[1].mat.rgb[2] = 100;
-	data->objects[1].mat.refl_coeff = 0.15;
+	data->objects[1].mat.refl_coeff = 0.90;
 
 	data->objects[2].type = SPHERE;
 	data->objects[2].geo = sph_2;
@@ -113,14 +113,14 @@ void	parsing(t_data *data)
 	data->objects[2].mat.rgb[2] = 200;
 	data->objects[2].mat.refl_coeff = 0.9;
 
-	data->objects[3].type = END;
+	data->objects[3].type = PLANE;
 	data->objects[3].geo = pl_3;
-	data->objects[3].mat.rgb[0] = 0;
+	data->objects[3].mat.rgb[0] = 200;
 	data->objects[3].mat.rgb[1] = 200;
-	data->objects[3].mat.rgb[2] = 0;
-	data->objects[3].mat.refl_coeff = 0.3;
+	data->objects[3].mat.rgb[2] = 200;
+	data->objects[3].mat.refl_coeff = 0.98;
 
-	data->objects[4].type = PLANE;
+	data->objects[4].type = END;
 	data->objects[4].geo = pl_4;
 	data->objects[4].mat.rgb[0] = 000;
 	data->objects[4].mat.rgb[1] = 000;
@@ -140,5 +140,5 @@ void	parsing(t_data *data)
 	data->lights = malloc(sizeof(t_light) * 3);
 	data->lights[0] = lgt_1_data;
 	data->lights[1] = lgt_2_data;
-	data->lights[2].brightness = -1;
+	data->lights[1].brightness = -1;
 }

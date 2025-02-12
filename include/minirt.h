@@ -9,13 +9,20 @@
 # include <math.h>
 # include <float.h>
 # include <stdio.h>
+# include <pthread.h>
+# include <stdatomic.h>
 
-# define WIDTH				600
-# define HEIGHT				600
+# define WIDTH				1024
+# define HEIGHT				1024
 # define EPSILON    		0.001 // adjust
 # define SPECULAR_POWER 	50
-# define DEPTH_MAX			4
+# define DEPTH_MAX			20
 # define ANTIALIASING_FACT	4
+
+
+# define USLEEP_WORKER 		0
+# define USLEEP_PARENT		10 //fine tune those...
+# define N_THREAD			15
 
 typedef enum e_obj_type
 {
@@ -35,13 +42,13 @@ typedef struct s_light
 {
 	float			brightness;
 	float			origin[3];
-	unsigned char	rgb[3];
+	float			rgb[3]; // 0-1 value for each component
 }	t_light;
 
 typedef struct s_ambient_light
 {
 	float			brightness;
-	unsigned char	rgb[3];
+	float			rgb[3];
 }	t_ambient_light;
 
 typedef struct s_sphere
@@ -71,6 +78,12 @@ typedef struct s_object
 	void			*geo; // union option (maybe faster / use with pointer to mesh [list of triangles])
 }	t_object;
 
+typedef struct s_job
+{
+	void	(*function)(void *);
+	void	*arg;
+}	t_job;
+
 typedef struct s_data
 {
 	t_object			*objects;
@@ -79,7 +92,14 @@ typedef struct s_data
 	char				*img_buf;
 	// first shoot only
 	t_camera			cam;
-	float				*primary_rays;	
+	float				*primary_rays;
+	// multithreading
+	atomic_int			joblist_size;
+	int					joblist_top;
+	atomic_int			active_threads;
+	t_job				joblist[256];
+	pthread_mutex_t		joblist_mutex;
+	pthread_t			threads[N_THREAD];
 }	t_data;
 
 
@@ -97,7 +117,14 @@ typedef struct s_shoot
 	float			hit_pt[3];
 }	t_shoot;
 
-
+typedef struct s_calc_img_arg
+{
+	t_data	*data;
+	int		*img;
+	int		start;
+	int		end;
+}
+t_calc_img_arg;
 
 
 /// FUNCTIONS
@@ -122,6 +149,13 @@ float	intersection_test_plane(t_plane *plane, float p_ray[3], float origin[3]);
 /*maths*/
 float	dot_13_13(float a[3], float b[3]);
 void 	normalize(float vector[3]);
+void 	normalize2(float vector[3], float *magnitude);
 int 	imin(int a, int b);
 void	vec_substr(float p1[3], float p2[3], float result[3]);
+
+/* Multithreading */
+void 	wait_for_workers(t_data *data);
+void 	launch_pool(t_data *data);
+void	*worker(void *arg);
+
 #endif

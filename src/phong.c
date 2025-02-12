@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-int		shadow_intersection_tests(t_shoot *shoot, t_data *data, float shadow_ray[3]);
+int 	shadow_intersection_tests(t_shoot *shoot, t_data *data, float shadow_ray[3], float dist_light);
 void	add_phong_diffuse(t_shoot *shoot, t_light light, float theta_LN);
 void	add_phong_specular(float shadow_ray[3], t_shoot *shoot, t_light light, float theta_LN);
 
@@ -11,6 +11,7 @@ void	shading(t_shoot *shoot, t_data *data)
 	float			shadow_ray[3];
 	float			theta_LN;	
 	float			bouncing_ray[3];
+	float			dist_light;
 
 
 	memset(&shoot->res_rgb, 0, sizeof(shoot->res_rgb));
@@ -25,14 +26,14 @@ void	shading(t_shoot *shoot, t_data *data)
 	// ambiant part ==> at the moment white light !
 	i = -1;
 	while (++i < 3)
-		shoot->res_rgb[i] += data->ambient.brightness * rgb[i] * data->ambient.rgb[i] / 255;
+		shoot->res_rgb[i] += data->ambient.brightness * rgb[i] * data->ambient.rgb[i];
 	// lights ==> at the moment white light and only one !
 	i = 0;
 	while (data->lights[i].brightness >= 0)
 	{
 		vec_substr(shoot->hit_pt, data->lights[i].origin, shadow_ray);
-		normalize(shadow_ray);
-		if (shadow_intersection_tests(shoot, data, shadow_ray))
+		normalize2(shadow_ray, &dist_light);
+		if (shadow_intersection_tests(shoot, data, shadow_ray, dist_light))
 		{
 			theta_LN = dot_13_13(shoot->normal, shadow_ray);
 			add_phong_diffuse(shoot, data->lights[i], theta_LN);
@@ -73,11 +74,12 @@ void	add_phong_diffuse(t_shoot *shoot, t_light light, float theta_LN)
 	unsigned char	*rgb;
 
 	rgb = shoot->obj->mat.rgb;
-	if (theta_LN > EPSILON)
+	theta_LN = fmaxf(theta_LN , -theta_LN);
+	if (1)//theta_LN > EPSILON)
 	{
 		i = -1;
 		while (++i < 3)
-			shoot->res_rgb[i] += light.brightness * theta_LN * rgb[i] * light.rgb[i] / 255; // phong diffuse
+			shoot->res_rgb[i] += light.brightness * theta_LN * rgb[i] * light.rgb[i]; // phong diffuse
 	}
 }
 
@@ -98,10 +100,10 @@ void	add_phong_specular(float shadow_ray[3], t_shoot *shoot, t_light light, floa
 	R_dot_E = powf(R_dot_E, SPECULAR_POWER);
 	i = -1;
 	while (++i < 3)
-		shoot->res_rgb[i] += light.brightness * R_dot_E * rgb[i] * light.rgb[i] / 255; // phong specular
+		shoot->res_rgb[i] += light.brightness * R_dot_E * rgb[i] * light.rgb[i]; // phong specular
 }
 /* returns 0 as soon as one object is in the way of light, returns 1 when no shadow*/
-int shadow_intersection_tests(t_shoot *shoot, t_data *data, float shadow_ray[3])
+int shadow_intersection_tests(t_shoot *shoot, t_data *data, float shadow_ray[3], float dist_light)
 {
 	t_object	*obj;
 	float 		t;
@@ -113,7 +115,7 @@ int shadow_intersection_tests(t_shoot *shoot, t_data *data, float shadow_ray[3])
 			t = intersection_test_sphere(obj->geo, shadow_ray, shoot->hit_pt);
 		else if (obj->type == PLANE)
 		 	t = intersection_test_plane(obj->geo, shadow_ray, shoot->hit_pt);
-		if (t > EPSILON)
+		if (t > EPSILON && dist_light > t)
 			return (0);
 		obj++;
 	}

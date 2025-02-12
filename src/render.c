@@ -1,10 +1,10 @@
 #include "minirt.h"
 
 void 	calculate_img(t_data *data, int *img);
+void 	calculate_img_packet(void *arg_generic);
 void	average_hd_pixel(int hd_res[ANTIALIASING_FACT * ANTIALIASING_FACT][3]);
 void	calculate_ray_prim_dir(t_data *data);
 void	iterate_hd_pxl(float *primary_rays, float dx, float top_left_x, float top_left_y);
-void 	normalize(float vector[3]);
 void 	visibility_intersection_tests(t_data *data, t_shoot *shoot);
 void 	get_normal_intersect(t_shoot *shoot);
 
@@ -19,32 +19,61 @@ void	render_first_image(t_data *data, int *img) // img + mlx + win in data (??)
 
 void 	calculate_img(t_data *data, int *img)
 {
+	int				i;
+	t_calc_img_arg	*arg;
+	int				packet_size;
+
+	packet_size = WIDTH * HEIGHT / 256;
+	arg = malloc(sizeof(t_calc_img_arg) * 256);
+	pthread_mutex_lock(&data->joblist_mutex);
+	data->joblist_top = 0;
+	data->joblist_size = 256;
+	i = -1;
+	while (++i < 256)
+	{
+		arg[i].data = data;
+		arg[i].img = img;
+		arg[i].start = i * packet_size;
+		arg[i].end = arg[i].start + packet_size;
+		data->joblist[i].function = calculate_img_packet;
+		data->joblist[i].arg = arg + i;
+	}
+	pthread_mutex_unlock(&data->joblist_mutex);
+	wait_for_workers(data);
+	free(arg);
+}
+
+
+void 	calculate_img_packet(void *arg_generic)
+{
 	t_shoot 		first_shoot;
-	int				space;
 	int				i;
 	int				j;
 	int				k;
 	int	hd_res[ANTIALIASING_FACT * ANTIALIASING_FACT][3];
+	t_calc_img_arg 	*arg;
 
-	first_shoot.src = data->cam.origin;
+	arg = arg_generic;
+	
+	first_shoot.src = arg->data->cam.origin;
 	first_shoot.depth = 0;
-	i = -1;
-	space = WIDTH * HEIGHT;
-	while (++i < space)
+	i = arg->start - 1;
+	while (++i < arg->end)
 	{
 		j = -1;
 		while (++j < ANTIALIASING_FACT * ANTIALIASING_FACT)
 		{
-			first_shoot.dir = &data->primary_rays[i * 3 * ANTIALIASING_FACT * ANTIALIASING_FACT + j * 3];
-			shoot_ray(data, &first_shoot);
+			first_shoot.dir = &arg->data->primary_rays[i * 3 * ANTIALIASING_FACT * ANTIALIASING_FACT + j * 3];
+			shoot_ray(arg->data, &first_shoot);
 			k = -1;
 			while (++k < 3)
 				hd_res[j][k] = imin(first_shoot.res_rgb[k], 255);
 		}
 		average_hd_pixel(hd_res);
-		img[i] = (hd_res[0][0] << 16 | hd_res[0][1] << 8 | hd_res[0][2]);
+		arg->img[i] = (hd_res[0][0] << 16 | hd_res[0][1] << 8 | hd_res[0][2]);
 	}
 }
+
 
 void	average_hd_pixel(int hd_res[ANTIALIASING_FACT * ANTIALIASING_FACT][3])
 {
