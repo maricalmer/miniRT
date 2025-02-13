@@ -1,5 +1,10 @@
 #include "minirt.h"
 
+atomic_int num_primary_rays = 0;
+atomic_int num_object_tests = 0;
+atomic_int num_object_intersections = 0;
+int total_objects = 0;
+
 int main(void)
 {
 	void *mlx;
@@ -10,6 +15,9 @@ int main(void)
 	int line_len;
 	int endian;
 	t_data data;
+	//clock_t start;
+    
+    //start_timer(&start);
 
 	ft_printf("hello\n");
 	mlx = mlx_init();
@@ -35,5 +43,8 @@ int main(void)
 	render_first_image(&data, addr);
 	mlx_put_image_to_window(mlx, win, img, 0, 0);
 	mlx_loop(mlx);
+	//double render_time = stop_timer(start);
+	//print_render_stats(render_time);
 	// free dyn alloc mem (incl. pthread_mutex_destroy)
+	return (0);
 }

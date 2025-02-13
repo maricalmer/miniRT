@@ -4,6 +4,7 @@ void 	calculate_img(t_data *data, int *img);
 void 	calculate_img_packet(void *arg_generic);
 void	average_hd_pixel(int hd_res[ANTIALIASING_FACT * ANTIALIASING_FACT][3]);
 void	calculate_ray_prim_dir(t_data *data);
+void	calculate_ray_prim_dir_packet(void *arg_generic);
 void	iterate_hd_pxl(float *primary_rays, float dx, float top_left_x, float top_left_y);
 void 	visibility_intersection_tests(t_data *data, t_shoot *shoot);
 void 	get_normal_intersect(t_shoot *shoot);
@@ -11,8 +12,9 @@ void 	get_normal_intersect(t_shoot *shoot);
 void	render_first_image(t_data *data, int *img) // img + mlx + win in data (??)
 {
 	data->primary_rays = malloc(sizeof(float) * HEIGHT * WIDTH * 3 * ANTIALIASING_FACT * ANTIALIASING_FACT);
-	calculate_ray_prim_dir(data); // for antialiasing resolution
-	// calulate BVH tree();
+	calculate_ray_prim_dir(data);   // ===> apply multithreading (x N_THREADS)
+	t_aabb *root = init_bvh(data->objects);
+	(void) root;
 	calculate_img(data, img);
 }
 
@@ -54,7 +56,7 @@ void 	calculate_img_packet(void *arg_generic)
 	t_calc_img_arg 	*arg;
 
 	arg = arg_generic;
-	
+
 	first_shoot.src = arg->data->cam.origin;
 	first_shoot.depth = 0;
 	i = arg->start - 1;
@@ -71,6 +73,118 @@ void 	calculate_img_packet(void *arg_generic)
 		}
 		average_hd_pixel(hd_res);
 		arg->img[i] = (hd_res[0][0] << 16 | hd_res[0][1] << 8 | hd_res[0][2]);
+	}
+}
+
+// void calculate_ray_prim_dir(t_data *data)
+// {
+// 	float max_x;
+// 	float max_y;
+// 	float top_left_x;
+// 	float top_left_y;
+// 	float dx;
+// 	float hd_dx;
+// 	float cam_origin[3];
+// 	int	i;
+// 	int	j;
+// 	int index;
+// 	int size_hd;
+
+// 	max_x = tan(data->cam.fov * M_PI / 360);
+// 	ft_memset(cam_origin, 0, sizeof(float) * 3);
+// 	max_y = max_x * HEIGHT / WIDTH;
+// 	size_hd = ANTIALIASING_FACT * ANTIALIASING_FACT * 3;
+	
+// 	dx = 2 * max_x / WIDTH;
+// 	hd_dx = dx / ANTIALIASING_FACT;
+// 	i = 0;
+// 	top_left_y = max_y;
+// 	while (i < HEIGHT)
+// 	{
+// 		// optimize index with += instead of i * WIDTH here ...
+// 		j = 0;
+// 		top_left_x = - max_x;
+// 		while (j < WIDTH)
+// 		{	
+// 			index = i * WIDTH * size_hd + j * size_hd;
+// 			iterate_hd_pxl(&data->primary_rays[index], hd_dx, top_left_x, top_left_y);
+// 			j++;
+// 			top_left_x += dx;
+			
+// 			// cam rotation missing here...
+// 		}
+// 		i++;
+// 		top_left_y -= dx;
+// 	}
+// }
+
+void	calculate_ray_prim_dir(t_data *data)  // duplicate of calculate_img: abstract to handler function at the cost of switch?
+{
+	int				i;
+	t_calc_img_arg	*arg;
+	int				packet_size;
+
+	packet_size = WIDTH * HEIGHT / N_THREAD;
+	arg = malloc(sizeof(t_calc_img_arg) * N_THREAD);
+	pthread_mutex_lock(&data->joblist_mutex);
+	data->joblist_top = 0;
+	data->joblist_size = N_THREAD;
+	i = -1;
+	while (++i < N_THREAD)
+	{
+		arg[i].data = data;
+		arg[i].start = i * packet_size;
+		arg[i].end = arg[i].start + packet_size;
+		data->joblist[i].function = calculate_ray_prim_dir_packet;
+		data->joblist[i].arg = arg + i;
+	}
+	pthread_mutex_unlock(&data->joblist_mutex);
+	wait_for_workers(data);
+	free(arg);
+}
+
+void	calculate_ray_prim_dir_packet(void *arg_generic)
+{
+	float max_x;
+	float max_y;
+	float top_left_x;
+	float top_left_y;
+	float dx;
+	float hd_dx;
+	int	i;
+	int	j;
+	int index;
+	int size_hd;
+	int start_x;
+	int end_y;
+	t_calc_img_arg 	*arg;
+	arg = arg_generic;
+
+	end_y = (arg->end / WIDTH);
+	start_x = (arg->start % WIDTH);
+	max_x = tan(arg->data->cam.fov * M_PI / 360);
+	max_y = max_x * HEIGHT / WIDTH;
+	size_hd = ANTIALIASING_FACT * ANTIALIASING_FACT * 3;
+
+	dx = 2 * max_x / WIDTH;
+	hd_dx = dx / ANTIALIASING_FACT;
+	i = arg->start / WIDTH;
+	top_left_y = max_y - (i * dx);
+	while (i < end_y)
+	{
+		j = start_x;
+		top_left_x = -max_x + (j * dx);
+		while (j < WIDTH)
+		{
+			index = i * WIDTH * size_hd + j * size_hd;
+			iterate_hd_pxl(&arg->data->primary_rays[index], hd_dx, top_left_x, top_left_y);
+			j++;
+			top_left_x += dx;
+
+			// cam rotation missing here...
+		}
+		i++;
+		top_left_y -= dx;
 	}
 }
 
@@ -97,6 +211,7 @@ void	average_hd_pixel(int hd_res[ANTIALIASING_FACT * ANTIALIASING_FACT][3])
 void	shoot_ray(t_data *data, t_shoot *shoot)
 {
 	// isolate bounding box of interrest 
+	//atomic_fetch_add(&num_primary_rays, 1);// perf logs
 	visibility_intersection_tests(data, shoot);
 	get_normal_intersect(shoot);
 	shading(shoot, data);
@@ -113,6 +228,9 @@ void visibility_intersection_tests(t_data *data, t_shoot *shoot)
 	t_min = FLT_MAX;
 
 	t = 0;
+
+	//num_object_tests++;
+	//atomic_fetch_add(&num_object_tests, 1); // perf logs
 	while (obj->type)
 	{
 		if (obj->type == SPHERE)
@@ -134,49 +252,6 @@ void visibility_intersection_tests(t_data *data, t_shoot *shoot)
 	}
 	else
 		shoot->obj = NULL;
-}
-
-
-void calculate_ray_prim_dir(t_data *data)
-{
-	float max_x;
-	float max_y;
-	float top_left_x;
-	float top_left_y;
-	float dx;
-	float hd_dx;
-	float cam_origin[3];
-	int	i;
-	int	j;
-	int index;
-	int size_hd;
-
-	max_x = tan(data->cam.fov * M_PI / 360);
-	ft_memset(cam_origin, 0, sizeof(float) * 3);
-	max_y = max_x * HEIGHT / WIDTH;
-	size_hd = ANTIALIASING_FACT * ANTIALIASING_FACT * 3;
-	
-	dx = 2 * max_x / WIDTH;
-	hd_dx = dx / ANTIALIASING_FACT;
-	i = 0;
-	top_left_y = max_y;
-	while (i < HEIGHT)
-	{
-		// optimize index with += instead of i * WIDTH here ...
-		j = 0;
-		top_left_x = - max_x;
-		while (j < WIDTH)
-		{	
-			index = i * WIDTH * size_hd + j * size_hd;
-			iterate_hd_pxl(&data->primary_rays[index], hd_dx, top_left_x, top_left_y);
-			j++;
-			top_left_x += dx;
-			
-			// cam rotation missing here...
-		}
-		i++;
-		top_left_y -= dx;
-	}
 }
 
 
@@ -202,39 +277,6 @@ void	iterate_hd_pxl(float *primary_rays, float dx, float top_left_x, float top_l
 	}
 }
 
-
-// float	intersection_test_sphere(t_sphere *sphere, t_shoot *shoot)
-// {
-// 	float	c_minus_o[3];
-// 	float	a;
-// 	float	b;
-// 	float	c;
-// 	float	discriminant;
-// 	float	res[2];
-
-// 	c_minus_o[0] = sphere->center[0] - shoot->src[0];
-// 	c_minus_o[1] = sphere->center[1] - shoot->src[1];
-// 	c_minus_o[2] = sphere->center[2] - shoot->src[2];
-
-// 	a = dot_13_13(shoot->dir, shoot->dir);
-
-// 	b = -2 * dot_13_13(shoot->dir, c_minus_o);
-// 	c = dot_13_13(c_minus_o, c_minus_o) - sphere->radius * sphere->radius;
-
-// 	discriminant = b * b - 4 * a * c;
-
-// 	if (discriminant < 0)
-// 		return (0);
-// 	discriminant = sqrtf(discriminant);
-// 	res[0] = (-b - discriminant) / (2 * a);
-// 	res[1] = (-b + discriminant) / (2 * a);
-// 	if (res[0] > 0)
-// 		return(res[0]);
-// 	if (res[1] > 0)
-// 		return(res[1]);
-// 	return (0);
-// }
-
 // duplicate function for shadow test for optimization: if discr >= 0 return 1
 float	intersection_test_sphere(t_sphere *sphere, float p_ray[3], float origin[3])
 {
@@ -245,6 +287,9 @@ float	intersection_test_sphere(t_sphere *sphere, float p_ray[3], float origin[3]
 	float	discriminant;
 	float	res[2];
 
+	//num_object_intersections++;
+	//atomic_fetch_add(&num_object_intersections, 1); // perf logs
+	
 	c_minus_o[0] = sphere->center[0] - origin[0];
 	c_minus_o[1] = sphere->center[1] - origin[1];
 	c_minus_o[2] = sphere->center[2] - origin[2];
@@ -268,30 +313,14 @@ float	intersection_test_sphere(t_sphere *sphere, float p_ray[3], float origin[3]
 	return (0);
 }
 
-
-// float	intersection_test_plane(t_plane *plane, t_shoot *shoot)
-// {
-// 	float	a;
-// 	float	pts_d[3];
-// 	float	b;
-
-// 	a = dot_13_13(plane->normal, shoot->dir);
-// 	if (a < EPSILON && a > -EPSILON)
-// 		return (0);
-// 	pts_d[0] = plane->point[0] - shoot->src[0];
-// 	pts_d[1] = plane->point[1] - shoot->src[1];
-// 	pts_d[2] = plane->point[2] - shoot->src[2];
-// 	b = dot_13_13(plane->normal, pts_d);
-// 	if ((a < 0 && b > 0) || (a > 0 && b < 0)) // performs better than if (b > 0) after (b / a)
-// 		return (0);
-// 	return (b / a);
-// }
-
 float	intersection_test_plane(t_plane *plane, float p_ray[3], float origin[3])
 {
 	float	a;
 	float	pts_d[3];
 	float	b;
+
+	//num_object_intersections++;
+	//atomic_fetch_add(&num_object_intersections, 1); // perf logs
 
 	a = dot_13_13(plane->normal, p_ray);
 	if (a < EPSILON && a > -EPSILON)
