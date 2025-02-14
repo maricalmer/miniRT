@@ -140,3 +140,40 @@ void	cut_in_right_left_nodes(t_aabb *node)
 	cut_in_right_left_nodes(&node->childs[0]);
 	cut_in_right_left_nodes(&node->childs[1]);
 }
+
+void	update_group(t_data *data, t_aabb *root)
+{
+	t_object	*new_objects;
+	int			plane_counter;
+	int			i;
+	int			j;
+
+	i = 0;
+	plane_counter = 0;
+	while (data->objects[i].type != END)
+	{
+		if (data->objects[i].type == PLANE)
+			plane_counter++;
+		i++;
+	}
+	new_objects = malloc(sizeof(t_object) * (plane_counter + 1));
+	new_objects[0].type = BVH;
+	new_objects[0].geo = (void *)root;
+	i = 0;
+	j = 1;
+	while (data->objects[i].type != END)
+	{
+		if (data->objects[i].type == PLANE)
+			ft_memcpy(&new_objects[j++], &data->objects[i], sizeof(t_object));
+		i++;
+	
+	}
+	free(data->objects);
+	data->objects = new_objects;
+	data->n_obj = plane_counter + 1;
+}
+
+// read_tree()
+// {
+
+// }

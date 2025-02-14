@@ -11,6 +11,9 @@ SOURCES:=			$(SOURCES_DIRECTORY)/main.c \
 					$(SOURCES_DIRECTORY)/phong.c \
 					$(SOURCES_DIRECTORY)/worker.c \
 					$(SOURCES_DIRECTORY)/bvh.c \
+					$(SOURCES_DIRECTORY)/perf.c \
+					$(SOURCES_DIRECTORY)/mlx.c \
+					$(SOURCES_DIRECTORY)/intersect.c
 
 OBJECTS_DIRECTORY:=		build
 OBJECTS:=			$(patsubst $(SOURCES_DIRECTORY)/%.c,$(OBJECTS_DIRECTORY)/%.o, $(SOURCES))
