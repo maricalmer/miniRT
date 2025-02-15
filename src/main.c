@@ -30,6 +30,6 @@ int main(void)
 	mlx_key_hook(mlx_data.win, &handle_input, &mlx_data);
 	mlx_hook(mlx_data.win, CROSS_CLICK_EVENT, NO_EVENT_MASK, &handle_close, &mlx_data);
 	mlx_loop(mlx_data.mlx);
-	// free dyn alloc mem (incl. pthread_mutex_destroy)
+	//free dyn alloc mem (incl. pthread_mutex_destroy)
 	return (0);
 }

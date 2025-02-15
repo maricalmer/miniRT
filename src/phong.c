@@ -31,7 +31,7 @@ void	shading(t_shoot *shoot, t_data *data)
 	{
 		vec_substr(shoot->hit_pt, data->lights[i].origin, shadow_ray);
 		normalize2(shadow_ray, &dist_light);
-		if (shadow_intersection_tests(shoot, data->objects, shadow_ray, dist_light, data->n_obj) == 0)
+		if (shadow_intersection_tests(shoot, data->objects, shadow_ray, dist_light, data->n_obj) < EPSILON)
 		{
 			theta_LN = dot_13_13(shoot->normal, shadow_ray);
 			add_phong_diffuse(shoot, data->lights[i], theta_LN);

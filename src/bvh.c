@@ -118,9 +118,9 @@ void	cut_in_right_left_nodes(t_aabb *node)
 	while (i < node->group_size) 
 	{
 		center = ((t_sphere *)node->group[i].geo)->center[axis]; // need for switch when cylinders
-		if (center < mid)			
+		if (center < mid + ((t_sphere *)node->group[i].geo)->radius)			
 			node->childs[0].group_size++;
-		else
+		if (center > mid - ((t_sphere *)node->group[i].geo)->radius)
 			node->childs[1].group_size++;
 		i++;
 	}
@@ -132,9 +132,9 @@ void	cut_in_right_left_nodes(t_aabb *node)
 	while (++i < node->group_size) 
 	{
 		center = ((t_sphere *)node->group[i].geo)->center[axis]; // need for switch when cylinders
-		if (center < mid)			
+		if (center < mid + ((t_sphere *)node->group[i].geo)->radius)			
 			node->childs[0].group[i_left++] = node->group[i];
-		else
+		if (center > mid - ((t_sphere *)node->group[i].geo)->radius)
 			node->childs[1].group[i_right++] = node->group[i];
 	}
 	cut_in_right_left_nodes(&node->childs[0]);

@@ -25,10 +25,12 @@
 
 # define USLEEP_WORKER 			0
 # define USLEEP_PARENT			10 //fine tune those...
-# define N_THREAD				1
+# define N_THREAD				16
 
 # define CROSS_CLICK_EVENT 		17
 # define NO_EVENT_MASK			0
+
+# define BVH_ON					1
 
 
 extern atomic_int				num_primary_rays;
@@ -207,7 +209,7 @@ void		update_group(t_data *data, t_aabb *root);
 float		visibility_intersection_tests(t_object *objects, t_shoot *shoot, int n_obj);
 float		intersection_test_sphere(t_sphere *sphere, float p_ray[3], float origin[3]);
 float		intersection_test_plane(t_plane *plane, float p_ray[3], float origin[3]);
-int			shadow_intersection_tests(t_shoot *shoot, t_object *objects, float shadow_ray[3], float dist_light, int n_obj);
+float		shadow_intersection_tests(t_shoot *shoot, t_object *objects, float shadow_ray[3], float dist_light, int n_obj);
 
 /*maths*/
 float		dot_13_13(float a[3], float b[3]);
@@ -216,6 +218,7 @@ void		normalize2(float vector[3], float *magnitude);
 int			imin(int a, int b);
 void		vec_substr(float p1[3], float p2[3], float result[3]);
 void		cpy_vec(float v1[3], float v2[3]);
+void		ft_swap(float *t1, float *t2);
 
 /* Multithreading */
 void		wait_for_workers(t_data *data);

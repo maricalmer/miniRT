@@ -5,7 +5,7 @@ float	intersection_test_bvh(t_aabb *node, t_shoot *shoot);
 float	intersection_test_sphere(t_sphere *sphere, float p_ray[3], float origin[3]);
 float	intersection_test_plane(t_plane *plane, float p_ray[3], float origin[3]);
 float	intersection_test_aabb(t_aabb *aabb, float dir[3], float src[3]);
-int		shadow_intersection_tests(t_shoot *shoot, t_object *objects, float shadow_ray[3], float dist_light, int n_obj);
+float	shadow_intersection_tests(t_shoot *shoot, t_object *objects, float shadow_ray[3], float dist_light, int n_obj);
 float	shadow_test_bvh_root(t_shoot *shoot, t_aabb *node, float shadow_ray[3], float dist_light, int n_obj);
 float	shadow_test_bvh(t_shoot *shoot, t_aabb *node, float shadow_ray[3], float dist_light, int n_obj);
 
@@ -34,7 +34,9 @@ float visibility_intersection_tests(t_object *objects, t_shoot *shoot, int n_obj
 				shoot->obj = objects + i;
 		}
 	}
-	return (t_min);
+	if (t_min != FLT_MAX)
+		return (t_min);
+	return (0);
 }
 
 float	intersection_test_bvh_root(t_aabb *node, t_shoot *shoot)
@@ -42,7 +44,7 @@ float	intersection_test_bvh_root(t_aabb *node, t_shoot *shoot)
 	float	t;
 
 	t = intersection_test_aabb(node, shoot->dir, shoot->src);
-	if (t < EPSILON)
+	if (t == 666)
 		return (0);
 	return (intersection_test_bvh(node, shoot));
 }
@@ -57,20 +59,30 @@ float	intersection_test_bvh(t_aabb *node, t_shoot *shoot)
 		return (visibility_intersection_tests(node->group, shoot, node->group_size));
 	t_left 	= intersection_test_aabb(&node->childs[0], shoot->dir, shoot->src);
 	t_right = intersection_test_aabb(&node->childs[1], shoot->dir, shoot->src);
-	if (t_left < t_right + EPSILON)
+	if (t_left == 666 && t_right == 666)
+		return (0);
+	else if (t_left != 666 && t_right != 666)
 	{
-		t = intersection_test_bvh(&node->childs[0], shoot);
-		if (t > EPSILON)
-			return (t);
-		return (intersection_test_bvh(&node->childs[1], shoot));
+		if (t_left < t_right) // what if equal ???!!!
+		{
+			t = intersection_test_bvh(&node->childs[0], shoot);
+			if (t > EPSILON)
+				return (t);
+			return (intersection_test_bvh(&node->childs[1], shoot));
+		}
+		else
+		{
+			t = intersection_test_bvh(&node->childs[1], shoot);
+			if (t > EPSILON)
+				return (t);
+			return (intersection_test_bvh(&node->childs[0], shoot));
+		}
 	}
-	else
-	{
-		t = intersection_test_bvh(&node->childs[1], shoot);
-		if (t > EPSILON)
-			return (t);
+	else if (t_right == 666)
 		return (intersection_test_bvh(&node->childs[0], shoot));
-	}
+	else if (t_left == 666)
+		return (intersection_test_bvh(&node->childs[1], shoot));
+	return (100);
 }
 
 // duplicate function for shadow test for optimization: if discr >= 0 return 1
@@ -126,11 +138,47 @@ float	intersection_test_plane(t_plane *plane, float p_ray[3], float origin[3])
 
 float	intersection_test_aabb(t_aabb *aabb, float dir[3], float src[3])
 {
-	return (1);
+	float	t_min;
+	float	t_max;
+	float	ood;
+	float	t1;
+	float	t2;
+	int		i;
+
+	t_min = -FLT_MAX;
+	t_max = FLT_MAX;
+	i = -1;
+	while (++i < 3)
+	{
+		if (fabsf(dir[i]) < EPSILON)
+		{
+			if (src[i] < aabb->pt_min[i] || src[i] > aabb->pt_max[i])
+				return (0);
+		}
+		else
+		{
+			ood = 1.0 / dir[i];
+			t1 = (aabb->pt_min[i] - src[i]) * ood;
+			t2 = (aabb->pt_max[i] - src[i]) * ood;
+			if (t1 > t2)
+				ft_swap(&t1, &t2);
+			t_min = fmaxf(t_min, t1);
+			t_max = fminf(t_max, t2);
+			if (t_min > t_max)
+				return (666);
+		}
+	}
+	// if (t_min < 0)
+	// {
+	// 	if (t_max > 0)
+	// 		return (t_max);
+	// 	return (0);
+	// }
+	return (t_min);
 }
 
 /* returns 0 as soon as one object is in the way of light, returns 1 when no shadow*/
-int shadow_intersection_tests(t_shoot *shoot, t_object *objects, float shadow_ray[3], float dist_light, int n_obj)
+float shadow_intersection_tests(t_shoot *shoot, t_object *objects, float shadow_ray[3], float dist_light, int n_obj)
 {
 	float 		t;
 	int			i;
@@ -145,7 +193,7 @@ int shadow_intersection_tests(t_shoot *shoot, t_object *objects, float shadow_ra
 		else if (objects[i].type == PLANE)
 		 	t = intersection_test_plane(objects[i].geo, shadow_ray, shoot->hit_pt);
 		if (t > EPSILON && dist_light > t)
-			return (1);
+			return (t);
 		i++;
 	}
 	return (0);
@@ -156,7 +204,7 @@ float	shadow_test_bvh_root(t_shoot *shoot, t_aabb *node, float shadow_ray[3], fl
 	float	t;
 
 	t = intersection_test_aabb(node, shadow_ray, shoot->hit_pt);
-	if (t < EPSILON)
+	if (t == 666)
 		return (0);
 	return (shadow_test_bvh(shoot, node, shadow_ray, dist_light, n_obj));
 }
@@ -168,13 +216,13 @@ float	shadow_test_bvh(t_shoot *shoot, t_aabb *node, float shadow_ray[3], float d
 
 	if (!node->childs)
 		return (shadow_intersection_tests(shoot, node->group, shadow_ray, dist_light, node->group_size));
-	if (intersection_test_aabb(&node->childs[0], shadow_ray, shoot->hit_pt) > EPSILON)
+	if (intersection_test_aabb(&node->childs[0], shadow_ray, shoot->hit_pt) != 666)
 	{
 		t = shadow_test_bvh(shoot, &node->childs[0], shadow_ray, dist_light, n_obj);
 		if (t > EPSILON)
 			return (t);
 	}
-	if (intersection_test_aabb(&node->childs[1], shadow_ray, shoot->hit_pt) > EPSILON)
+	if (intersection_test_aabb(&node->childs[1], shadow_ray, shoot->hit_pt) != 666)
 	{
 		t = shadow_test_bvh(shoot, &node->childs[1], shadow_ray, dist_light, n_obj);
 		if (t > EPSILON)
@@ -182,3 +230,5 @@ float	shadow_test_bvh(t_shoot *shoot, t_aabb *node, float shadow_ray[3], float d
 	}
 	return (0);
 }
+
+

@@ -14,8 +14,11 @@ void	render_first_image(t_data *data, int *img) // img + mlx + win in data (??)
 {
 	data->primary_rays = malloc(sizeof(float) * HEIGHT * WIDTH * 3 * ANTIALIASING_FACT * ANTIALIASING_FACT);
 	calculate_ray_prim_dir(data);   // ===> apply multithreading (x N_THREADS)
-	t_aabb *root = init_bvh(data->objects);
-	update_group(data, root); //(only BVH and Planes)
+	if (BVH_ON)
+	{
+		t_aabb *root = init_bvh(data->objects);
+		update_group(data, root); //(only BVH and Planes)
+	}
 	calculate_img(data, img);
 }
 
@@ -186,7 +189,7 @@ void	shoot_ray(t_data *data, t_shoot *shoot)
 
 void calculate_hit_pt(float t, t_shoot *shoot)
 {
-	if (t != FLT_MAX)
+	if (t > EPSILON)
 	{
 		shoot->hit_pt[0] = shoot->src[0] + t * shoot->dir[0];
 		shoot->hit_pt[1] = shoot->src[1] + t * shoot->dir[1];

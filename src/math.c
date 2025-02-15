@@ -50,3 +50,12 @@ void	cpy_vec(float v1[3], float v2[3])
 	v1[1] = v2[1];
 	v1[2] = v2[2];
 }
+
+void	ft_swap(float *t1, float *t2)
+{
+	float tmp;
+
+	tmp = *t1;
+	*t1 = *t2;
+	*t2 = tmp;
+}
