@@ -1,24 +1,22 @@
 #include "minirt.h"
 
 void	cut_in_right_left_nodes(t_aabb *node);
+void	get_bbox_min_max(t_aabb *node);
 
-t_aabb	*init_bvh(t_object *objects)
+t_aabb	*init_bvh(t_data *data)
 {
 	t_aabb		*root;
 	t_object	*obj;
 	int 		i;
-	int 		j;
-	float		min;
-	float		max;
-	float		tmp_min;
-	float		tmp_max;
+	int			j;
 
 	root = malloc(sizeof(t_aabb));
 
 	// get goup_size
-	obj = objects;
+	obj = data->objects;
 	root->group_size = 0;
-	while (obj->type != END)
+	i = -1;
+	while (++i < data->n_obj)
 	{
 		if (obj->type != PLANE)
 			root->group_size++;
@@ -27,47 +25,56 @@ t_aabb	*init_bvh(t_object *objects)
 
 	// copy list without plane
 	root->group = malloc(sizeof(t_object) * root->group_size);
-	obj = objects;
-	i = 0;
-	while (obj->type != END)
-	{
-		if (obj->type != PLANE)
-		{
-			root->group[i] = *obj;
-			i++;
-		}
-		obj++;
-	}
-	
-	// get pt_min / pt_max
+	obj = data->objects;
 	i = -1;
-	while (++i < 3)
+	j = 0;
+	while (++i < data->n_obj)
 	{
-		min = FLT_MAX;
-		max = FLT_MIN;
-		j = -1;
-		while (++j < root->group_size)
-		{
-			// switch sur les differents primitives. 
-			// For the moment only sphere
-			tmp_min = ((t_sphere *)(root->group[j].geo))->center[i] - ((t_sphere *)(root->group[j].geo))->radius ; 
-			if (tmp_min < min)
-				min = tmp_min;
-
-			tmp_max = ((t_sphere *)(root->group[j].geo))->center[i] + ((t_sphere *)(root->group[j].geo))->radius ;
-			if (tmp_max > max)
-				max = tmp_max; 
-		}
-		root->pt_min[i] = min;
-		root->pt_max[i] = max;
+		if (obj[i].type != PLANE)
+			root->group[j++] = obj[i];
 	}
 	// cut in right and left.
 	cut_in_right_left_nodes(root);
 	return (root);
 }
 
+void	get_bbox_min_max(t_aabb *node)
+{
+	// get pt_min / pt_max
+	int		i;
+	int		j;
+	float	min;
+	float	max;
+	float	tmp_min;
+	float	tmp_max;
+
+	i = -1;
+	while (++i < 3)
+	{
+		min = FLT_MAX;
+		max = -FLT_MAX;
+		j = -1;
+		while (++j < node->group_size)
+		{
+			// switch sur les differents primitives. 
+			// For the moment only sphere
+			tmp_min = ((t_sphere *)(node->group[j].geo))->center[i] - ((t_sphere *)(node->group[j].geo))->radius ; 
+			if (tmp_min < min)
+				min = tmp_min;
+
+			tmp_max = ((t_sphere *)(node->group[j].geo))->center[i] + ((t_sphere *)(node->group[j].geo))->radius ;
+			if (tmp_max > max)
+				max = tmp_max; 
+		}
+		node->pt_min[i] = min;
+		node->pt_max[i] = max;
+	}
+}
+
 void	cut_in_right_left_nodes(t_aabb *node)
 {
+	// handle the case if child box empty ? cut at the median or average ??
+
 	float		max;
 	float		tmp;
 	int			axis;
@@ -77,6 +84,7 @@ void	cut_in_right_left_nodes(t_aabb *node)
 	float		mid;
 	float 		center;
 	
+	get_bbox_min_max(node);
 	// exit condition :
 	if (node->group_size <= MAX_BVH_GROUP)
 	{
@@ -102,16 +110,7 @@ void	cut_in_right_left_nodes(t_aabb *node)
 	// create left and right
 	node->childs = malloc(sizeof(t_aabb) * 2);
 
-	// calculate geo for left and right;
-	cpy_vec(node->childs[0].pt_min, node->pt_min);
-	cpy_vec(node->childs[0].pt_max, node->pt_max);
-	cpy_vec(node->childs[1].pt_min, node->pt_min);
-	cpy_vec(node->childs[1].pt_max, node->pt_max);
-
-	node->childs[0].pt_max[axis] = mid;
-	node->childs[1].pt_min[axis] = mid;
-
- 	// partion in left and right ( first-> size / malloc group / fill group)
+	// partion in left and right ( first-> size / malloc group / fill group)
 	i = 0;
 	node->childs[0].group_size = 0;
 	node->childs[1].group_size = 0;
@@ -120,7 +119,7 @@ void	cut_in_right_left_nodes(t_aabb *node)
 		center = ((t_sphere *)node->group[i].geo)->center[axis]; // need for switch when cylinders
 		if (center < mid + ((t_sphere *)node->group[i].geo)->radius)			
 			node->childs[0].group_size++;
-		if (center > mid - ((t_sphere *)node->group[i].geo)->radius)
+		if (center >= mid - ((t_sphere *)node->group[i].geo)->radius)
 			node->childs[1].group_size++;
 		i++;
 	}
@@ -134,7 +133,7 @@ void	cut_in_right_left_nodes(t_aabb *node)
 		center = ((t_sphere *)node->group[i].geo)->center[axis]; // need for switch when cylinders
 		if (center < mid + ((t_sphere *)node->group[i].geo)->radius)			
 			node->childs[0].group[i_left++] = node->group[i];
-		if (center > mid - ((t_sphere *)node->group[i].geo)->radius)
+		if (center >= mid - ((t_sphere *)node->group[i].geo)->radius)
 			node->childs[1].group[i_right++] = node->group[i];
 	}
 	cut_in_right_left_nodes(&node->childs[0]);
@@ -150,7 +149,7 @@ void	update_group(t_data *data, t_aabb *root)
 
 	i = 0;
 	plane_counter = 0;
-	while (data->objects[i].type != END)
+	while (i < data->n_obj)
 	{
 		if (data->objects[i].type == PLANE)
 			plane_counter++;
@@ -161,12 +160,11 @@ void	update_group(t_data *data, t_aabb *root)
 	new_objects[0].geo = (void *)root;
 	i = 0;
 	j = 1;
-	while (data->objects[i].type != END)
+	while (i < data->n_obj)
 	{
 		if (data->objects[i].type == PLANE)
 			ft_memcpy(&new_objects[j++], &data->objects[i], sizeof(t_object));
 		i++;
-	
 	}
 	free(data->objects);
 	data->objects = new_objects;

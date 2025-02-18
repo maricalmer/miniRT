@@ -13,37 +13,41 @@
 # include <pthread.h>
 # include <stdatomic.h>
 
-# define WIDTH					1024
-# define HEIGHT					1024
+# define WIDTH					1000
+# define HEIGHT					1000
 # define EPSILON    			0.001 // adjust
 # define SPECULAR_POWER 		50
-# define DEPTH_MAX				20
-# define ANTIALIASING_FACT		3
+# define DEPTH_MAX				1
+# define ANTIALIASING_FACT		1
+
+# define SKY_COLOR_R			70
+# define SKY_COLOR_G			130
+# define SKY_COLOR_B			180
 
 # define MAX_BVH_GROUP			6
 
 
 # define USLEEP_WORKER 			0
-# define USLEEP_PARENT			10 //fine tune those...
-# define N_THREAD				16
+# define USLEEP_PARENT			100 //fine tune those...
+# define N_THREAD				1
 
 # define CROSS_CLICK_EVENT 		17
 # define NO_EVENT_MASK			0
 
-# define BVH_ON					1
+# define BVH_ON					0
 
 
-extern atomic_int				num_primary_rays;
-extern atomic_int				num_object_tests;
-extern atomic_int				num_object_intersections;
-extern atomic_int				num_object_intersections;
-extern int						total_objects;
-extern double					render_start;
-extern double					time_primary_rays;
-extern double					time_visibility_test;
-extern double					time_normal_intersect;
-extern double					time_shading;
-extern double					time_total_render;
+// extern atomic_int				num_primary_rays;
+// extern atomic_int				num_object_tests;
+// extern atomic_int				num_object_intersections;
+// extern atomic_int				num_object_intersections;
+// extern int						total_objects;
+// extern double					render_start;
+// extern double					time_primary_rays;
+// extern double					time_visibility_test;
+// extern double					time_normal_intersect;
+// extern double					time_shading;
+// extern double					time_total_render;
 
 
 typedef enum e_obj_type
@@ -89,7 +93,7 @@ typedef struct s_plane
 typedef struct s_material
 {
 	float						refr_idx;
-	float						refr_angle;
+	float						refr_coeff;
 	float						refl_coeff;
 	unsigned char				rgb[3];
 }	t_material;
@@ -129,6 +133,17 @@ typedef struct s_job
 	void						*arg;
 }	t_job;
 
+typedef struct	s_mlxlib {
+	void						*mlx;
+	void						*win;
+	void						*img;
+	int							*addr;
+	int							bpp;
+	int							endian;
+	int							line_len;
+}	t_mlxlib;
+
+
 typedef struct s_data
 {
 	t_object					*objects;
@@ -143,9 +158,11 @@ typedef struct s_data
 	atomic_int					joblist_size;
 	int							joblist_top;
 	atomic_int					active_threads;
-	t_job						joblist[256];
+	t_job						joblist[HEIGHT];
 	pthread_mutex_t				joblist_mutex;
 	pthread_t					threads[N_THREAD];
+	//mlx
+	t_mlxlib					mlx;
 }	t_data;
 
 
@@ -178,15 +195,7 @@ typedef struct s_calc_ray_arg
 	int							end;
 }	t_calc_ray_arg;
 
-typedef struct	s_mlxlib {
-	void						*mlx;
-	void						*win;
-	void						*img;
-	int							*addr;
-	int							bpp;
-	int							endian;
-	int							line_len;
-}	t_mlxlib;
+
 
 /// FUNCTIONS
 
@@ -202,12 +211,13 @@ void		shoot_ray(t_data *data, t_shoot *shoot);
 void		shading(t_shoot *shoot, t_data *data);
 
 /* bvh.c */
-t_aabb		*init_bvh(t_object *objects);
+t_aabb		*init_bvh(t_data *data);
 void		update_group(t_data *data, t_aabb *root);
 
 /* tests*/
 float		visibility_intersection_tests(t_object *objects, t_shoot *shoot, int n_obj);
 float		intersection_test_sphere(t_sphere *sphere, float p_ray[3], float origin[3]);
+float		intersection_test_sphere2(t_sphere *sphere, float p_ray[3], float origin[3]);
 float		intersection_test_plane(t_plane *plane, float p_ray[3], float origin[3]);
 float		shadow_intersection_tests(t_shoot *shoot, t_object *objects, float shadow_ray[3], float dist_light, int n_obj);
 

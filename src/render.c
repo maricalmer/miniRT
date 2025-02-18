@@ -12,14 +12,25 @@ void	init_data_ray(t_ray_prim *data_ray, t_calc_img_arg *arg);
 
 void	render_first_image(t_data *data, int *img) // img + mlx + win in data (??)
 {
+	clock_t start;
+	
+	start = clock();
 	data->primary_rays = malloc(sizeof(float) * HEIGHT * WIDTH * 3 * ANTIALIASING_FACT * ANTIALIASING_FACT);
+	printf("Elapsed time malloc prays: %.2f ms\n", ((double)(clock() - start)) / CLOCKS_PER_SEC * 1000);
+	start = clock();
 	calculate_ray_prim_dir(data);   // ===> apply multithreading (x N_THREADS)
+	printf("Elapsed time P_rays: %.2f ms\n", ((double)(clock() - start)) / CLOCKS_PER_SEC * 1000);
+	start = clock();
 	if (BVH_ON)
 	{
-		t_aabb *root = init_bvh(data->objects);
+		t_aabb *root = init_bvh(data);
 		update_group(data, root); //(only BVH and Planes)
 	}
+	printf("Elapsed time BVH tree: %.2f ms\n", ((double)(clock() - start)) / CLOCKS_PER_SEC * 1000);
+	start = clock();
 	calculate_img(data, img);
+	printf("Elapsed time calc_imag: %.2f ms\n", ((double)(clock() - start)) / CLOCKS_PER_SEC * 1000);
+	mlx_put_image_to_window(data->mlx.mlx, data->mlx.win, data->mlx.img, 0, 0);
 }
 
 // void	move_cam(t_data *data, int *img) // img + mlx + win in data (??)
@@ -40,13 +51,13 @@ void 	calculate_img(t_data *data, int *img)
 	t_calc_img_arg	*arg;
 	int				packet_size;
 
-	packet_size = WIDTH * HEIGHT / 256;
-	arg = malloc(sizeof(t_calc_img_arg) * 256);
+	packet_size = WIDTH;
+	arg = malloc(sizeof(t_calc_img_arg) * HEIGHT);
 	pthread_mutex_lock(&data->joblist_mutex);
 	data->joblist_top = 0;
-	data->joblist_size = 256;
+	data->joblist_size = HEIGHT;
 	i = -1;
-	while (++i < 256)
+	while (++i < HEIGHT)
 	{
 		arg[i].data = data;
 		arg[i].img = img;
@@ -89,6 +100,7 @@ void 	calculate_img_packet(void *arg_generic)
 		average_hd_pixel(hd_res);
 		arg->img[i] = (hd_res[0][0] << 16 | hd_res[0][1] << 8 | hd_res[0][2]);
 	}
+	mlx_put_image_to_window(arg->data->mlx.mlx, arg->data->mlx.win, arg->data->mlx.img, 0, 0);
 }
 
 void	calculate_ray_prim_dir(t_data *data)  // duplicate of calculate_img: abstract to handler function at the cost of switch?
@@ -97,13 +109,13 @@ void	calculate_ray_prim_dir(t_data *data)  // duplicate of calculate_img: abstra
 	t_calc_img_arg	*arg;
 	int				packet_size;
 
-	packet_size = WIDTH * HEIGHT / N_THREAD;
-	arg = malloc(sizeof(t_calc_img_arg) * N_THREAD);
+	packet_size = WIDTH * HEIGHT / HEIGHT;
+	arg = malloc(sizeof(t_calc_img_arg) * HEIGHT);
 	pthread_mutex_lock(&data->joblist_mutex);
 	data->joblist_top = 0;
-	data->joblist_size = N_THREAD;
+	data->joblist_size = HEIGHT;
 	i = -1;
-	while (++i < N_THREAD)
+	while (++i < HEIGHT)
 	{
 		arg[i].data = data;
 		arg[i].start = i * packet_size;
@@ -128,10 +140,11 @@ void	calculate_ray_prim_dir_packet(void *arg_generic)
 	init_data_ray(&data_ray, arg);
 	i = arg->start / WIDTH;
 	data_ray.top_left_y = data_ray.max_y - (i * data_ray.dx);
-	while (i < data_ray.end_y)
-	{
-		j = data_ray.start_x;
-		data_ray.top_left_x = -data_ray.max_x + (j * data_ray.dx);
+	// while (i < data_ray.end_y)
+	// {
+		// j = data_ray.start_x;
+		j = 0;
+		data_ray.top_left_x = -data_ray.max_x; //+ (j * data_ray.dx);
 		while (j < WIDTH)
 		{
 			index = i * WIDTH * data_ray.size_hd + j * data_ray.size_hd;
@@ -141,15 +154,16 @@ void	calculate_ray_prim_dir_packet(void *arg_generic)
 
 			// cam rotation missing here...
 		}
-		i++;
-		data_ray.top_left_y -= data_ray.dx;
-	}
+		// i++;
+		// data_ray.top_left_y -= data_ray.dx;
+	// }
 }
 
 void init_data_ray(t_ray_prim *data_ray, t_calc_img_arg *arg)
 {
-	data_ray->start_x = (arg->start % WIDTH);
-	data_ray->end_y = (arg->end / WIDTH);
+	// ==> all of that could be calculated once only. But not a game changer anyway :)
+	// data_ray->start_x = (arg->start % WIDTH);
+	// data_ray->end_y = (arg->end / WIDTH);
 	data_ray->max_x = tan(arg->data->cam.fov * M_PI / 360);
 	data_ray->max_y = data_ray->max_x * HEIGHT / WIDTH;
 	data_ray->size_hd = ANTIALIASING_FACT * ANTIALIASING_FACT * 3;
@@ -180,7 +194,7 @@ void	shoot_ray(t_data *data, t_shoot *shoot)
 {
 	float t;
 	// isolate bounding box of interrest 
-	atomic_fetch_add(&num_primary_rays, 1);// perf logs
+	// atomic_fetch_add(&num_primary_rays, 1);// perf logs
 	t = visibility_intersection_tests(data->objects, shoot, data->n_obj);
 	calculate_hit_pt(t, shoot);
 	get_normal_intersect(shoot);

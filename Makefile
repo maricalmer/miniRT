@@ -8,10 +8,9 @@ SOURCES:=			$(SOURCES_DIRECTORY)/main.c \
 					$(SOURCES_DIRECTORY)/parsing.c \
 					$(SOURCES_DIRECTORY)/render.c \
 					$(SOURCES_DIRECTORY)/math.c \
-					$(SOURCES_DIRECTORY)/phong.c \
+					$(SOURCES_DIRECTORY)/shading.c \
 					$(SOURCES_DIRECTORY)/worker.c \
 					$(SOURCES_DIRECTORY)/bvh.c \
-					$(SOURCES_DIRECTORY)/perf.c \
 					$(SOURCES_DIRECTORY)/mlx.c \
 					$(SOURCES_DIRECTORY)/intersect.c
 
@@ -27,7 +26,7 @@ LIBMLX:=			$(MLX_DIRECTORY)/libmlx.a
 LIB_FLAGS:=			-L$(LIBFT_DIRECTORY) -lft -L$(MLX_DIRECTORY) -lmlx_Linux -lXext -lX11 -lm
 
 CC:=				cc
-CFLAGS:=			-Wall -Wextra -g -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) -Ofast -march=native 
+CFLAGS:=			-Wall -Wextra -g -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) #-Ofast -march=native 
 
 all: $(OBJECTS_DIRECTORY) $(LIBMLX) $(LIBFT) $(NAME)
 

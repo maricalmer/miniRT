@@ -25,7 +25,7 @@ int	handle_input(int keysym, t_mlxlib *vars)
 int	handle_close(t_mlxlib *vars)
 {
 	free_map(vars);
-	print_render_stats(time_total_render);
+	//print_render_stats(time_total_render);
 	exit(EXIT_SUCCESS);
 	return (0);
 }
