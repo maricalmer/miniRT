@@ -12,6 +12,7 @@ t_aabb	*init_bvh(t_data *data)
 
 	root = malloc(sizeof(t_aabb));
 
+	root->depth = 0;
 	// get goup_size
 	obj = data->objects;
 	root->group_size = 0;
@@ -86,12 +87,12 @@ void	cut_in_right_left_nodes(t_aabb *node)
 	
 	get_bbox_min_max(node);
 	// exit condition :
-	if (node->group_size <= MAX_BVH_GROUP)
+	if (node->group_size <= MAX_BVH_GROUP || node->depth == BVH_DEPTH_MAX)
 	{
 		node->childs = NULL;
 		return ;
 	}
-	// find the largest axis
+	// find the largest axis OR FIND the axis with the max effective cut ??!!! .... OR EXIT at depth > LIMIT...
 	i = -1;
 	max = FLT_MIN;
 	while (++i < 3) // MACROS?
@@ -104,8 +105,23 @@ void	cut_in_right_left_nodes(t_aabb *node)
 		}
 	}
 
+	// FIND THE cutting plane :)
 	// mid = middle of largest axis
-	mid = (node->pt_max[axis] + node->pt_min[axis]) / 2;
+		// mid = (node->pt_max[axis] + node->pt_min[axis]) / 2;
+	// OR BETTER mid = average of centroids
+		// mid = 0;
+		// i = -1;
+		// while (++i < node->group_size)
+		// 	mid += ((t_sphere *)node->group[i].geo)->center[axis];
+		// mid /= node->group_size;
+	// EVEN BETTER -> la mediane !
+	float centers[node->group_size];
+	i = -1;
+	while (++i < node->group_size)
+		centers[i] = ((t_sphere *)node->group[i].geo)->center[axis];
+	mid = findMedian(centers, node->group_size);
+
+
 
 	// create left and right
 	node->childs = malloc(sizeof(t_aabb) * 2);
@@ -117,9 +133,9 @@ void	cut_in_right_left_nodes(t_aabb *node)
 	while (i < node->group_size) 
 	{
 		center = ((t_sphere *)node->group[i].geo)->center[axis]; // need for switch when cylinders
-		if (center < mid + ((t_sphere *)node->group[i].geo)->radius)			
+		if (center <= mid + ((t_sphere *)node->group[i].geo)->radius)			
 			node->childs[0].group_size++;
-		if (center >= mid - ((t_sphere *)node->group[i].geo)->radius)
+		if (center >  mid - ((t_sphere *)node->group[i].geo)->radius)
 			node->childs[1].group_size++;
 		i++;
 	}
@@ -131,11 +147,25 @@ void	cut_in_right_left_nodes(t_aabb *node)
 	while (++i < node->group_size) 
 	{
 		center = ((t_sphere *)node->group[i].geo)->center[axis]; // need for switch when cylinders
-		if (center < mid + ((t_sphere *)node->group[i].geo)->radius)			
+		if (center <= mid + ((t_sphere *)node->group[i].geo)->radius)			
 			node->childs[0].group[i_left++] = node->group[i];
-		if (center >= mid - ((t_sphere *)node->group[i].geo)->radius)
+		if (center >  mid - ((t_sphere *)node->group[i].geo)->radius)
 			node->childs[1].group[i_right++] = node->group[i];
 	}
+	if (node->depth == BVH_DEPTH_MAX - 1)
+	{
+		printf("left : %i\n", node->childs[0].group_size);
+		printf("right : %i\n\n", node->childs[1].group_size);
+	}
+	node->childs[0].depth = node->depth + 1;
+	node->childs[1].depth = node->depth + 1;
+
+	if (node->childs[0].group_size == node->group_size)
+		node->childs[0].depth = BVH_DEPTH_MAX;
+	if (node->childs[1].group_size == node->group_size)
+		node->childs[1].depth = BVH_DEPTH_MAX;
+	// or even better ==> cut on the other second largest axis !!!	
+
 	cut_in_right_left_nodes(&node->childs[0]);
 	cut_in_right_left_nodes(&node->childs[1]);
 }

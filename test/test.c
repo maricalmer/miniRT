@@ -44,15 +44,10 @@ int	main(void)
 	float idx = 1.5;
 
 	float res[3];
+	float res2[3];
 
 	calculate_refraction_ray(res, n, v, idx);
 	printf("%.4f\t%.4f\t%.4f\n", res[0], res[1], res[2]);
-	v[0] = -1;
-	v[1] = -1;
-	v[2] = 0;
-	normalize(v);
-	calculate_refraction_ray(res, n, v, idx);
-	printf("%.4f\t%.4f\t%.4f\n", res[0], res[1], res[2]);
-	calculate_refraction_ray(res, n, v, 1.1);
-	printf("%.4f\t%.4f\t%.4f\n", res[0], res[1], res[2]);
+	calculate_refraction_ray(res2, n, res, 1 / idx);
+	printf("%.4f\t%.4f\t%.4f\n", res2[0], res2[1], res2[2]);
 }

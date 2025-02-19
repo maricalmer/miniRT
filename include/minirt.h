@@ -13,28 +13,27 @@
 # include <pthread.h>
 # include <stdatomic.h>
 
-# define WIDTH					1000
-# define HEIGHT					1000
+# define WIDTH					650
+# define HEIGHT					650
 # define EPSILON    			0.001 // adjust
 # define SPECULAR_POWER 		50
-# define DEPTH_MAX				1
-# define ANTIALIASING_FACT		1
+# define DEPTH_MAX				6
+# define ANTIALIASING_FACT		3
 
 # define SKY_COLOR_R			70
 # define SKY_COLOR_G			130
 # define SKY_COLOR_B			180
 
-# define MAX_BVH_GROUP			6
-
-
 # define USLEEP_WORKER 			0
 # define USLEEP_PARENT			100 //fine tune those...
-# define N_THREAD				1
+# define N_THREAD				4
 
 # define CROSS_CLICK_EVENT 		17
 # define NO_EVENT_MASK			0
 
-# define BVH_ON					0
+# define BVH_ON					1
+# define MAX_BVH_GROUP			6
+# define BVH_DEPTH_MAX			10
 
 
 // extern atomic_int				num_primary_rays;
@@ -112,6 +111,7 @@ typedef struct s_aabb
 	struct s_aabb				*childs;   // 0 -> left ; 1->right
 	t_object					*group;
 	int							group_size;
+	int							depth;
 }	t_aabb;
 
 typedef struct s_ray_prim
@@ -229,6 +229,7 @@ int			imin(int a, int b);
 void		vec_substr(float p1[3], float p2[3], float result[3]);
 void		cpy_vec(float v1[3], float v2[3]);
 void		ft_swap(float *t1, float *t2);
+float 		findMedian(float arr[], int n); // change this GPT code !!!
 
 /* Multithreading */
 void		wait_for_workers(t_data *data);

@@ -12,7 +12,8 @@ SOURCES:=			$(SOURCES_DIRECTORY)/main.c \
 					$(SOURCES_DIRECTORY)/worker.c \
 					$(SOURCES_DIRECTORY)/bvh.c \
 					$(SOURCES_DIRECTORY)/mlx.c \
-					$(SOURCES_DIRECTORY)/intersect.c
+					$(SOURCES_DIRECTORY)/intersect.c \
+					$(SOURCES_DIRECTORY)/find_median.c
 
 OBJECTS_DIRECTORY:=		build
 OBJECTS:=			$(patsubst $(SOURCES_DIRECTORY)/%.c,$(OBJECTS_DIRECTORY)/%.o, $(SOURCES))

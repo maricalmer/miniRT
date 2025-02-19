@@ -100,7 +100,7 @@ void 	calculate_img_packet(void *arg_generic)
 		average_hd_pixel(hd_res);
 		arg->img[i] = (hd_res[0][0] << 16 | hd_res[0][1] << 8 | hd_res[0][2]);
 	}
-	mlx_put_image_to_window(arg->data->mlx.mlx, arg->data->mlx.win, arg->data->mlx.img, 0, 0);
+	// mlx_put_image_to_window(arg->data->mlx.mlx, arg->data->mlx.win, arg->data->mlx.img, 0, 0);
 }
 
 void	calculate_ray_prim_dir(t_data *data)  // duplicate of calculate_img: abstract to handler function at the cost of switch?

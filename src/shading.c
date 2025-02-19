@@ -110,7 +110,7 @@ void	shoot_refraction_ray(t_shoot *shoot, t_shoot *new_shoot, t_data *data)
 	n_exit[2] = r_inv * (-p_exit[2] + ((t_sphere *)(shoot->obj->geo))->center[2]);
 	//
 	
-	calculate_refraction_ray(r_exit, n_exit, r_entry, 1);// / shoot->obj->mat.refr_idx);
+	calculate_refraction_ray(r_exit, n_exit, r_entry, 1 / shoot->obj->mat.refr_idx);
 	new_shoot->src = p_exit;
 	new_shoot->dir = r_exit;
 	new_shoot->depth = shoot->depth + 1;
@@ -130,8 +130,8 @@ void	calculate_refraction_ray(float p[3], float n[3], float v[3], float r_idx)
 		vp[i] = v[i] * v_dot_n_inv;
 	kf = r_idx * r_idx * (vp[0] * vp[0] + vp[1] * vp[1] + vp[2] * vp[2]);
 	kf -= (vp[0] + n[0]) * (vp[0] + n[0]) + (vp[1] + n[1]) * (vp[1] + n[1]) + (vp[2] + n[2]) * (vp[2] + n[2]);
-	if (kf < EPSILON)
-		write(1, "dammed\n", 7);
+	// if (kf < EPSILON)
+	// 	write(1, "dammed\n", 7);
 	kf = sqrtf(kf);
 	kf = 1 / kf;
 	i = -1;

@@ -6,10 +6,10 @@
 #include <string.h>
 
 void generate_random_spheres(t_data *data, int n) {
-    srand(time(NULL));
+    srand(123456);//time(NULL));
     for (int i = 1; i < n + 1; i++) {
         t_sphere *sph = malloc(sizeof(t_sphere));
-        sph->center[0] = ((float)rand() / RAND_MAX) * 10 - 5;
+        sph->center[0] = ((float)rand() / RAND_MAX) * 3 - 1.5;
         sph->center[1]  = 0.1;
         sph->center[2]  = ((float)rand() / RAND_MAX) * 30 - 15;
         sph->radius = 0.1;
@@ -18,7 +18,7 @@ void generate_random_spheres(t_data *data, int n) {
         data->objects[i].mat.rgb[0] = rand() % 256;
         data->objects[i].mat.rgb[1] = rand() % 256;
         data->objects[i].mat.rgb[2] = rand() % 256;
-        data->objects[i].mat.refl_coeff = 0 ; //((float)rand() / RAND_MAX);
+        data->objects[i].mat.refl_coeff = ((float)rand() / RAND_MAX);
 		data->objects[i].mat.refr_coeff = 0 ;
 		data->objects[i].mat.refr_idx 	= 1 ;
     }
@@ -41,7 +41,7 @@ void	parsing(t_data *data)
 	
 	t_camera		cam = {70, {0, 1, 15}, {0,0,-1}};
 	t_ambient_light	ambient = {0.2, {1, 1 , 1}}; // normalized light color
-	t_light lgt_1_data = {0.6, {500, 2000.05, 10215}, {255.0/255, 255.0/255, 255.0/255}};
+	t_light lgt_1_data = {0.6, {5, 5, 0}, {255.0/255, 255.0/255, 255.0/255}};
 	
 
 	data->cam = cam;
@@ -53,8 +53,8 @@ void	parsing(t_data *data)
 
 	//OBJECTS
 	int 	n = 200;
-	data->n_obj = n + 2;
-	data->objects = malloc(sizeof(t_object) * (n + 2));
+	data->n_obj = n + 3;
+	data->objects = malloc(sizeof(t_object) * (n + 3));
 	generate_random_spheres(data, n);
 
 	t_plane			*pl_1 = malloc(sizeof(t_plane));
@@ -73,16 +73,30 @@ void	parsing(t_data *data)
 	t_sphere *sph = malloc(sizeof(t_sphere));
 	sph->center[0]  = 0;
 	sph->center[1]  = 2;
-	sph->center[2]  = 0;
+	sph->center[2]  = -0.1;
 	sph->radius = 2;
 	data->objects[n + 1].type = SPHERE;
 	data->objects[n + 1].geo = sph;
-	data->objects[n + 1].mat.rgb[0] = 100;
-	data->objects[n + 1].mat.rgb[1] = 100;
-	data->objects[n + 1].mat.rgb[2] = 100;
-	data->objects[n + 1].mat.refl_coeff = 0 ; //((float)rand() / RAND_MAX);
-	data->objects[n + 1].mat.refr_coeff = 0.8 ;
+	data->objects[n + 1].mat.rgb[0] = 255;
+	data->objects[n + 1].mat.rgb[1] = 255;
+	data->objects[n + 1].mat.rgb[2] = 255;
+	data->objects[n + 1].mat.refl_coeff = 0.0 ; //((float)rand() / RAND_MAX);
+	data->objects[n + 1].mat.refr_coeff = 0.95 ;
 	data->objects[n + 1].mat.refr_idx 	= 1.5 ;	
+
+	t_sphere *sph2 = malloc(sizeof(t_sphere));
+	sph2->center[0]  = 0;
+	sph2->center[1]  = 2;
+	sph2->center[2]  = 1;
+	sph2->radius = 0.1;
+	data->objects[n + 2].type = SPHERE;
+	data->objects[n + 2].geo = sph2;
+	data->objects[n + 2].mat.rgb[0] = 255;
+	data->objects[n + 2].mat.rgb[1] = 0;
+	data->objects[n + 2].mat.rgb[2] = 0;
+	data->objects[n + 2].mat.refl_coeff = 0 ; //((float)rand() / RAND_MAX);
+	data->objects[n + 2].mat.refr_coeff = 0 ;
+	data->objects[n + 2].mat.refr_idx 	= 1 ;	
 
 	// t_plane			*pl_2 = malloc(sizeof(t_plane));
 	// t_plane pl_2_data = {{0, 0, -300}, {0, 0, 1}};
