@@ -13,6 +13,7 @@ SOURCES:=			$(SOURCES_DIRECTORY)/main.c \
 					$(SOURCES_DIRECTORY)/bvh.c \
 					$(SOURCES_DIRECTORY)/mlx.c \
 					$(SOURCES_DIRECTORY)/intersect.c \
+					$(SOURCES_DIRECTORY)/checkerboard.c \
 					$(SOURCES_DIRECTORY)/find_median.c
 
 OBJECTS_DIRECTORY:=		build

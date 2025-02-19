@@ -1,7 +1,7 @@
 #include "minirt.h"
 
-void	add_phong_diffuse(t_shoot *shoot, t_light light, float theta_LN);
-void	add_phong_specular(float shadow_ray[3], t_shoot *shoot, t_light light, float theta_LN);
+void	add_phong_diffuse(t_shoot *shoot, t_light light, float theta_LN, unsigned char rgb[3]);
+void	add_phong_specular(float shadow_ray[3], t_shoot *shoot, t_light light, float theta_LN, unsigned char rgb[3]);
 void	add_whitted(t_shoot *shoot, t_data	*data);
 void	shoot_refraction_ray(t_shoot *shoot, t_shoot *new_shoot, t_data *data);
 void	calculate_refraction_ray(float p[3], float n[3], float v[3], float r_idx);
@@ -13,12 +13,10 @@ void	sky_color(t_shoot *shoot)
 	shoot->res_rgb[2] = SKY_COLOR_B;
 	return ;
 }
-void	add_phong_ambient(t_shoot *shoot, t_data *data)
+void	add_phong_ambient(t_shoot *shoot, t_data *data, unsigned char rgb[3])
 {
 	int	i;
-	unsigned char	*rgb;
 	
-	rgb = shoot->obj->mat.rgb;
 	i = -1;
 	while (++i < 3)
 		shoot->res_rgb[i] = data->ambient.brightness * rgb[i] * data->ambient.rgb[i];
@@ -31,20 +29,33 @@ void	shading(t_shoot *shoot, t_data *data)
 	float			shadow_ray[3];
 	float			theta_LN;	
 	float			dist_light;
+	unsigned char	*rgb;
+
+
 
 	if (!shoot->obj)
 		return (sky_color(shoot));
-	add_phong_ambient(shoot, data);
+	rgb = shoot->obj->mat.rgb;
+	if (shoot->obj->mat.checker_flag == 1)
+	{
+		if (check_checkerboard_grid(shoot))
+			rgb = shoot->obj->mat.rgb2;
+	}
+	// if (shoot->obj->type != PLANE_CHESS || check_checkerboard_grid(shoot))
+	// 	rgb = shoot->obj->mat.rgb;
+	// else
+	// 	rgb = shoot->obj->mat.rgb2;
+	add_phong_ambient(shoot, data, rgb);
 	i = -1;
 	while (data->lights[++i].brightness >= 0)
 	{
-		vec_substr(shoot->hit_pt, data->lights[i].origin, shadow_ray);
+		vec_substr(data->lights[i].origin, shoot->hit_pt, shadow_ray);
 		normalize2(shadow_ray, &dist_light);
 		theta_LN = dot_13_13(shoot->normal, shadow_ray);
 		if (theta_LN > EPSILON && shadow_intersection_tests(shoot, data->objects, shadow_ray, dist_light, data->n_obj) == 0)
 		{
-			add_phong_diffuse(shoot, data->lights[i], theta_LN);
-			add_phong_specular(shadow_ray, shoot, data->lights[i], theta_LN);
+			add_phong_diffuse(shoot, data->lights[i], theta_LN, rgb);
+			add_phong_specular(shadow_ray, shoot, data->lights[i], theta_LN, rgb);
 		}
 	}
 	add_whitted(shoot, data);
@@ -162,26 +173,22 @@ void	calculate_refraction_ray_exit(float p[3], float n[3], float v[3], float r_i
 	normalize(p);
 }
 
-void	add_phong_diffuse(t_shoot *shoot, t_light light, float theta_LN)
+void	add_phong_diffuse(t_shoot *shoot, t_light light, float theta_LN, unsigned char rgb[3])
 {
 	int				i;
-	unsigned char	*rgb;
 
-	rgb = shoot->obj->mat.rgb;
 	i = -1;
 	while (++i < 3)
 			shoot->res_rgb[i] += light.brightness * theta_LN * rgb[i] * light.rgb[i];
 
 }
 
-void	add_phong_specular(float shadow_ray[3], t_shoot *shoot, t_light light, float theta_LN)
+void	add_phong_specular(float shadow_ray[3], t_shoot *shoot, t_light light, float theta_LN, unsigned char rgb[3])
 {
 	int 			i;
 	float			reflection_ray[3];
-	unsigned char	*rgb;
 	float			R_dot_E;
 
-	rgb = shoot->obj->mat.rgb;
 	i = -1;
 	while (++i < 3)
 		reflection_ray[i] = -shadow_ray[i] + 2 * theta_LN * shoot->normal[i];

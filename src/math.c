@@ -36,7 +36,7 @@ float	dot_13_13(float a[3], float b[3])
 	return (a[0] * b[0] + a[1] * b[1] + a[2] * b[2]);
 }
 
-void	vec_substr(float p1[3], float p2[3], float result[3])
+void	vec_substr(float p2[3], float p1[3], float result[3])
 {
 	int i;
 
@@ -58,4 +58,11 @@ void	ft_swap(float *t1, float *t2)
 	tmp = *t1;
 	*t1 = *t2;
 	*t2 = tmp;
+}
+
+int	abs_int(int x)
+{
+	if (x < 0)
+		return (-x);
+	return (x);
 }

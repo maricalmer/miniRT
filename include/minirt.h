@@ -13,8 +13,8 @@
 # include <pthread.h>
 # include <stdatomic.h>
 
-# define WIDTH					650
-# define HEIGHT					650
+# define WIDTH					1024
+# define HEIGHT					960
 # define EPSILON    			0.001 // adjust
 # define SPECULAR_POWER 		50
 # define DEPTH_MAX				6
@@ -26,14 +26,17 @@
 
 # define USLEEP_WORKER 			0
 # define USLEEP_PARENT			100 //fine tune those...
-# define N_THREAD				4
+# define N_THREAD				16
 
 # define CROSS_CLICK_EVENT 		17
 # define NO_EVENT_MASK			0
 
 # define BVH_ON					1
 # define MAX_BVH_GROUP			6
-# define BVH_DEPTH_MAX			10
+# define BVH_DEPTH_MAX			15
+
+# define CHECKER_SIZE			0.5
+
 
 
 // extern atomic_int				num_primary_rays;
@@ -83,10 +86,13 @@ typedef struct s_sphere
 	float						radius;
 }	t_sphere;
 
+
 typedef struct s_plane
 {
 	float						point[3];
 	float						normal[3];
+	float						u[3];
+	float						v[3];
 }	t_plane;
 
 typedef struct s_material
@@ -95,6 +101,8 @@ typedef struct s_material
 	float						refr_coeff;
 	float						refl_coeff;
 	unsigned char				rgb[3];
+	unsigned char				rgb2[3]; // NEEDS redesign to set rgb per object
+	int							checker_flag;
 }	t_material;
 
 typedef struct s_object
@@ -207,6 +215,9 @@ void		parsing(t_data *data);
 void		render_first_image(t_data *data, int *img);
 void		shoot_ray(t_data *data, t_shoot *shoot);
 
+/*checkerboard.c*/
+int	check_checkerboard_grid(t_shoot *shoot);
+
 /*phong.c*/
 void		shading(t_shoot *shoot, t_data *data);
 
@@ -229,6 +240,7 @@ int			imin(int a, int b);
 void		vec_substr(float p1[3], float p2[3], float result[3]);
 void		cpy_vec(float v1[3], float v2[3]);
 void		ft_swap(float *t1, float *t2);
+int			abs_int(int x);
 float 		findMedian(float arr[], int n); // change this GPT code !!!
 
 /* Multithreading */
