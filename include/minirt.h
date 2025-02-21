@@ -13,12 +13,12 @@
 # include <pthread.h>
 # include <stdatomic.h>
 
-# define WIDTH					1024
-# define HEIGHT					960
+# define WIDTH					600
+# define HEIGHT					600
 # define EPSILON    			0.001 // adjust
 # define SPECULAR_POWER 		50
 # define DEPTH_MAX				6
-# define ANTIALIASING_FACT		3
+# define ANTIALIASING_FACT		1
 
 # define SKY_COLOR_R			70
 # define SKY_COLOR_G			130
@@ -26,12 +26,12 @@
 
 # define USLEEP_WORKER 			0
 # define USLEEP_PARENT			100 //fine tune those...
-# define N_THREAD				16
+# define N_THREAD				4
 
 # define CROSS_CLICK_EVENT 		17
 # define NO_EVENT_MASK			0
 
-# define BVH_ON					1
+# define BVH_ON					0
 # define MAX_BVH_GROUP			6
 # define BVH_DEPTH_MAX			15
 
@@ -57,6 +57,7 @@ typedef enum e_obj_type
 	END,
 	SPHERE,
 	PLANE,
+	CYLINDER,
 	BVH
 }	t_obj_type;
 
@@ -85,6 +86,15 @@ typedef struct s_sphere
 	float						center[3];
 	float						radius;
 }	t_sphere;
+
+typedef struct s_cylinder
+{
+	float						center[3];
+	float						radius;
+	float						dir[3];
+	float						height;
+}	t_cylinder;
+
 
 
 typedef struct s_plane
@@ -203,6 +213,11 @@ typedef struct s_calc_ray_arg
 	int							end;
 }	t_calc_ray_arg;
 
+typedef struct s_intersect_result
+{
+	float	min;
+	float	max;
+}	t_intersect_result;
 
 
 /// FUNCTIONS
@@ -230,10 +245,12 @@ float		visibility_intersection_tests(t_object *objects, t_shoot *shoot, int n_ob
 float		intersection_test_sphere(t_sphere *sphere, float p_ray[3], float origin[3]);
 float		intersection_test_sphere2(t_sphere *sphere, float p_ray[3], float origin[3]);
 float		intersection_test_plane(t_plane *plane, float p_ray[3], float origin[3]);
+float		intersection_test_cylinder(t_cylinder *cylinder, float ray[3], float origin[3]);
 float		shadow_intersection_tests(t_shoot *shoot, t_object *objects, float shadow_ray[3], float dist_light, int n_obj);
 
 /*maths*/
 float		dot_13_13(float a[3], float b[3]);
+void		cprod_13_13(float a[3], float b[3], float res[3]);
 void		normalize(float vector[3]);
 void		normalize2(float vector[3], float *magnitude);
 int			imin(int a, int b);

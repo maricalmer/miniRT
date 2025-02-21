@@ -19,7 +19,7 @@ t_aabb	*init_bvh(t_data *data)
 	i = -1;
 	while (++i < data->n_obj)
 	{
-		if (obj->type != PLANE)
+		if (obj->type == SPHERE)
 			root->group_size++;
 		obj++;
 	}
@@ -31,7 +31,7 @@ t_aabb	*init_bvh(t_data *data)
 	j = 0;
 	while (++i < data->n_obj)
 	{
-		if (obj[i].type != PLANE)
+		if (obj[i].type == SPHERE)
 			root->group[j++] = obj[i];
 	}
 	// cut in right and left.
@@ -152,11 +152,11 @@ void	cut_in_right_left_nodes(t_aabb *node)
 		if (center >  mid - ((t_sphere *)node->group[i].geo)->radius)
 			node->childs[1].group[i_right++] = node->group[i];
 	}
-	if (node->depth == BVH_DEPTH_MAX - 1)
-	{
-		printf("left : %i\n", node->childs[0].group_size);
-		printf("right : %i\n\n", node->childs[1].group_size);
-	}
+	// if (node->depth == BVH_DEPTH_MAX - 1)
+	// {
+	// 	printf("left : %i\n", node->childs[0].group_size);
+	// 	printf("right : %i\n\n", node->childs[1].group_size);
+	// }
 	node->childs[0].depth = node->depth + 1;
 	node->childs[1].depth = node->depth + 1;
 
@@ -181,7 +181,7 @@ void	update_group(t_data *data, t_aabb *root)
 	plane_counter = 0;
 	while (i < data->n_obj)
 	{
-		if (data->objects[i].type == PLANE)
+		if (data->objects[i].type != SPHERE)
 			plane_counter++;
 		i++;
 	}
@@ -192,7 +192,7 @@ void	update_group(t_data *data, t_aabb *root)
 	j = 1;
 	while (i < data->n_obj)
 	{
-		if (data->objects[i].type == PLANE)
+		if (data->objects[i].type != SPHERE)
 			ft_memcpy(&new_objects[j++], &data->objects[i], sizeof(t_object));
 		i++;
 	}
@@ -200,8 +200,3 @@ void	update_group(t_data *data, t_aabb *root)
 	data->objects = new_objects;
 	data->n_obj = plane_counter + 1;
 }
-
-// read_tree()
-// {
-
-// }

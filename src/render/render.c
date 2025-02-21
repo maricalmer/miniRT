@@ -256,5 +256,26 @@ void get_normal_intersect(t_shoot *shoot)
 		shoot->normal[1] = ((t_plane *)(shoot->obj->geo))->normal[1];
 		shoot->normal[2] = ((t_plane *)(shoot->obj->geo))->normal[2];
 	}
+	else if (shoot->obj->type == CYLINDER)
+	{
+		int i = -1;
+		float tmp[3];
+
+		vec_substr(shoot->hit_pt, ((t_cylinder *)shoot->obj->geo)->center, tmp);
+		float h = dot_13_13(tmp, ((t_cylinder *)shoot->obj->geo)->dir);
+		while (++i < 3)
+			tmp[i] = ((t_cylinder *)shoot->obj->geo)->center[i] + h * ((t_cylinder *)shoot->obj->geo)->dir[i];
+		
+		r_inv = 1 / ((t_cylinder *)(shoot->obj->geo))->radius;
+		shoot->normal[0] = r_inv * (shoot->hit_pt[0] - tmp[0]);
+		shoot->normal[1] = r_inv * (shoot->hit_pt[1] - tmp[1]);
+		shoot->normal[2] = r_inv * (shoot->hit_pt[2] - tmp[2]);
+	}
 	// other SWITCHES ....
+	if (dot_13_13(shoot->dir, shoot->normal) > 0)
+	{
+		shoot->normal[0] *= -1;
+		shoot->normal[1] *= -1;
+		shoot->normal[2] *= -1;
+	}
 }

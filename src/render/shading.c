@@ -41,10 +41,6 @@ void	shading(t_shoot *shoot, t_data *data)
 		if (check_checkerboard_grid(shoot))
 			rgb = shoot->obj->mat.rgb2;
 	}
-	// if (shoot->obj->type != PLANE_CHESS || check_checkerboard_grid(shoot))
-	// 	rgb = shoot->obj->mat.rgb;
-	// else
-	// 	rgb = shoot->obj->mat.rgb2;
 	add_phong_ambient(shoot, data, rgb);
 	i = -1;
 	while (data->lights[++i].brightness >= 0)
@@ -163,8 +159,8 @@ void	calculate_refraction_ray_exit(float p[3], float n[3], float v[3], float r_i
 		vp[i] = v[i] * v_dot_n_inv;
 	kf = r_idx * r_idx * (vp[0] * vp[0] + vp[1] * vp[1] + vp[2] * vp[2]);
 	kf -= (vp[0] + n[0]) * (vp[0] + n[0]) + (vp[1] + n[1]) * (vp[1] + n[1]) + (vp[2] + n[2]) * (vp[2] + n[2]);
-	if (kf < EPSILON)
-		write(1, "dammed\n", 7);
+	// if (kf < EPSILON)
+	// 	write(1, "dammed\n", 7);
 	kf = sqrtf(kf);
 	kf = 1 / kf;
 	i = -1;
