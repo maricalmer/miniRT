@@ -168,6 +168,7 @@ void	cut_in_right_left_nodes(t_aabb *node)
 
 	cut_in_right_left_nodes(&node->childs[0]);
 	cut_in_right_left_nodes(&node->childs[1]);
+	free(node->group);
 }
 
 void	update_group(t_data *data, t_aabb *root)

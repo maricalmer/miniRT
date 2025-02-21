@@ -53,9 +53,9 @@ void	parsing(t_data *data)
 	data->lights[1].brightness = -1;
 
 	//OBJECTS
-	int 	n = 0;
-	data->n_obj = n + 3;
-	data->objects = malloc(sizeof(t_object) * (n + 3));
+	int 	n = 60000;
+	data->n_obj = n + 2;
+	data->objects = malloc(sizeof(t_object) * (n + 2));
 	generate_random_spheres(data, n);
 
 	t_plane			*pl_1 = malloc(sizeof(t_plane));
@@ -90,25 +90,25 @@ void	parsing(t_data *data)
 	data->objects[n + 1].mat.refr_coeff = 0.95 ;
 	data->objects[n + 1].mat.refr_idx 	= 1.5 ;	
 
-	t_cylinder *sph2 = malloc(sizeof(t_cylinder));
-	sph2->center[0]  = 2;
-	sph2->center[1]  = 2;
-	sph2->center[2]  = 10;
-	sph2->radius = 0.5;
-	sph2->height = 4;
-	sph2->dir[0] = 1;
-	sph2->dir[1] = 1;
-	sph2->dir[2] = -1;
-	normalize(sph2->dir);
-	data->objects[n + 2].type = CYLINDER;
-	data->objects[n + 2].mat.checker_flag = 0;
-	data->objects[n + 2].geo = sph2;
-	data->objects[n + 2].mat.rgb[0] = 255;
-	data->objects[n + 2].mat.rgb[1] = 0;
-	data->objects[n + 2].mat.rgb[2] = 0;
-	data->objects[n + 2].mat.refl_coeff = 0 ; //((float)rand() / RAND_MAX);
-	data->objects[n + 2].mat.refr_coeff = 0 ;
-	data->objects[n + 2].mat.refr_idx 	= 1.5 ;	
+	// t_cylinder *sph2 = malloc(sizeof(t_cylinder));
+	// sph2->center[0]  = 2;
+	// sph2->center[1]  = 2;
+	// sph2->center[2]  = 10;
+	// sph2->radius = 0.5;
+	// sph2->height = 4;
+	// sph2->dir[0] = 1;
+	// sph2->dir[1] = 1;
+	// sph2->dir[2] = -1;
+	// normalize(sph2->dir);
+	// data->objects[n + 2].type = CYLINDER;
+	// data->objects[n + 2].mat.checker_flag = 0;
+	// data->objects[n + 2].geo = sph2;
+	// data->objects[n + 2].mat.rgb[0] = 255;
+	// data->objects[n + 2].mat.rgb[1] = 0;
+	// data->objects[n + 2].mat.rgb[2] = 0;
+	// data->objects[n + 2].mat.refl_coeff = 0 ; //((float)rand() / RAND_MAX);
+	// data->objects[n + 2].mat.refr_coeff = 0 ;
+	// data->objects[n + 2].mat.refr_idx 	= 1.5 ;	
 
 	// t_plane			*pl_2 = malloc(sizeof(t_plane));
 	// t_plane pl_2_data = {{0, 0, -300}, {0, 0, 1}};

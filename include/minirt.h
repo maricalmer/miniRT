@@ -13,12 +13,12 @@
 # include <pthread.h>
 # include <stdatomic.h>
 
-# define WIDTH					600
-# define HEIGHT					600
+# define WIDTH					1200
+# define HEIGHT					800
 # define EPSILON    			0.001 // adjust
 # define SPECULAR_POWER 		50
 # define DEPTH_MAX				6
-# define ANTIALIASING_FACT		1
+# define ANTIALIASING_FACT		3
 
 # define SKY_COLOR_R			70
 # define SKY_COLOR_G			130
@@ -26,12 +26,12 @@
 
 # define USLEEP_WORKER 			0
 # define USLEEP_PARENT			100 //fine tune those...
-# define N_THREAD				4
+# define N_THREAD				20
 
 # define CROSS_CLICK_EVENT 		17
 # define NO_EVENT_MASK			0
 
-# define BVH_ON					0
+# define BVH_ON					1
 # define MAX_BVH_GROUP			6
 # define BVH_DEPTH_MAX			15
 
@@ -54,10 +54,10 @@
 
 typedef enum e_obj_type
 {
-	END,
 	SPHERE,
 	PLANE,
 	CYLINDER,
+	TRI,
 	BVH
 }	t_obj_type;
 
@@ -95,6 +95,16 @@ typedef struct s_cylinder
 	float						height;
 }	t_cylinder;
 
+typedef struct s_triangle
+{
+	float						v0[3];
+	float						v1[3];
+	float						v2[3];
+	float						vn0[3];
+	float						vn1[3];
+	float						vn2[3];
+	int							mesh_id;
+}	t_triangle;
 
 
 typedef struct s_plane

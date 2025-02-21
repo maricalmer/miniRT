@@ -30,7 +30,6 @@ void	render_first_image(t_data *data, int *img) // img + mlx + win in data (??)
 	start = clock();
 	calculate_img(data, img);
 	printf("Elapsed time calc_imag: %.2f ms\n", ((double)(clock() - start)) / CLOCKS_PER_SEC * 1000);
-	mlx_put_image_to_window(data->mlx.mlx, data->mlx.win, data->mlx.img, 0, 0);
 }
 
 // void	move_cam(t_data *data, int *img) // img + mlx + win in data (??)
@@ -69,6 +68,7 @@ void 	calculate_img(t_data *data, int *img)
 	pthread_mutex_unlock(&data->joblist_mutex);
 	wait_for_workers(data);
 	free(arg);
+	mlx_put_image_to_window(data->mlx.mlx, data->mlx.win, data->mlx.img, 0, 0);
 }
 
 
