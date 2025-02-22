@@ -12,6 +12,7 @@
 # include <stdio.h>
 # include <pthread.h>
 # include <stdatomic.h>
+# include <fcntl.h>
 
 # define WIDTH					1200
 # define HEIGHT					800
@@ -26,7 +27,7 @@
 
 # define USLEEP_WORKER 			0
 # define USLEEP_PARENT			100 //fine tune those...
-# define N_THREAD				20
+# define N_THREAD				1
 
 # define CROSS_CLICK_EVENT 		17
 # define NO_EVENT_MASK			0
@@ -174,13 +175,13 @@ typedef struct	s_mlxlib {
 
 typedef struct s_data
 {
-	t_object					*objects;
-	int							n_obj;
-	t_light						*lights;
-	t_ambient_light				ambient;
+	t_object					*objects;  // needs to be updated
+	int							n_obj;  // needs to be updated
+	t_light						*lights;  // needs to be updated
+	t_ambient_light				ambient;  // needs to be updated
 	char						*img_buf;
 	// first shoot only
-	t_camera					cam;
+	t_camera					cam;  // needs to be updated
 	float						*primary_rays;
 	// multithreading
 	atomic_int					joblist_size;
@@ -193,6 +194,11 @@ typedef struct s_data
 	t_mlxlib					mlx;
 }	t_data;
 
+typedef struct s_scn
+{
+	int							fd;
+	char						**elements;
+}	t_scn;
 
 typedef struct s_shoot
 {
@@ -233,8 +239,23 @@ typedef struct s_intersect_result
 /// FUNCTIONS
 
 
-/*parsing.c*/
+/*dummy_parsing.c*/
 void		parsing(t_data *data);
+
+/*parser.c*/
+int			handle_parsing(t_scn *scn, char *filename);
+/*checker.c*/
+int			check_input(int ac, char **av, t_scn *scn);
+/*factories.c*/
+void		create_ambient_light(char *data);
+void		create_cam(char *data);
+void		create_light(char *data);
+void		create_sphere(char *data);
+void		create_plane(char *data);
+void		create_cylinder(char *data);
+/*error.c*/
+void		print_error(int errno);
+
 
 /*render.c*/
 void		render_first_image(t_data *data, int *img);

@@ -3,19 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:04:00 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/01/31 03:07:09 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/02/22 17:59:23 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# define BUFFER_SIZE 56
+# define NB_FILES_MAX 128
+
 # include <stdlib.h>
 # include <unistd.h>
-
+# include <stddef.h>
 # include <string.h>
 # include <stdarg.h>
 # include <stdint.h>
@@ -26,6 +29,20 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }	t_list;
+
+typedef struct s_list_gnl
+{
+	char				content[BUFFER_SIZE];
+	struct s_list_gnl	*next;	
+}					t_list_gnl;
+
+typedef struct s_file_gnl
+{
+	t_list_gnl		*buffer;
+	int				i;
+	int				read;
+	int				line_length;
+}					t_file_gnl;
 
 
 int		ft_isalpha(int c);
@@ -80,5 +97,6 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
+char	*get_next_line(int fd);
 
 #endif

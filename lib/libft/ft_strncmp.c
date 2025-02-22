@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 12:44:09 by dlemaire          #+#    #+#             */
-/*   Updated: 2024/12/17 19:34:52 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/02/22 17:27:07 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,4 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		s2++;
 	}
 	return (0);
-}
-
-int main(void)
-{
-	
 }

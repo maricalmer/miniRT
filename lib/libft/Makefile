@@ -6,7 +6,7 @@
 #    By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/21 18:33:06 by dlemaire          #+#    #+#              #
-#    Updated: 2025/01/31 03:08:19 by dlemaire         ###   ########.fr        #
+#    Updated: 2025/02/22 17:58:03 by dlemaire         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,7 @@ SRC = ft_atoi \
 		    ft_printf \
 		    ft_printf_utils \
 		    ft_printf_utils2 \
+			get_next_line_bonus \
 
 
 SRCS		= $(addsuffix .c, ${SRC})

@@ -5,8 +5,12 @@ HEADERS:=			$(HEADERS_DIRECTORY)/minirt.h
 
 SOURCES_DIRECTORY:=		src
 SOURCES:=			$(SOURCES_DIRECTORY)/main.c \
-					$(SOURCES_DIRECTORY)/parsing/parsing.c \
+					$(SOURCES_DIRECTORY)/parsing/dummy_parsing.c \
+					$(SOURCES_DIRECTORY)/parsing/parser.c \
+					$(SOURCES_DIRECTORY)/parsing/factories.c \
+					$(SOURCES_DIRECTORY)/parsing/checker.c \
 					$(SOURCES_DIRECTORY)/render/render.c \
+					$(SOURCES_DIRECTORY)/exit/error.c \
 					$(SOURCES_DIRECTORY)/math/math.c \
 					$(SOURCES_DIRECTORY)/render/shading.c \
 					$(SOURCES_DIRECTORY)/multithreading/worker.c \
@@ -30,7 +34,7 @@ LIBMLX:=			$(MLX_DIRECTORY)/libmlx.a
 LIB_FLAGS:=			-L$(LIBFT_DIRECTORY) -lft -L$(MLX_DIRECTORY) -lmlx_Linux -lXext -lX11 -lm
 
 CC:=				cc
-CFLAGS:=			-Wall -Wextra -g -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) -Ofast -march=native 
+CFLAGS:=			-Wall -Wextra -g -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) #-Ofast -march=native 
 
 all: $(OBJECTS_DIRECTORY) $(LIBMLX) $(LIBFT) $(NAME)
 

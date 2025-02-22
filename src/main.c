@@ -12,11 +12,15 @@ double time_shading = 0;
 double render_start = 0;
 double time_total_render = 0;
 
-int main(void)
+// int main(void)
+int main(int ac, char **av)
 {
 	t_data 		data;
-    
+	t_scn 		scn;
 
+	if (check_input(ac, av, &scn) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	handle_parsing(&scn, av[1]);
 	parsing(&data); // argv
 	// int i = -1;
 	// while (data.objects[++i].type)
