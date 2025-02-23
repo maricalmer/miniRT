@@ -6,7 +6,7 @@
 #    By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/21 18:33:06 by dlemaire          #+#    #+#              #
-#    Updated: 2025/02/22 17:58:03 by dlemaire         ###   ########.fr        #
+#    Updated: 2025/02/23 16:01:10 by dlemaire         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRC = ft_atoi \
 			ft_isascii \
 			ft_isdigit \
 			ft_isprint \
+			ft_iswhitespace \
 			ft_itoa \
 			ft_memchr \
 			ft_memcmp \
@@ -41,6 +42,7 @@ SRC = ft_atoi \
 			ft_strnstr \
 			ft_strrchr \
 			ft_strtrim \
+			ft_strtof \
 			ft_substr \
 			ft_tolower \
 			ft_toupper \

@@ -20,7 +20,7 @@ int main(int ac, char **av)
 
 	if (check_input(ac, av, &scn) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	handle_parsing(&scn, av[1]);
+	handle_parsing(&data, &scn, av[1]);
 	parsing(&data); // argv
 	// int i = -1;
 	// while (data.objects[++i].type)
