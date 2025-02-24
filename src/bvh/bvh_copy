@@ -25,14 +25,14 @@ t_aabb	*init_bvh(t_data *data)
 	}
 
 	// copy list without plane
-	root->group = malloc(sizeof(t_object *) * root->group_size);
+	root->group = malloc(sizeof(t_object) * root->group_size);
 	obj = data->objects;
 	i = -1;
 	j = 0;
 	while (++i < data->n_obj)
 	{
 		if (obj[i].type == SPHERE)
-			root->group[j++] = &obj[i];
+			root->group[j++] = obj[i];
 	}
 	// cut in right and left.
 	cut_in_right_left_nodes(root);
@@ -59,11 +59,11 @@ void	get_bbox_min_max(t_aabb *node)
 		{
 			// switch sur les differents primitives. 
 			// For the moment only sphere
-			tmp_min = node->group[j]->geo.sph.center[i] - node->group[j]->geo.sph.radius ; 
+			tmp_min = node->group[j].geo.sph.center[i] - node->group[j].geo.sph.radius ; 
 			if (tmp_min < min)
 				min = tmp_min;
 
-			tmp_max = node->group[j]->geo.sph.center[i] + node->group[j]->geo.sph.radius  ;
+			tmp_max = node->group[j].geo.sph.center[i] + node->group[j].geo.sph.radius  ;
 			if (tmp_max > max)
 				max = tmp_max; 
 		}
@@ -118,7 +118,7 @@ void	cut_in_right_left_nodes(t_aabb *node)
 	float centers[node->group_size];
 	i = -1;
 	while (++i < node->group_size)
-		centers[i] = node->group[i]->geo.sph.center[axis];
+		centers[i] = node->group[i].geo.sph.center[axis];
 	mid = findMedian(centers, node->group_size);
 
 
@@ -132,26 +132,24 @@ void	cut_in_right_left_nodes(t_aabb *node)
 	node->childs[1].group_size = 0;
 	while (i < node->group_size) 
 	{
-		center = node->group[i]->geo.sph.center[axis]; // need for switch when cylinders
-		if (center <= mid + node->group[i]->geo.sph.radius)			
+		center = node->group[i].geo.sph.center[axis]; // need for switch when cylinders
+		if (center <= mid + node->group[i].geo.sph.radius)			
 			node->childs[0].group_size++;
-		if (center >  mid - node->group[i]->geo.sph.radius)
+		if (center >  mid - node->group[i].geo.sph.radius)
 			node->childs[1].group_size++;
 		i++;
 	}
-	// node->childs[0].group = aligned_alloc(64, sizeof(t_object *) * node->childs[0].group_size);
-	// node->childs[1].group = aligned_alloc(64, sizeof(t_object *) * node->childs[1].group_size);
-	node->childs[0].group = malloc(sizeof(t_object *) * node->childs[0].group_size);
-	node->childs[1].group = malloc(sizeof(t_object *) * node->childs[1].group_size);
+	node->childs[0].group = aligned_alloc(64, sizeof(t_object) * node->childs[0].group_size);
+	node->childs[1].group = aligned_alloc(64, sizeof(t_object) * node->childs[1].group_size);
 	i = -1;
 	i_left = 0;
 	i_right = 0;
 	while (++i < node->group_size) 
 	{
-		center = node->group[i]->geo.sph.center[axis]; // need for switch when cylinders
-		if (center <= mid + node->group[i]->geo.sph.radius)			
+		center = node->group[i].geo.sph.center[axis]; // need for switch when cylinders
+		if (center <= mid + node->group[i].geo.sph.radius)			
 			node->childs[0].group[i_left++] = node->group[i];
-		if (center >  mid - node->group[i]->geo.sph.radius)
+		if (center >  mid - node->group[i].geo.sph.radius)
 			node->childs[1].group[i_right++] = node->group[i];
 	}
 	// if (node->depth == BVH_DEPTH_MAX - 1)
@@ -199,8 +197,7 @@ void	update_group(t_data *data, t_aabb *root)
 			ft_memcpy(&new_objects[j++], &data->objects[i], sizeof(t_object));
 		i++;
 	}
-	// free(data->objects);
-	data->all_objects = data->objects;
+	free(data->objects);
 	data->objects = new_objects;
 	data->n_obj = plane_counter + 1;
 }

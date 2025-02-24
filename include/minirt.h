@@ -13,6 +13,7 @@
 # include <pthread.h>
 # include <stdatomic.h>
 # include <fcntl.h>
+# include <immintrin.h> // SSE/AVX and prefetch
 
 # define WIDTH					1200
 # define HEIGHT					800
@@ -27,14 +28,14 @@
 
 # define USLEEP_WORKER 			0
 # define USLEEP_PARENT			100 //fine tune those...
-# define N_THREAD				1
+# define N_THREAD				24
 
 # define CROSS_CLICK_EVENT 		17
 # define NO_EVENT_MASK			0
 
 # define BVH_ON					1
-# define MAX_BVH_GROUP			6
-# define BVH_DEPTH_MAX			15
+# define MAX_BVH_GROUP			12
+# define BVH_DEPTH_MAX			20
 
 # define CHECKER_SIZE			0.5
 
@@ -101,9 +102,13 @@ typedef struct s_triangle
 	float						v0[3];
 	float						v1[3];
 	float						v2[3];
-	float						vn0[3];
-	float						vn1[3];
-	float						vn2[3];
+	// float						n[3];
+	// float						u01[3];
+	// float						u02[2];
+	// float						u03[3];
+	float						n0[3];
+	float						n1[3];
+	float						n2[3];
 	int							mesh_id;
 }	t_triangle;
 
@@ -126,34 +131,50 @@ typedef struct s_material
 	int							checker_flag;
 }	t_material;
 
-typedef struct s_object
+// typedef struct s_object
+// {
+// 	t_obj_type					type;
+// 	t_material					mat;
+// 	void						*geo; // union option (maybe faster / use with pointer to mesh [list of triangles])
+// }	t_object;
+
+typedef struct s_object 
 {
-	t_obj_type					type;
-	t_material					mat;
-	void						*geo; // union option (maybe faster / use with pointer to mesh [list of triangles])
-}	t_object;
+    t_obj_type type;
+    union 
+	{
+        t_sphere 	sph;
+        t_cylinder 	cyl;
+        t_triangle 	tri;
+        t_plane 	pl;
+		void 		*bvh; //= > t_aabb root
+    } geo;
+	t_material mat;
+	int				padding[4];
+} t_object;
+
 
 typedef struct s_aabb
 {
+	struct s_aabb				*childs;   // 0 -> left ; 1->right
 	float						pt_min[3];
 	float						pt_max[3];
-	struct s_aabb				*childs;   // 0 -> left ; 1->right
-	t_object					*group;
+	t_object					**group;
 	int							group_size;
 	int							depth;
 }	t_aabb;
 
 typedef struct s_ray_prim
 {
-	int							end_y;
-	int							start_x;
+	// int							end_y;
+	// int							start_x;
 	float						max_x;
 	float						max_y;
 	int							size_hd;
 	float						dx;
 	float						hd_dx;
-	float						top_left_y;
-	float						top_left_x;
+	// float						top_left_y;
+	// float						top_left_x;
 }	t_ray_prim;
 
 typedef struct s_job
@@ -175,7 +196,8 @@ typedef struct	s_mlxlib {
 
 typedef struct s_data
 {
-	t_object					*objects;  // needs to be updated
+	t_object					*objects;  // ==> list of pointers from the beginning ?!
+	t_object					*all_objects;  // needs to be updated
 	int							n_obj;  // needs to be updated
 	t_light						*lights;  // needs to be updated
 	t_ambient_light				ambient;  // needs to be updated
@@ -203,8 +225,8 @@ typedef struct s_scn
 typedef struct s_shoot
 {
 	// input
-	float						*src;
-	float						*dir;
+	float						*src; // ==> change to array [3] ??? more for consistancy... 
+	float						dir[3];
 	int							depth;
 	// output
 	int							res_rgb[3];
@@ -217,9 +239,11 @@ typedef struct s_shoot
 typedef struct s_calc_img_arg
 {
 	t_data						*data;
-	int							*img;
-	int							start;
-	int							end;
+	float						dx;
+	float						dx_hd;
+	float						x_tl;
+	float						y_tl;
+	int							line;
 }	t_calc_img_arg;
 
 typedef struct s_calc_ray_arg
@@ -273,11 +297,18 @@ void		update_group(t_data *data, t_aabb *root);
 
 /* tests*/
 float		visibility_intersection_tests(t_object *objects, t_shoot *shoot, int n_obj);
-float		intersection_test_sphere(t_sphere *sphere, float p_ray[3], float origin[3]);
-float		intersection_test_sphere2(t_sphere *sphere, float p_ray[3], float origin[3]);
-float		intersection_test_plane(t_plane *plane, float p_ray[3], float origin[3]);
-float		intersection_test_cylinder(t_cylinder *cylinder, float ray[3], float origin[3]);
+float 		visibility_intersection_tests_leafs(t_object **objects, t_shoot *shoot, int n_obj);
+float		intersection_test_bvh_root(t_aabb *node, t_shoot *shoot);
+float		intersection_test_bvh(t_aabb *node, t_shoot *shoot);
 float		shadow_intersection_tests(t_shoot *shoot, t_object *objects, float shadow_ray[3], float dist_light, int n_obj);
+float 		shadow_intersection_tests_leaf(t_shoot *shoot, t_object **objects, float shadow_ray[3], float dist_light, int n_obj);
+float		shadow_test_bvh_root(t_shoot *shoot, t_aabb *node, float shadow_ray[3], float dist_light);
+float		shadow_test_bvh(t_shoot *shoot, t_aabb *node, float shadow_ray[3], float dist_light);
+t_intersect_result	intersection_test_aabb(t_aabb *aabb, float dir[3], float src[3]);
+float		intersection_test_sphere(t_object *obj, float ray[3], float origin[3]);
+float		intersection_test_sphere2(t_object *obj, float ray[3], float origin[3]);
+float		intersection_test_cylinder(t_cylinder *cylinder, float ray[3], float origin[3]);
+float		intersection_test_plane(t_object *obj, float p_ray[3], float origin[3]);
 
 /*maths*/
 float		dot_13_13(float a[3], float b[3]);

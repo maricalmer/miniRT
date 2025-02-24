@@ -4,6 +4,9 @@
 		"cstdlib": "c",
 		"resource.h": "c",
 		"cmath": "c",
-		"flush,c": "cpp"
+		"flush,c": "cpp",
+		"chrono": "c",
+		"random": "c",
+		"limits": "c"
 	}
 }

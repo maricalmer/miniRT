@@ -77,7 +77,7 @@ void	add_whitted(t_shoot *shoot, t_data	*data)
 			bouncing_ray[2] = + shoot->dir[2] - 2 * theta_LN * shoot->normal[2];
 			normalize(bouncing_ray);
 			new_shoot_1.src = shoot->hit_pt;
-			new_shoot_1.dir = bouncing_ray;
+			cpy_vec(bouncing_ray, new_shoot_1.dir);
 			new_shoot_1.depth = shoot->depth + 1;
 			shoot_ray(data, &new_shoot_1);
 		}
@@ -106,20 +106,20 @@ void	shoot_refraction_ray(t_shoot *shoot, t_shoot *new_shoot, t_data *data)
 
 
 	calculate_refraction_ray(r_entry, shoot->normal, shoot->dir, shoot->obj->mat.refr_idx);
-	t =  intersection_test_sphere2(shoot->obj->geo, r_entry, shoot->hit_pt);
+	t =  intersection_test_sphere2(shoot->obj, r_entry, shoot->hit_pt);
 	i = -1;
 	while (++i < 3)
 		p_exit[i] = shoot->hit_pt[i] + t * r_entry[i];
 	//get_exit_normal(&n_exit, shoot->obj->geo, new_shoot->src);
-	r_inv = 1 / ((t_sphere *)(shoot->obj->geo))->radius;
-	n_exit[0] = r_inv * (-p_exit[0] + ((t_sphere *)(shoot->obj->geo))->center[0]);
-	n_exit[1] = r_inv * (-p_exit[1] + ((t_sphere *)(shoot->obj->geo))->center[1]);
-	n_exit[2] = r_inv * (-p_exit[2] + ((t_sphere *)(shoot->obj->geo))->center[2]);
+	r_inv = 1 / shoot->obj->geo.sph.radius;
+	n_exit[0] = r_inv * (-p_exit[0] + shoot->obj->geo.sph.center[0]);
+	n_exit[1] = r_inv * (-p_exit[1] + shoot->obj->geo.sph.center[1]);
+	n_exit[2] = r_inv * (-p_exit[2] + shoot->obj->geo.sph.center[2]);
 	//
 	
 	calculate_refraction_ray(r_exit, n_exit, r_entry, 1 / shoot->obj->mat.refr_idx);
 	new_shoot->src = p_exit;
-	new_shoot->dir = r_exit;
+	cpy_vec(r_exit, new_shoot->dir);
 	new_shoot->depth = shoot->depth + 1;
 	shoot_ray(data, new_shoot);
 }

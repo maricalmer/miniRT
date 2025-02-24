@@ -16,8 +16,7 @@ SOURCES:=			$(SOURCES_DIRECTORY)/main.c \
 					$(SOURCES_DIRECTORY)/multithreading/worker.c \
 					$(SOURCES_DIRECTORY)/bvh/bvh.c \
 					$(SOURCES_DIRECTORY)/mlx-hooks/mlx.c \
-					$(SOURCES_DIRECTORY)/intersection_tests/intersect.c \
-					$(SOURCES_DIRECTORY)/intersection_tests/intersection_cylinder.c \
+					$(wildcard $(SOURCES_DIRECTORY)/intersection_tests/*.c) \
 					$(SOURCES_DIRECTORY)/render/checkerboard.c \
 					$(SOURCES_DIRECTORY)/math/find_median.c
 
@@ -33,8 +32,8 @@ LIBMLX:=			$(MLX_DIRECTORY)/libmlx.a
 
 LIB_FLAGS:=			-L$(LIBFT_DIRECTORY) -lft -L$(MLX_DIRECTORY) -lmlx_Linux -lXext -lX11 -lm
 
-CC:=				cc
-CFLAGS:=			-Wall -Wextra -g -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) #-Ofast -march=native 
+CC:=				gcc
+CFLAGS:=			-Wall -Wextra -g -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) -Ofast -march=native -flto -ffunction-sections -Wl,--gc-sections -finline-limit=2000
 
 all: $(OBJECTS_DIRECTORY) $(LIBMLX) $(LIBFT) $(NAME)
 
