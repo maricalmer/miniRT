@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:04:00 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/02/22 17:59:23 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/02/23 16:33:16 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
+int		ft_iswhitespace(char c);
 int		ft_printf(const char *format, ...);
 int		ft_printc(const char c);
 int		ft_printd(int nbr);
@@ -98,5 +99,6 @@ void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 char	*get_next_line(int fd);
+float	ft_strtof(const char *str, char **endptr);
 
 #endif

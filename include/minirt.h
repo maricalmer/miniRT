@@ -56,6 +56,7 @@
 
 typedef enum e_obj_type
 {
+	EMPTY,
 	SPHERE,
 	PLANE,
 	CYLINDER,
@@ -65,15 +66,15 @@ typedef enum e_obj_type
 
 typedef struct s_camera
 {
-	int							fov;
 	float						origin[3];
 	float						direction[3];
+	int							fov;
 }	t_camera;
 
 typedef struct s_light
 {
-	float						brightness;
 	float						origin[3];
+	float						brightness;
 	float						rgb[3]; // 0-1 value for each component
 }	t_light;
 
@@ -198,8 +199,9 @@ typedef struct s_data
 {
 	t_object					*objects;  // ==> list of pointers from the beginning ?!
 	t_object					*all_objects;  // needs to be updated
-	int							n_obj;  // needs to be updated
-	t_light						*lights;  // needs to be updated
+	size_t						n_obj;  // needs to be updated
+	t_light						*lights;  // needs to be updated (not in mandatory!!)
+	size_t						n_light;  // needs to be updated
 	t_ambient_light				ambient;  // needs to be updated
 	char						*img_buf;
 	// first shoot only
@@ -267,16 +269,16 @@ typedef struct s_intersect_result
 void		parsing(t_data *data);
 
 /*parser.c*/
-int			handle_parsing(t_scn *scn, char *filename);
+int			handle_parsing(t_data *data, t_scn *scn, char *filename);
 /*checker.c*/
 int			check_input(int ac, char **av, t_scn *scn);
 /*factories.c*/
-void		create_ambient_light(char *data);
-void		create_cam(char *data);
-void		create_light(char *data);
-void		create_sphere(char *data);
-void		create_plane(char *data);
-void		create_cylinder(char *data);
+int			create_ambient_light(t_data *data, char *specs);
+int			create_cam(t_data *data, char *specs);
+int			create_light(t_data *data, char *specs);
+int			create_sphere(t_data *data, char *specs);
+int			create_plane(t_data *data, char *specs);
+int			create_cylinder(t_data *data, char *specs);
 /*error.c*/
 void		print_error(int errno);
 
