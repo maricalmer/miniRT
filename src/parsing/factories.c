@@ -33,6 +33,7 @@ int	create_ambient_light(t_data *data, char *specs)
 			return (EXIT_FAILURE);
 		ambient.rgb[2] = ft_strtof(specs, &specs) / 255.0f;
 	}
+	printf("HERE??\n");
 	data->ambient = ambient;
 }
 
@@ -170,7 +171,7 @@ int	create_sphere(t_data *data, char *specs)
 	i = 0;
 	while (data->objects[i].type != EMPTY) // dirty check
 		i++;
-	data->objects[i] = () sphere;
+	
 }
 
 int	create_plane(t_data *data, char *specs)

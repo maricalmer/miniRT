@@ -34,7 +34,7 @@ int main(int ac, char **av)
 		return (EXIT_FAILURE);
 	render_first_image(&data, data.mlx.addr);
 	mlx_key_hook(data.mlx.win, &handle_input, &data.mlx);
-	// mlx_loop(data.mlx.mlx);
+	mlx_loop(data.mlx.mlx);
 	// free dyn alloc mem (incl. pthread_mutex_destroy)
 	return (0);
 }
