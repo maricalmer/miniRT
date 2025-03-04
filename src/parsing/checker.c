@@ -1,21 +1,35 @@
-#include <minirt.h>
+#include "minirt.h"
 
-int	is_rt(char *str);
+int	is_right_extension(char *str, char *ext);
+int	check_input_file(char *file, char *ext, int *fd);
 
 int	check_input(int ac, char **av, t_scn *scn)
 {
-	if (ac != 2)
+	if (ac != 2 && ac != 3)
 	{
 		print_error(1);
 		return (EXIT_FAILURE);
 	}
-	if (!ft_strncmp(av[1], "", 1) || !is_rt(av[1]))
+	if (ac == 2)
+		return (check_input_file(av[1], ".rt", &scn->rt_fd));
+	if (ac == 3)
+	{
+		if (check_input_file(av[1], ".rt", &scn->rt_fd) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+		return (check_input_file(av[2], ".obj", &scn->obj_fd));
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	check_input_file(char *file, char *ext, int *fd)
+{
+	if (!ft_strncmp(file, "", 1) || !is_right_extension(file, ext))
 	{
 		print_error(2);
 		return (EXIT_FAILURE);
 	}
-	scn->fd = open(av[1], O_RDONLY);
-	if (scn->fd < 0)
+	*fd = open(file, O_RDONLY);
+	if (*fd < 0)
 	{
 		print_error(3);
 		return (EXIT_FAILURE);
@@ -23,12 +37,14 @@ int	check_input(int ac, char **av, t_scn *scn)
 	return (EXIT_SUCCESS);
 }
 
-int	is_rt(char *str)
+int	is_right_extension(char *str, char *ext)
 {
-	int	len;
+	int	str_len;
+	int	ext_len;
 
-	len = ft_strlen(str);
-	if (!ft_strncmp(str + len - 3, ".rt", 3))
+	str_len = ft_strlen(str);
+	ext_len = ft_strlen(ext);
+	if (!ft_strncmp(str + str_len - ext_len, ext, ext_len))
 		return (1);
 	return (0);
 }

@@ -8,6 +8,7 @@ SOURCES:=			$(SOURCES_DIRECTORY)/main.c \
 					$(SOURCES_DIRECTORY)/parsing/dummy_parsing.c \
 					$(SOURCES_DIRECTORY)/parsing/parser.c \
 					$(SOURCES_DIRECTORY)/parsing/factories.c \
+					$(SOURCES_DIRECTORY)/parsing/factories_utils.c \
 					$(SOURCES_DIRECTORY)/parsing/checker.c \
 					$(SOURCES_DIRECTORY)/render/render.c \
 					$(SOURCES_DIRECTORY)/exit/error.c \
@@ -33,7 +34,7 @@ LIBMLX:=			$(MLX_DIRECTORY)/libmlx.a
 LIB_FLAGS:=			-L$(LIBFT_DIRECTORY) -lft -L$(MLX_DIRECTORY) -lmlx_Linux -lXext -lX11 -lm
 
 CC:=				gcc
-CFLAGS:=			-Wall -Wextra -g -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) -Ofast -march=native -flto -ffunction-sections -Wl,--gc-sections -finline-limit=2000
+CFLAGS:=			-Wall -Wextra -g -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) -march=native -flto -ffunction-sections -Wl,--gc-sections -finline-limit=2000 -pthread #-Ofast
 
 all: $(OBJECTS_DIRECTORY) $(LIBMLX) $(LIBFT) $(NAME)
 

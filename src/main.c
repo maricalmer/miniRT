@@ -22,10 +22,10 @@ int main(int ac, char **av)
 	printf("mat : %li \n", sizeof(t_material));
 	printf("object _size : %li \n", sizeof(t_object));
 	printf("aabb node _size : %li \n", sizeof(t_aabb));
-	// if (check_input(ac, av, &scn) == EXIT_FAILURE)
-	// 	return (EXIT_FAILURE);
-	// handle_parsing(&scn, av[1]);
-	parsing(&data); // argv
+	if (check_input(ac, av, &scn) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	handle_parsing(&data, &scn, ac, av);
+	//parsing(&data); // argv
 	// int i = -1;
 	// while (data.objects[++i].type)
 	// 	total_objects++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:04:00 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/02/23 16:33:16 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/02/26 23:53:58 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@
 # include <string.h>
 # include <stdarg.h>
 # include <stdint.h>
+# include <math.h>
+# include <float.h>
+# include <errno.h>
+# include <limits.h>
 
 
 typedef struct s_list
@@ -43,7 +47,6 @@ typedef struct s_file_gnl
 	int				read;
 	int				line_length;
 }					t_file_gnl;
-
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -100,5 +103,7 @@ void	ft_putnbr_fd(int n, int fd);
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 char	*get_next_line(int fd);
 float	ft_strtof(const char *str, char **endptr);
+int		ft_strtoi(const char *str, char **endptr);
+float	ft_fabs(float num);
 
 #endif

@@ -115,6 +115,9 @@ void	parsing(t_data *data)
 	data->objects[0].geo.pl.normal[0] = 0;
 	data->objects[0].geo.pl.normal[1] = 1;
 	data->objects[0].geo.pl.normal[2] = 0;
+
+
+	
 	data->objects[0].geo.pl.u[0] = 1;
 	data->objects[0].geo.pl.u[1] = 0;
 	data->objects[0].geo.pl.u[2] = 0;

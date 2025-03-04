@@ -28,7 +28,7 @@
 
 # define USLEEP_WORKER 			0
 # define USLEEP_PARENT			100 //fine tune those...
-# define N_THREAD				24
+# define N_THREAD				1
 
 # define CROSS_CLICK_EVENT 		17
 # define NO_EVENT_MASK			0
@@ -38,21 +38,6 @@
 # define BVH_DEPTH_MAX			20
 
 # define CHECKER_SIZE			0.5
-
-
-
-// extern atomic_int				num_primary_rays;
-// extern atomic_int				num_object_tests;
-// extern atomic_int				num_object_intersections;
-// extern atomic_int				num_object_intersections;
-// extern int						total_objects;
-// extern double					render_start;
-// extern double					time_primary_rays;
-// extern double					time_visibility_test;
-// extern double					time_normal_intersect;
-// extern double					time_shading;
-// extern double					time_total_render;
-
 
 typedef enum e_obj_type
 {
@@ -202,6 +187,8 @@ typedef struct s_data
 	int							n_obj;  // needs to be updated
 	t_light						*lights;  // needs to be updated
 	int							n_light;  // needs to be updated
+	int							n_obj_files;
+	char						**obj_files;
 	t_ambient_light				ambient;  // needs to be updated
 	char						*img_buf;
 	// first shoot only
@@ -217,12 +204,6 @@ typedef struct s_data
 	//mlx
 	t_mlxlib					mlx;
 }	t_data;
-
-typedef struct s_scn
-{
-	int							fd;
-	char						**elements;
-}	t_scn;
 
 typedef struct s_shoot
 {
@@ -257,10 +238,30 @@ typedef struct s_calc_ray_arg
 
 typedef struct s_intersect_result
 {
-	float	min;
-	float	max;
+	float						min;
+	float						max;
 }	t_intersect_result;
 
+typedef struct s_obj_parser
+{
+    float						**vertices;
+    float						**normals;
+	int							**faces;
+	int							n_v;
+	int							n_vn;
+    int							n_f;
+	int							idx_v;
+	int							idx_n;
+	char						*filename;
+}   t_obj_parser;
+
+typedef struct s_scn
+{
+	int							rt_fd;
+	int							obj_fd;
+	char						**elements;
+	t_obj_parser				*obj_parser;
+}	t_scn;
 
 /// FUNCTIONS
 
@@ -269,18 +270,30 @@ typedef struct s_intersect_result
 void		parsing(t_data *data);
 
 /*parser.c*/
-int		handle_parsing(t_data *data, t_scn *scn, char *filename);
+int		handle_parsing(t_data *data, t_scn *scn, int ac, char **av);
 /*checker.c*/
-int			check_input(int ac, char **av, t_scn *scn);
+int		check_input(int ac, char **av, t_scn *scn);
 /*factories.c*/
 int		create_ambient_light(t_data *data, char *specs);
 int		create_cam(t_data *data, char *specs);
 int		create_light(t_data *data, char *specs);
-int		create_sphere(t_data *data, char *specs);
-int		create_plane(t_data *data, char *specs);
-int		create_cylinder(t_data *data, char *specs);
+int		create_sphere(t_data *data, char *specs, int index);
+int		create_plane(t_data *data, char *specs, int index);
+int		create_cylinder(t_data *data, char *specs, int index);
+int		create_triangle(t_data *data, char *line, t_obj_parser *parser, int *idx);
+/*factories_utils.c*/
+int		get_ratio(char **specs, float *ratio);
+int		get_refr_idx(char **specs, float *ratio);
+int		get_rgb_normalized(char **specs, float *color);
+int		get_rgb(char **specs, int *color);
+int		get_coord(char **specs, float *value);
+int		get_vec_normalized(char **specs, float *value);
+int		get_fov_range(char **specs, int *fov);
+int		get_radius(char **specs, float *radius);
+int		get_length(char **specs, float *length);
+int		get_checkerboard_flag(char **specs, int *flag);
 /*error.c*/
-void		print_error(int errno);
+void		print_error(int errnum);
 
 
 /*render.c*/

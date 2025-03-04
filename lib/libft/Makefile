@@ -3,16 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+         #
+#    By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/21 18:33:06 by dlemaire          #+#    #+#              #
-#    Updated: 2025/02/23 16:01:10 by dlemaire         ###   ########.fr        #
+#    Updated: 2025/02/26 20:29:19 by maricalmer       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC = ft_atoi \
 			ft_bzero \
 			ft_calloc \
+			ft_fabs \
 			ft_isalnum \
 			ft_isalpha \
 			ft_isascii \
@@ -43,6 +44,7 @@ SRC = ft_atoi \
 			ft_strrchr \
 			ft_strtrim \
 			ft_strtof \
+			ft_strtoi \
 			ft_substr \
 			ft_tolower \
 			ft_toupper \

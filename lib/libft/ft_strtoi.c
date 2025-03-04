@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtof.c                                        :+:      :+:    :+:   */
+/*   ft_strtoi.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 17:45:22 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/02/26 23:13:04 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/02/27 00:04:27 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//-> strtof converts portion of string pointed to by str to float
+//-> strtoi converts portion of string pointed to by str to int
 //-> does not detect scientific notation
 //-> returns 0 if no valid conversion
 //-> returns the converted value otherwise and updates the endptr
@@ -31,55 +31,31 @@ static int	ft_parse_sign(const char **str)
 	return (sign);
 }
 
-static float	ft_parse_integer(const char **str)
+static long long	ft_parse_integer(const char **str)
 {
-	double	result;
+	long long	result;
 
-	result = 0.0;
+	result = 0;
 	while (ft_isdigit(**str))
 	{
-		result = result * 10.0 + (**str - '0');
+		result = result * 10 + (**str - '0');
 		(*str)++;
 	}
 	return (result);
 }
 
-static float	ft_parse_fraction(const char **str)
-{
-	double	fraction;
-	double	divisor;
 
-	fraction = 0.0;
-	divisor = 10.0;
-	if (**str == '.')
-	{
-		(*str)++;
-		while (ft_isdigit(**str))
-		{
-			fraction += (**str - '0') / divisor;
-			divisor *= 10.0;
-			(*str)++;
-		}
-	}
-	return (fraction);
-}
-
-static float   ft_handle_limits_and_endptr(double result, const char *str, const char *start, char **endptr)
+static int   ft_handle_limits_and_endptr(long long result, const char *str, const char *start, char **endptr)
 {
-    if (result > FLT_MAX)
+    if (result > INT_MAX)
     {
         errno = ERANGE;
-        return HUGE_VALF;
+        return (INT_MAX);
     }
-    if (result < -FLT_MAX)
+    if (result < INT_MIN)
     {
         errno = ERANGE;
-        return -HUGE_VALF;
-    }
-    if (result != 0.0 && ft_fabs(result) < FLT_MIN)
-    {
-        errno = ERANGE;
-        return 0.0f;
+        return (INT_MIN);
     }
     if (endptr)
     {
@@ -88,21 +64,19 @@ static float   ft_handle_limits_and_endptr(double result, const char *str, const
         else
             *endptr = (char *)start;
     }
-    return (float)result;
+    return (int)result;
 }
 
-float	ft_strtof(const char *str, char **endptr)
+int	ft_strtoi(const char *str, char **endptr)
 {
-	double	result;
-	int		sign;
-    const char *start;
+	long long   result;
+	int		    sign;
+    const char  *start;
 
     start = str;
     while (ft_iswhitespace(*str))
 		str++;
 	sign = ft_parse_sign(&str);
-	result = ft_parse_integer(&str) + ft_parse_fraction(&str);
-	result *= sign;
+	result = ft_parse_integer(&str) * sign;
     return (ft_handle_limits_and_endptr(result, str, start, endptr));
 }
-
