@@ -69,8 +69,8 @@ void	count_lines_from_rt(int fd, t_data *data)
 			data->n_obj++;
 		else if (line[0] == 'L')
 			data->n_light++;
-		else if (line[0] == 'o')
-			data->n_obj_files++;
+		/*else if (line[0] == 'o')
+			data->n_obj_files++;*/
 		if (line != NULL)
 			free(line);
 	}
@@ -307,11 +307,15 @@ int	create_elements_obj(t_data *data, t_scn *scn, char *filename, int *idx)
 				parse_vertex(specs, scn->obj_parser, &(scn->obj_parser->idx_v));
 		}
 		else if (specs[0] == 'f')
+		{
 			if (create_triangle(data, specs, scn->obj_parser, idx) == EXIT_FAILURE)
 				return (print_error(10), EXIT_FAILURE);
-		else if (specs[0] == 'o')
+		}
+		/*else if (specs[0] == 'o')
+		{
 			if (save_obj_filename(data, specs, scn->obj_parser, idx) == EXIT_FAILURE)
 				return (print_error(10), EXIT_FAILURE);
+		}*/
 		else
 			return (print_error(5), EXIT_FAILURE);
 		if (specs != NULL)
