@@ -1,7 +1,5 @@
 #include "minirt.h"
 
-static int	parse_vertex(char *line, t_obj_parser *parser);
-static int	parse_normal(char *line, t_obj_parser *parser);
 static void	apply_uniform_spacing(char *specs, char *start, char *end);
 
 
