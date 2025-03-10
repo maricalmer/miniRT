@@ -1,6 +1,5 @@
 #include "minirt.h"
 
-void 	calculate_img(t_data *data, int *img);
 void 	calculate_img_packet(void *arg_generic);
 void	average_hd_pixel(int hd_res[ANTIALIASING_FACT * ANTIALIASING_FACT][3]);
 // void	calculate_ray_prim_dir(t_data *data);
@@ -10,35 +9,29 @@ void 	calculate_hit_pt(float t, t_shoot *shoot);
 void 	get_normal_intersect(t_shoot *shoot);
 void 	init_data_ray(t_ray_prim *data_ray, t_data *data);
 
-void	render_first_image(t_data *data, int *img) // img + mlx + win in data (??)
+void	render_first_image(t_data *data)
 {
 	clock_t start;
+	t_bvh 	*bvh;
 	
-	start = clock();
-	data->primary_rays = malloc(sizeof(float) * HEIGHT * WIDTH * 3 * ANTIALIASING_FACT * ANTIALIASING_FACT);
-	printf("Elapsed time malloc prays: %.2f ms\n", ((double)(clock() - start)) / CLOCKS_PER_SEC * 1000);
-	start = clock();
-	// calculate_ray_prim_dir(data);   // ===> apply multithreading (x N_THREADS)
-	printf("Elapsed time P_rays: %.2f ms\n", ((double)(clock() - start)) / CLOCKS_PER_SEC * 1000);
+
 	start = clock();
 	if (BVH_ON)
 	{
-		t_aabb *root = init_bvh(data);
-		update_group(data, root); //(only BVH and Planes)
+		bvh = init_bvh(data);
+		update_group(data, bvh); //(only BVH and Planes)
 	}
+	data->cam.world_center[0] = (bvh->min_x[0] + bvh->max_x[0]) * 0.5;
+	data->cam.world_center[1] = (bvh->min_y[0] + bvh->max_y[0]) * 0.5; 
+	data->cam.world_center[2] = (bvh->min_z[0] + bvh->max_z[0]) * 0.5;
+	// data->cam.world_center[0] = 0;
+	// data->cam.world_center[1] = 0; 
+	// data->cam.world_center[2] = 0;
+	cpy_vec(data->cam.origin, data->cam.origin_backup);
+	first_rotation_matrice(data);
 	printf("Elapsed time BVH tree: %.2f ms\n", ((double)(clock() - start)) / CLOCKS_PER_SEC * 1000);
 	start = clock();
-	calculate_img(data, img);
-	calculate_img(data, img);
-	calculate_img(data, img);
-	calculate_img(data, img);
-	calculate_img(data, img);
-	calculate_img(data, img);
-	calculate_img(data, img);
-	calculate_img(data, img);
-	calculate_img(data, img);
-	calculate_img(data, img);
-
+	calculate_img(data);
 	printf("Elapsed time calc_imag: %.2f ms\n", ((double)(clock() - start)) / CLOCKS_PER_SEC * 1000);
 }
 
@@ -54,7 +47,7 @@ void	render_first_image(t_data *data, int *img) // img + mlx + win in data (??)
 // }
 
 
-void 	calculate_img(t_data *data, int *img)
+void 	calculate_img(t_data *data)
 {
 	int				i;
 	t_calc_img_arg	*arg;
@@ -84,12 +77,13 @@ void 	calculate_img(t_data *data, int *img)
 }
 
 
-void calc_p_ray(float x, float y, float res[3])
+void calc_p_ray(float x, float y, float res[3], float mat_rot[4][4])
 {
 	res[0] = x;
 	res[1] = y;
 	res[2] = -1;
 	normalize(res);
+	dot_inplace_33_13(mat_rot, res);
 }
 
 
@@ -110,6 +104,7 @@ void 	calculate_img_packet(void *arg_generic)
 
 	first_shoot.src = arg->data->cam.origin;
 	first_shoot.depth = 0;
+	first_shoot.inside = 0;
 	i = -1;
 	while (++i < WIDTH) //pixel
 	{
@@ -123,7 +118,7 @@ void 	calculate_img_packet(void *arg_generic)
 			{
 				// cpy_vec(&arg->data->primary_rays[i * 3 * ANTIALIASING_FACT * ANTIALIASING_FACT + j * 3], first_shoot.dir);
 				// TEST : recalculate the direction on the live ?!!!?...
-				calc_p_ray(x, y, first_shoot.dir);
+				calc_p_ray(x, y, first_shoot.dir, arg->data->cam.mat_rot);
 				shoot_ray(arg->data, &first_shoot);
 				x += arg->dx_hd;
 				l = -1;
@@ -290,6 +285,29 @@ void get_normal_intersect(t_shoot *shoot)
 		shoot->normal[0] = shoot->obj->geo.pl.normal[0];
 		shoot->normal[1] = shoot->obj->geo.pl.normal[1];
 		shoot->normal[2] = shoot->obj->geo.pl.normal[2];
+	}
+	else if (shoot->obj->type == TRI)
+	{
+		// do the barycentric interpolation !!!!! :)
+		int i;
+		float   px[3][3];
+		float   bary[3];
+
+		vec_substr(shoot->obj->geo.tri.v0, shoot->src, px[0]);
+		vec_substr(shoot->obj->geo.tri.v1, shoot->src, px[1]);
+		vec_substr(shoot->obj->geo.tri.v2, shoot->src, px[2]);
+		bary[0] = triple_scalar(shoot->dir, px[2], px[1]);
+		bary[1] = triple_scalar(shoot->dir, px[0], px[2]);
+		bary[2] = triple_scalar(shoot->dir, px[1], px[0]);
+		float denom = 1.0 / (bary[0] + bary[1] + bary[2]);
+		i = -1;
+		while (++i < 3)
+			bary[i] *= denom;
+		i = -1;
+		while (++i < 3)
+		shoot->normal[i] = shoot->obj->geo.tri.n0[i] * bary[0]
+						+ shoot->obj->geo.tri.n1[i] * bary[1]
+						+ shoot->obj->geo.tri.n2[i] * bary[2];
 	}
 	// else if (shoot->obj->type == CYLINDER)
 	// {

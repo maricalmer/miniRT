@@ -18,22 +18,27 @@ int main(int ac, char **av)
 	t_data 		data;
 	t_scn 		scn;
 
+	_MM_SET_FLUSH_ZERO_MODE(_MM_FLUSH_ZERO_ON);
+    _MM_SET_DENORMALS_ZERO_MODE(_MM_DENORMALS_ZERO_ON);
 	printf("triangle : %li \n", sizeof(t_triangle));
 	printf("mat : %li \n", sizeof(t_material));
 	printf("object _size : %li \n", sizeof(t_object));
-	printf("aabb node _size : %li \n", sizeof(t_aabb));
+	printf("bvh size : %li \n", sizeof(t_bvh));
+	printf("t_shoot_size : %li \n", sizeof(t_shoot));
+	printf("bvh max size : %i \n", BVH_SIZE_MAX);
+	
 	if (check_input(ac, av, &scn) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	handle_parsing(&data, &scn, ac, av);
-	//parsing(&data); // argv
+	// parsing(&data); // argv
 	// int i = -1;
 	// while (data.objects[++i].type)
 	// 	total_objects++;
 	launch_pool(&data);
 	if (init_mlx(&data.mlx) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	render_first_image(&data, data.mlx.addr);
-	mlx_key_hook(data.mlx.win, &handle_input, &data.mlx);
+	render_first_image(&data);
+	mlx_key_hook(data.mlx.win, &handle_input, &data);
 	mlx_loop(data.mlx.mlx);
 	// free dyn alloc mem (incl. pthread_mutex_destroy)
 	return (0);

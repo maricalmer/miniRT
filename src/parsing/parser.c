@@ -104,8 +104,6 @@ void	count_lines_from_obj(int fd, t_obj_parser *obj_parser)
 
 int	init_elem_rt(t_data *data)
 {
-	int	i;
-
 	data->objects = malloc(sizeof(t_object) * data->n_obj);
 	if (!data->objects)
 	{
@@ -117,12 +115,6 @@ int	init_elem_rt(t_data *data)
 	{
 		print_error(4);
 		return (EXIT_FAILURE);
-	}
-	i = 0;
-	while (i < data->n_light)
-	{
-		data->lights[i].rgb[0] = -1;
-		i++;
 	}
 	if (data->n_obj_files)
 		data->obj_files = malloc(sizeof(char *) * data->n_obj_files);

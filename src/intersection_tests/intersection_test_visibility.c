@@ -17,10 +17,12 @@ float visibility_intersection_tests(t_object *objects, t_shoot *shoot, int n_obj
 			t = intersection_test_sphere(&objects[i], shoot->dir, shoot->src);
 		else if (objects[i].type == PLANE)
 		 	t = intersection_test_plane(&objects[i], shoot->dir, shoot->src);
+		else if (objects[i].type == TRI)
+			 t = intersection_test_triangle(&objects[i], shoot->dir, shoot->src);
 		// else if (objects[i].type == CYLINDER)
 		//  	t = intersection_test_cylinder(objects[i].geo, shoot->dir, shoot->src);
 		else if (objects[i].type == BVH)
-			t = intersection_test_bvh_root(objects[i].geo.bvh, shoot);
+			t = intersection_test_bvh(objects[i].geo.bvh, 0, shoot);
 		if (t > EPSILON && t < t_min)
 		{
 			t_min = t;
@@ -49,6 +51,8 @@ float visibility_intersection_tests_leafs(t_object **objects, t_shoot *shoot, in
         //     __builtin_prefetch(&objects[i + 1], 0, 1);  // 0 = read, 1 = temporal (prefetch for later use)
 		if (objects[i]->type == SPHERE)
 			t = intersection_test_sphere(objects[i], shoot->dir, shoot->src);
+		else if (objects[i]->type == TRI)
+			t = intersection_test_triangle(objects[i], shoot->dir, shoot->src);
 		// else if (objects[i].type == CYLINDER)
 		//  	t = intersection_test_cylinder(objects[i].geo, shoot->dir, shoot->src);
 		if (t > EPSILON && t < t_min)

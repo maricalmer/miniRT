@@ -41,6 +41,7 @@ int	create_cam(t_data *data, char *specs)
 		return (EXIT_FAILURE);
 	if (get_vec_normalized(&specs, &camera.direction[2]) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	normalize(camera.direction);
 	if (get_fov_range(&specs, &camera.fov) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	data->cam = camera;
@@ -50,7 +51,7 @@ int	create_cam(t_data *data, char *specs)
 int	create_light(t_data *data, char *specs)
 {
 	t_light	light;
-    int     i;
+    static int     i;
 
 	if (get_coord(&specs, &light.origin[0]) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
@@ -67,10 +68,7 @@ int	create_light(t_data *data, char *specs)
 	if (get_rgb_normalized(&specs, &light.rgb[2]) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	// BONUS
-	i = 0;
-	while (data->lights[i].rgb[0] != -1) // dirty check
-		i++;
-	data->lights[i] = light;
+	data->lights[i++] = light;
 	return (EXIT_SUCCESS);
 }
 
@@ -194,16 +192,17 @@ int	create_cylinder(t_data *data, char *specs, int index)
 
 
 
-
-
 int create_triangle(t_data *data, char *line, t_obj_parser *parser, int *idx)
 {
     int	v[3];
 	int	vn[3];
+	int dummy[3];
 	int	i;
 
     if (sscanf(line, "f %d//%d %d//%d %d//%d",
            &v[0], &vn[0], &v[1], &vn[1], &v[2], &vn[2]) != 6)
+    // if (sscanf(line, "f %d/%d/%d %d/%d/%d %d/%d/%d",
+	// 	&v[0], &dummy[0], &vn[0], &v[1], &dummy[1], &vn[1], &v[2], &dummy[2], &vn[2]) != 9)
 		return (EXIT_FAILURE);
     i = 0;
 	while (i < 3)
@@ -219,16 +218,21 @@ int create_triangle(t_data *data, char *line, t_obj_parser *parser, int *idx)
 		data->objects[*idx].geo.tri.v1[i] = parser->vertices[v[1]][i];
 		data->objects[*idx].geo.tri.v2[i] = parser->vertices[v[2]][i];
 
-		data->objects[*idx].geo.tri.n0[i] = parser->vertices[vn[0]][i];
-		data->objects[*idx].geo.tri.n1[i] = parser->vertices[vn[1]][i];
-		data->objects[*idx].geo.tri.n2[i] = parser->vertices[vn[2]][i];
+		data->objects[*idx].geo.tri.n0[i] = parser->normals[vn[0]][i];
+		data->objects[*idx].geo.tri.n1[i] = parser->normals[vn[1]][i];
+		data->objects[*idx].geo.tri.n2[i] = parser->normals[vn[2]][i];
 		i++;
 	}
-	data->objects[*idx].type = CYLINDER;
+	normalize(data->objects[*idx].geo.tri.n0);
+	normalize(data->objects[*idx].geo.tri.n1);
+	normalize(data->objects[*idx].geo.tri.n2);
+	
+	data->objects[*idx].type = TRI;
     data->objects[*idx].mat.checker_flag = 0;
 	data->objects[*idx].mat.refl_coeff = 0;
-	data->objects[*idx].mat.refr_coeff = 0;
-	data->objects[*idx].mat.refr_idx = 0;
+	data->objects[*idx].mat.refr_coeff = 0.95;
+	data->objects[*idx].mat.refr_idx = 1.5;
+	data->objects[*idx].mat.rgb[0] = 200;
 	data->objects[*idx].mat.rgb[1] = 200;
 	data->objects[*idx].mat.rgb[2] = 200;
 	(*idx)++;

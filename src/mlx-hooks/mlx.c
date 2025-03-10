@@ -13,12 +13,28 @@ void	free_map(t_mlxlib *vars)
 	}
 }
 
-int	handle_input(int keysym, t_mlxlib *vars)
+int	handle_input(int keysym, t_data *data)
 {
 	if (keysym == 'q')
-		handle_close(vars);
-	if (keysym == XK_Escape)
-		handle_close(vars);
+		handle_close(&data->mlx);
+	else if (keysym == XK_Escape)
+		handle_close(&data->mlx);
+	else if (keysym == 'a')
+		translate_cam(data, data->cam.x, -10);
+	else if (keysym == 'd')
+		translate_cam(data, data->cam.x, 10);
+	else if (keysym == 'w')
+		translate_cam(data, data->cam.y, -10);
+	else if (keysym == 's')
+		translate_cam(data, data->cam.y, 10);
+	else if (keysym == 'j') // around y
+		rotate_cam(data, 15 * M_PI / 180, 'y');
+	else if (keysym == 'l') // around y
+		rotate_cam(data, -15 * M_PI / 180, 'y');
+	else if (keysym == 'i') // around y
+		rotate_cam(data, 15 * M_PI / 180, 'x');
+	else if (keysym == 'k') // around y
+		rotate_cam(data, -15 * M_PI / 180, 'x');
 	return (0);
 }
 

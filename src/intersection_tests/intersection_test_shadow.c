@@ -16,10 +16,12 @@ float shadow_intersection_tests(t_shoot *shoot, t_object *objects, float shadow_
 			t = intersection_test_sphere(&objects[i], shadow_ray, shoot->hit_pt);
 		else if (objects[i].type == PLANE)
 		 	t = intersection_test_plane(&objects[i], shadow_ray, shoot->hit_pt);
+		else if (objects[i].type == TRI)
+		 	t = intersection_test_triangle(&objects[i], shadow_ray, shoot->hit_pt);
 		// else if (objects[i].type == CYLINDER)
 		//  	t = intersection_test_cylinder(objects[i].geo, shadow_ray, shoot->hit_pt);
 		else if (objects[i].type == BVH)
-			t = shadow_test_bvh_root(shoot, objects[i].geo.bvh, shadow_ray, dist_light);
+			t = shadow_test_bvh(shoot, objects[i].geo.bvh, 0, shadow_ray, dist_light);
 		if (t > EPSILON && dist_light > t)
 			return (t);
 		i++;
@@ -40,6 +42,8 @@ float shadow_intersection_tests_leaf(t_shoot *shoot, t_object **objects, float s
         //     __builtin_prefetch(&objects[i + 1], 0, 1);  // 0 = read, 1 = temporal (prefetch for later use)
         if (objects[i]->type == SPHERE)
 			t = intersection_test_sphere(objects[i], shadow_ray, shoot->hit_pt);
+		else if (objects[i]->type == TRI)
+			t = intersection_test_triangle(objects[i], shadow_ray, shoot->hit_pt);
 		// else if (objects[i].type == CYLINDER)
 		//  	t = intersection_test_cylinder(objects[i].geo, shadow_ray, shoot->hit_pt);
 		if (t > EPSILON && dist_light > t)

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+         #
+#    By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/21 18:33:06 by dlemaire          #+#    #+#              #
-#    Updated: 2025/02/26 20:29:19 by maricalmer       ###   ########.fr        #
+#    Updated: 2025/03/04 20:11:59 by hruiz-fr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 

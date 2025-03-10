@@ -1,45 +1,120 @@
 #include "minirt.h"
 
-// static t_intersect_result	intersection_test_aabb(t_aabb *aabb, float dir[3], float src[3]);
+void aabb_test(t_bvh *bvh, int idx, float dir[3], float src[3], char res[9][5]);
+void aabb_test_shadow(t_bvh *bvh, int idx, float dir[3], float src[3], char res[9]);
 
-float	intersection_test_bvh_root(t_aabb *node, t_shoot *shoot)
+
+float	intersection_test_bvh(t_bvh *bvh, int idx, t_shoot *shoot)
 {
-	t_intersect_result	t;
+	char 	aabb_res[9][5];
+	int		i;
+	float	t;
 
-	t = intersection_test_aabb(node, shoot->dir, shoot->src);
-	if (t.min == -1)
-		return (0);
-	return (intersection_test_bvh(node, shoot));
+	if (bvh->childs[idx] == -1)
+		return (visibility_intersection_tests_leafs(bvh->group[idx], shoot, bvh->group_size[idx]));
+	aabb_test(bvh, bvh->childs[idx], shoot->dir, shoot->src, aabb_res);
+	i = 0;
+	while (aabb_res[i][0] != -1)
+	{
+		t_object *obj = NULL;
+		float t_min = FLT_MAX;
+		int j = 0;
+		while (aabb_res[i][j] != -1)
+		{
+			t = intersection_test_bvh(bvh, bvh->childs[idx] + aabb_res[i][j], shoot);
+			j++;
+			if (t > 0 && t < t_min)
+			{
+				t_min = t;
+				obj = shoot->obj;
+			}
+		}
+		if (t_min != FLT_MAX) // necessary ??? 
+		{
+			shoot->obj = obj;
+			return (t_min);
+		}
+		i++;
+	}
+	return (0);
 }
 
-float	intersection_test_bvh(t_aabb *node, t_shoot *shoot)
+float	shadow_test_bvh(t_shoot *shoot, t_bvh *bvh, int idx, float shadow_ray[3], float dist_light)
+{
+	char 	aabb_res[9];
+	// char 	aabb_res[9][5];
+	int		i;
+	float	t;
+
+	if (bvh->childs[idx] == -1)
+		return (shadow_intersection_tests_leaf(shoot, bvh->group[idx], shadow_ray, dist_light, bvh->group_size[idx]));
+	aabb_test_shadow(bvh, bvh->childs[idx], shadow_ray, shoot->hit_pt, aabb_res);
+	i = -1;
+	while (aabb_res[++i] != -1)
+	{
+		t = shadow_test_bvh(shoot, bvh, bvh->childs[idx] + aabb_res[i], shadow_ray, dist_light);
+		if (t > 0)
+			return (t);
+	}
+	return (0);
+	// aabb_test(bvh, bvh->childs[idx], shoot->dir, shoot->src, aabb_res);
+	// i = 0;
+	// while (aabb_res[i][0] != -1)
+	// {
+	// 	int j = 0;
+	// 	while (aabb_res[i][j] != -1)
+	// 	{
+	// 		t = shadow_test_bvh(shoot, bvh, bvh->childs[idx] + aabb_res[i][j], shadow_ray, dist_light);
+	// 		if (t > 0)
+	// 			return (t);
+	// 		j++;
+	// 	}
+	// 	i++;
+	// }
+	// return (0);
+}
+	
+/*
+float	intersection_test_bvh_root(t_bvh *bvh, t_shoot *shoot)
+{
+	// t_intersect_result	t;
+
+	// t = intersection_test_aabb(bvh, 0, shoot->dir, shoot->src);
+	// if (t.min == -1)
+	// 	return (0);
+	return (intersection_test_bvh(bvh, 8, shoot));
+}
+
+float	intersection_test_bvh(t_bvh *bvh, int idx, t_shoot *shoot)
 {
 	float				t;
 	t_intersect_result	t_left;
 	t_intersect_result	t_right;
+	int					idx_left = bvh->childs[idx];
+	int					idx_right = idx_left + 1;
 
-	if (!node->childs)
-		return (visibility_intersection_tests_leafs(node->group, shoot, node->group_size));
-	t_left 	= intersection_test_aabb(&node->childs[0], shoot->dir, shoot->src);
-	t_right = intersection_test_aabb(&node->childs[1], shoot->dir, shoot->src);
+	if (idx_left == -1)
+		return (visibility_intersection_tests_leafs(bvh->group[idx], shoot, bvh->group_size[idx]));
+	t_left 	= intersection_test_aabb(bvh, idx_left, shoot->dir, shoot->src);
+	t_right = intersection_test_aabb(bvh, idx_right, shoot->dir, shoot->src);
 	if (t_left.min == -1 && t_right.min == -1)
 		return (0);
 	else if (t_right.min == -1)
-		return (intersection_test_bvh(&node->childs[0], shoot));
+		return (intersection_test_bvh(bvh, idx_left, shoot));
 	else if (t_left.min == -1)
-		return (intersection_test_bvh(&node->childs[1], shoot));
+		return (intersection_test_bvh(bvh, idx_right, shoot));
 	else if (t_left.min < t_right.min)
 	{
-		t = intersection_test_bvh(&node->childs[0], shoot);
+		t = intersection_test_bvh(bvh, idx_left, shoot);
 		if (t > 0)
 			return (t);
-		return (intersection_test_bvh(&node->childs[1], shoot));
+		return (intersection_test_bvh(bvh, idx_right, shoot));
 	}
 	//else if (t_left.min != -1 && t_right.min != -1 && t_left.min >= t_right.min)
-	t = intersection_test_bvh(&node->childs[1], shoot);
+	t = intersection_test_bvh(bvh, idx_right, shoot);
 	if (t > 0)
 		return (t);
-	return (intersection_test_bvh(&node->childs[0], shoot));
+	return (intersection_test_bvh(bvh, idx_left, shoot));
 }
 
 
@@ -47,46 +122,49 @@ float	intersection_test_bvh(t_aabb *node, t_shoot *shoot)
 
 /// SHADOW AABB ////
 
-float	shadow_test_bvh_root(t_shoot *shoot, t_aabb *node, float shadow_ray[3], float dist_light)
+float	shadow_test_bvh_root(t_shoot *shoot, t_bvh *bvh, float shadow_ray[3], float dist_light)
 {
-	t_intersect_result	t;
+	// t_intersect_result	t;
 
-	t = intersection_test_aabb(node, shadow_ray, shoot->hit_pt);
-	if (t.min == -1)
-		return (0);
-	return (shadow_test_bvh(shoot, node, shadow_ray, dist_light));
+	// t = intersection_test_aabb(bvh, 0, shadow_ray, shoot->hit_pt);
+	// if (t.min == -1)
+	// 	return (0);
+	return (shadow_test_bvh(shoot, bvh, 8, shadow_ray, dist_light));
 }
 
 
-float	shadow_test_bvh(t_shoot *shoot, t_aabb *node, float shadow_ray[3], float dist_light)
+float	shadow_test_bvh(t_shoot *shoot, t_bvh *bvh, int idx, float shadow_ray[3], float dist_light)
 {
 	float				t;
 	t_intersect_result	t_left;
 	t_intersect_result	t_right;
+	int					idx_left = bvh->childs[idx];
+	int					idx_right = idx_left + 1;
 
-	if (!node->childs)
-		return (shadow_intersection_tests_leaf(shoot, node->group, shadow_ray, dist_light, node->group_size));
-	t_left 	= intersection_test_aabb(&node->childs[0], shadow_ray, shoot->hit_pt);
-	t_right = intersection_test_aabb(&node->childs[1], shadow_ray, shoot->hit_pt);
+	if (idx_left == -1)
+		return (shadow_intersection_tests_leaf(shoot, bvh->group[idx], shadow_ray, dist_light, bvh->group_size[idx]));
+	t_left 	= intersection_test_aabb(bvh, idx_left, shadow_ray, shoot->hit_pt);
+	t_right = intersection_test_aabb(bvh, idx_right, shadow_ray, shoot->hit_pt);
 	if (t_right.min == -1 && t_left.min == -1)
 		return (0);
 	if (t_right.min == -1)
-		return (shadow_test_bvh(shoot, &node->childs[0], shadow_ray, dist_light));
+		return (shadow_test_bvh(shoot, bvh, idx_left, shadow_ray, dist_light));
 	if (t_left.min == -1)
-		return (shadow_test_bvh(shoot, &node->childs[1], shadow_ray, dist_light));
+		return (shadow_test_bvh(shoot, bvh, idx_right, shadow_ray, dist_light));
 	if (t_left.max - t_left.min > t_right.max - t_right.min)
 	// if (t_left.min > t_right.min) // changer cette logique pour "box ou le ray parcouru est le plus long!..."
 	{
-		t = shadow_test_bvh(shoot, &node->childs[0], shadow_ray, dist_light);
+		t = shadow_test_bvh(shoot, bvh, idx_left, shadow_ray, dist_light);
 		if (t != 0)
 			return (t);
-		return (shadow_test_bvh(shoot, &node->childs[1], shadow_ray, dist_light));
+		return (shadow_test_bvh(shoot, bvh, idx_right, shadow_ray, dist_light));
 	}
-	t = shadow_test_bvh(shoot, &node->childs[1], shadow_ray, dist_light);
+	t = shadow_test_bvh(shoot, bvh, idx_right, shadow_ray, dist_light);
 	if (t != 0)
 		return (t);
-	return (shadow_test_bvh(shoot, &node->childs[0], shadow_ray, dist_light));
+	return (shadow_test_bvh(shoot, bvh, idx_left, shadow_ray, dist_light));
 }
+*/
 
 
 

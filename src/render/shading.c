@@ -4,7 +4,9 @@ void	add_phong_diffuse(t_shoot *shoot, t_light light, float theta_LN, unsigned c
 void	add_phong_specular(float shadow_ray[3], t_shoot *shoot, t_light light, float theta_LN, unsigned char rgb[3]);
 void	add_whitted(t_shoot *shoot, t_data	*data);
 void	shoot_refraction_ray(t_shoot *shoot, t_shoot *new_shoot, t_data *data);
+void	shoot_reflection_ray(t_shoot *shoot, t_shoot *new_shoot, t_data *data);
 void	calculate_refraction_ray(float p[3], float n[3], float v[3], float r_idx);
+float 	get_fresnel(t_shoot *shoot);
 
 void	sky_color(t_shoot *shoot)
 {		
@@ -43,12 +45,13 @@ void	shading(t_shoot *shoot, t_data *data)
 	}
 	add_phong_ambient(shoot, data, rgb);
 	i = -1;
-	while (data->lights[++i].brightness >= 0)
+	while (++i < data->n_light)
 	{
 		vec_substr(data->lights[i].origin, shoot->hit_pt, shadow_ray);
 		normalize2(shadow_ray, &dist_light);
 		theta_LN = dot_13_13(shoot->normal, shadow_ray);
-		if (theta_LN > EPSILON && shadow_intersection_tests(shoot, data->objects, shadow_ray, dist_light, data->n_obj) == 0)
+
+		if (theta_LN > EPSILON && shadow_intersection_tests(shoot, data->objects, shadow_ray, dist_light, data->n_obj) < EPSILON)
 		{
 			add_phong_diffuse(shoot, data->lights[i], theta_LN, rgb);
 			add_phong_specular(shadow_ray, shoot, data->lights[i], theta_LN, rgb);
@@ -58,68 +61,106 @@ void	shading(t_shoot *shoot, t_data *data)
 }
 void	add_whitted(t_shoot *shoot, t_data	*data)
 {
-	float			bouncing_ray[3];
-	float			theta_LN;
 	t_shoot			new_shoot_1;
 	t_shoot			new_shoot_2;
 	int				i;
+	float			r;
+	float			t;
 
-	if (shoot->depth < DEPTH_MAX && (shoot->obj->mat.refr_coeff > EPSILON || shoot->obj->mat.refl_coeff > EPSILON))
+	if (shoot->depth >= DEPTH_MAX || (shoot->obj->mat.refr_coeff < EPSILON && shoot->obj->mat.refl_coeff < EPSILON))
+		return ;
+	else if (shoot->obj->mat.refr_coeff >= EPSILON)
 	{
-		//ft_memset(&new_shoot_1, 0, sizeof(t_shoot));
-		//ft_memset(&new_shoot_2, 0, sizeof(t_shoot));
-		// reflection :
-		if (shoot->obj->mat.refl_coeff > EPSILON )
-		{
-			theta_LN = dot_13_13(shoot->normal, shoot->dir);
-			bouncing_ray[0] = + shoot->dir[0] - 2 * theta_LN * shoot->normal[0];
-			bouncing_ray[1] = + shoot->dir[1] - 2 * theta_LN * shoot->normal[1];
-			bouncing_ray[2] = + shoot->dir[2] - 2 * theta_LN * shoot->normal[2];
-			normalize(bouncing_ray);
-			new_shoot_1.src = shoot->hit_pt;
-			cpy_vec(bouncing_ray, new_shoot_1.dir);
-			new_shoot_1.depth = shoot->depth + 1;
-			shoot_ray(data, &new_shoot_1);
-		}
-		// refraction
-		if (shoot->obj->mat.refr_coeff > EPSILON )
+		r = get_fresnel(shoot);
+		r = 0;
+		t = 1 - r;
+		shoot_reflection_ray(shoot, &new_shoot_1, data);
+		if (t > 0)
 			shoot_refraction_ray(shoot, &new_shoot_2, data);
-
-		// add all values together;
+		else
+			ft_memset(new_shoot_2.res_rgb, 0, sizeof(new_shoot_2.res_rgb));
 		i = -1;
 		while (++i < 3)
-			shoot->res_rgb[i] = (1 - shoot->obj->mat.refl_coeff - shoot->obj->mat.refr_coeff) * shoot->res_rgb[i]
-								+ shoot->obj->mat.refl_coeff * new_shoot_1.res_rgb[i]
-								+ shoot->obj->mat.refr_coeff * new_shoot_2.res_rgb[i];
+			shoot->res_rgb[i] = (1 - shoot->obj->mat.refr_coeff) * shoot->res_rgb[i]
+								+ shoot->obj->mat.refr_coeff * r * new_shoot_1.res_rgb[i]
+								+ shoot->obj->mat.refr_coeff * t * new_shoot_2.res_rgb[i];
+	}
+	else
+	{
+		shoot_reflection_ray(shoot, &new_shoot_1, data);
+		i = -1;
+		while (++i < 3)
+			shoot->res_rgb[i] = (1 - shoot->obj->mat.refl_coeff) * shoot->res_rgb[i]
+								+ shoot->obj->mat.refl_coeff * new_shoot_1.res_rgb[i];
 	}
 }
+
+float get_fresnel(t_shoot *shoot)
+{
+	float	n;
+	float	n1;
+	float	n2;
+	float	cos_theta_i;
+	float	cos_theta_t;
+	float 	r_per;
+	float	r_par;
+
+	if (shoot->inside)
+	{
+		n1 = shoot->obj->mat.refr_idx;
+		n2 = 1;
+	}
+	else
+	{
+		n2 = shoot->obj->mat.refr_idx;
+		n1 = 1;
+	}
+	cos_theta_i = + dot_13_13(shoot->dir, shoot->normal);
+	n = n1 / n2;
+	cos_theta_t = - n * n * ( 1 - cos_theta_i * cos_theta_i);
+	if (cos_theta_t < 0)
+		return 1;
+	cos_theta_t = sqrtf(cos_theta_t);
+	r_per = (n1 * cos_theta_i - n2 * cos_theta_t) / (n1 * cos_theta_i + n2 * cos_theta_t);
+	r_per = r_per * r_per;
+	r_par = (n2 * cos_theta_i - n1 * cos_theta_t) / (n2 * cos_theta_i + n1 * cos_theta_t);
+	r_par = r_par * r_par;
+	return ((r_per + r_par) / 2);
+}
+
+void	shoot_reflection_ray(t_shoot *shoot, t_shoot *new_shoot, t_data *data)
+{
+	float			theta_LN;
+	float			bouncing_ray[3];
+
+	theta_LN = dot_13_13(shoot->normal, shoot->dir);
+	bouncing_ray[0] = + shoot->dir[0] - 2 * theta_LN * shoot->normal[0];
+	bouncing_ray[1] = + shoot->dir[1] - 2 * theta_LN * shoot->normal[1];
+	bouncing_ray[2] = + shoot->dir[2] - 2 * theta_LN * shoot->normal[2];
+	normalize(bouncing_ray);
+	new_shoot->src = shoot->hit_pt;
+	cpy_vec(bouncing_ray, new_shoot->dir);
+	new_shoot->depth = shoot->depth + 1;
+	shoot_ray(data, new_shoot);
+}
+
 
 void	shoot_refraction_ray(t_shoot *shoot, t_shoot *new_shoot, t_data *data)
 {
 	float	r_entry[3];
-	float	n_exit[3];
-	float	t;
-	int		i;
-	float	r_inv;
-	float	p_exit[3];
-	float	r_exit[3];
 
-
-	calculate_refraction_ray(r_entry, shoot->normal, shoot->dir, shoot->obj->mat.refr_idx);
-	t =  intersection_test_sphere2(shoot->obj, r_entry, shoot->hit_pt);
-	i = -1;
-	while (++i < 3)
-		p_exit[i] = shoot->hit_pt[i] + t * r_entry[i];
-	//get_exit_normal(&n_exit, shoot->obj->geo, new_shoot->src);
-	r_inv = 1 / shoot->obj->geo.sph.radius;
-	n_exit[0] = r_inv * (-p_exit[0] + shoot->obj->geo.sph.center[0]);
-	n_exit[1] = r_inv * (-p_exit[1] + shoot->obj->geo.sph.center[1]);
-	n_exit[2] = r_inv * (-p_exit[2] + shoot->obj->geo.sph.center[2]);
-	//
-	
-	calculate_refraction_ray(r_exit, n_exit, r_entry, 1 / shoot->obj->mat.refr_idx);
-	new_shoot->src = p_exit;
-	cpy_vec(r_exit, new_shoot->dir);
+	if (shoot->inside)
+	{
+		new_shoot->inside = 0;
+		calculate_refraction_ray(r_entry, shoot->normal, shoot->dir, 1 / shoot->obj->mat.refr_idx);
+	}
+	else
+	{
+		new_shoot->inside = 1;
+		calculate_refraction_ray(r_entry, shoot->normal, shoot->dir, shoot->obj->mat.refr_idx);
+	}
+	new_shoot->src = shoot->hit_pt;
+	cpy_vec(r_entry, new_shoot->dir);
 	new_shoot->depth = shoot->depth + 1;
 	shoot_ray(data, new_shoot);
 }

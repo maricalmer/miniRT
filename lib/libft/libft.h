@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:04:00 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/02/26 23:53:58 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/03/04 20:27:33 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define LIBFT_H
 
 # define BUFFER_SIZE 56
-# define NB_FILES_MAX 128
+# define NB_FILES_MAX 1024
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -105,5 +105,6 @@ char	*get_next_line(int fd);
 float	ft_strtof(const char *str, char **endptr);
 int		ft_strtoi(const char *str, char **endptr);
 float	ft_fabs(float num);
+
 
 #endif
