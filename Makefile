@@ -15,7 +15,7 @@ SOURCES:=			$(SOURCES_DIRECTORY)/main.c \
 					$(SOURCES_DIRECTORY)/parsing/obj_file.c \
 					$(SOURCES_DIRECTORY)/parsing/rt_file.c \
 					$(SOURCES_DIRECTORY)/parsing/counter.c \
-					$(SOURCES_DIRECTORY)/parsing/dummy_parsing.c \ # to delete
+					$(SOURCES_DIRECTORY)/parsing/dummy_parsing.c \
 					$(SOURCES_DIRECTORY)/render/render.c \
 					$(SOURCES_DIRECTORY)/exit/error.c \
 					$(SOURCES_DIRECTORY)/math/math.c \
