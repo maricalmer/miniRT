@@ -40,19 +40,10 @@
 
 # define CHECKER_SIZE			250
 
-
-
-// extern atomic_int				num_primary_rays;
-// extern atomic_int				num_object_tests;
-// extern atomic_int				num_object_intersections;
-// extern atomic_int				num_object_intersections;
-// extern int						total_objects;
-// extern double					render_start;
-// extern double					time_primary_rays;
-// extern double					time_visibility_test;
-// extern double					time_normal_intersect;
-// extern double					time_shading;
-// extern double					time_total_render;
+# define RED_BG_START	"\033[41;1;37m"
+# define RED_BG_END	"\033[0m\n"
+# define RED_TXT_START	"\033[1;31m"
+# define RED_TXT_END	"\033[0m\n"
 
 
 typedef enum e_obj_type
@@ -116,7 +107,6 @@ typedef struct s_triangle
 	float						n0[3];
 	float						n1[3];
 	float						n2[3];
-	int							mesh_id;
 }	t_triangle;
 
 typedef struct s_triangle2
@@ -210,6 +200,7 @@ typedef	struct s_bbox  // used for creating the bvh.
 typedef struct s_data
 {
 	t_object					*objects;  // ==> list of pointers from the beginning ?!
+	int							objects_idx;	
 	t_object					*all_objects;  // needs to be updated
 	int							n_obj;  // needs to be updated
 	t_light						*lights;  // needs to be updated
@@ -232,7 +223,10 @@ typedef struct s_data
 	//mlx
 	t_mlxlib					mlx;
 	//bvh_creation
-		t_obj_geo					*bvh_geo_data;
+	t_obj_geo					*bvh_geo_data;
+	//parsing
+	int							rt_fd;
+	int							obj_fd;
 }	t_data;
 
 typedef struct s_shoot
@@ -269,24 +263,24 @@ typedef struct s_calc_ray_arg
 
 typedef struct s_intersect_result
 {
-	float	min;
-	float	max;
+	float						min;
+	float						max;
 }	t_intersect_result;
 
 
 typedef struct s_bvh
 {
-	float		min_x[BVH_SIZE_MAX];
-	float		min_y[BVH_SIZE_MAX];
-	float		min_z[BVH_SIZE_MAX];
-	float		max_x[BVH_SIZE_MAX];
-	float		max_y[BVH_SIZE_MAX];
-	float		max_z[BVH_SIZE_MAX];
-	int			childs[BVH_SIZE_MAX]; //index of the first child
-	t_object	**group[BVH_SIZE_MAX];
-	int			group_size[BVH_SIZE_MAX];
-	int			depth[BVH_SIZE_MAX];
-	t_obj_geo	**obj_geo[BVH_SIZE_MAX];
+	float						min_x[BVH_SIZE_MAX];
+	float						min_y[BVH_SIZE_MAX];
+	float						min_z[BVH_SIZE_MAX];
+	float						max_x[BVH_SIZE_MAX];
+	float						max_y[BVH_SIZE_MAX];
+	float						max_z[BVH_SIZE_MAX];
+	int							childs[BVH_SIZE_MAX]; //index of the first child
+	t_object					**group[BVH_SIZE_MAX];
+	int							group_size[BVH_SIZE_MAX];
+	int							depth[BVH_SIZE_MAX];
+	t_obj_geo					**obj_geo[BVH_SIZE_MAX];
 }	t_bvh;
 
 
@@ -303,119 +297,134 @@ typedef struct s_obj_parser
 	char						*filename;
 }   t_obj_parser;
 
-typedef struct s_scn
-{
-	int							rt_fd;
-	int							obj_fd;
-	char						**elements;
-	t_obj_parser				*obj_parser;
-}	t_scn;
-
 
 /// FUNCTIONS
-
-
-/*dummy_parsing.c*/
-void		parsing(t_data *data);
-
-/*parser.c*/
-int		handle_parsing(t_data *data, t_scn *scn, int ac, char **av);
 /*checker.c*/
-int		check_input(int ac, char **av, t_scn *scn);
+int								check_input(int ac, char **av, t_data *data);
+/*identifiers.c*/
+int								is_object_file(char *specs);
+int								is_light(char *specs);
+int								is_cam(char *specs);
+int								is_ambient(char *specs);
+int								is_plane(char *specs);
+/*identifiers_2.c*/
+int								is_sphere(char *specs);
+int								is_cylinder(char *specs);
+int								increase_if_uniq(int *value);
+int								is_face(char *specs);
+int								is_smoothing(char *specs);
+/*init.c*/
+void							init_parsers(t_obj_parser *parsers, int n_parsers);
+int								init_elem_rt(t_data *data);
+int								init_elem_obj(t_obj_parser *parser);
+/*counter.c*/
+int								read_and_count_data_in_rt(t_data *data);
+int								read_and_count_data_in_obj(t_data *data, t_obj_parser *parser);
+/*obj_file*/
+int								parse_obj_files(t_data *data, char *filename);
+int								read_obj_file(t_data *data, t_obj_parser *parser);
+/*rt_file*/
+int								create_elements_rt(t_data *data, char *filename);
+/*parser.c*/
+int								handle_parsing(char **av, t_data *data);
+char							*format_string(char *str, int len);
 /*factories.c*/
-int		create_ambient_light(t_data *data, char *specs);
-int		create_cam(t_data *data, char *specs);
-int		create_light(t_data *data, char *specs);
-int		create_sphere(t_data *data, char *specs, int index);
-int		create_plane(t_data *data, char *specs, int index);
-int		create_cylinder(t_data *data, char *specs, int index);
-int		create_triangle(t_data *data, char *line, t_obj_parser *parser, int *idx);
+int								create_ambient_light(t_data *data, char *specs);
+int								create_cam(t_data *data, char *specs);
+int								create_light(t_data *data, char *specs);
+int								create_sphere(t_data *data, char *specs);
+int								create_plane(t_data *data, char *specs);
+int								create_cylinder(t_data *data, char *specs);
+int								create_triangle(t_data *data, char *line, t_obj_parser *parser);
 /*factories_utils.c*/
-int		get_ratio(char **specs, float *ratio);
-int		get_refr_idx(char **specs, float *ratio);
-int		get_rgb_normalized(char **specs, float *color);
-unsigned char	get_rgb(char **specs, unsigned char *color);
-int		get_coord(char **specs, float *value);
-int		get_vec_normalized(char **specs, float *value);
-int		get_fov_range(char **specs, int *fov);
-int		get_radius(char **specs, float *radius);
-int		get_length(char **specs, float *length);
-int		get_checkerboard_flag(char **specs, int *flag);
+int								get_ratio(char **specs, float *ratio);
+int								get_refr_idx(char **specs, float *ratio);
+int								get_rgb_normalized(char **specs, float *color);
+unsigned char					get_rgb(char **specs, unsigned char *color);
+int								get_coord(char **specs, float *value);
+int								get_vec_normalized(char **specs, float *value);
+int								get_fov_range(char **specs, int *fov);
+int								get_radius(char **specs, float *radius);
+int								get_length(char **specs, float *length);
+int								get_checkerboard_flag(char **specs, int *flag);
 /*error.c*/
-void		print_error(int errnum);
+void							print_error(int errnum);
+
+/*dummy_parsing.c --- TO DELETE */
+void							parsing(t_data *data);
 
 
 /*render.c*/
-void		render_first_image(t_data *data);
-void		shoot_ray(t_data *data, t_shoot *shoot);
-void 		first_rotation_matrice(t_data *data);
-void 		calculate_img(t_data *data);
+void							render_first_image(t_data *data);
+void							shoot_ray(t_data *data, t_shoot *shoot);
+void 							first_rotation_matrice(t_data *data);
+void 							calculate_img(t_data *data);
 // void 		move_cam_origin(float cam_origin_backup[3], float R[3][3], float center[3], float cam_origin[3]);
 
 /*checkerboard.c*/
-int	check_checkerboard_grid(t_shoot *shoot);
+int								check_checkerboard_grid(t_shoot *shoot);
 
 /*phong.c*/
-void		shading(t_shoot *shoot, t_data *data);
+void							shading(t_shoot *shoot, t_data *data);
 
 /* bvh.c */
-t_bvh   *init_bvh(t_data *data);
-void	get_bbox_min_max(t_bvh *bvh, int idx);
-void	update_group(t_data *data, t_bvh *bvh);
+t_bvh   						*init_bvh(t_data *data);
+void							get_bbox_min_max(t_bvh *bvh, int idx);
+void							update_group(t_data *data, t_bvh *bvh);
 
 /* tests*/
-float	intersection_test_bvh(t_bvh *bvh, int idx, t_shoot *shoot);
-float	shadow_test_bvh(t_shoot *shoot, t_bvh *bvh, int idx, float shadow_ray[3], float dist_light);
-t_intersect_result	intersection_test_aabb(t_bvh *bvh, int idx, float dir[3], float src[3]);
+float							intersection_test_bvh(t_bvh *bvh, int idx, t_shoot *shoot);
+float							shadow_test_bvh(t_shoot *shoot, t_bvh *bvh, int idx, float shadow_ray[3], float dist_light);
+float							visibility_intersection_tests(t_object *objects, t_shoot *shoot, int n_obj);
+float 							visibility_intersection_tests_leafs(t_object **objects, t_shoot *shoot, int n_obj);
+float							shadow_intersection_tests(t_shoot *shoot, t_object *objects, float shadow_ray[3], float dist_light, int n_obj);
+float 							shadow_intersection_tests_leaf(t_shoot *shoot, t_object **objects, float shadow_ray[3], float dist_light, int n_obj);
+float							intersection_test_sphere(t_object *obj, float ray[3], float origin[3]);
+float							intersection_test_sphere2(t_object *obj, float ray[3], float origin[3]);
+float							intersection_test_cylinder(t_cylinder *cylinder, float ray[3], float origin[3]);
+float							intersection_test_plane(t_object *obj, float p_ray[3], float origin[3]);
+float							intersection_test_triangle(t_object *obj, float ray[3], float origin[3]);
+//t_intersect_result				intersection_test_aabb(t_bvh *bvh, int idx, float dir[3], float src[3]);
 
-float		visibility_intersection_tests(t_object *objects, t_shoot *shoot, int n_obj);
-float 		visibility_intersection_tests_leafs(t_object **objects, t_shoot *shoot, int n_obj);
-float		shadow_intersection_tests(t_shoot *shoot, t_object *objects, float shadow_ray[3], float dist_light, int n_obj);
-float 		shadow_intersection_tests_leaf(t_shoot *shoot, t_object **objects, float shadow_ray[3], float dist_light, int n_obj);
-float		intersection_test_sphere(t_object *obj, float ray[3], float origin[3]);
-float		intersection_test_sphere2(t_object *obj, float ray[3], float origin[3]);
-float		intersection_test_cylinder(t_cylinder *cylinder, float ray[3], float origin[3]);
-float		intersection_test_plane(t_object *obj, float p_ray[3], float origin[3]);
-float		intersection_test_triangle(t_object *obj, float ray[3], float origin[3]);
 
 /*maths*/
-float		dot_13_13(float a[3], float b[3]);
-void		cprod_13_13(float a[3], float b[3], float res[3]);
-void		normalize(float vector[3]);
-void		normalize2(float vector[3], float *magnitude);
-int			imin(int a, int b);
-void		vec_substr(float p1[3], float p2[3], float result[3]);
-void		cpy_vec(float v1[3], float v2[3]);
-float 		triple_scalar(float a[3], float b[3], float c[3]);
-void		ft_swap(float *t1, float *t2);
-int			abs_int(int x);
-float 		findMedian(float arr[], int n); // change this GPT code !!!
-void 		get_rotation_matrice(float cam_dir[3], float mat_rot[4][4], float c[3]);
-void		dot_inplace_33_33(float a[3][3], float b[3][3]);
-void		dot_inplace_44_44(float a[4][4], float b[4][4]);
-void		dot_inplace_34_13(float a[3][4], float b[3]);
-void		dot_inplace_33_13(float a[3][4], float b[3]);
-void		vec_add_inplace(float p1[3], float p2[3]);
-void 		rodrigues_matrice_handler(float u[3], float theta, float c[3], float r[4][4]);
-void		dot_inplace_44_14(float a[4][4], float b[4]);
-void		scale_vec(float v[3], float amp);
+float							dot_13_13(float a[3], float b[3]);
+void							cprod_13_13(float a[3], float b[3], float res[3]);
+void							normalize(float vector[3]);
+void							normalize2(float vector[3], float *magnitude);
+int								imin(int a, int b);
+void							vec_substr(float p1[3], float p2[3], float result[3]);
+void							cpy_vec(float v1[3], float v2[3]);
+float 							triple_scalar(float a[3], float b[3], float c[3]);
+void							ft_swap(float *t1, float *t2);
+int								abs_int(int x);
+float 							findMedian(float arr[], int n); // change this GPT code !!!
+void 							get_rotation_matrice(float cam_dir[3], float mat_rot[4][4], float c[3]);
+void							dot_inplace_33_33(float a[3][3], float b[3][3]);
+void							dot_inplace_44_44(float a[4][4], float b[4][4]);
+void							dot_inplace_34_13(float a[3][4], float b[3]);
+void							dot_inplace_33_13(float a[3][4], float b[3]);
+void							vec_add_inplace(float p1[3], float p2[3]);
+void 							rodrigues_matrice_handler(float u[3], float theta, float c[3], float r[4][4]);
+void							dot_inplace_44_14(float a[4][4], float b[4]);
+void							scale_vec(float v[3], float amp);
 
 /* Multithreading */
-void		wait_for_workers(t_data *data);
-void		launch_pool(t_data *data);
-void		*worker(void *arg);
+void							wait_for_workers(t_data *data);
+void							launch_pool(t_data *data);
+void							*worker(void *arg);
 
 /* Perf */
-void		print_render_stats(double render_time);
-double		stop_timer(clock_t start);
-void		start_timer(clock_t *start);
-double		get_time();
+void							print_render_stats(double render_time);
+double							stop_timer(clock_t start);
+void							start_timer(clock_t *start);
+double							get_time();
 
 /* mlx n events */
-int			handle_input(int keysym, t_data *data);
-int			handle_close(t_mlxlib *vars);
-int			init_mlx(t_mlxlib *data);
-void 		rotate_cam(t_data *data, float theta, char axis);
-void 		translate_cam(t_data *data, float v[3], float amp);
+int								handle_input(int keysym, t_data *data);
+int								handle_close(t_mlxlib *vars);
+int								init_mlx(t_mlxlib *data);
+void 							rotate_cam(t_data *data, float theta, char axis);
+void 							translate_cam(t_data *data, float v[3], float amp);
 
 #endif
