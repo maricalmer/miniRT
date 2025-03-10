@@ -5,10 +5,17 @@ HEADERS:=			$(HEADERS_DIRECTORY)/minirt.h
 
 SOURCES_DIRECTORY:=		src
 SOURCES:=			$(SOURCES_DIRECTORY)/main.c \
+					$(SOURCES_DIRECTORY)/parsing/identifiers.c \
+					$(SOURCES_DIRECTORY)/parsing/identifiers_2.c \
 					$(SOURCES_DIRECTORY)/parsing/parser.c \
 					$(SOURCES_DIRECTORY)/parsing/factories.c \
 					$(SOURCES_DIRECTORY)/parsing/factories_utils.c \
 					$(SOURCES_DIRECTORY)/parsing/checker.c \
+					$(SOURCES_DIRECTORY)/parsing/init.c \
+					$(SOURCES_DIRECTORY)/parsing/obj_file.c \
+					$(SOURCES_DIRECTORY)/parsing/rt_file.c \
+					$(SOURCES_DIRECTORY)/parsing/counter.c \
+					$(SOURCES_DIRECTORY)/parsing/dummy_parsing.c \ # to delete
 					$(SOURCES_DIRECTORY)/render/render.c \
 					$(SOURCES_DIRECTORY)/exit/error.c \
 					$(SOURCES_DIRECTORY)/math/math.c \
