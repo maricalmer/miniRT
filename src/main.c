@@ -1,8 +1,5 @@
 #include "minirt.h"
 
-// atomic_int 	num_primary_rays = 0;
-// atomic_int 	num_object_tests = 0;
-// atomic_int 	num_object_intersections = 0;
 int 		total_objects = 0;
 clock_t 	start  = 0;
 double time_primary_rays = 0;
@@ -12,11 +9,20 @@ double time_shading = 0;
 double render_start = 0;
 double time_total_render = 0;
 
+static void	init_data(t_data *data)
+{
+	data->n_obj = 0;
+	data->n_light = 0;
+	data->n_obj_files = 0;
+	data->objects_idx = 0;
+	data->obj_fd = -1;
+	data->rt_fd = -1;
+}
+
 // int main(void)
 int main(int ac, char **av)
 {
 	t_data 		data;
-	t_scn 		scn;
 
 	_MM_SET_FLUSH_ZERO_MODE(_MM_FLUSH_ZERO_ON);
     _MM_SET_DENORMALS_ZERO_MODE(_MM_DENORMALS_ZERO_ON);
@@ -26,10 +32,11 @@ int main(int ac, char **av)
 	printf("bvh size : %li \n", sizeof(t_bvh));
 	printf("t_shoot_size : %li \n", sizeof(t_shoot));
 	printf("bvh max size : %i \n", BVH_SIZE_MAX);
-	
-	if (check_input(ac, av, &scn) == EXIT_FAILURE)
+	init_data(&data);
+	if (check_input(ac, av, &data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	handle_parsing(&data, &scn, ac, av);
+	if (handle_parsing(av, &data) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	// parsing(&data); // argv
 	// int i = -1;
 	// while (data.objects[++i].type)
