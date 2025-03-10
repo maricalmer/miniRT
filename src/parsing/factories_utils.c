@@ -7,7 +7,7 @@ int	is_between_0_and_255(int n);
 int	is_between_0_and_2_7(double n);
 int	is_0_or_1(int n);
 
-__attribute__((optimize("O0"))) int	get_ratio(char **specs, float *ratio)
+int	get_ratio(char **specs, float *ratio)
 {
 	if (!ft_isdigit(**specs))
 		return (EXIT_FAILURE);
@@ -20,7 +20,7 @@ __attribute__((optimize("O0"))) int	get_ratio(char **specs, float *ratio)
 	return (EXIT_SUCCESS);
 }
 
-__attribute__((optimize("O0"))) int	get_rgb_normalized(char **specs, float *color)
+int	get_rgb_normalized(char **specs, float *color)
 {
 	if (!ft_isdigit(**specs))
 		return (EXIT_FAILURE);
@@ -36,7 +36,7 @@ __attribute__((optimize("O0"))) int	get_rgb_normalized(char **specs, float *colo
 	return (EXIT_SUCCESS);
 }
 
-__attribute__((optimize("O0"))) unsigned char	get_rgb(char **specs, unsigned char *color)
+unsigned char	get_rgb(char **specs, unsigned char *color)
 {
 	if (!ft_isdigit(**specs))
 		return (EXIT_FAILURE);
@@ -52,7 +52,7 @@ __attribute__((optimize("O0"))) unsigned char	get_rgb(char **specs, unsigned cha
 	return (EXIT_SUCCESS);
 }
 
-__attribute__((optimize("O0"))) int	get_refr_idx(char **specs, float *ratio)
+int	get_refr_idx(char **specs, float *ratio)
 {
 	char *p;
 	if (!ft_isdigit(**specs))
@@ -68,7 +68,7 @@ __attribute__((optimize("O0"))) int	get_refr_idx(char **specs, float *ratio)
 	return (EXIT_SUCCESS);
 }
 
-__attribute__((optimize("O0"))) int	get_coord(char **specs, float *value)
+int	get_coord(char **specs, float *value)
 {
 	if (!ft_isdigit(**specs) && **specs != '-')
 		return (EXIT_FAILURE);
@@ -84,7 +84,7 @@ __attribute__((optimize("O0"))) int	get_coord(char **specs, float *value)
 	return (EXIT_SUCCESS);
 }
 
-__attribute__((optimize("O0"))) int get_vec_normalized(char **specs, float *value)
+int get_vec_normalized(char **specs, float *value)
 {
     if (!ft_isdigit(**specs) && **specs != '-')
 		return (EXIT_FAILURE);
@@ -100,7 +100,7 @@ __attribute__((optimize("O0"))) int get_vec_normalized(char **specs, float *valu
 	return (EXIT_SUCCESS);
 }
 
-__attribute__((optimize("O0"))) int get_radius(char **specs, float *radius)
+int get_radius(char **specs, float *radius)
 {
     if (!ft_isdigit(**specs))
 		return (EXIT_FAILURE);
@@ -113,7 +113,7 @@ __attribute__((optimize("O0"))) int get_radius(char **specs, float *radius)
 	return (EXIT_SUCCESS);
 }
 
-__attribute__((optimize("O0"))) int get_length(char **specs, float *length)
+int get_length(char **specs, float *length)
 {
     if (!ft_isdigit(**specs))
 		return (EXIT_FAILURE);
@@ -126,7 +126,7 @@ __attribute__((optimize("O0"))) int get_length(char **specs, float *length)
 	return (EXIT_SUCCESS);
 }
 
-__attribute__((optimize("O0"))) int get_fov_range(char **specs, int *fov)
+int get_fov_range(char **specs, int *fov)
 {
     if (!ft_isdigit(**specs))
 		return (EXIT_FAILURE);
@@ -136,7 +136,7 @@ __attribute__((optimize("O0"))) int get_fov_range(char **specs, int *fov)
 	return (EXIT_SUCCESS);
 }
 
-__attribute__((optimize("O0"))) int get_checkerboard_flag(char **specs, int *flag)
+int get_checkerboard_flag(char **specs, int *flag)
 {
     if (!ft_isdigit(**specs))
 		return (EXIT_FAILURE);

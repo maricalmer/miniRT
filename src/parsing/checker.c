@@ -1,29 +1,23 @@
 #include "minirt.h"
 
-int	is_right_extension(char *str, char *ext);
-int	check_input_file(char *file, char *ext, int *fd);
+static int	is_rt_extension(char *str);
+static int	check_input_file(char *file, int *fd);
 
-int	check_input(int ac, char **av, t_scn *scn)
+int	check_input(int ac, char **av, t_data *data)
 {
-	if (ac != 2 && ac != 3)
+	if (ac != 2)
 	{
 		print_error(1);
 		return (EXIT_FAILURE);
 	}
-	if (ac == 2)
-		return (check_input_file(av[1], ".rt", &scn->rt_fd));
-	if (ac == 3)
-	{
-		if (check_input_file(av[1], ".rt", &scn->rt_fd) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		return (check_input_file(av[2], ".obj", &scn->obj_fd));
-	}
+	if (check_input_file(av[1], &data->rt_fd) == EXIT_FAILURE) 
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-int	check_input_file(char *file, char *ext, int *fd)
+static int	check_input_file(char *file, int *fd)
 {
-	if (!ft_strncmp(file, "", 1) || !is_right_extension(file, ext))
+	if (!ft_strncmp(file, "", 1) || !is_rt_extension(file))
 	{
 		print_error(2);
 		return (EXIT_FAILURE);
@@ -37,14 +31,14 @@ int	check_input_file(char *file, char *ext, int *fd)
 	return (EXIT_SUCCESS);
 }
 
-int	is_right_extension(char *str, char *ext)
+static int	is_rt_extension(char *str)
 {
 	int	str_len;
-	int	ext_len;
 
 	str_len = ft_strlen(str);
-	ext_len = ft_strlen(ext);
-	if (!ft_strncmp(str + str_len - ext_len, ext, ext_len))
+	if (str_len < 4)
+		return (0);
+	if (!ft_strncmp(str + str_len - 3, ".rt", 3))
 		return (1);
 	return (0);
 }

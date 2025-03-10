@@ -3,27 +3,27 @@
 void	print_error(int errnum)
 {
 	if (errnum == 1)
-		printf("Error\nWrong args\n");
+		printf("\n%sError%s%sWrong args%s\n", RED_BG_START, RED_BG_END, RED_TXT_START, RED_TXT_END);
 	else if (errnum == 2)
-		printf("Error\nWrong input file\n");
+		printf("\n%sError%s%sWrong input file%s\n", RED_BG_START, RED_BG_END, RED_TXT_START, RED_TXT_END);
 	else if (errnum == 3)
-		perror("Error\n");
+		printf("\n%sError%s%s%s%s\n", RED_BG_START, RED_BG_END, RED_TXT_START, strerror(errno), RED_TXT_END);
 	else if (errnum == 4)
-		perror("Error\n");
+		printf("\n%sError%s%sWrong set of light, cam or ambient%s\n", RED_BG_START, RED_BG_END, RED_TXT_START, RED_TXT_END);
 	else if (errnum == 5)
-		printf("Error\nWrong set of element types\n");
+		printf("\n%sError%s%sWrong set of element types%s\n", RED_BG_START, RED_BG_END, RED_TXT_START, RED_TXT_END);
 	else if (errnum == 6)
-		printf("Error\nWrong settings for ambient lighting element\n");
+		printf("\n%sError%s%sWrong settings for ambient lighting element%s\n", RED_BG_START, RED_BG_END, RED_TXT_START, RED_TXT_END);
 	else if (errnum == 7)
-		printf("Error\nWrong settings for camera element\n");
+		printf("\n%sError%s%sWrong settings for camera element%s\n", RED_BG_START, RED_BG_END, RED_TXT_START, RED_TXT_END);
 	else if (errnum == 8)
-		printf("Error\nWrong settings for light element\n");
+		printf("\n%sError%s%sWrong settings for light element%s\n", RED_BG_START, RED_BG_END, RED_TXT_START, RED_TXT_END);
 	else if (errnum == 9)
-		printf("Error\nWrong settings for sphere element\n");
+		printf("\n%sError%s%sWrong settings for sphere element%s\n", RED_BG_START, RED_BG_END, RED_TXT_START, RED_TXT_END);
 	else if (errnum == 10)
-		printf("Error\nWrong settings for plane element\n");
+		printf("\n%sError%s%sWrong settings for plane element%s\n", RED_BG_START, RED_BG_END, RED_TXT_START, RED_TXT_END);
 	else if (errnum == 11)
-		printf("Error\nWrong settings for cylinder element\n");
+		printf("\n%sError%s%sWrong settings for cylinder element%s\n", RED_BG_START, RED_BG_END, RED_TXT_START, RED_TXT_END);
 	else if (errnum == 12)
-		printf("Error\nWrong settings for tri element\n");
+		printf("\n%sError%s%sWrong settings for tri element%s\n", RED_BG_START, RED_BG_END, RED_TXT_START, RED_TXT_END);
 }
