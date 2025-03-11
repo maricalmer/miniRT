@@ -36,6 +36,16 @@ int	parse_obj_files(t_data *data, char *filename)
 			return (EXIT_FAILURE);
 		i++;
 	}
+	data->tri_n = 
+	i = -1;
+	while (++i < data->n_obj_files)
+	{
+		free(parsers[i].filename);
+		// free(parsers[i].vertices[0]);
+		// free(parsers[i].vertices);
+		// free(parsers[i].normals[0]);
+		// free(parsers[i].normals);
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -63,9 +73,10 @@ static void	get_obj_filenames(t_obj_parser *parsers, int fd)
 			free(specs);
 			break ;
 		}
-		parsers[i].filename = malloc(sizeof(char) * (ft_strlen(specs) - 2));
+		parsers[i].filename = malloc(sizeof(char) * (ft_strlen(specs) - 1));
 		if (sscanf(specs, "o %s", parsers[i].filename) == 1)
 			i++;
+		free(specs);
 	}
 }
 

@@ -21,13 +21,15 @@ void	render_first_image(t_data *data)
 		bvh = init_bvh(data);
 		update_group(data, bvh); //(only BVH and Planes)
 	}
+	// start of init_2
 	data->cam.world_center[0] = (bvh->min_x[0] + bvh->max_x[0]) * 0.5;
 	data->cam.world_center[1] = (bvh->min_y[0] + bvh->max_y[0]) * 0.5; 
 	data->cam.world_center[2] = (bvh->min_z[0] + bvh->max_z[0]) * 0.5;
-	// data->cam.world_center[0] = 0;
-	// data->cam.world_center[1] = 0; 
-	// data->cam.world_center[2] = 0;
+	cpy_vec(data->cam.direction, data->cam.direction_backup);
 	cpy_vec(data->cam.origin, data->cam.origin_backup);
+	data->mouse_pressed_l = 0;
+	data->mouse_pressed_r = 0;
+	// end of init_2
 	first_rotation_matrice(data);
 	printf("Elapsed time BVH tree: %.2f ms\n", ((double)(clock() - start)) / CLOCKS_PER_SEC * 1000);
 	start = clock();
@@ -77,13 +79,13 @@ void 	calculate_img(t_data *data)
 }
 
 
-void calc_p_ray(float x, float y, float res[3], float mat_rot[4][4])
+void calc_p_ray(float x, float y, float res[3], float r_mat[3][3])
 {
 	res[0] = x;
 	res[1] = y;
 	res[2] = -1;
 	normalize(res);
-	dot_inplace_33_13(mat_rot, res);
+	dot_inplace_33_13(r_mat, res);
 }
 
 
@@ -118,7 +120,7 @@ void 	calculate_img_packet(void *arg_generic)
 			{
 				// cpy_vec(&arg->data->primary_rays[i * 3 * ANTIALIASING_FACT * ANTIALIASING_FACT + j * 3], first_shoot.dir);
 				// TEST : recalculate the direction on the live ?!!!?...
-				calc_p_ray(x, y, first_shoot.dir, arg->data->cam.mat_rot);
+				calc_p_ray(x, y, first_shoot.dir, arg->data->cam.r_mat);
 				shoot_ray(arg->data, &first_shoot);
 				x += arg->dx_hd;
 				l = -1;

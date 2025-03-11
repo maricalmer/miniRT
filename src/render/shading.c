@@ -72,9 +72,18 @@ void	add_whitted(t_shoot *shoot, t_data	*data)
 	else if (shoot->obj->mat.refr_coeff >= EPSILON)
 	{
 		r = get_fresnel(shoot);
-		r = 0;
+		if (r < FRESNEL_TOLERANCE)
+			r = 0;
+		if (r > 1 - FRESNEL_TOLERANCE)
+			r = 1;
 		t = 1 - r;
-		shoot_reflection_ray(shoot, &new_shoot_1, data);
+		if (r > 0)
+		{
+			new_shoot_1.inside = !shoot->inside;
+			shoot_reflection_ray(shoot, &new_shoot_1, data);
+		}
+		else
+			ft_memset(new_shoot_1.res_rgb, 0, sizeof(new_shoot_1.res_rgb));
 		if (t > 0)
 			shoot_refraction_ray(shoot, &new_shoot_2, data);
 		else
@@ -87,6 +96,7 @@ void	add_whitted(t_shoot *shoot, t_data	*data)
 	}
 	else
 	{
+		new_shoot_1.inside = shoot->inside;
 		shoot_reflection_ray(shoot, &new_shoot_1, data);
 		i = -1;
 		while (++i < 3)
@@ -115,9 +125,9 @@ float get_fresnel(t_shoot *shoot)
 		n2 = shoot->obj->mat.refr_idx;
 		n1 = 1;
 	}
-	cos_theta_i = + dot_13_13(shoot->dir, shoot->normal);
+	cos_theta_i = - dot_13_13(shoot->dir, shoot->normal);
 	n = n1 / n2;
-	cos_theta_t = - n * n * ( 1 - cos_theta_i * cos_theta_i);
+	cos_theta_t = 1 - n * n * ( 1 - cos_theta_i * cos_theta_i);
 	if (cos_theta_t < 0)
 		return 1;
 	cos_theta_t = sqrtf(cos_theta_t);

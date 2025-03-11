@@ -20,21 +20,25 @@ int	handle_input(int keysym, t_data *data)
 	else if (keysym == XK_Escape)
 		handle_close(&data->mlx);
 	else if (keysym == 'a')
-		translate_cam(data, data->cam.x, -10);
+		translate_cam(data, data->cam.x, CAM_D_TRANS);
 	else if (keysym == 'd')
-		translate_cam(data, data->cam.x, 10);
+		translate_cam(data, data->cam.x, -CAM_D_TRANS);
 	else if (keysym == 'w')
-		translate_cam(data, data->cam.y, -10);
+		translate_cam(data, data->cam.y, CAM_D_TRANS);
 	else if (keysym == 's')
-		translate_cam(data, data->cam.y, 10);
+		translate_cam(data, data->cam.y, -CAM_D_TRANS);
+	else if (keysym == 'z')
+		translate_cam(data, data->cam.direction, CAM_D_TRANS);
+	else if (keysym == 'x')
+		translate_cam(data, data->cam.direction, -CAM_D_TRANS);
 	else if (keysym == 'j') // around y
-		rotate_cam(data, 15 * M_PI / 180, 'y');
+		rotate_cam(data, CAM_D_THETA * M_PI / 180, 'y');
 	else if (keysym == 'l') // around y
-		rotate_cam(data, -15 * M_PI / 180, 'y');
+		rotate_cam(data, -CAM_D_THETA * M_PI / 180, 'y');
 	else if (keysym == 'i') // around y
-		rotate_cam(data, 15 * M_PI / 180, 'x');
+		rotate_cam(data, CAM_D_THETA * M_PI / 180, 'x');
 	else if (keysym == 'k') // around y
-		rotate_cam(data, -15 * M_PI / 180, 'x');
+		rotate_cam(data, -CAM_D_THETA * M_PI / 180, 'x');
 	return (0);
 }
 

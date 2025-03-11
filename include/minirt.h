@@ -15,16 +15,22 @@
 # include <fcntl.h>
 # include <immintrin.h> // SSE/AVX and prefetch
 
-# define WIDTH					600
-# define HEIGHT					600
-# define EPSILON    			0.001 // adjust
+# define WIDTH					800
+# define HEIGHT					800
+# define EPSILON    			0.001f // adjust
 # define SPECULAR_POWER 		50
+# define FRESNEL_TOLERANCE		0.02f
 # define DEPTH_MAX				6
 # define ANTIALIASING_FACT		1
 
 # define SKY_COLOR_R			70
 # define SKY_COLOR_G			130
 # define SKY_COLOR_B			180
+
+# define CAM_D_THETA			15
+# define CAM_D_TRANS			10
+# define MOVE_THRESHOLD_2		100
+
 
 # define USLEEP_WORKER 			0
 # define USLEEP_PARENT			100 //fine tune those...
@@ -62,7 +68,8 @@ typedef struct s_camera
 	float						origin_backup[3];
 	float						direction[3];
 	float						direction_backup[3];
-	float						mat_rot[4][4];
+	double						t_mat[4][4];
+	float						r_mat[3][3];
 	float						world_center[3];
 	float						x[3];
 	float						y[3];
@@ -139,19 +146,18 @@ typedef struct s_material
 
 typedef struct s_object 
 {
-    t_obj_type type;
+    t_obj_type					type;
     union 
 	{
-        t_sphere 	sph;
-        t_cylinder 	cyl;
-        t_triangle 	tri;
-        t_plane 	pl;
-		void 		*bvh;
+        t_sphere				sph;
+        t_cylinder				cyl;
+        t_triangle				tri;
+        t_plane					pl;
+		void					*bvh;
     } geo;
 	t_material mat;
-	int				padding[4];
-} t_object;
-
+	int							padding[4];
+}	t_object;
 
 typedef struct s_ray_prim
 {
@@ -212,6 +218,10 @@ typedef struct s_data
 	// first shoot only
 	t_camera					cam;  // needs to be updated
 	float						*primary_rays; // can be removed.
+	int							mouse_pressed_l;
+	int							mouse_pressed_r;
+	int							mouse_x;
+	int							mouse_y;
 
 	// multithreading
 	atomic_int					joblist_size;
@@ -227,6 +237,9 @@ typedef struct s_data
 	//parsing
 	int							rt_fd;
 	int							obj_fd;
+	// tri
+	float						**tri_v;
+    float						**tri_n;
 }	t_data;
 
 typedef struct s_shoot
@@ -399,13 +412,14 @@ float 							triple_scalar(float a[3], float b[3], float c[3]);
 void							ft_swap(float *t1, float *t2);
 int								abs_int(int x);
 float 							findMedian(float arr[], int n); // change this GPT code !!!
-void 							get_rotation_matrice(float cam_dir[3], float mat_rot[4][4], float c[3]);
+void 							get_rotation_matrice(float cam_dir[3], double t_mat[4][4], float c[3]);
 void							dot_inplace_33_33(float a[3][3], float b[3][3]);
-void							dot_inplace_44_44(float a[4][4], float b[4][4]);
-void							dot_inplace_34_13(float a[3][4], float b[3]);
-void							dot_inplace_33_13(float a[3][4], float b[3]);
+void							dot_inplace_44_44(double a[4][4], double b[4][4]);
+void							dot_inplace_34_13(double a[3][4], float b[3]);
+void							dot_inplace_33_13(float a[3][3], float b[3]);
+void 							copy_r_mat(t_data *data);
 void							vec_add_inplace(float p1[3], float p2[3]);
-void 							rodrigues_matrice_handler(float u[3], float theta, float c[3], float r[4][4]);
+void 							rodrigues_matrice_handler(float u[3], float theta, float c[3], double r[4][4]);
 void							dot_inplace_44_14(float a[4][4], float b[4]);
 void							scale_vec(float v[3], float amp);
 
@@ -426,5 +440,8 @@ int								handle_close(t_mlxlib *vars);
 int								init_mlx(t_mlxlib *data);
 void 							rotate_cam(t_data *data, float theta, char axis);
 void 							translate_cam(t_data *data, float v[3], float amp);
+int mouse_press(int button, int x, int y, void *arg);
+int mouse_release(int button, int x, int y, void *arg);
+int mouse_move(int x, int y, void *arg);
 
 #endif

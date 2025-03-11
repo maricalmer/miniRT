@@ -234,8 +234,8 @@ int create_triangle(t_data *data, char *line, t_obj_parser *parser)
 		data->objects[data->objects_idx].type = TRI;
 		data->objects[data->objects_idx].mat.checker_flag = 0;
 		data->objects[data->objects_idx].mat.refl_coeff = 0;
-		data->objects[data->objects_idx].mat.refr_coeff = 0;
-		data->objects[data->objects_idx].mat.refr_idx = 0;
+		data->objects[data->objects_idx].mat.refr_coeff = 0.95;
+		data->objects[data->objects_idx].mat.refr_idx = 1.5;
 		data->objects[data->objects_idx].mat.rgb[0] = 200;
 		data->objects[data->objects_idx].mat.rgb[1] = 200;
 		data->objects[data->objects_idx].mat.rgb[2] = 200;

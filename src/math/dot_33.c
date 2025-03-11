@@ -14,7 +14,7 @@ static void	save_result_in_place(float res[3], float b[3])
 }
 
 /* Performs a matrix dot operation. */
-void	dot_inplace_34_13(float a[3][4], float b[3])
+void	dot_inplace_34_13(double a[3][4], float b[3])
 {
     int		i;
     int		k;
@@ -33,7 +33,7 @@ void	dot_inplace_34_13(float a[3][4], float b[3])
 }
 
 /* Performs a matrix dot operation. */
-void	dot_inplace_33_13(float a[3][4], float b[3])
+void	dot_inplace_33_13(float a[3][3], float b[3])
 {
     int		i;
     int		k;
@@ -96,7 +96,7 @@ static void	save_result_in_place_33(float res[3][3], float b[3][3])
     }
 }
 
-static void	save_result_in_place_44(float res[4][4], float b[4][4])
+static void	save_result_in_place_44(double res[4][4], double b[4][4])
 {
     int	i;
     int j;
@@ -134,12 +134,12 @@ void	dot_inplace_33_33(float a[3][3], float b[3][3])
     save_result_in_place_33(res, a);
 }
 
-void	dot_inplace_44_44(float a[4][4], float b[4][4])
+void	dot_inplace_44_44(double a[4][4], double b[4][4])
 {
     int		i;
     int     j;
     int		k;
-    float	res[4][4];
+    double	res[4][4];
 
     i = -1;
     while (++i < 4)

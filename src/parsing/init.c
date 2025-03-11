@@ -1,7 +1,6 @@
 #include "minirt.h"
 
 static int	alloc_float_array(float ***array, int count);
-static int	alloc_faces(t_obj_parser *parser);
 
 void	init_parsers(t_obj_parser *parsers, int n_parsers)
 {
@@ -36,8 +35,6 @@ int	init_elem_obj(t_obj_parser *parser)
 		return (EXIT_FAILURE);
 	if (alloc_float_array(&parser->normals, parser->n_vn) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (alloc_faces(parser) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
@@ -56,28 +53,6 @@ static int	alloc_float_array(float ***array, int count)
 	while (i < count)
 	{
 		(*array)[i] = block + (i * 3);
-		i++;
-	}
-	return (EXIT_SUCCESS);
-}
-
-
-static int	alloc_faces(t_obj_parser *parser)
-{
-	int		i;
-	int		*face_block;
-
-	parser->faces = malloc(sizeof(int *) * parser->n_f);
-	if (!parser->faces)
-		return (print_error(3), EXIT_FAILURE);
-	face_block = malloc(sizeof(int) * 6 * parser->n_f);
-	if (!face_block)
-		return (free(parser->vertices), free(parser->normals),
-			free(parser->faces), print_error(3), EXIT_FAILURE);
-	i = 0;
-	while (i < parser->n_f)
-	{
-		parser->faces[i] = face_block + (i * 6);
 		i++;
 	}
 	return (EXIT_SUCCESS);

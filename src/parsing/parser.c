@@ -12,6 +12,11 @@ int	handle_parsing(char **av, t_data *data)
 		if (parse_obj_files(data, av[1]) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
+	else
+	{
+		if (init_elem_rt(data) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+	}
 	if (create_elements_rt(data, av[1]) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
