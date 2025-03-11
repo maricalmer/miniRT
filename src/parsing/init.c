@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-static int	alloc_float_array(float ***array, int count);
+static int	alloc_float_array(float (**array)[3], int count);
 
 void	init_parsers(t_obj_parser *parsers, int n_parsers)
 {
@@ -38,23 +38,32 @@ int	init_elem_obj(t_obj_parser *parser)
 	return (EXIT_SUCCESS);
 }
 
-static int	alloc_float_array(float ***array, int count)
-{
-	int		i;
-	float	*block;
 
-	*array = malloc(sizeof(float *) * count);
+// static int	alloc_float_array(float ***array, int count)
+// {
+// 	int		i;
+// 	float	*block;
+
+// 	*array = malloc(sizeof(float *) * count);
+// 	if (!*array)
+// 		return (print_error(3), EXIT_FAILURE);
+// 	block = malloc(sizeof(float) * 3 * count);
+// 	if (!block)
+// 		return (free(*array), print_error(3), EXIT_FAILURE);
+// 	i = 0;
+// 	while (i < count)
+// 	{
+// 		(*array)[i] = block + (i * 3);
+// 		i++;
+// 	}
+// 	return (EXIT_SUCCESS);
+// }
+
+static int	alloc_float_array(float (**array)[3], int count)
+{
+	*array = malloc(sizeof(float [3]) * count);
 	if (!*array)
 		return (print_error(3), EXIT_FAILURE);
-	block = malloc(sizeof(float) * 3 * count);
-	if (!block)
-		return (free(*array), print_error(3), EXIT_FAILURE);
-	i = 0;
-	while (i < count)
-	{
-		(*array)[i] = block + (i * 3);
-		i++;
-	}
 	return (EXIT_SUCCESS);
 }
 

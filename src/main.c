@@ -17,6 +17,7 @@ static void	init_data(t_data *data)
 	data->objects_idx = 0;
 	data->obj_fd = -1;
 	data->rt_fd = -1;
+	data->exit = 0;
 }
 
 // int main(void)
@@ -50,21 +51,7 @@ int main(int ac, char **av)
     mlx_hook(data.mlx.win, 5, 0, &mouse_release, &data);
     mlx_hook(data.mlx.win, 6, (1L << 6), &mouse_move, &data);
 	mlx_loop(data.mlx.mlx);
-	/// move to dedicated file?
-	// int i = -1;
-	// while (++i < data.n_obj_files)
-	// {
-	// 	if (parsers[i].vertices)
-	// 	{
-	// 		free(parsers[i].vertices[0]);
-	// 		free(parsers[i].vertices);
-	// 	}
-	// 	if (parsers[i].normals)
-	// 	{
-	// 		free(parsers[i].normals[0]);
-	// 		free(parsers[i].normals);
-	// 	}
-	// }
 	// free dyn alloc mem (incl. pthread_mutex_destroy)
+
 	return (0);
 }

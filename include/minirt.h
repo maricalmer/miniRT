@@ -42,7 +42,7 @@
 # define BVH_ON					1
 # define MAX_BVH_GROUP			20
 # define BVH_DEPTH_MAX			5
-# define BVH_SIZE_MAX			37456 // more tricky ... (w^(d+1) - 1)/(w-1) + (w-1)
+# define BVH_SIZE_MAX			37464 // more tricky ... (w^(d+1) - 1)/(w-1) + (w-1) + w
 
 # define CHECKER_SIZE			250
 
@@ -230,6 +230,7 @@ typedef struct s_data
 	t_job						joblist[HEIGHT];
 	pthread_mutex_t				joblist_mutex;
 	pthread_t					threads[N_THREAD];
+	atomic_int					exit;
 	//mlx
 	t_mlxlib					mlx;
 	//bvh_creation
@@ -238,6 +239,7 @@ typedef struct s_data
 	int							rt_fd;
 	int							obj_fd;
 	// tri
+	int							tri_idx;
 	float						**tri_v;
     float						**tri_n;
 }	t_data;
@@ -299,8 +301,10 @@ typedef struct s_bvh
 
 typedef struct s_obj_parser
 {
-    float						**vertices;
-    float						**normals;
+    // float						*vertices[3];
+    // float						*normals[3];
+	float						(*normals)[3];
+	float						(*vertices)[3];
 	int							**faces;
 	int							n_v;
 	int							n_vn;
@@ -362,7 +366,11 @@ int								get_length(char **specs, float *length);
 int								get_checkerboard_flag(char **specs, int *flag);
 /*error.c*/
 void							print_error(int errnum);
-
+/*free.c*/
+void    						free_bvh_1(t_bvh *bvh);
+void    						free_bvh_2(t_bvh *bvh);
+void							free_data(t_data *data);
+void							join_threads(t_data *data);
 /*dummy_parsing.c --- TO DELETE */
 void							parsing(t_data *data);
 
@@ -436,7 +444,7 @@ double							get_time();
 
 /* mlx n events */
 int								handle_input(int keysym, t_data *data);
-int								handle_close(t_mlxlib *vars);
+int								handle_close(t_data *data);
 int								init_mlx(t_mlxlib *data);
 void 							rotate_cam(t_data *data, float theta, char axis);
 void 							translate_cam(t_data *data, float v[3], float amp);

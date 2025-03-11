@@ -6,7 +6,7 @@ t_obj_geo *create_obj_geo_data(t_bvh *bvh);
 t_obj_geo extract_geo_data_sphere(t_object *obj);
 t_obj_geo extract_geo_data_tri(t_object *obj);
 t_bvh   *init_bvh(t_data *data);
-void	cut_into_child_nodes(t_bvh *bvh, int idx);
+int		cut_into_child_nodes(t_bvh *bvh, int idx);
 void 	get_child_sizes(t_bvh *bvh, int idx, int axis, float mid, int idx_left, int idx_right);
 void	create_child_groups(t_bvh *bvh, int idx, int axis, float mid, int idx_left, int idx_right);
 void	cut_in_two(t_bvh *bvh, int idx, int idx_c, int i);
@@ -76,6 +76,7 @@ void print_nodes(t_bvh *bvh, int i)
 t_bvh   *init_bvh(t_data *data)
 {
     t_bvh       *bvh;
+	int			idx_c;
 
     bvh = aligned_alloc(32, sizeof(t_bvh)); // aligned_alloc for opti !!!
 	bvh->depth[0] = 0;
@@ -83,7 +84,9 @@ t_bvh   *init_bvh(t_data *data)
 	copy_bvh_objects(data, bvh);
 	data->bvh_geo_data = create_obj_geo_data(bvh);
 	get_bbox_min_max(bvh, 0);
-	cut_into_child_nodes(bvh, 0);
+	idx_c = cut_into_child_nodes(bvh, 0);
+	bvh->childs[idx_c] = -2;
+	free_bvh_1(bvh);
 	free(data->bvh_geo_data);
     // print_nodes(bvh, 0);
 	return (bvh);
@@ -140,7 +143,7 @@ t_obj_geo extract_geo_data_tri(t_object *obj)
 
 
 
-void	cut_into_child_nodes(t_bvh *bvh, int idx)
+int	cut_into_child_nodes(t_bvh *bvh, int idx)
 {
 	// handle the case if child box empty ??
 
@@ -151,7 +154,7 @@ void	cut_into_child_nodes(t_bvh *bvh, int idx)
 	if (bvh->group_size[idx] <= MAX_BVH_GROUP || bvh->depth[idx] == BVH_DEPTH_MAX)
 	{
 		bvh->childs[idx] = -1;
-		return ;
+		return (0);
 	}
 	cut_in_two(bvh, idx, idx_c, 2); // 8 = 2^(2+1) ... 
 	bvh->childs[idx] = idx_c;
@@ -170,7 +173,7 @@ void	cut_into_child_nodes(t_bvh *bvh, int idx)
 
 		cut_into_child_nodes(bvh, bvh->childs[idx] + i);
 	}
-	return ;
+	return (idx_c);
 }
 void get_child_sizes(t_bvh *bvh, int idx, int axis, float mid, int idx_left, int idx_right)
 {
@@ -223,8 +226,11 @@ void get_child_sizes(t_bvh *bvh, int idx, int axis, float mid, int idx_left, int
 	}
 	get_bbox(bvh, idx_right, idx, mid, axis, 1);
 	get_bbox(bvh, idx_left, idx, mid, axis, 0);
-	free(old_group);
-	free(old_geo);
+	if (idx == idx_left)
+	{
+		free(old_group);
+		free(old_geo);
+	}
 }
 
 void get_bbox(t_bvh *bvh, int idx_child, int idx_parent, float mid, int axis, int side)

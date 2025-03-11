@@ -40,7 +40,10 @@ char	*format_string(char *str, int len)
 	size = end - start + 1;
 	specs = malloc(sizeof(char) * (size + 1));
 	if (!specs)
+	{
+		free(str);
 		return (NULL);
+	}
 	apply_uniform_spacing(specs, start, end);
 	free(str);
 	return (specs);

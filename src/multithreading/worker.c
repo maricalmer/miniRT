@@ -8,9 +8,9 @@ void	*worker(void *arg)
 	t_job	*job;
 
 	data = arg;
-	while (1)
+	while (!data->exit)
 	{
-		if (data->joblist_size)
+		if (data->joblist_size > 0)
 		{
 			pthread_mutex_lock(&data->joblist_mutex);
 			data->active_threads++;
@@ -23,6 +23,7 @@ void	*worker(void *arg)
 		}
 		usleep(USLEEP_WORKER);
 	}
+	return(NULL);
 }
 
 /* check if it works like that or if we need atomic or mutex protection to have the L1 cache of the parent uptodate. */

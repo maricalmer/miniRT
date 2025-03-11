@@ -56,7 +56,7 @@ void 	calculate_img(t_data *data)
 	t_ray_prim 		data_ray;
 
 	init_data_ray(&data_ray, data);
-	arg = malloc(sizeof(t_calc_img_arg) * HEIGHT);
+	arg = malloc(sizeof(t_calc_img_arg) * HEIGHT); // move that to data !
 	pthread_mutex_lock(&data->joblist_mutex);
 	data->joblist_top = 0;
 	data->joblist_size = HEIGHT;
