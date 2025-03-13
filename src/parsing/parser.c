@@ -2,7 +2,6 @@
 
 static void	apply_uniform_spacing(char *specs, char *start, char *end);
 
-
 int	handle_parsing(char **av, t_data *data)
 {
 	if (read_and_count_data_in_rt(data) == EXIT_FAILURE)
@@ -77,5 +76,3 @@ static void	apply_uniform_spacing(char *specs, char *start, char *end)
 	}
 	specs[j] = '\0';
 }
-
-

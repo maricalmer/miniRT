@@ -183,8 +183,10 @@ static int	handle_face_line(char *specs, t_data *data, t_obj_parser *parser)
 
 static int	set_tri(t_obj_parser *parser, char *specs)
 {
-	while (!ft_isdigit(*specs) && *specs != '-')
-		specs++;
+	int len_filepath;
+
+	len_filepath = ft_strlen(parser->filename);
+	specs += len_filepath + 3;
 	if (get_obj_rgb(&specs, &parser->tri_rgb[0]) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (get_obj_rgb(&specs, &parser->tri_rgb[1]) == EXIT_FAILURE)

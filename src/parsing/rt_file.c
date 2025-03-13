@@ -110,5 +110,3 @@ static int	handle_object_creation(t_data *data, char *specs)
 		return (print_error(5), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
-
-
