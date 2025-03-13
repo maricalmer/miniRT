@@ -51,7 +51,7 @@ void	shading(t_shoot *shoot, t_data *data)
 		normalize2(shadow_ray, &dist_light);
 		theta_LN = dot_13_13(shoot->normal, shadow_ray);
 
-		if (theta_LN > EPSILON && shadow_intersection_tests(shoot, data->objects, shadow_ray, dist_light, data->n_obj) < EPSILON)
+		if (theta_LN > 0 && shadow_intersection_tests(shoot, data->objects, shadow_ray, dist_light, data->n_obj) < EPSILON)
 		{
 			add_phong_diffuse(shoot, data->lights[i], theta_LN, rgb);
 			add_phong_specular(shadow_ray, shoot, data->lights[i], theta_LN, rgb);

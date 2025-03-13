@@ -31,7 +31,7 @@ static int	read_rt_file(t_data *data)
 		if (line == NULL)
 			break ;
 		len = ft_strlen(line);
-		if (line[0] == '\n' || !len)
+		if (line[0] == '\n' || line[0] == '+' || line[0] == '|' || !len)
 		{
 			free(line);
 			continue ;
@@ -49,15 +49,19 @@ static int	read_rt_file(t_data *data)
 
 static int	process_rt_line(t_data *data, char *specs)
 {
-	int	result;
-
 	if (specs[0] == 'o')
 		return (EXIT_SUCCESS);
-	else if (specs[0] == 'p' || specs[0] == 's' || specs[0] == 'c')
-		result = handle_object_creation(data, specs);
+	if (specs[0] == 'p' || specs[0] == 's' || specs[0] == 'c')
+	{
+		if (handle_object_creation(data, specs) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+	}
 	else
-		result = handle_light_creation(data, specs);
-	return (result);
+	{
+		if (handle_light_creation(data, specs) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }
 
 static int	handle_light_creation(t_data *data, char *specs)
@@ -106,4 +110,5 @@ static int	handle_object_creation(t_data *data, char *specs)
 		return (print_error(5), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
+
 

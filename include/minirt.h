@@ -3,11 +3,13 @@
 
 # include <libft.h>
 # include <stdlib.h>
+# include <stdio.h>
 # include <mlx.h>
 # include <X11/keysym.h>
 # include <X11/X.h>
 # include <math.h>
 # include <time.h>
+# include <sys/time.h>
 # include <float.h>
 # include <stdio.h>
 # include <pthread.h>
@@ -17,11 +19,11 @@
 
 # define WIDTH					800
 # define HEIGHT					800
-# define EPSILON    			0.001f // adjust
+# define EPSILON    			0.01f // adjust
 # define SPECULAR_POWER 		50
 # define FRESNEL_TOLERANCE		0.02f
 # define DEPTH_MAX				6
-# define ANTIALIASING_FACT		1
+# define ANTIALIASING_FACT		3
 
 # define SKY_COLOR_R			70
 # define SKY_COLOR_G			130
@@ -29,7 +31,7 @@
 
 # define CAM_D_THETA			15
 # define CAM_D_TRANS			10
-# define MOVE_THRESHOLD_2		100
+# define MOVE_THRESHOLD_2		400
 
 
 # define USLEEP_WORKER 			0
@@ -52,6 +54,8 @@
 # define RED_TXT_END	"\033[0m\n"
 
 
+typedef struct s_data t_data;
+
 typedef enum e_obj_type
 {
 	PLANE,
@@ -67,12 +71,9 @@ typedef struct s_camera
 	float						origin[3];
 	float						origin_backup[3];
 	float						direction[3];
-	float						direction_backup[3];
 	double						t_mat[4][4];
 	float						r_mat[3][3];
 	float						world_center[3];
-	float						x[3];
-	float						y[3];
 }	t_camera;
 
 typedef struct s_light
@@ -172,12 +173,6 @@ typedef struct s_ray_prim
 	// float						top_left_x;
 }	t_ray_prim;
 
-typedef struct s_job
-{
-	void						(*function)(void *);
-	void						*arg;
-}	t_job;
-
 typedef struct	s_mlxlib {
 	void						*mlx;
 	void						*win;
@@ -202,6 +197,16 @@ typedef	struct s_bbox  // used for creating the bvh.
 	float	max[3];
 }	t_bbox;
 
+typedef struct s_calc_img_arg
+{
+	t_data						*data;
+	float						dx;
+	float						dx_hd;
+	float						x_tl;
+	float						y_tl;
+	int							line;
+}	t_calc_img_arg;
+
 
 typedef struct s_data
 {
@@ -222,12 +227,12 @@ typedef struct s_data
 	int							mouse_pressed_r;
 	int							mouse_x;
 	int							mouse_y;
+	int							antialiasing_fact;
 
 	// multithreading
-	atomic_int					joblist_size;
-	int							joblist_top;
+	atomic_int					joblist_top;
 	atomic_int					active_threads;
-	t_job						joblist[HEIGHT];
+	t_calc_img_arg				joblist[HEIGHT];
 	pthread_mutex_t				joblist_mutex;
 	pthread_t					threads[N_THREAD];
 	atomic_int					exit;
@@ -240,8 +245,8 @@ typedef struct s_data
 	int							obj_fd;
 	// tri
 	int							tri_idx;
-	float						**tri_v;
-    float						**tri_n;
+	float						(*normals)[3];
+	float						(*vertices)[3];
 }	t_data;
 
 typedef struct s_shoot
@@ -259,22 +264,6 @@ typedef struct s_shoot
 	int							res_rgb[3];
 }	t_shoot;
 
-typedef struct s_calc_img_arg
-{
-	t_data						*data;
-	float						dx;
-	float						dx_hd;
-	float						x_tl;
-	float						y_tl;
-	int							line;
-}	t_calc_img_arg;
-
-typedef struct s_calc_ray_arg
-{
-	t_data						*data;
-	int							start;
-	int							end;
-}	t_calc_ray_arg;
 
 typedef struct s_intersect_result
 {
@@ -301,8 +290,6 @@ typedef struct s_bvh
 
 typedef struct s_obj_parser
 {
-    // float						*vertices[3];
-    // float						*normals[3];
 	float						(*normals)[3];
 	float						(*vertices)[3];
 	int							**faces;
@@ -312,6 +299,10 @@ typedef struct s_obj_parser
 	int							idx_v;
 	int							idx_n;
 	char						*filename;
+	int							tri_rgb[3];
+	float						tri_refr_idx;
+	float						tri_refr_coeff;
+	float						tri_refl_coeff;
 }   t_obj_parser;
 
 
@@ -357,7 +348,8 @@ int								create_triangle(t_data *data, char *line, t_obj_parser *parser);
 int								get_ratio(char **specs, float *ratio);
 int								get_refr_idx(char **specs, float *ratio);
 int								get_rgb_normalized(char **specs, float *color);
-unsigned char					get_rgb(char **specs, unsigned char *color);
+int								get_rgb(char **specs, unsigned char *color);
+int								get_obj_rgb(char **specs, int *color);
 int								get_coord(char **specs, float *value);
 int								get_vec_normalized(char **specs, float *value);
 int								get_fov_range(char **specs, int *fov);
@@ -435,6 +427,7 @@ void							scale_vec(float v[3], float amp);
 void							wait_for_workers(t_data *data);
 void							launch_pool(t_data *data);
 void							*worker(void *arg);
+void 							calculate_img_packet(t_calc_img_arg *arg);
 
 /* Perf */
 void							print_render_stats(double render_time);
@@ -446,8 +439,8 @@ double							get_time();
 int								handle_input(int keysym, t_data *data);
 int								handle_close(t_data *data);
 int								init_mlx(t_mlxlib *data);
-void 							rotate_cam(t_data *data, float theta, char axis);
-void 							translate_cam(t_data *data, float v[3], float amp);
+void 							rotate_cam(t_data *data, float theta, float axis[3], int anti_fa);
+void 							translate_cam(t_data *data, float v[3], float amp, int anti_fa);
 int mouse_press(int button, int x, int y, void *arg);
 int mouse_release(int button, int x, int y, void *arg);
 int mouse_move(int x, int y, void *arg);

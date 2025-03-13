@@ -227,20 +227,29 @@ int create_triangle(t_data *data, char *line, t_obj_parser *parser)
 			data->objects[data->objects_idx].geo.tri.n2[i] = parser->normals[vn[2]][i];
 			i++;
 		}
+
 		normalize(data->objects[data->objects_idx].geo.tri.n0);
 		normalize(data->objects[data->objects_idx].geo.tri.n1);
 		normalize(data->objects[data->objects_idx].geo.tri.n2);
-		
+
 		data->objects[data->objects_idx].type = TRI;
 		data->objects[data->objects_idx].mat.checker_flag = 0;
-		data->objects[data->objects_idx].mat.refl_coeff = 0;
-		data->objects[data->objects_idx].mat.refr_coeff = 0.95;
-		data->objects[data->objects_idx].mat.refr_idx = 1.5;
-		data->objects[data->objects_idx].mat.rgb[0] = 200;
-		data->objects[data->objects_idx].mat.rgb[1] = 200;
-		data->objects[data->objects_idx].mat.rgb[2] = 200;
+		data->objects[data->objects_idx].mat.refl_coeff = parser->tri_refl_coeff;
+		data->objects[data->objects_idx].mat.refr_coeff = parser->tri_refr_coeff;
+		data->objects[data->objects_idx].mat.refr_idx = parser->tri_refr_idx;
+		if (parser->tri_rgb[0] == -1)
+		{
+			data->objects[data->objects_idx].mat.rgb[0] = rand() % 256;
+			data->objects[data->objects_idx].mat.rgb[1] = rand() % 256;
+			data->objects[data->objects_idx].mat.rgb[2] = rand() % 256;
+		}
+		else
+		{
+			data->objects[data->objects_idx].mat.rgb[0] = parser->tri_rgb[0];
+			data->objects[data->objects_idx].mat.rgb[1] = parser->tri_rgb[1];
+			data->objects[data->objects_idx].mat.rgb[2] = parser->tri_rgb[2];
+		}
 		data->objects_idx++;
-		//t->mesh_id = 0;
 		return (EXIT_SUCCESS);
 	}
 	else

@@ -4,6 +4,7 @@ int	is_between_0_and_1(double n);
 int	is_between_neg1_and_1(double n);
 int	is_between_0_and_180(int n);
 int	is_between_0_and_255(int n);
+int	is_between_minus1_and_255(int n);
 int	is_between_0_and_2_7(double n);
 int	is_0_or_1(int n);
 
@@ -36,7 +37,7 @@ __attribute__((optimize("O0"))) int	get_rgb_normalized(char **specs, float *colo
 	return (EXIT_SUCCESS);
 }
 
-__attribute__((optimize("O0"))) unsigned char	get_rgb(char **specs, unsigned char *color)
+__attribute__((optimize("O0"))) int	get_rgb(char **specs, unsigned char *color)
 {
 	if (!ft_isdigit(**specs))
 		return (EXIT_FAILURE);
@@ -44,6 +45,22 @@ __attribute__((optimize("O0"))) unsigned char	get_rgb(char **specs, unsigned cha
 	if (errno == ERANGE || !is_between_0_and_255(*color))
 		return (EXIT_FAILURE);
 	while (!ft_isdigit(**specs) && **specs != '\0')
+	{
+		if (**specs != ' ' && **specs != ',')
+			return (EXIT_FAILURE);
+		(*specs)++;
+	}
+	return (EXIT_SUCCESS);
+}
+
+__attribute__((optimize("O0"))) int	get_obj_rgb(char **specs, int *color)
+{
+	if (!ft_isdigit(**specs) && **specs != '-')
+		return (EXIT_FAILURE);
+	*color = ft_strtoi(*specs, specs);
+	if (errno == ERANGE || !is_between_minus1_and_255(*color))
+		return (EXIT_FAILURE);
+	while (!ft_isdigit(**specs) && **specs != '\0' && **specs != '-')
 	{
 		if (**specs != ' ' && **specs != ',')
 			return (EXIT_FAILURE);
@@ -177,4 +194,9 @@ int	is_between_0_and_180(int n)
 int	is_between_0_and_255(int n)
 {
 	return (n >= 0 && n <= 255);
+}
+
+int	is_between_minus1_and_255(int n)
+{
+	return (n >= -1 && n <= 255);
 }

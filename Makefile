@@ -46,7 +46,7 @@ LIBMLX:=			$(MLX_DIRECTORY)/libmlx.a
 LIB_FLAGS:=			-L$(LIBFT_DIRECTORY) -lft -L$(MLX_DIRECTORY) -lmlx_Linux -lXext -lX11 -lm
 
 CC:=				gcc
-CFLAGS:=			-Wuninitialized -Wall -Wextra -g -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) -mavx -Ofast -march=native -ffunction-sections -Wl,--gc-sections -flto -finline-limit=2000
+CFLAGS:=			-Wuninitialized -Wall -Wextra -g -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) -mavx #-Ofast -march=native -ffunction-sections -Wl,--gc-sections -flto -finline-limit=2000
 
 all: $(OBJECTS_DIRECTORY) $(LIBMLX) $(LIBFT) $(NAME)
 

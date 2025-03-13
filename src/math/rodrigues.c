@@ -69,19 +69,11 @@ void first_rotation_matrice(t_data *data)
 {
     float   tmp[3];
     
-    ft_memset(data->cam.x , 0, sizeof(float[3]));
-    data->cam.x[0] = 1;
-    ft_memset(data->cam.y , 0, sizeof(float[3]));
-    data->cam.y[1] = 1;
-
     get_rotation_matrice(data->cam.direction, data->cam.t_mat, data->cam.world_center);
-    cpy_vec(data->cam.y, tmp);
+    cpy_vec((float[3]){0, 1, 0}, tmp);
     copy_r_mat(data);
-    
     dot_inplace_33_13(data->cam.r_mat, tmp); // maybe change that ?...
-    
-    
-    
+
     if (tmp[1] < 0)
     {
         double   R[4][4];
@@ -95,9 +87,6 @@ void first_rotation_matrice(t_data *data)
         dot_inplace_44_44(data->cam.t_mat, R);
     }
     copy_r_mat(data);
-    dot_inplace_33_13(data->cam.r_mat, data->cam.x);
-	dot_inplace_33_13(data->cam.r_mat, data->cam.y);
-    dot_inplace_33_13(data->cam.r_mat, data->cam.direction);
 }
 
 // void move_cam_origin_2(float cam_origin_backup[3], float R[4][4], float center[3], float cam_origin[3])

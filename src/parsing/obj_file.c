@@ -7,6 +7,7 @@ static int	handle_face_line(char *specs, t_data *data, t_obj_parser *parser);
 static int	handle_vertex_line(char *specs, t_obj_parser *parser);
 static int	parse_vertex(char *line, t_obj_parser *parser);
 static int	parse_normal(char *line, t_obj_parser *parser);
+static int	set_tri(t_obj_parser *parser, char *specs);
 
 int	parse_obj_files(t_data *data, char *filename)
 {
@@ -37,6 +38,7 @@ int	parse_obj_files(t_data *data, char *filename)
 		i++;
 	}
 	i = -1;
+	printf("amount of tris: %d\n", parsers[0].n_f);
 	while (++i < data->n_obj_files)
 	{
 		free(parsers[i].filename);
@@ -59,22 +61,20 @@ static void	get_obj_filenames(t_obj_parser *parsers, int fd)
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		if (line[0] == '\n')
+		if (line[0] == '\n' || line[0] == '+' || line[0] == '|')
 		{
 			free(line);
 			continue ;
 		}
 		specs = format_string(line, ft_strlen(line));
-		// if (!is_object_file(specs))
-		// {
-		// 	free(specs);
-		// 	break ;
-		// }
 		if (is_object_file(specs))
 		{
 			parsers[i].filename = malloc(sizeof(char) * (ft_strlen(specs) - 1));
 			if (sscanf(specs, "o %s", parsers[i].filename) == 1)
+			{
+				set_tri(&parsers[i], specs);
 				i++;
+			}
 		}
 		// parsers[i].filename = malloc(sizeof(char) * (ft_strlen(specs) - 1));
 		// if (sscanf(specs, "o %s", parsers[i].filename) == 1)
@@ -178,5 +178,24 @@ static int	handle_face_line(char *specs, t_data *data, t_obj_parser *parser)
 {
 	if (create_triangle(data, specs, parser) == EXIT_FAILURE)
 		return (print_error(12), EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
+static int	set_tri(t_obj_parser *parser, char *specs)
+{
+	while (!ft_isdigit(*specs) && *specs != '-')
+		specs++;
+	if (get_obj_rgb(&specs, &parser->tri_rgb[0]) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (get_obj_rgb(&specs, &parser->tri_rgb[1]) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (get_obj_rgb(&specs, &parser->tri_rgb[2]) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (get_ratio(&specs, &parser->tri_refl_coeff) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (get_ratio(&specs, &parser->tri_refr_coeff) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (get_refr_idx(&specs, &parser->tri_refr_idx) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

@@ -18,7 +18,7 @@ int	read_and_count_data_in_rt(t_data *data)
 		line = get_next_line(data->rt_fd);
 		if (line == NULL)
 			break ;
-		if (line[0] == '\n')
+		if (line[0] == '\n' || line[0] == '+' || line[0] == '|' )
 		{
 			free(line);
 			continue ;
