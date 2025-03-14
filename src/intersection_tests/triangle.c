@@ -39,7 +39,7 @@ int		all_same_sign(float bary[3])
 // 	return (t);
 // }
 
-float	intersection_test_triangle(t_object *obj, float ray[3], float origin[3])
+float	intersection_test_triangle_2(t_object *obj, float ray[3], float origin[3])
 {
 	float   px[3][3];
 	float   bary[3];
@@ -68,4 +68,41 @@ float	intersection_test_triangle(t_object *obj, float ray[3], float origin[3])
 	if (t > EPSILON)
 		return (t);
 	return (0);
+}
+// Möller-Trumbore Ray-Triangle Intersection Test
+float intersection_test_triangle(t_object *obj, float ray[3], float origin[3]) {
+    float edge1[3], edge2[3], h[3], s[3], q[3];
+    float det, inv_det, u, v, t;
+
+    // Compute edges of the triangle
+    vec_substr(obj->geo.tri.v1, obj->geo.tri.v0, edge1);
+   	vec_substr(obj->geo.tri.v2, obj->geo.tri.v0, edge2);
+
+    // Compute the determinant
+    cprod_13_13(ray, edge2, h);
+    det = dot_13_13(edge1, h);
+
+    // If the determinant is near zero, the ray is parallel to the triangle
+    if (fabs(det) < EPSILON)
+        return 0.0f;
+
+    inv_det = 1.0f / det;
+    vec_substr(origin, obj->geo.tri.v0, s);
+    u = dot_13_13(s, h) * inv_det;
+
+    // Check if u is outside the triangle
+    if (u < 0.0f || u > 1.0f)
+        return 0.0f;
+
+    cprod_13_13(s, edge1, q);
+    v = dot_13_13(ray, q) * inv_det;
+
+    // Check if v is outside the triangle
+    if (v < 0.0f || u + v > 1.0f)
+        return 0.0f;
+
+    // Compute t (distance from ray origin to intersection point)
+    t = dot_13_13(edge2, q) * inv_det;
+
+    return (t); // Return t if the intersection is in front of the ray
 }

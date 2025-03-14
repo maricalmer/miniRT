@@ -62,7 +62,7 @@ int mouse_move(int x, int y, void *arg)
         {
             data->mouse_x = x;
             data->mouse_y = y;
-            v[0] = dx;
+            v[0] = -dx;
             v[1] = dy; 
             v[2] = 0;
             normalize(v);
@@ -78,8 +78,8 @@ int mouse_move(int x, int y, void *arg)
         {
             data->mouse_x = x;
             data->mouse_y = y;
-            v[0] = dy;
-            v[1] = dx;
+            v[0] = -dy;
+            v[1] = -dx;
             v[2] = 0;
             normalize(v);
             rotate_cam(data, 2 * M_PI / 180, v, 1);

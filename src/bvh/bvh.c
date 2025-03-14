@@ -7,7 +7,7 @@ t_obj_geo extract_geo_data_sphere(t_object *obj);
 t_obj_geo extract_geo_data_tri(t_object *obj);
 t_bvh   *init_bvh(t_data *data);
 int		cut_into_child_nodes(t_bvh *bvh, int idx);
-void 	get_child_sizes(t_bvh *bvh, int idx, int axis, float mid, int idx_left, int idx_right);
+void 	get_child_sizes(t_bvh *bvh, int idx, float mid[3], int idx_left, int idx_right);
 void	create_child_groups(t_bvh *bvh, int idx, int axis, float mid, int idx_left, int idx_right);
 void	cut_in_two(t_bvh *bvh, int idx, int idx_c, int i);
 int 	find_largest_axis(t_bvh *bvh, int idx);
@@ -86,6 +86,7 @@ t_bvh   *init_bvh(t_data *data)
 	get_bbox_min_max(bvh, 0);
 	idx_c = cut_into_child_nodes(bvh, 0);
 	bvh->childs[idx_c] = -2;
+	print_bvh_stats(bvh);
 	free_bvh_1(bvh);
 	free(data->bvh_geo_data);
     // print_nodes(bvh, 0);
@@ -145,53 +146,71 @@ t_obj_geo extract_geo_data_tri(t_object *obj)
 
 int	cut_into_child_nodes(t_bvh *bvh, int idx)
 {
-	// handle the case if child box empty ??
-
-	static int  idx_c = 8; // index counter
+	static int  idx_c = 8;
 	int 		i;
 	
-	// exit condition :
 	if (bvh->group_size[idx] <= MAX_BVH_GROUP || bvh->depth[idx] == BVH_DEPTH_MAX)
 	{
 		bvh->childs[idx] = -1;
 		return (0);
 	}
-	cut_in_two(bvh, idx, idx_c, 2); // 8 = 2^(2+1) ... 
+	cut_in_two(bvh, idx, idx_c, 2);
 	bvh->childs[idx] = idx_c;
+	i = -1;
+	while (++i < 8)
+	{
+		if (bvh->group_size[bvh->childs[idx] + i] == bvh->group_size[idx])
+		{
+			bvh->childs[idx] = -1;
+			return (idx_c);
+		}
+	}
 	idx_c += 8;
-	//set_child_depth() :
 	i = -1;
 	while (++i < 8)
 	{
 		bvh->depth[bvh->childs[idx] + i] = bvh->depth[idx] + 1;
-		//ensure_cutting_succesfull() !!!!!
-		if (bvh->group_size[bvh->childs[idx] + i] == bvh->group_size[idx])
-		{
-			// printf("failed to cut further...\n");
-			// bvh->depth[bvh->childs[idx] + i] = BVH_DEPTH_MAX;
-		}
-
 		cut_into_child_nodes(bvh, bvh->childs[idx] + i);
 	}
 	return (idx_c);
 }
-void get_child_sizes(t_bvh *bvh, int idx, int axis, float mid, int idx_left, int idx_right)
+void get_child_sizes(t_bvh *bvh, int idx, float mid[3], int idx_left, int idx_right)
 {
+	int		j;
 	int 	i;
 	int 	group_size_idx;
+	int		n_obj_l[3];
+	int		n_obj_r[3];
+	int		sum[3];
+	int 	axis; 
 
 
 	group_size_idx = bvh->group_size[idx];
-	bvh->group_size[idx_left] = 0;
-	bvh->group_size[idx_right] = 0;
-	i = -1;
-	while (++i < group_size_idx) 
+	ft_memset(n_obj_l, 0, sizeof(float[3]));
+	ft_memset(n_obj_r, 0, sizeof(float[3]));
+	j = -1;
+	while (++j < 3)
 	{
-		if (bvh->obj_geo[idx][i]->bmin[axis] <= mid)
-			bvh->group_size[idx_left]++;
-		if (bvh->obj_geo[idx][i]->bmax[axis] >= mid)
-			bvh->group_size[idx_right]++;
+		i = -1;
+		while (++i < group_size_idx) 
+		{
+			if (bvh->obj_geo[idx][i]->bmin[j] <= mid[j])
+				n_obj_l[j]++;
+			if (bvh->obj_geo[idx][i]->bmax[j] >= mid[j])
+				n_obj_r[j]++;
+		}
+		sum[j] = n_obj_l[j] + n_obj_r[j];
 	}
+	if (sum[0] <= sum[1] && sum[0] <= sum[2])
+		axis = 0;
+	else if (sum[1] <= sum[0] && sum[1] <= sum[2])
+		axis = 1;
+	else
+		axis = 2;
+
+	bvh->group_size[idx_left] = n_obj_l[axis];
+	bvh->group_size[idx_right] = n_obj_r[axis];
+
 	// if (bvh->group_size[idx_left] == group_size_idx && bvh->group_size[idx_right] == group_size_idx)
 	// 	printf("unsucessful cutting => contact your dev team, it should try another axis...\n");
 
@@ -213,19 +232,19 @@ void get_child_sizes(t_bvh *bvh, int idx, int axis, float mid, int idx_left, int
 	i_right = 0;
 	while (++i < group_size_idx) 
 	{
-		if (old_geo[i]->bmin[axis] <= mid)  // with bbbox for strict !!! 
+		if (old_geo[i]->bmin[axis] <= mid[axis])  // with bbbox for strict !!! 
 		{	
 			bvh->group[idx_left][i_left] = old_group[i];
 			bvh->obj_geo[idx_left][i_left++] = old_geo[i];
 		}
-		if (old_geo[i]->bmax[axis] >= mid)  // with bbbox for strict !!! 
+		if (old_geo[i]->bmax[axis] >= mid[axis])  // with bbbox for strict !!! 
 		{	
 			bvh->group[idx_right][i_right] = old_group[i];
 			bvh->obj_geo[idx_right][i_right++] = old_geo[i];
 		}
 	}
-	get_bbox(bvh, idx_right, idx, mid, axis, 1);
-	get_bbox(bvh, idx_left, idx, mid, axis, 0);
+	get_bbox(bvh, idx_right, idx, mid[axis], axis, 1);
+	get_bbox(bvh, idx_left, idx, mid[axis], axis, 0);
 	if (idx == idx_left)
 	{
 		free(old_group);
@@ -305,8 +324,7 @@ void save_bbox_min(t_bvh *bvh, t_bbox bbox_node, t_bbox bbox_elem, int idx)
 
 void	cut_in_two(t_bvh *bvh, int idx, int idx_c, int i)
 {
-		int		axis;
-		float 	mid;
+		float 	mid[3];
 		int		idx_left;
 		int		idx_right;
 
@@ -320,10 +338,11 @@ void	cut_in_two(t_bvh *bvh, int idx, int idx_c, int i)
 			idx_left = idx;		// else inplace !...
 		idx_right = idx_left + pow(2, i);
 
-		axis = find_largest_axis(bvh, idx);
-		mid = find_cutting_plane(bvh, idx, axis);
+		mid[0] = find_cutting_plane(bvh, idx, 0);
+		mid[1] = find_cutting_plane(bvh, idx, 1);
+		mid[2] = find_cutting_plane(bvh, idx, 2);
 		
-		get_child_sizes(bvh, idx, axis, mid, idx_left, idx_right); // in place ... 
+		get_child_sizes(bvh, idx, mid, idx_left, idx_right); // in place ... 
 		// create_child_groups(bvh, idx, axis, mid, idx_left, idx_right); // in place ...
 		cut_in_two(bvh, idx_left, idx_c, i - 1);
 		cut_in_two(bvh, idx_right, idx_c, i - 1);

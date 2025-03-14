@@ -29,6 +29,7 @@ int main(int ac, char **av)
 
 	_MM_SET_FLUSH_ZERO_MODE(_MM_FLUSH_ZERO_ON);
     _MM_SET_DENORMALS_ZERO_MODE(_MM_DENORMALS_ZERO_ON);
+	print_intro();
 	printf("triangle : %li \n", sizeof(t_triangle));
 	printf("mat : %li \n", sizeof(t_material));
 	printf("object _size : %li \n", sizeof(t_object));

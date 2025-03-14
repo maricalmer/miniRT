@@ -48,10 +48,11 @@
 
 # define CHECKER_SIZE			250
 
-# define RED_BG_START	"\033[41;1;37m"
-# define RED_BG_END	"\033[0m\n"
-# define RED_TXT_START	"\033[1;31m"
-# define RED_TXT_END	"\033[0m\n"
+# define RED_BG_START			"\033[41;1;37m"
+# define RED_TXT_START			"\033[1;31m"
+# define CYAN_TXT_START			"\033[1;36m"
+# define PINK_TXT_START			"\033[1;32m"
+# define COLOR_END				"\033[0m\n"
 
 
 typedef struct s_data t_data;
@@ -307,6 +308,7 @@ typedef struct s_obj_parser
 
 
 /// FUNCTIONS
+void							print_intro(void);
 /*checker.c*/
 int								check_input(int ac, char **av, t_data *data);
 /*identifiers.c*/
@@ -384,6 +386,7 @@ void							shading(t_shoot *shoot, t_data *data);
 t_bvh   						*init_bvh(t_data *data);
 void							get_bbox_min_max(t_bvh *bvh, int idx);
 void							update_group(t_data *data, t_bvh *bvh);
+void    						print_bvh_stats(t_bvh *bvh);
 
 /* tests*/
 float							intersection_test_bvh(t_bvh *bvh, int idx, t_shoot *shoot);
@@ -406,6 +409,7 @@ void							cprod_13_13(float a[3], float b[3], float res[3]);
 void							normalize(float vector[3]);
 void							normalize2(float vector[3], float *magnitude);
 int								imin(int a, int b);
+int								imax(int a, int b);
 void							vec_substr(float p1[3], float p2[3], float result[3]);
 void							cpy_vec(float v1[3], float v2[3]);
 float 							triple_scalar(float a[3], float b[3], float c[3]);
