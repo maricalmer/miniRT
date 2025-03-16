@@ -16,13 +16,16 @@ void    print_bvh_stats(t_bvh *bvh)
 {
     t_bvh_stats stats;
     
-    get_bvh_stats(bvh, &stats);
-    printf("  [BVH]\n\n");
-    printf("    > max depth of %d\n\n", stats.max_depth);
-    printf("    > %d n_obj at leafs (%.0f%%)\n\n", 
-            stats.n_obj, (float)stats.n_obj / bvh->group_size[0] * 100);
-    printf("    > %.2f obj/leafs (min : %d / max : %d)%s\n",
-        (float)stats.n_obj / stats.n_leafs, stats.min, stats.max, COLOR_END);
+    if (bvh->childs[0] != -2)
+    {
+        get_bvh_stats(bvh, &stats);
+        printf("%s  [BVH]\n\n", CYAN_TXT_START);
+        printf("    > max depth of %d\n\n", stats.max_depth);
+        printf("    > %d n_obj at leafs (%.0f%%)\n\n", 
+                stats.n_obj, (float)stats.n_obj / bvh->group_size[0] * 100);
+        printf("    > %.2f obj/leafs (min : %d / max : %d)%s\n",
+            (float)stats.n_obj / stats.n_leafs, stats.min, stats.max, COLOR_END);
+    }
 }
 
 static void    get_bvh_stats(t_bvh *bvh, t_bvh_stats *stats)
@@ -31,7 +34,7 @@ static void    get_bvh_stats(t_bvh *bvh, t_bvh_stats *stats)
 
     ft_memset(stats, 0, sizeof(t_bvh_stats));
     stats->min = INT_MAX;
-    i = 7;
+    i = -1;
     while(bvh->childs[++i] != -2)
     {
         if (bvh->childs[i] == -1)

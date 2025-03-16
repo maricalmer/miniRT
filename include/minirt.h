@@ -42,6 +42,7 @@
 # define NO_EVENT_MASK			0
 
 # define BVH_ON					1
+# define FAST_BVH_TRANSVERSAL	1   // fast is ok for convexe volumes, else strict (=> 0) should be used.
 # define MAX_BVH_GROUP			20
 # define BVH_DEPTH_MAX			5
 # define BVH_SIZE_MAX			37464 // more tricky ... (w^(d+1) - 1)/(w-1) + (w-1) + w
@@ -241,6 +242,7 @@ typedef struct s_data
 	t_mlxlib					mlx;
 	//bvh_creation
 	t_obj_geo					*bvh_geo_data;
+	int							is_bvh;
 	//parsing
 	int							rt_fd;
 	int							obj_fd;
@@ -400,8 +402,7 @@ float 							visibility_intersection_tests_leafs(t_object **objects, t_shoot *sh
 float							shadow_intersection_tests(t_shoot *shoot, t_object *objects, float shadow_ray[3], float dist_light, int n_obj);
 float 							shadow_intersection_tests_leaf(t_shoot *shoot, t_object **objects, float shadow_ray[3], float dist_light, int n_obj);
 float							intersection_test_sphere(t_object *obj, float ray[3], float origin[3]);
-float							intersection_test_sphere2(t_object *obj, float ray[3], float origin[3]);
-float							intersection_test_cylinder(t_cylinder *cylinder, float ray[3], float origin[3]);
+float							intersection_test_cylinder(t_object *obj, float ray[3], float origin[3]);
 float							intersection_test_plane(t_object *obj, float p_ray[3], float origin[3]);
 float							intersection_test_triangle(t_object *obj, float ray[3], float origin[3]);
 //t_intersect_result				intersection_test_aabb(t_bvh *bvh, int idx, float dir[3], float src[3]);

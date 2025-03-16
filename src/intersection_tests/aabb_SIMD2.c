@@ -3,6 +3,8 @@
 static void	ft_sort_int_tab(__m256 input, char res[9][5]);
 
 
+// __m256 aabb_test_SIMD
+
 void aabb_test(t_bvh *bvh, int idx, float dir[3], float src[3], char res[9][5]) 
 {
     __m256 bbox;

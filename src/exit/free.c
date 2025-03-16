@@ -5,9 +5,14 @@ void    free_bvh_1(t_bvh *bvh)
 {
     int i;
 
-    free(bvh->group[0]);
-    free(bvh->obj_geo[0]);
-    i = 7;
+    // if ((bvh->childs[0] != -2))
+    // {
+    //     free(bvh->group[0]);
+    //     free(bvh->obj_geo[0]);
+    // }
+    // else
+    //     return ;
+    i = -1;
     while (bvh->childs[++i] != -2)
     {
         if (bvh->childs[i] != -1)
@@ -21,7 +26,7 @@ void    free_bvh_2(t_bvh *bvh)
 {
     int i;
 
-    i = 7;
+    i = -1;
     while (bvh->childs[++i] != -2)
     {
         if (bvh->childs[i] == -1)

@@ -35,8 +35,8 @@ int	parse_obj_files(t_data *data, char *filename)
 		if (create_elements_obj(data, &parsers[i]) == EXIT_FAILURE)
 			return (free_obj_parse_2(parsers, data->n_obj_files), EXIT_FAILURE);
 	}
-	printf("  [TRIMESH]\n\n");
-	printf("    > %d tris\n\n", parsers[0].n_f);
+	printf("%s  [TRIMESH]\n\n", CYAN_TXT_START);
+	printf("    > %d tris%s\n\n", parsers[0].n_f, COLOR_END);
 	return (free_obj_parse_2(parsers, data->n_obj_files), EXIT_SUCCESS);
 }
 
