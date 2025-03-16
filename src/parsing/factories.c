@@ -14,11 +14,7 @@ int	create_ambient_light(t_data *data, char *specs)
 
 	if (get_ratio(&specs, &ambient.brightness) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_rgb_normalized(&specs, &ambient.rgb[0]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_rgb_normalized(&specs, &ambient.rgb[1]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_rgb_normalized(&specs, &ambient.rgb[2]) == EXIT_FAILURE)
+	if (get_rgb_normalized(&specs, ambient.rgb) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	data->ambient = ambient;
 	return (EXIT_SUCCESS);
@@ -29,17 +25,9 @@ int	create_cam(t_data *data, char *specs)
 {
 	t_camera	camera;
 
-	if (get_coord(&specs, &camera.origin[0]) == EXIT_FAILURE)
+	if (get_coord(&specs, camera.origin) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_coord(&specs, &camera.origin[1]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_coord(&specs, &camera.origin[2]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_vec_normalized(&specs, &camera.direction[0]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_vec_normalized(&specs, &camera.direction[1]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_vec_normalized(&specs, &camera.direction[2]) == EXIT_FAILURE)
+	if (get_vec_normalized(&specs, camera.direction) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (get_fov_range(&specs, &camera.fov) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
@@ -49,22 +37,14 @@ int	create_cam(t_data *data, char *specs)
 
 int	create_light(t_data *data, char *specs)
 {
-	t_light	light;
-    static int     i;
+	t_light		light;
+	static int	i;
 
-	if (get_coord(&specs, &light.origin[0]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_coord(&specs, &light.origin[1]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_coord(&specs, &light.origin[2]) == EXIT_FAILURE)
+	if (get_coord(&specs, light.origin) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (get_ratio(&specs, &light.brightness) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_rgb_normalized(&specs, &light.rgb[0]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_rgb_normalized(&specs, &light.rgb[1]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_rgb_normalized(&specs, &light.rgb[2]) == EXIT_FAILURE)
+	if (get_rgb_normalized(&specs, light.rgb) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	// BONUS
 	data->lights[i++] = light;
@@ -73,19 +53,11 @@ int	create_light(t_data *data, char *specs)
 
 int	create_sphere(t_data *data, char *specs)
 {
-    if (get_coord(&specs, &data->objects[data->objects_idx].geo.sph.center[0]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_coord(&specs, &data->objects[data->objects_idx].geo.sph.center[1]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_coord(&specs, &data->objects[data->objects_idx].geo.sph.center[2]) == EXIT_FAILURE)
+    if (get_coord(&specs, data->objects[data->objects_idx].geo.sph.center) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (get_radius(&specs, &data->objects[data->objects_idx].geo.sph.radius) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_rgb(&specs, &data->objects[data->objects_idx].mat.rgb[0]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_rgb(&specs, &data->objects[data->objects_idx].mat.rgb[1]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_rgb(&specs, &data->objects[data->objects_idx].mat.rgb[2]) == EXIT_FAILURE)
+	if (get_rgb(&specs, data->objects[data->objects_idx].mat.rgb) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	data->objects[data->objects_idx].type = SPHERE;
 	data->objects[data->objects_idx].mat.checker_flag = 0;
@@ -101,23 +73,11 @@ int	create_sphere(t_data *data, char *specs)
 
 int	create_plane(t_data *data, char *specs)
 {	
-    if (get_coord(&specs, &data->objects[data->objects_idx].geo.pl.point[0]) == EXIT_FAILURE)
+    if (get_coord(&specs, data->objects[data->objects_idx].geo.pl.point) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_coord(&specs, &data->objects[data->objects_idx].geo.pl.point[1]) == EXIT_FAILURE)
+    if (get_vec_normalized(&specs, data->objects[data->objects_idx].geo.pl.normal) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_coord(&specs, &data->objects[data->objects_idx].geo.pl.point[2]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-    if (get_vec_normalized(&specs, &data->objects[data->objects_idx].geo.pl.normal[0]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-    if (get_vec_normalized(&specs, &data->objects[data->objects_idx].geo.pl.normal[1]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-    if (get_vec_normalized(&specs, &data->objects[data->objects_idx].geo.pl.normal[2]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_rgb(&specs, &data->objects[data->objects_idx].mat.rgb[0]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_rgb(&specs, &data->objects[data->objects_idx].mat.rgb[1]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_rgb(&specs, &data->objects[data->objects_idx].mat.rgb[2]) == EXIT_FAILURE)
+	if (get_rgb(&specs, data->objects[data->objects_idx].mat.rgb) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	data->objects[data->objects_idx].type = PLANE;
 	// BONUS
@@ -131,23 +91,11 @@ int	create_plane(t_data *data, char *specs)
 		return (EXIT_FAILURE);
 	if (data->objects[data->objects_idx].mat.checker_flag)
 	{
-		if (get_rgb(&specs, &data->objects[data->objects_idx].mat.rgb2[0]) == EXIT_FAILURE)
+		if (get_rgb(&specs, data->objects[data->objects_idx].mat.rgb2) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
-		if (get_rgb(&specs, &data->objects[data->objects_idx].mat.rgb2[1]) == EXIT_FAILURE)
+		if (get_vec_normalized(&specs, data->objects[data->objects_idx].geo.pl.u) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
-		if (get_rgb(&specs, &data->objects[data->objects_idx].mat.rgb2[2]) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		if (get_vec_normalized(&specs, &data->objects[data->objects_idx].geo.pl.u[0]) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-    	if (get_vec_normalized(&specs, &data->objects[data->objects_idx].geo.pl.u[1]) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-    	if (get_vec_normalized(&specs, &data->objects[data->objects_idx].geo.pl.u[2]) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		if (get_vec_normalized(&specs, &data->objects[data->objects_idx].geo.pl.v[0]) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-    	if (get_vec_normalized(&specs, &data->objects[data->objects_idx].geo.pl.v[1]) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-    	if (get_vec_normalized(&specs, &data->objects[data->objects_idx].geo.pl.v[2]) == EXIT_FAILURE)
+		if (get_vec_normalized(&specs, data->objects[data->objects_idx].geo.pl.v) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -155,27 +103,15 @@ int	create_plane(t_data *data, char *specs)
 
 int	create_cylinder(t_data *data, char *specs)
 {
-    if (get_coord(&specs, &data->objects[data->objects_idx].geo.cyl.center[0]) == EXIT_FAILURE)
+    if (get_coord(&specs, data->objects[data->objects_idx].geo.cyl.center) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_coord(&specs, &data->objects[data->objects_idx].geo.cyl.center[1]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_coord(&specs, &data->objects[data->objects_idx].geo.cyl.center[2]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-    if (get_vec_normalized(&specs, &data->objects[data->objects_idx].geo.cyl.dir[0]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-    if (get_vec_normalized(&specs, &data->objects[data->objects_idx].geo.cyl.dir[1]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-    if (get_vec_normalized(&specs, &data->objects[data->objects_idx].geo.cyl.dir[2]) == EXIT_FAILURE)
+    if (get_vec_normalized(&specs, data->objects[data->objects_idx].geo.cyl.dir) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
     if (get_radius(&specs, &data->objects[data->objects_idx].geo.cyl.radius) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
     if (get_length(&specs, &data->objects[data->objects_idx].geo.cyl.height) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_rgb(&specs, &data->objects[data->objects_idx].mat.rgb[0]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_rgb(&specs, &data->objects[data->objects_idx].mat.rgb[1]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_rgb(&specs, &data->objects[data->objects_idx].mat.rgb[2]) == EXIT_FAILURE)
+	if (get_rgb(&specs, data->objects[data->objects_idx].mat.rgb) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	data->objects[data->objects_idx].type = CYLINDER;
     data->objects[data->objects_idx].mat.checker_flag = 0;
@@ -216,7 +152,7 @@ int create_triangle(t_data *data, char *line, t_obj_parser *parser)
 			i++;
 		}
 		i = 0;
-		while (i <  3)
+		while (i < 3)
 		{
 			data->objects[data->objects_idx].geo.tri.v0[i] = parser->vertices[v[0]][i];
 			data->objects[data->objects_idx].geo.tri.v1[i] = parser->vertices[v[1]][i];

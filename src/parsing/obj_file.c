@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-static void	get_obj_filenames(t_obj_parser *parsers, int fd);
+static int	get_obj_filenames(t_obj_parser *parsers, t_data *data, char *filename);
 static int	process_obj_line(char *specs, t_data *data, t_obj_parser *parser);
 static int	create_elements_obj(t_data *data, t_obj_parser *parser);
 static int	handle_face_line(char *specs, t_data *data, t_obj_parser *parser);
@@ -12,43 +12,35 @@ static int	set_tri(t_obj_parser *parser, char *specs);
 int	parse_obj_files(t_data *data, char *filename)
 {
 	int				i;
-	t_obj_parser	parsers[data->n_obj_files];
+	t_obj_parser	*parsers;
 
-	init_parsers(parsers, data->n_obj_files);
-	data->rt_fd = open(filename, O_RDONLY);
-	if (data->rt_fd < 0)
+	parsers = ft_calloc(data->n_obj_files, sizeof(t_obj_parser));
+	if (!parsers)
 		return (print_error(3), EXIT_FAILURE);
-	get_obj_filenames(parsers, data->rt_fd);
-	i = 0;
-	while (i < data->n_obj_files)
-	{
-		if (read_and_count_data_in_obj(data, &parsers[i]) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		if (init_elem_obj(&parsers[i]) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		i++;
-	}
-	if (init_elem_rt(data) == EXIT_FAILURE)
+	if (get_obj_filenames(parsers, data, filename) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	i = 0;
-	while (i < data->n_obj_files)
-	{
-		if (create_elements_obj(data, &parsers[i]) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		i++;
-	}
 	i = -1;
-	printf("amount of tris: %d\n", parsers[0].n_f);
 	while (++i < data->n_obj_files)
 	{
-		free(parsers[i].filename);
-		free(parsers[i].vertices);
-		free(parsers[i].normals);
+		if (read_obj(data, &parsers[i]) == EXIT_FAILURE)
+			return (free_obj_parse_1(parsers, data->n_obj_files), EXIT_FAILURE);
+		if (init_obj_lists(&parsers[i]) == EXIT_FAILURE)
+			return (free_obj_parse_1(parsers, data->n_obj_files), EXIT_FAILURE);
 	}
-	return (EXIT_SUCCESS);
+	if (init_rt_lists(data) == EXIT_FAILURE)
+		return (free_obj_parse_2(parsers, data->n_obj_files), EXIT_FAILURE);
+	i = -1;
+	while (++i < data->n_obj_files)
+	{
+		if (create_elements_obj(data, &parsers[i]) == EXIT_FAILURE)
+			return (free_obj_parse_2(parsers, data->n_obj_files), EXIT_FAILURE);
+	}
+	printf("  [TRIMESH]\n\n");
+	printf("    > %d tris\n\n", parsers[0].n_f);
+	return (free_obj_parse_2(parsers, data->n_obj_files), EXIT_SUCCESS);
 }
 
-static void	get_obj_filenames(t_obj_parser *parsers, int fd)
+static int	get_obj_filenames(t_obj_parser *parsers, t_data *data, char *filename)
 {
 	int				i;
 	char			*line;
@@ -56,9 +48,12 @@ static void	get_obj_filenames(t_obj_parser *parsers, int fd)
 
 	line = NULL;
 	i = 0;
+	data->rt_fd = open(filename, O_RDONLY);
+	if (data->rt_fd < 0)
+		return (free(parsers), print_error(3), EXIT_FAILURE);
 	while (1)
 	{
-		line = get_next_line(fd);
+		line = get_next_line(data->rt_fd);
 		if (line == NULL)
 			break ;
 		if (line[0] == '\n' || line[0] == '+' || line[0] == '|')
@@ -76,11 +71,9 @@ static void	get_obj_filenames(t_obj_parser *parsers, int fd)
 				i++;
 			}
 		}
-		// parsers[i].filename = malloc(sizeof(char) * (ft_strlen(specs) - 1));
-		// if (sscanf(specs, "o %s", parsers[i].filename) == 1)
-		// 	i++;
 		free(specs);
 	}
+	return (EXIT_SUCCESS);
 }
 
 int	read_obj_file(t_data *data, t_obj_parser *parser)
@@ -102,10 +95,7 @@ int	read_obj_file(t_data *data, t_obj_parser *parser)
 		}
 		specs = format_string(line, len);
 		if (process_obj_line(specs, data, parser) == EXIT_FAILURE)
-		{
-			free(specs);
-			return (EXIT_FAILURE);
-		}
+			return (free(specs), EXIT_FAILURE);
 		free(specs);
 	}
 	return (EXIT_SUCCESS);

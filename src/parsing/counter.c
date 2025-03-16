@@ -1,39 +1,8 @@
 #include "minirt.h"
 
-static int	count_objects(char *specs, t_data *data, int *n_cam, int *n_ambient);
 static int	count_tri_data(char *line, t_obj_parser *parser);
 
-int	read_and_count_data_in_rt(t_data *data)
-{
-	char	*line;
-	int		n_cam;
-	int		n_ambient;
-	char	*specs;
-
-	line = NULL;
-	n_cam = 0;
-	n_ambient = 0;
-	while (1)
-	{
-		line = get_next_line(data->rt_fd);
-		if (line == NULL)
-			break ;
-		if (line[0] == '\n' || line[0] == '+' || line[0] == '|' )
-		{
-			free(line);
-			continue ;
-		}
-		specs = format_string(line, ft_strlen(line));
-		if (count_objects(specs, data, &n_cam, &n_ambient) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-	}
-	close(data->rt_fd);
-	if (!data->n_light)
-		return (print_error(4), EXIT_FAILURE);
-	return (EXIT_SUCCESS);
-}
-
-static int	count_objects(char *specs, t_data *data, int *n_cam, int *n_ambient)
+int	count_rt_elems(char *specs, t_data *data, int *n_cam, int *n_ambient)
 {
 	if (is_object_file(specs))
 		data->n_obj_files++;
@@ -61,7 +30,7 @@ static int	count_objects(char *specs, t_data *data, int *n_cam, int *n_ambient)
 	return (EXIT_SUCCESS);
 }
 
-int	read_and_count_data_in_obj(t_data *data, t_obj_parser *parser)
+int	read_obj(t_data *data, t_obj_parser *parser)
 {
 	int		fd;
 	char	*line;

@@ -30,7 +30,7 @@ void	render_first_image(t_data *data)
 	// end of init_2
 
 	first_rotation_matrice(data);
-	printf("Elapsed time BVH tree: %.2f ms\n", ((double)(clock() - start)) / CLOCKS_PER_SEC * 1000);
+	printf("%s    > %.2f ms to build BVH%s\n", CYAN_TXT_START, ((double)(clock() - start)) / CLOCKS_PER_SEC * 1000, COLOR_END);
 	calculate_img(data);
 }
 
@@ -50,7 +50,6 @@ void 	calculate_img(t_data *data)
 {
 	int				i;
 	t_ray_prim 		data_ray;
-	static int		img_count;
 	struct timeval	t_start, t_end;			
 
 	gettimeofday(&t_start, NULL);
@@ -73,7 +72,9 @@ void 	calculate_img(t_data *data)
 	mlx_do_sync(data->mlx.mlx);
 	gettimeofday(&t_end, NULL);
 	float t = (t_end.tv_sec - t_start.tv_sec) * 1000 + (t_end.tv_usec - t_start.tv_usec) * 0.001; 
-	printf("finished image %d after %.1f ms\n", img_count++, t);
+	printf("%s  [RENDER]\n\n", CYAN_TXT_START);
+	printf("    > first img rendered after %.1f ms\n\n", t);
+	printf("+==============================================================================================+%s\n", COLOR_END);
 }
 
 

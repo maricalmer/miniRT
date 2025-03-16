@@ -51,3 +51,28 @@ void    free_data(t_data *data)
     free(data->lights);
     pthread_mutex_destroy(&data->joblist_mutex);
 }
+
+void    free_obj_parse_1(t_obj_parser *parsers, int n_files)
+{
+    int i;
+
+    i = -1;
+    while (++i < n_files)
+        free(parsers[i].filename);
+    free(parsers);
+}
+
+void    free_obj_parse_2(t_obj_parser *parsers, int n_files)
+{
+    int i;
+
+    i = -1;
+    while (++i < n_files)
+    {
+        free(parsers[i].filename);
+        free(parsers[i].vertices);
+        free(parsers[i].normals);
+    }
+    free(parsers);
+}
+

@@ -17,23 +17,12 @@ void    print_bvh_stats(t_bvh *bvh)
     t_bvh_stats stats;
     
     get_bvh_stats(bvh, &stats);
-    printf("\n");
-    printf("%s+=========================================+\n", CYAN_TXT_START);
-    printf("|                BVH STATS                |\n");
-    printf("+=========================================+\n");
-    printf("+=========================================+\n");
-    printf("|                                         |\n");
-    printf("| max depth                             %d |\n", stats.max_depth);
-    printf("|                                         |\n");
-    printf("| n_nodes                           %d |\n", stats.n_nodes);
-    printf("|                                         |\n");
-    printf("| n_obj at leafs %d (%.0f%%)            |\n", 
+    printf("  [BVH]\n\n");
+    printf("    > max depth of %d\n\n", stats.max_depth);
+    printf("    > %d n_obj at leafs (%.0f%%)\n\n", 
             stats.n_obj, (float)stats.n_obj / bvh->group_size[0] * 100);
-    printf("|                                         |\n");
-    printf("| %.2f obj/leafs (min : %d / max : %d)   |\n",
-        (float)stats.n_obj / stats.n_leafs, stats.min, stats.max);
-    printf("|                                         |\n");
-    printf("+=========================================+%s\n", COLOR_END);
+    printf("    > %.2f obj/leafs (min : %d / max : %d)%s\n",
+        (float)stats.n_obj / stats.n_leafs, stats.min, stats.max, COLOR_END);
 }
 
 static void    get_bvh_stats(t_bvh *bvh, t_bvh_stats *stats)

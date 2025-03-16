@@ -324,12 +324,12 @@ int								increase_if_uniq(int *value);
 int								is_face(char *specs);
 int								is_smoothing(char *specs);
 /*init.c*/
-void							init_parsers(t_obj_parser *parsers, int n_parsers);
-int								init_elem_rt(t_data *data);
-int								init_elem_obj(t_obj_parser *parser);
+int								init_rt_lists(t_data *data);
+int								init_obj_lists(t_obj_parser *parser);
 /*counter.c*/
-int								read_and_count_data_in_rt(t_data *data);
-int								read_and_count_data_in_obj(t_data *data, t_obj_parser *parser);
+int								read_rt(t_data *data);
+int								read_obj(t_data *data, t_obj_parser *parser);
+int								count_rt_elems(char *specs, t_data *data, int *n_cam, int *n_ambient);
 /*obj_file*/
 int								parse_obj_files(t_data *data, char *filename);
 int								read_obj_file(t_data *data, t_obj_parser *parser);
@@ -365,6 +365,9 @@ void    						free_bvh_1(t_bvh *bvh);
 void    						free_bvh_2(t_bvh *bvh);
 void							free_data(t_data *data);
 void							join_threads(t_data *data);
+void    						free_obj_parse_1(t_obj_parser *parsers, int n_files);
+void							free_obj_parse_2(t_obj_parser *parsers, int n_files);
+void							free_at_n_and_v(t_obj_parser *parsers, int n_files);
 /*dummy_parsing.c --- TO DELETE */
 void							parsing(t_data *data);
 

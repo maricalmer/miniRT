@@ -1,7 +1,7 @@
 #include "minirt.h"
 
 static int	is_rt_extension(char *str);
-static int	check_input_file(char *file, int *fd);
+static int	check_filename(char *file, int *fd);
 
 int	check_input(int ac, char **av, t_data *data)
 {
@@ -10,12 +10,12 @@ int	check_input(int ac, char **av, t_data *data)
 		print_error(1);
 		return (EXIT_FAILURE);
 	}
-	if (check_input_file(av[1], &data->rt_fd) == EXIT_FAILURE) 
+	if (check_filename(av[1], &data->rt_fd) == EXIT_FAILURE) 
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-static int	check_input_file(char *file, int *fd)
+static int	check_filename(char *file, int *fd)
 {
 	if (!ft_strncmp(file, "", 1) || !is_rt_extension(file))
 	{

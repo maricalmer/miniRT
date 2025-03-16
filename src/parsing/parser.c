@@ -4,7 +4,7 @@ static void	apply_uniform_spacing(char *specs, char *start, char *end);
 
 int	handle_parsing(char **av, t_data *data)
 {
-	if (read_and_count_data_in_rt(data) == EXIT_FAILURE)
+	if (read_rt(data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (data->n_obj_files)
 	{
@@ -13,11 +13,41 @@ int	handle_parsing(char **av, t_data *data)
 	}
 	else
 	{
-		if (init_elem_rt(data) == EXIT_FAILURE)
+		if (init_rt_lists(data) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
 	if (create_elements_rt(data, av[1]) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
+int	read_rt(t_data *data)
+{
+	char	*line;
+	int		n_cam;
+	int		n_ambient;
+	char	*specs;
+
+	line = NULL;
+	n_cam = 0;
+	n_ambient = 0;
+	while (1)
+	{
+		line = get_next_line(data->rt_fd);
+		if (line == NULL)
+			break ;
+		if (line[0] == '\n' || line[0] == '+' || line[0] == '|' )
+		{
+			free(line);
+			continue ;
+		}
+		specs = format_string(line, ft_strlen(line));
+		if (count_rt_elems(specs, data, &n_cam, &n_ambient) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+	}
+	close(data->rt_fd);
+	if (!data->n_light)
+		return (print_error(4), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 

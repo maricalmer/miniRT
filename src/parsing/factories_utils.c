@@ -23,32 +23,44 @@ int	get_ratio(char **specs, float *ratio)
 
 int	get_rgb_normalized(char **specs, float *color)
 {
-	if (!ft_isdigit(**specs))
-		return (EXIT_FAILURE);
-	*color = ft_strtof(*specs, specs) / 255.0f;
-	if (errno == ERANGE || !is_between_0_and_1(*color))
-		return (EXIT_FAILURE);
-	while (!ft_isdigit(**specs) && **specs != '\0')
+	int	i;
+
+	i = -1;
+	while (++i < 3)
 	{
-		if (**specs != ' ' && **specs != ',')
+		if (!ft_isdigit(**specs))
 			return (EXIT_FAILURE);
-		(*specs)++;
+		color[i] = ft_strtof(*specs, specs) / 255.0f;
+		if (errno == ERANGE || !is_between_0_and_1(*color))
+			return (EXIT_FAILURE);
+		while (!ft_isdigit(**specs) && **specs != '\0')
+		{
+			if (**specs != ' ' && **specs != ',')
+				return (EXIT_FAILURE);
+			(*specs)++;
+		}
 	}
 	return (EXIT_SUCCESS);
 }
 
 int	get_rgb(char **specs, unsigned char *color)
 {
-	if (!ft_isdigit(**specs))
-		return (EXIT_FAILURE);
-	*color = ft_strtoi(*specs, specs);
-	if (errno == ERANGE || !is_between_0_and_255(*color))
-		return (EXIT_FAILURE);
-	while (!ft_isdigit(**specs) && **specs != '\0')
+	int	i;
+
+	i = -1;
+	while (++i < 3)
 	{
-		if (**specs != ' ' && **specs != ',')
+		if (!ft_isdigit(**specs))
 			return (EXIT_FAILURE);
-		(*specs)++;
+		color[i] = ft_strtoi(*specs, specs);
+		if (errno == ERANGE || !is_between_0_and_255(*color))
+			return (EXIT_FAILURE);
+		while (!ft_isdigit(**specs) && **specs != '\0')
+		{
+			if (**specs != ' ' && **specs != ',')
+				return (EXIT_FAILURE);
+			(*specs)++;
+		}
 	}
 	return (EXIT_SUCCESS);
 }
@@ -87,32 +99,44 @@ int	get_refr_idx(char **specs, float *ratio)
 
 int	get_coord(char **specs, float *value)
 {
-	if (!ft_isdigit(**specs) && **specs != '-')
-		return (EXIT_FAILURE);
-	*value = ft_strtof(*specs, specs);
-	if (errno == ERANGE)
-		return (EXIT_FAILURE);
-	while (!ft_isdigit(**specs) && **specs != '\0' && **specs != '-')
+	int	i;
+
+	i = -1;
+	while (++i < 3)
 	{
-		if (**specs != ' ' && **specs != ',')
+		if (!ft_isdigit(**specs) && **specs != '-')
 			return (EXIT_FAILURE);
-		(*specs)++;
+		value[i] = ft_strtof(*specs, specs);
+		if (errno == ERANGE)
+			return (EXIT_FAILURE);
+		while (!ft_isdigit(**specs) && **specs != '\0' && **specs != '-')
+		{
+			if (**specs != ' ' && **specs != ',')
+				return (EXIT_FAILURE);
+			(*specs)++;
+		}
 	}
 	return (EXIT_SUCCESS);
 }
 
 int get_vec_normalized(char **specs, float *value)
 {
-    if (!ft_isdigit(**specs) && **specs != '-')
-		return (EXIT_FAILURE);
-	*value = ft_strtof(*specs, specs);
-	if (errno == ERANGE || !is_between_neg1_and_1(*value))
-		return (EXIT_FAILURE);
-	while (!ft_isdigit(**specs) && **specs != '\0' && **specs != '-')
+	int	i;
+
+	i = -1;
+	while (++i < 3)
 	{
-		if (**specs != ' ' && **specs != ',')
+		if (!ft_isdigit(**specs) && **specs != '-')
 			return (EXIT_FAILURE);
-		(*specs)++;
+		value[i] = ft_strtof(*specs, specs);
+		if (errno == ERANGE || !is_between_neg1_and_1(*value))
+			return (EXIT_FAILURE);
+		while (!ft_isdigit(**specs) && **specs != '\0' && **specs != '-')
+		{
+			if (**specs != ' ' && **specs != ',')
+				return (EXIT_FAILURE);
+			(*specs)++;
+		}
 	}
 	return (EXIT_SUCCESS);
 }
