@@ -309,6 +309,7 @@ typedef struct s_obj_parser
 
 /// FUNCTIONS
 void							print_intro(void);
+void							print_outro(void);
 /*checker.c*/
 int								check_input(int ac, char **av, t_data *data);
 /*identifiers.c*/

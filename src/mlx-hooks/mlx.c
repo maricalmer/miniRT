@@ -55,6 +55,7 @@ int	handle_close(t_data *data)
 	free_data(data);
 	join_threads(data);
 	//print_render_stats(time_total_render);
+	print_outro();
 	exit(EXIT_SUCCESS);
 	return (0);
 }

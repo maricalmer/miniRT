@@ -18,7 +18,7 @@ SOURCES += $(SOURCES_DIRECTORY)/parsing/obj_file.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/rt_file.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/counter.c
 SOURCES += $(SOURCES_DIRECTORY)/render/render.c
-SOURCES += $(SOURCES_DIRECTORY)/exit/intro.c
+SOURCES += $(SOURCES_DIRECTORY)/exit/prints.c
 SOURCES += $(SOURCES_DIRECTORY)/exit/error.c
 SOURCES += $(SOURCES_DIRECTORY)/exit/free.c
 SOURCES += $(SOURCES_DIRECTORY)/math/math.c
@@ -65,7 +65,7 @@ CFLAGS := -Wall -Wextra -Werror
 CFLAGS += -g
 CFLAGS += -Wuninitialized
 CFLAGS += -mavx
-#CFLAGS += -Ofast
+CFLAGS += -Ofast
 CFLAGS += -mavx
 CFLAGS += -march=native
 CFLAGS += -ffunction-sections
