@@ -51,7 +51,7 @@
 # define RED_BG_START			"\033[41;1;37m"
 # define RED_TXT_START			"\033[1;31m"
 # define CYAN_TXT_START			"\033[1;36m"
-# define PINK_TXT_START			"\033[1;32m"
+# define PINK_TXT_START			"\033[1;95m"
 # define COLOR_END				"\033[0m\n"
 
 
