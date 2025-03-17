@@ -308,10 +308,22 @@ typedef struct s_obj_parser
 	float						tri_refl_coeff;
 }   t_obj_parser;
 
+typedef struct
+{
+    int max_depth;
+    int n_nodes;
+    int n_obj;
+    int n_leafs;
+    int min;
+    int max;
+}   t_bvh_stats;
+
 
 /// FUNCTIONS
+/*prints.c*/
 void							print_intro(void);
 void							print_outro(void);
+void    						print_bvh_stats(t_bvh *bvh);
 /*checker.c*/
 int								check_input(int ac, char **av, t_data *data);
 /*identifiers.c*/
@@ -392,7 +404,6 @@ void							shading(t_shoot *shoot, t_data *data);
 t_bvh   						*init_bvh(t_data *data);
 void							get_bbox_min_max(t_bvh *bvh, int idx);
 void							update_group(t_data *data, t_bvh *bvh);
-void    						print_bvh_stats(t_bvh *bvh);
 
 /* tests*/
 float							intersection_test_bvh(t_bvh *bvh, int idx, t_shoot *shoot);
