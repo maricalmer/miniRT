@@ -93,3 +93,18 @@ static void	get_bvh_stats(t_bvh *bvh, t_bvh_stats *stats)
 	}
 	stats->n_nodes = i;
 }
+
+void	print_bvh_build_t(clock_t start, clock_t end)
+{
+	printf("%s    > %.2f ms to build BVH\n", CYAN_TXT_START, ((double)(end - start)) / CLOCKS_PER_SEC * 1000);
+	printf("\n  [RENDER]%s\n", COLOR_END);
+}
+
+void	print_img_render_t(struct timeval t_start, struct timeval t_end)
+{
+	static int		n_img;
+	float			t;
+
+	t = (t_end.tv_sec - t_start.tv_sec) * 1000 + (t_end.tv_usec - t_start.tv_usec) * 0.001; 
+	printf("%s    > img %d rendered after %.1f ms%s\n", CYAN_TXT_START, n_img++, t, COLOR_END);
+}

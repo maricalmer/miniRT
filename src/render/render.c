@@ -34,19 +34,17 @@ void	render_first_image(t_data *data)
 	data->mouse_pressed_l = 0;
 	data->mouse_pressed_r = 0;
 	// end of init_2
-
 	first_rotation_matrice(data);
-	printf("%s    > %.2f ms to build BVH\n", CYAN_TXT_START, ((double)(clock() - start)) / CLOCKS_PER_SEC * 1000);
-	printf("\n  [RENDER]%s\n", COLOR_END);
+	print_bvh_build_t(start, clock());
 	calculate_img(data);
 }
 
 void 	calculate_img(t_data *data)
 {
 	int				i;
-	t_ray_prim 		data_ray;
-	static int		n_img;
-	struct timeval	t_start, t_end;			
+	t_ray_prim		data_ray;
+	struct timeval	t_start;
+	struct timeval	t_end;
 
 	gettimeofday(&t_start, NULL);
 	init_data_ray(&data_ray, data);
@@ -67,8 +65,7 @@ void 	calculate_img(t_data *data)
 	mlx_put_image_to_window(data->mlx.mlx, data->mlx.win, data->mlx.img, 0, 0);
 	mlx_do_sync(data->mlx.mlx);
 	gettimeofday(&t_end, NULL);
-	float t = (t_end.tv_sec - t_start.tv_sec) * 1000 + (t_end.tv_usec - t_start.tv_usec) * 0.001; 
-	printf("%s    > img %d rendered after %.1f ms%s\n", CYAN_TXT_START, n_img++, t, COLOR_END);
+	print_img_render_t(t_start, t_end);
 }
 
 
@@ -80,8 +77,6 @@ void calc_p_ray(float x, float y, float res[3], float r_mat[3][3])
 	normalize(res);
 	dot_inplace_33_13(r_mat, res);
 }
-
-
 
 void 	calculate_img_packet(t_calc_img_arg *arg)
 {
@@ -95,7 +90,8 @@ void 	calculate_img_packet(t_calc_img_arg *arg)
 	float			y;
 	int				(*hd_res)[3]; 
 
-	hd_res = malloc(sizeof(int[3]) * arg->data->antialiasing_fact * arg->data->antialiasing_fact);
+	hd_res = malloc(sizeof(int [3]) * arg->data->antialiasing_fact
+			* arg->data->antialiasing_fact);
 	first_shoot.src = arg->data->cam.origin;
 	first_shoot.depth = 0;
 	first_shoot.inside = 0;

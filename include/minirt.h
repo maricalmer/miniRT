@@ -47,7 +47,7 @@
 # define BVH_DEPTH_MAX			5
 # define BVH_SIZE_MAX			37464 // more tricky ... (w^(d+1) - 1)/(w-1) + (w-1) + w
 
-# define CHECKER_SIZE			250
+# define CHECKER_SIZE			0.004
 
 # define RED_BG_START			"\033[41;1;37m"
 # define RED_TXT_START			"\033[1;31m"
@@ -324,6 +324,8 @@ typedef struct
 void							print_intro(void);
 void							print_outro(void);
 void    						print_bvh_stats(t_bvh *bvh);
+void							print_bvh_build_t(clock_t start, clock_t end);
+void							print_img_render_t(struct timeval t_start, struct timeval t_end);
 /*checker.c*/
 int								check_input(int ac, char **av, t_data *data);
 /*identifiers.c*/
