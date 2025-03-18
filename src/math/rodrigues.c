@@ -4,12 +4,10 @@ static void get_rodrigues_matrice(float u[3], float sin_theta, float cos_theta, 
 
 void get_rotation_matrice(float cam_dir[3], double t_mat[4][4], float c[3])
 {
-    // handle edgecase where v2 = v1 or v2 = -1 !!!!!!!!!!!!!!!!!!!!!!!!
     float   v1[3] = {0,0,-1};
     float   u[3];
     float   sin_theta;
     float   cos_theta;
-
 
     if (cam_dir[0] == 0 && cam_dir[1] == 0 && cam_dir[2] == -1)
     {
@@ -32,7 +30,6 @@ void get_rotation_matrice(float cam_dir[3], double t_mat[4][4], float c[3])
     cprod_13_13(v1, cam_dir, u);
     normalize2(u, &sin_theta);
     cos_theta = dot_13_13(v1, cam_dir);
-
     get_rodrigues_matrice(u, sin_theta, cos_theta, c, t_mat);
 }
 
@@ -64,26 +61,23 @@ static void get_rodrigues_matrice(float u[3], float sin_theta, float cos_theta, 
     r[3][3] = 1;
 }
 
-
 void first_rotation_matrice(t_data *data)
 {
     float   tmp[3];
+    double   R[4][4];
     
-    get_rotation_matrice(data->cam.direction, data->cam.t_mat, data->cam.world_center);
+    get_rotation_matrice(data->cam.direction, data->cam.t_mat,
+        data->cam.world_center);
     cpy_vec((float[3]){0, 1, 0}, tmp);
     copy_r_mat(data);
-    dot_inplace_33_13(data->cam.r_mat, tmp); // maybe change that ?...
-
+    dot_inplace_33_13(data->cam.r_mat, tmp);
     if (tmp[1] < 0)
     {
-        double   R[4][4];
-
         ft_memset(R, 0, sizeof(float[4][4]));
         R[0][0] = -1;
         R[1][1] = -1;
         R[2][2] = 1;
         R[3][3] = 1;
-
         dot_inplace_44_44(data->cam.t_mat, R);
     }
     copy_r_mat(data);

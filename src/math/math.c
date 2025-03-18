@@ -37,7 +37,9 @@ void normalize(float vector[3])
 	float temp;
 	float magnitude;
 
-	magnitude = sqrtf(vector[0] * vector[0] + vector[1] * vector[1] + vector[2] * vector[2]);
+	magnitude = sqrtf(vector[0] * vector[0]
+				+ vector[1] * vector[1]
+				+ vector[2] * vector[2]);
 	temp = 1 / magnitude;
 	vector[0] *= temp;
 	vector[1] *= temp;
@@ -48,7 +50,9 @@ void normalize2(float vector[3], float *magnitude)
 {
 	float temp;
 
-	*magnitude = sqrtf(vector[0] * vector[0] + vector[1] * vector[1] + vector[2] * vector[2]);
+	*magnitude = sqrtf(vector[0] * vector[0]
+				+ vector[1] * vector[1]
+				+ vector[2] * vector[2]);
 	temp = 1 / *magnitude;
 	vector[0] *= temp;
 	vector[1] *= temp;

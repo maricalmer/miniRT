@@ -5,39 +5,9 @@ int		all_same_sign(float bary[3])
 	return ((bary[0] < 0 && bary[1] < 0 && bary[2] < 0)
 			|| (bary[0] > 0 && bary[1] > 0 && bary[2] > 0));
 }
-
-float	intersection_test_triangle_2(t_object *obj, float ray[3], float origin[3])
+/* Möller-Trumbore Ray-Triangle Intersection Test */
+float intersection_test_triangle(t_object *obj, float ray[3], float origin[3]) 
 {
-	float   px[3][3];
-	float   bary[3];
-	float   denom;
-	int     i;
-	float	tmp[3];
-	float	tmp2[3];
-
-	vec_substr(obj->geo.tri.v0, origin, px[0]);
-	vec_substr(obj->geo.tri.v1, origin, px[1]);
-	vec_substr(obj->geo.tri.v2, origin, px[2]);
-	bary[0] = triple_scalar(ray, px[2], px[1]);
-	bary[1] = triple_scalar(ray, px[0], px[2]);
-	bary[2] = triple_scalar(ray, px[1], px[0]);
-	if (!all_same_sign(bary) || (bary[0] + bary[1] + bary[2]) == 0)
-		return (0);
-	denom = 1.0 / (bary[0] + bary[1] + bary[2]);
-	i = -1;
-	while (++i < 3)
-		bary[i] *= denom;
-	i = -1;
-	while (++i < 3)
-		tmp[i] = bary[0] * obj->geo.tri.v0[i] + bary[1] * obj->geo.tri.v1[i] + bary[2] * obj->geo.tri.v2[i];
-	vec_substr(tmp, origin, tmp2);
-	float t = dot_13_13(tmp2, ray);
-	if (t > EPSILON)
-		return (t);
-	return (0);
-}
-// Möller-Trumbore Ray-Triangle Intersection Test
-float intersection_test_triangle(t_object *obj, float ray[3], float origin[3]) {
     float edge1[3], edge2[3], h[3], s[3], q[3];
     float det, inv_det, u, v, t;
 
@@ -73,3 +43,37 @@ float intersection_test_triangle(t_object *obj, float ray[3], float origin[3]) {
 
     return (t); // Return t if the intersection is in front of the ray
 }
+
+/*
+
+float	intersection_test_triangle_LEGACY(t_object *obj, float ray[3], float origin[3])
+{
+	float   px[3][3];
+	float   bary[3];
+	float   denom;
+	int     i;
+	float	tmp[3];
+	float	tmp2[3];
+
+	vec_substr(obj->geo.tri.v0, origin, px[0]);
+	vec_substr(obj->geo.tri.v1, origin, px[1]);
+	vec_substr(obj->geo.tri.v2, origin, px[2]);
+	bary[0] = triple_scalar(ray, px[2], px[1]);
+	bary[1] = triple_scalar(ray, px[0], px[2]);
+	bary[2] = triple_scalar(ray, px[1], px[0]);
+	if (!all_same_sign(bary) || (bary[0] + bary[1] + bary[2]) == 0)
+		return (0);
+	denom = 1.0 / (bary[0] + bary[1] + bary[2]);
+	i = -1;
+	while (++i < 3)
+		bary[i] *= denom;
+	i = -1;
+	while (++i < 3)
+		tmp[i] = bary[0] * obj->geo.tri.v0[i] + bary[1] * obj->geo.tri.v1[i] + bary[2] * obj->geo.tri.v2[i];
+	vec_substr(tmp, origin, tmp2);
+	float t = dot_13_13(tmp2, ray);
+	if (t > EPSILON)
+		return (t);
+	return (0);
+}
+*/

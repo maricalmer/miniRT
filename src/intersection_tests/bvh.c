@@ -54,7 +54,7 @@ float	visi_test_bvh_fast(t_bvh *bvh, int idx, t_shoot *shoot)
 	return (0);
 }
 
-float	shadow_test_bvh(t_shoot *shoot, t_bvh *bvh, int idx, float shadow_ray[3], float dist_light)
+float	shadow_test_bvh(t_shoot *shoot, t_bvh *bvh, int idx, float dist_light)
 {
 	__m256		v_res;
 	float		res[8];
@@ -62,15 +62,15 @@ float	shadow_test_bvh(t_shoot *shoot, t_bvh *bvh, int idx, float shadow_ray[3], 
 	float		t;
 
 	if (bvh->childs[idx] == -1)
-		return (shadow_intersection_tests_leaf(shoot, bvh->group[idx], shadow_ray, dist_light, bvh->group_size[idx]));
-	v_res = aabb_test_SIMD(bvh, bvh->childs[idx], shoot->dir, shoot->src);
+		return (shadow_intersection_tests_leaf(shoot, bvh->group[idx], dist_light, bvh->group_size[idx]));
+	v_res = aabb_test_SIMD(bvh, bvh->childs[idx], shoot->shadow_ray, shoot->hit_pt);
 	_mm256_storeu_ps(res, v_res);
 	i = -1;
 	while (++i < 8)
 	{
 		if (res[i] != -1)
 		{
-			t = shadow_test_bvh(shoot, bvh, bvh->childs[idx] + i, shadow_ray, dist_light);
+			t = shadow_test_bvh(shoot, bvh, bvh->childs[idx] + i, dist_light);
 			if (t > 0)
 				return (t);
 		}

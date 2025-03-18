@@ -243,7 +243,6 @@ typedef struct s_data
 	//bvh_creation
 	t_obj_geo					*bvh_geo_data;
 	int							is_bvh;
-	int							is_bvh;
 	//parsing
 	int							rt_fd;
 	int							obj_fd;
@@ -264,6 +263,7 @@ typedef struct s_shoot
 	t_object					*obj;
 	float						normal[3];
 	float						hit_pt[3];
+	float						shadow_ray[3];
 	// output
 	int							res_rgb[3];
 }	t_shoot;
@@ -411,13 +411,13 @@ void							update_group(t_data *data, t_bvh *bvh);
 /* tests*/
 float							visi_test_bvh_strict(t_bvh *bvh, int idx, t_shoot *shoot);
 float							visi_test_bvh_fast(t_bvh *bvh, int idx, t_shoot *shoot);
-float							shadow_test_bvh(t_shoot *shoot, t_bvh *bvh, int idx, float shadow_ray[3], float dist_light);
+float							shadow_test_bvh(t_shoot *shoot, t_bvh *bvh, int idx, float dist_light);
 __m256 							aabb_test_SIMD(t_bvh *bvh, int idx, float dir[3], float src[3]);
 void 							aabb_test_fast(t_bvh *bvh, int idx, float dir[3], float src[3], char res[9]);
 float							visibility_intersection_tests(t_object *objects, t_shoot *shoot, int n_obj);
 float 							visibility_intersection_tests_leafs(t_object **objects, t_shoot *shoot, int n_obj);
-float							shadow_intersection_tests(t_shoot *shoot, t_object *objects, float shadow_ray[3], float dist_light, int n_obj);
-float 							shadow_intersection_tests_leaf(t_shoot *shoot, t_object **objects, float shadow_ray[3], float dist_light, int n_obj);
+float							shadow_intersection_tests(t_shoot *shoot, t_object *objects, float dist_light, int n_obj);
+float 							shadow_intersection_tests_leaf(t_shoot *shoot, t_object **objects, float dist_light, int n_obj);
 float							intersection_test_sphere(t_object *obj, float ray[3], float origin[3]);
 float							intersection_test_cylinder(t_object *obj, float ray[3], float origin[3]);
 float							intersection_test_cylinder(t_object *obj, float ray[3], float origin[3]);

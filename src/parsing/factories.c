@@ -173,18 +173,26 @@ int create_triangle(t_data *data, char *line, t_obj_parser *parser)
 		data->objects[data->objects_idx].mat.refl_coeff = parser->tri_refl_coeff;
 		data->objects[data->objects_idx].mat.refr_coeff = parser->tri_refr_coeff;
 		data->objects[data->objects_idx].mat.refr_idx = parser->tri_refr_idx;
-		if (parser->tri_rgb[0] == -1)
+		i = -1;
+		while (++i < 3)
 		{
-			data->objects[data->objects_idx].mat.rgb[0] = rand() % 256;
-			data->objects[data->objects_idx].mat.rgb[1] = rand() % 256;
-			data->objects[data->objects_idx].mat.rgb[2] = rand() % 256;
+			if (parser->tri_rgb[i] == -1)
+				data->objects[data->objects_idx].mat.rgb[i] = rand() % 256;
+			else
+				data->objects[data->objects_idx].mat.rgb[i] = parser->tri_rgb[i];
 		}
-		else
-		{
-			data->objects[data->objects_idx].mat.rgb[0] = parser->tri_rgb[0];
-			data->objects[data->objects_idx].mat.rgb[1] = parser->tri_rgb[1];
-			data->objects[data->objects_idx].mat.rgb[2] = parser->tri_rgb[2];
-		}
+		// if (parser->tri_rgb[0] == -1)
+		// {
+		// 	data->objects[data->objects_idx].mat.rgb[0] = rand() % 256;
+		// }
+		// else if (parser->tri_rgb[1] == -1)
+		// else if (parser->tri_rgb[2] == -1)
+		// else
+		// {
+		// 	data->objects[data->objects_idx].mat.rgb[0] = parser->tri_rgb[0];
+		// 	data->objects[data->objects_idx].mat.rgb[1] = parser->tri_rgb[1];
+		// 	data->objects[data->objects_idx].mat.rgb[2] = parser->tri_rgb[2];
+		// }
 		data->objects_idx++;
 		return (EXIT_SUCCESS);
 	}

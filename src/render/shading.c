@@ -1,7 +1,7 @@
 #include "minirt.h"
 
 void	add_phong_diffuse(t_shoot *shoot, t_light light, float theta_LN, unsigned char rgb[3]);
-void	add_phong_specular(float shadow_ray[3], t_shoot *shoot, t_light light, float theta_LN, unsigned char rgb[3]);
+void	add_phong_specular(t_shoot *shoot, t_light light, float theta_LN, unsigned char rgb[3]);
 void	add_whitted(t_shoot *shoot, t_data	*data);
 void	shoot_refraction_ray(t_shoot *shoot, t_shoot *new_shoot, t_data *data);
 void	shoot_reflection_ray(t_shoot *shoot, t_shoot *new_shoot, t_data *data);
@@ -28,7 +28,6 @@ void	add_phong_ambient(t_shoot *shoot, t_data *data, unsigned char rgb[3])
 void	shading(t_shoot *shoot, t_data *data)
 {
 	int				i;
-	float			shadow_ray[3];
 	float			theta_LN;	
 	float			dist_light;
 	unsigned char	*rgb;
@@ -47,14 +46,14 @@ void	shading(t_shoot *shoot, t_data *data)
 	i = -1;
 	while (++i < data->n_light)
 	{
-		vec_substr(data->lights[i].origin, shoot->hit_pt, shadow_ray);
-		normalize2(shadow_ray, &dist_light);
-		theta_LN = dot_13_13(shoot->normal, shadow_ray);
+		vec_substr(data->lights[i].origin, shoot->hit_pt, shoot->shadow_ray);
+		normalize2(shoot->shadow_ray, &dist_light);
+		theta_LN = dot_13_13(shoot->normal, shoot->shadow_ray);
 
-		if (theta_LN > 0 && shadow_intersection_tests(shoot, data->objects, shadow_ray, dist_light, data->n_obj) < EPSILON)
+		if (theta_LN > 0 && shadow_intersection_tests(shoot, data->objects, dist_light, data->n_obj) < EPSILON)
 		{
 			add_phong_diffuse(shoot, data->lights[i], theta_LN, rgb);
-			add_phong_specular(shadow_ray, shoot, data->lights[i], theta_LN, rgb);
+			add_phong_specular(shoot, data->lights[i], theta_LN, rgb);
 		}
 	}
 	add_whitted(shoot, data);
@@ -230,7 +229,7 @@ void	add_phong_diffuse(t_shoot *shoot, t_light light, float theta_LN, unsigned c
 
 }
 
-void	add_phong_specular(float shadow_ray[3], t_shoot *shoot, t_light light, float theta_LN, unsigned char rgb[3])
+void	add_phong_specular(t_shoot *shoot, t_light light, float theta_LN, unsigned char rgb[3])
 {
 	int 			i;
 	float			reflection_ray[3];
@@ -238,7 +237,7 @@ void	add_phong_specular(float shadow_ray[3], t_shoot *shoot, t_light light, floa
 
 	i = -1;
 	while (++i < 3)
-		reflection_ray[i] = -shadow_ray[i] + 2 * theta_LN * shoot->normal[i];
+		reflection_ray[i] = -shoot->shadow_ray[i] + 2 * theta_LN * shoot->normal[i];
 	normalize(reflection_ray);
 	R_dot_E = - dot_13_13(reflection_ray, shoot->dir);
 	R_dot_E = fmaxf(0, R_dot_E);
