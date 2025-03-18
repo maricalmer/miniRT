@@ -51,9 +51,9 @@ void	copy_bvh_objects(t_data *data, t_bvh *bvh)
 	}
 }
 
-void print_nodes(t_bvh *bvh, int i)
+void	print_nodes(t_bvh *bvh, int i)
 {
-	while ( i<200)//bvh->childs[i] != -1)
+	while ( i < 200)//bvh->childs[i] != -1)
 	{
 		printf("\nidx : %i\n", i);
 		printf("bbox : %.2f %.2f ;  %.2f %.2f ; %.2f %.2f\n", bvh->min_x[i], bvh->max_x[i], bvh->min_y[i], bvh->max_y[i], bvh->min_z[i], bvh->max_z[i]);
@@ -121,6 +121,7 @@ t_obj_geo *create_obj_geo_data(t_bvh *bvh)
 	}
 	return (geo_data);
 }
+
 t_obj_geo extract_geo_data_sphere(t_object *obj)
 {
 	t_obj_geo 	geo;

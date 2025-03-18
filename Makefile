@@ -25,7 +25,6 @@ SOURCES += $(SOURCES_DIRECTORY)/math/math.c
 SOURCES += $(SOURCES_DIRECTORY)/render/shading.c
 SOURCES += $(SOURCES_DIRECTORY)/multithreading/worker.c
 SOURCES += $(SOURCES_DIRECTORY)/bvh/bvh.c
-SOURCES += $(SOURCES_DIRECTORY)/bvh/bvh_stats.c
 SOURCES += $(SOURCES_DIRECTORY)/mlx-hooks/mlx.c
 SOURCES += $(SOURCES_DIRECTORY)/mlx-hooks/events.c
 SOURCES += $(SOURCES_DIRECTORY)/mlx-hooks/mouse_translate.c
@@ -65,7 +64,7 @@ CFLAGS := -Wall -Wextra -Werror
 CFLAGS += -g
 CFLAGS += -Wuninitialized
 CFLAGS += -mavx
-CFLAGS += -Ofast
+# CFLAGS += -Ofast
 CFLAGS += -mavx
 CFLAGS += -march=native
 CFLAGS += -ffunction-sections

@@ -13,14 +13,14 @@ int	check_checkerboard_grid(t_shoot *shoot)
 	u = dot_13_13(oc, shoot->obj->geo.pl.u);
 	v = dot_13_13(oc, shoot->obj->geo.pl.v);
 	if (u < 0)
-		u_idx = u / CHECKER_SIZE - 1;
+		u_idx = u * CHECKER_SIZE - 1;
 	else
-		u_idx = u / CHECKER_SIZE;
+		u_idx = u * CHECKER_SIZE;
 	if (v < 0)
-		v_idx = v / CHECKER_SIZE - 1;
+		v_idx = v * CHECKER_SIZE - 1;
 	else
-		v_idx = v / CHECKER_SIZE;
-	if ((u_idx + v_idx) % 2)
+		v_idx = v * CHECKER_SIZE;
+	if ((u_idx + v_idx) & 1)
 		return (1);
 	return (0);
 }
