@@ -37,7 +37,7 @@
 
 # define USLEEP_WORKER 			0
 # define USLEEP_PARENT			100 //fine tune those...
-# define N_THREAD				1
+# define N_THREAD				20
 
 # define CROSS_CLICK_EVENT 		17
 # define NO_EVENT_MASK			0
@@ -438,7 +438,7 @@ float							test_plane(t_object *obj, float p_ray[3], float origin[3]);
 float							test_triangle(t_object *obj, float ray[3], float origin[3]);
 
 __m256 							aabb_test_simd(t_bvh *bvh, int idx, float dir[3], float src[3]);
-void 							aabb_test_fast(t_bvh *bvh, int idx, t_shoot, char res[9]);
+void 							aabb_test_fast(t_bvh *bvh, int idx, t_shoot *shoot, char res[9]);
 void							copy_and_terminate(char *res, int *indices, int size);
 
 /*maths*/

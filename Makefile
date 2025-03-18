@@ -29,6 +29,7 @@ SOURCES += $(SOURCES_DIRECTORY)/mlx-hooks/mlx.c
 SOURCES += $(SOURCES_DIRECTORY)/mlx-hooks/events.c
 SOURCES += $(SOURCES_DIRECTORY)/mlx-hooks/mouse.c
 SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/aabb_simd.c
+SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/aabb_simd_fast.c
 SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/bvh.c
 SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/cylinder.c
 SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/intersection_test_shadow.c
@@ -63,7 +64,7 @@ CFLAGS := -Wall -Wextra -Werror
 CFLAGS += -g
 CFLAGS += -Wuninitialized
 CFLAGS += -mavx
-#CFLAGS += -Ofast
+CFLAGS += -Ofast
 CFLAGS += -mavx
 CFLAGS += -march=native
 CFLAGS += -ffunction-sections
