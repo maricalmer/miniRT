@@ -51,7 +51,8 @@ int	handle_input(int keysym, t_data *data)
 int	handle_close(t_data *data)
 {
 	free_mlx(&data->mlx);
-	free_bvh_2(data->objects[0].geo.bvh);
+	if (BVH_ON && data->is_bvh)
+		free_bvh_2(data->objects[0].geo.bvh);
 	free_data(data);
 	join_threads(data);
 	//print_render_stats(time_total_render);

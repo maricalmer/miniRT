@@ -1,9 +1,6 @@
 #include "minirt.h"
 
-static void	ft_sort_int_tab(__m256 input, char res[9][5]);
-
-
-void aabb_test(t_bvh *bvh, int idx, float dir[3], float src[3], char res[9][5]) 
+typedef struct
 {
     __m256 bbox;
     __m256 v_dir;
@@ -15,168 +12,98 @@ void aabb_test(t_bvh *bvh, int idx, float dir[3], float src[3], char res[9][5])
     __m256 t2;
 
     __m256 mask;
-    __m256 min = _mm256_set1_ps(0.0f);
-    __m256 max = _mm256_set1_ps(1e10f);
+    __m256 min;
+    __m256 max;
+}	t_aabb_simd;
 
-	//x
-	v_dir = _mm256_set1_ps(dir[0]);
-	v_src = _mm256_set1_ps(src[0]);
+static void	ft_sort_indices(__m256 input, char res[9]);
+static void	test_axis_x(t_aabb_simd *x, t_bvh *bvh, int idx);
+static void	test_axis_y(t_aabb_simd *x, t_bvh *bvh, int idx);
+static void	test_axis_z(t_aabb_simd *x, t_bvh *bvh, int idx);
 
-	mask = _mm256_cmp_ps(v_dir, _mm256_set1_ps(0.0f), _CMP_EQ_OQ);
-
-	odd = _mm256_rcp_ps(v_dir);
-
-	bbox = _mm256_load_ps(&bvh->min_x[idx]);
-	mask = _mm256_and_ps(mask, _mm256_cmp_ps(v_src, bbox, _CMP_GE_OQ)); // inside the box
-	t1 = _mm256_mul_ps(_mm256_sub_ps(bbox, v_src), odd);
-
-	bbox = _mm256_load_ps(&bvh->max_x[idx]);
-	mask = _mm256_and_ps(mask, _mm256_cmp_ps(v_src, bbox, _CMP_LE_OQ)); // inside the box
-	t2 = _mm256_mul_ps(_mm256_sub_ps(bbox, v_src), odd);
-
-	tmp = t1;
-	t1 = _mm256_min_ps(tmp, t2);
-	t2 = _mm256_max_ps(tmp, t2);
-
-	t1 = _mm256_andnot_ps(mask, t1); // set t1=0 if parallel and inside the box :)
-	// t2 is implicit as it will be BIG....
-
-	min = _mm256_max_ps(t1, min);
-	max = _mm256_min_ps(t2, max);
-    
-	//y
-        v_dir = _mm256_set1_ps(dir[1]);
-        v_src = _mm256_set1_ps(src[1]);
-
-        mask = _mm256_cmp_ps(v_dir, _mm256_set1_ps(0.0f), _CMP_EQ_OQ);
-
-        odd = _mm256_rcp_ps(v_dir);
-
-        bbox = _mm256_load_ps(&bvh->min_y[idx]);
-        mask = _mm256_and_ps(mask, _mm256_cmp_ps(v_src, bbox, _CMP_GE_OQ)); // inside the box
-        t1 = _mm256_mul_ps(_mm256_sub_ps(bbox, v_src), odd);
-
-        bbox = _mm256_load_ps(&bvh->max_y[idx]);
-        mask = _mm256_and_ps(mask, _mm256_cmp_ps(v_src, bbox, _CMP_LE_OQ)); // inside the box
-        t2 = _mm256_mul_ps(_mm256_sub_ps(bbox, v_src), odd);
-
-        tmp = t1;
-        t1 = _mm256_min_ps(tmp, t2);
-        t2 = _mm256_max_ps(tmp, t2);
-
-        t1 = _mm256_andnot_ps(mask, t1); // set t1=0 if parallel and inside the box :)
-        // t2 is implicit as it will be BIG....
-
-        min = _mm256_max_ps(t1, min);
-        max = _mm256_min_ps(t2, max);
-
-	//z
-        v_dir = _mm256_set1_ps(dir[2]);
-        v_src = _mm256_set1_ps(src[2]);
-
-        mask = _mm256_cmp_ps(v_dir, _mm256_set1_ps(0.0f), _CMP_EQ_OQ);
-
-        odd = _mm256_rcp_ps(v_dir);
-
-        bbox = _mm256_load_ps(&bvh->min_z[idx]);
-        mask = _mm256_and_ps(mask, _mm256_cmp_ps(v_src, bbox, _CMP_GE_OQ)); // inside the box
-        t1 = _mm256_mul_ps(_mm256_sub_ps(bbox, v_src), odd);
-
-        bbox = _mm256_load_ps(&bvh->max_z[idx]);
-        mask = _mm256_and_ps(mask, _mm256_cmp_ps(v_src, bbox, _CMP_LE_OQ)); // inside the box
-        t2 = _mm256_mul_ps(_mm256_sub_ps(bbox, v_src), odd);
-
-        tmp = t1;
-        t1 = _mm256_min_ps(tmp, t2);
-        t2 = _mm256_max_ps(tmp, t2);
-
-        t1 = _mm256_andnot_ps(mask, t1); // set t1=0 if parallel and inside the box :)
-        // t2 is implicit as it will be BIG....
-
-        min = _mm256_max_ps(t1, min);
-        max = _mm256_min_ps(t2, max);
-    
-    mask = _mm256_cmp_ps(min, max, _CMP_GT_OQ);
-    min = _mm256_or_ps(_mm256_andnot_ps(mask, min), _mm256_and_ps(mask, _mm256_set1_ps(-1.0f))); // Replace _mm256_blendv_ps with bitwise operations
-    ft_sort_int_tab(min, res);
+__m256 aabb_test_SIMD(t_bvh *bvh, int idx, float dir[3], float src[3])
+{
+	t_aabb_simd x;
+	
+	x.min = _mm256_set1_ps(0.0f);
+    x.max = _mm256_set1_ps(1e10f);
+	x.v_dir = _mm256_set1_ps(dir[0]);
+	x.v_src = _mm256_set1_ps(src[0]);
+	test_axis_x(&x, bvh, idx);
+	x.v_dir = _mm256_set1_ps(dir[1]);
+	x.v_src = _mm256_set1_ps(src[1]);
+	test_axis_y(&x, bvh, idx);
+	x.v_dir = _mm256_set1_ps(dir[2]);
+	x.v_src = _mm256_set1_ps(src[2]);
+	test_axis_z(&x, bvh, idx);
+	x.mask = _mm256_cmp_ps(x.min, x.max, _CMP_GT_OQ);
+    x.min = _mm256_or_ps(_mm256_andnot_ps(x.mask, x.min),
+			_mm256_and_ps(x.mask, _mm256_set1_ps(-1.0f)));
+	return(x.min);
 }
 
-// #include <immintrin.h>
+static void	test_axis_x(t_aabb_simd *x, t_bvh *bvh, int idx)
+{
+	x->mask = _mm256_cmp_ps(x->v_dir, _mm256_set1_ps(0.0f), _CMP_EQ_OQ);
+	x->odd = _mm256_rcp_ps(x->v_dir);
+	x->bbox = _mm256_load_ps(&bvh->min_x[idx]);
+	x->mask = _mm256_and_ps(x->mask, _mm256_cmp_ps(x->v_src, x->bbox, _CMP_GE_OQ));
+	x->t1 = _mm256_mul_ps(_mm256_sub_ps(x->bbox, x->v_src), x->odd);
+	x->bbox = _mm256_load_ps(&bvh->max_x[idx]);
+	x->mask = _mm256_and_ps(x->mask, _mm256_cmp_ps(x->v_src, x->bbox, _CMP_LE_OQ));
+	x->t2 = _mm256_mul_ps(_mm256_sub_ps(x->bbox, x->v_src), x->odd);
+	x->tmp = x->t1;
+	x->t1 = _mm256_min_ps(x->tmp, x->t2);
+	x->t2 = _mm256_max_ps(x->tmp, x->t2);
+	x->t1 = _mm256_andnot_ps(x->mask, x->t1);
+	x->min = _mm256_max_ps(x->t1, x->min);
+	x->max = _mm256_min_ps(x->t2, x->max);
+}
 
-// // **AVX1-Compatible Bitonic Merge for Floats**
-// static inline __m256 bitonic_merge(__m256 a, __m256 b, __m256 mask) {
-//     __m256 min_vals = _mm256_min_ps(a, b);
-//     __m256 max_vals = _mm256_max_ps(a, b);
-//     return _mm256_blendv_ps(min_vals, max_vals, mask);
-// }
+static void	test_axis_y(t_aabb_simd *x, t_bvh *bvh, int idx)
+{
+	x->mask = _mm256_cmp_ps(x->v_dir, _mm256_set1_ps(0.0f), _CMP_EQ_OQ);
+	x->odd = _mm256_rcp_ps(x->v_dir);
+	x->bbox = _mm256_load_ps(&bvh->min_y[idx]);
+	x->mask = _mm256_and_ps(x->mask, _mm256_cmp_ps(x->v_src, x->bbox, _CMP_GE_OQ));
+	x->t1 = _mm256_mul_ps(_mm256_sub_ps(x->bbox, x->v_src), x->odd);
+	x->bbox = _mm256_load_ps(&bvh->max_y[idx]);
+	x->mask = _mm256_and_ps(x->mask, _mm256_cmp_ps(x->v_src, x->bbox, _CMP_LE_OQ));
+	x->t2 = _mm256_mul_ps(_mm256_sub_ps(x->bbox, x->v_src), x->odd);
+	x->tmp = x->t1;
+	x->t1 = _mm256_min_ps(x->tmp, x->t2);
+	x->t2 = _mm256_max_ps(x->tmp, x->t2);
+	x->t1 = _mm256_andnot_ps(x->mask, x->t1);
+	x->min = _mm256_max_ps(x->t1, x->min);
+	x->max = _mm256_min_ps(x->t2, x->max);
+}
 
-// // **Bitonic Sort for 8 Floats & Corresponding Indices (AVX1)**
-// static void avx_bitonic_sort(__m256 *values, int *indices) {
-//     float sorted_values[8];
-//     int sorted_indices[8];
+static void	test_axis_z(t_aabb_simd *x, t_bvh *bvh, int idx)
+{
+	x->mask = _mm256_cmp_ps(x->v_dir, _mm256_set1_ps(0.0f), _CMP_EQ_OQ);
+	x->odd = _mm256_rcp_ps(x->v_dir);
+	x->bbox = _mm256_load_ps(&bvh->min_z[idx]);
+	x->mask = _mm256_and_ps(x->mask, _mm256_cmp_ps(x->v_src, x->bbox, _CMP_GE_OQ));
+	x->t1 = _mm256_mul_ps(_mm256_sub_ps(x->bbox, x->v_src), x->odd);
+	x->bbox = _mm256_load_ps(&bvh->max_z[idx]);
+	x->mask = _mm256_and_ps(x->mask, _mm256_cmp_ps(x->v_src, x->bbox, _CMP_LE_OQ));
+	x->t2 = _mm256_mul_ps(_mm256_sub_ps(x->bbox, x->v_src), x->odd);
+	x->tmp = x->t1;
+	x->t1 = _mm256_min_ps(x->tmp, x->t2);
+	x->t2 = _mm256_max_ps(x->tmp, x->t2);
+	x->t1 = _mm256_andnot_ps(x->mask, x->t1);
+	x->min = _mm256_max_ps(x->t1, x->min);
+	x->max = _mm256_min_ps(x->t2, x->max);
+}
 
-//     // Store values in an array
-//     _mm256_storeu_ps(sorted_values, *values);
+void aabb_test_fast(t_bvh *bvh, int idx, float dir[3], float src[3], char res[9]) 
+{
+    __m256	min;
 
-//     // Initialize indices
-//     for (int i = 0; i < 8; i++) {
-//         sorted_indices[i] = indices[i];
-//     }
+	min = aabb_test_SIMD(bvh, idx, dir, src);
+	ft_sort_indices(min, res);
+}
 
-//     // **Perform CPU-side bitonic sort for indices**
-//     for (int step = 2; step <= 8; step *= 2) {
-//         for (int i = 0; i < 8; i += step) {
-//             for (int j = 0; j < step / 2; j++) {
-//                 int idx1 = i + j;
-//                 int idx2 = i + j + (step / 2);
-                
-//                 if (sorted_values[idx1] > sorted_values[idx2]) {
-//                     // Swap values
-//                     float tmp_val = sorted_values[idx1];
-//                     sorted_values[idx1] = sorted_values[idx2];
-//                     sorted_values[idx2] = tmp_val;
-
-//                     // Swap indices
-//                     int tmp_idx = sorted_indices[idx1];
-//                     sorted_indices[idx1] = sorted_indices[idx2];
-//                     sorted_indices[idx2] = tmp_idx;
-//                 }
-//             }
-//         }
-//     }
-
-//     // Store back sorted values & indices
-//     *values = _mm256_loadu_ps(sorted_values);
-//     for (int i = 0; i < 8; i++) {
-//         indices[i] = sorted_indices[i];
-//     }
-// }
-
-
-// AVX2 :
-// static inline void bitonic_swap(__m256 *values, __m256i *indices, int mask)
-// {
-//     // Find the min and max values using the mask
-//     __m256 min_vals = _mm256_min_ps(*values, _mm256_permutevar8x32_ps(*values, _mm256_set1_epi32(mask)));
-//     __m256 max_vals = _mm256_max_ps(*values, _mm256_permutevar8x32_ps(*values, _mm256_set1_epi32(mask)));
-
-//     // Find the corresponding min and max indices
-//     __m256i min_indices = _mm256_blend_epi32(*indices, _mm256_permutevar8x32_epi32(*indices, _mm256_set1_epi32(mask)), 0b10101010);
-//     __m256i max_indices = _mm256_blend_epi32(*indices, _mm256_permutevar8x32_epi32(*indices, _mm256_set1_epi32(mask)), 0b10101010);
-
-//     // Swap the values and indices at the same time using the blend operation
-//     *values = _mm256_blend_ps(min_vals, max_vals, 0b10101010);
-//     *indices = _mm256_blend_epi32(min_indices, max_indices, 0b10101010);
-// }
-
-// 	// **AVX-optimized bitonic sort for 8 elements**
-// 	static void avx_bitonic_sort(__m256 *values, __m256i *indices) {
-// 		bitonic_swap(values, indices, 0b10110001);
-// 		bitonic_swap(values, indices, 0b01001110);
-// 		bitonic_swap(values, indices, 0b00011011);
-// 	}
-
-/* LEGACY */
 static int	switch_consecutive(float *tab1, int *tab2, int i)
 {
 	int	temp;
@@ -196,17 +123,17 @@ static int	switch_consecutive(float *tab1, int *tab2, int i)
 		return (0);
 }
 
-static void	ft_sort_int_tab(__m256 input, char res[9][5])
+static void	ft_sort_indices(__m256 input, char res[9])
 {
-	int	has_switched;
-	int	i;
+	int		has_switched;
+	int		i;
 	float	values[8];
 	float	tmp[8];
 	int		indices[8];
 	int 	size;
+	int 	n;
 
 	_mm256_storeu_ps(tmp, input);
-
 	i = -1;
 	size = 0;
 	while (++i < 8)
@@ -218,7 +145,6 @@ static void	ft_sort_int_tab(__m256 input, char res[9][5])
 			size++;
 		}
 	}
-
 	has_switched = 1;
 	while (has_switched)
 	{
@@ -230,25 +156,10 @@ static void	ft_sort_int_tab(__m256 input, char res[9][5])
 			i++;
 		}
 	}
-
-    // First, store indices of non -1 values
-	int n = 0;
+	n = 0;
 	i = 0;
-	int j;
     while (n < size)
-	{
-		j = 0;
-		res[i][j++] = indices[n++];
-		while (n < size)
-		{
-			if (1)//values[n] == values[n - 1]) // account for precision here ! 
-				res[i][j++] = indices[n++];
-			else
-				break;
-		}
-		res[i][j] = -1;
-		i++;
-	}
-	res[i][0] = -1;
+		res[i++] = indices[n++];
+	res[size] = -1;
 }
 

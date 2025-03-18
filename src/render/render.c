@@ -17,8 +17,17 @@ void	render_first_image(t_data *data)
 	start = clock();
 	if (BVH_ON)
 	{
-		bvh = init_bvh(data);
-		update_group(data, bvh); //(only BVH and Planes)
+		bvh = init_bvh(data); // rather return NULL  is no elements
+		if (bvh->childs[0] != -2)
+		{
+			update_group(data, bvh);
+			data->is_bvh = 1;
+		}
+		else
+		{
+			data->is_bvh = 0;
+			free(bvh);
+		}
 	}
 	// start of init_2
 	data->cam.world_center[0] = (bvh->min_x[0] + bvh->max_x[0]) * 0.5;
@@ -34,18 +43,6 @@ void	render_first_image(t_data *data)
 	printf("\n  [RENDER]%s\n", COLOR_END);
 	calculate_img(data);
 }
-
-// void	move_cam(t_data *data, int *img) // img + mlx + win in data (??)
-// {
-// 	double start = get_time();
-// 	// move_cam() -> pt_origin
-// 	// transform_p_ray()
-// 	time_primary_rays += get_time() - start;
-// 	(void) root;
-// 	calculate_img(data, img);
-// 	// put_img
-// }
-
 
 void 	calculate_img(t_data *data)
 {
@@ -116,8 +113,6 @@ void 	calculate_img_packet(t_calc_img_arg *arg)
 			k = -1;
 			while (++k < arg->data->antialiasing_fact) // hd_colum
 			{
-				// cpy_vec(&arg->data->primary_rays[i * 3 * ANTIALIASING_FACT * ANTIALIASING_FACT + j * 3], first_shoot.dir);
-				// TEST : recalculate the direction on the live ?!!!?...
 				calc_p_ray(x, y, first_shoot.dir, arg->data->cam.r_mat);
 				shoot_ray(arg->data, &first_shoot);
 				x += arg->dx_hd;
@@ -131,70 +126,10 @@ void 	calculate_img_packet(t_calc_img_arg *arg)
 		arg->data->mlx.addr[i + arg->line * WIDTH] = (hd_res[0][0] << 16 | hd_res[0][1] << 8 | hd_res[0][2]);
 	}
 	free(hd_res);
-	// mlx_put_image_to_window(arg->data->mlx.mlx, arg->data->mlx.win, arg->data->mlx.img, 0, 0);
 }
-
-// void	calculate_ray_prim_dir(t_data *data)  // duplicate of calculate_img: abstract to handler function at the cost of switch?
-// {
-// 	int				i;
-// 	t_calc_img_arg	*arg;
-// 	int				packet_size;
-
-// 	packet_size = WIDTH * HEIGHT / HEIGHT;
-// 	arg = malloc(sizeof(t_calc_img_arg) * HEIGHT);
-// 	pthread_mutex_lock(&data->joblist_mutex);
-// 	data->joblist_top = 0;
-// 	data->joblist_size = HEIGHT;
-// 	i = -1;
-// 	while (++i < HEIGHT)
-// 	{
-// 		arg[i].data = data;
-// 		arg[i].start = i * packet_size;
-// 		arg[i].end = arg[i].start + packet_size;
-// 		data->joblist[i].function = calculate_ray_prim_dir_packet;
-// 		data->joblist[i].arg = arg + i;
-// 	}
-// 	pthread_mutex_unlock(&data->joblist_mutex);
-// 	wait_for_workers(data);
-// 	free(arg);
-// }
-
-// void	calculate_ray_prim_dir_packet(void *arg_generic)
-// {
-// 	t_ray_prim data_ray;
-// 	int	i;
-// 	int	j;
-// 	int index;
-// 	t_calc_img_arg 	*arg;
-
-// 	arg = arg_generic;
-// 	init_data_ray(&data_ray, arg);
-// 	i = arg->start / WIDTH;
-// 	data_ray.top_left_y = data_ray.max_y - (i * data_ray.dx);
-// 	// while (i < data_ray.end_y)
-// 	// {
-// 		// j = data_ray.start_x;
-// 		j = 0;
-// 		data_ray.top_left_x = -data_ray.max_x; //+ (j * data_ray.dx);
-// 		while (j < WIDTH)
-// 		{
-// 			index = i * WIDTH * data_ray.size_hd + j * data_ray.size_hd;
-// 			iterate_hd_pxl(&arg->data->primary_rays[index], data_ray.hd_dx, data_ray.top_left_x, data_ray.top_left_y);
-// 			j++;
-// 			data_ray.top_left_x += data_ray.dx;
-
-// 			// cam rotation missing here...
-// 		}
-// 		// i++;
-// 		// data_ray.top_left_y -= data_ray.dx;
-// 	// }
-// }
 
 void init_data_ray(t_ray_prim *data_ray, t_data *data)
 {
-	// ==> all of that could be calculated once only. But not a game changer anyway :)
-	// data_ray->start_x = (arg->start % WIDTH);
-	// data_ray->end_y = (arg->end / WIDTH);
 	data_ray->max_x = tan(data->cam.fov * M_PI / 360);
 	data_ray->max_y = data_ray->max_x * HEIGHT / WIDTH;
 	data_ray->size_hd = data->antialiasing_fact * data->antialiasing_fact * 3;
@@ -224,8 +159,7 @@ void	average_hd_pixel(int (*hd_res)[3], int hd_size)
 void	shoot_ray(t_data *data, t_shoot *shoot)
 {
 	float t;
-	// isolate bounding box of interrest 
-	// atomic_fetch_add(&num_primary_rays, 1);// perf logs
+
 	t = visibility_intersection_tests(data->objects, shoot, data->n_obj);
 	calculate_hit_pt(t, shoot);
 	get_normal_intersect(shoot);
@@ -268,32 +202,8 @@ void calculate_hit_pt(float t, t_shoot *shoot)
 		shoot->obj = NULL;
 }
 
-// void	iterate_hd_pxl(float *primary_rays, float dx, float top_left_x, float top_left_y, int anti_fa)
-// {
-// 	int i;
-// 	int j;
-	
-// 	i = 0;
-// 	while (i < anti_fa)
-// 	{
-// 		// optimize calc i * WIDTH here ...
-// 		j = 0;
-// 		while (j < anti_fa)
-// 		{	
-// 			primary_rays[i * anti_fa * 3 + j * 3 + 0] = top_left_x + (j + 0.5) * dx;
-// 			primary_rays[i * anti_fa * 3 + j * 3 + 1] = top_left_y - (i + 0.5) * dx;
-// 			primary_rays[i * anti_fa * 3 + j * 3 + 2] = -1;
-// 			normalize(&primary_rays[i * anti_fa * 3 + j * 3]);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
-
 void get_normal_intersect(t_shoot *shoot)
 {
-	// we need to consider if we hit the back side of the surface !!! 
-	
 	float r_inv;
 	
 	if (!shoot->obj)
@@ -313,7 +223,6 @@ void get_normal_intersect(t_shoot *shoot)
 	}
 	else if (shoot->obj->type == TRI)
 	{
-		// do the barycentric interpolation !!!!! :)
 		int i;
 		float   px[3][3];
 		float   bary[3];
@@ -334,22 +243,23 @@ void get_normal_intersect(t_shoot *shoot)
 						+ shoot->obj->geo.tri.n1[i] * bary[1]
 						+ shoot->obj->geo.tri.n2[i] * bary[2];
 	}
-	// else if (shoot->obj->type == CYLINDER)
-	// {
-	// 	int i = -1;
-	// 	float tmp[3];
+	else if (shoot->obj->type == CYLINDER)
+	{
+		int i = -1;
+		float tmp[3];
 
-	// 	vec_substr(shoot->hit_pt, ((t_cylinder *)shoot->obj->geo)->center, tmp);
-	// 	float h = dot_13_13(tmp, ((t_cylinder *)shoot->obj->geo)->dir);
-	// 	while (++i < 3)
-	// 		tmp[i] = ((t_cylinder *)shoot->obj->geo)->center[i] + h * ((t_cylinder *)shoot->obj->geo)->dir[i];
+		vec_substr(shoot->hit_pt, shoot->obj->geo.cyl.center, tmp);
+		float h = dot_13_13(tmp, shoot->obj->geo.cyl.dir);
+		while (++i < 3)
+			tmp[i] = (shoot->obj->geo.cyl.center[i] + h) * shoot->obj->geo.cyl.dir[i];
 		
-	// 	r_inv = 1 / ((t_cylinder *)(shoot->obj->geo))->radius;
-	// 	shoot->normal[0] = r_inv * (shoot->hit_pt[0] - tmp[0]);
-	// 	shoot->normal[1] = r_inv * (shoot->hit_pt[1] - tmp[1]);
-	// 	shoot->normal[2] = r_inv * (shoot->hit_pt[2] - tmp[2]);
-	// }
-	// other SWITCHES ....
+		r_inv = 1 / shoot->obj->geo.cyl.radius;
+		shoot->normal[0] = r_inv * (shoot->hit_pt[0] - tmp[0]);
+		shoot->normal[1] = r_inv * (shoot->hit_pt[1] - tmp[1]);
+		shoot->normal[2] = r_inv * (shoot->hit_pt[2] - tmp[2]);
+	}
+
+	// reverse if we hit inside !
 	if (dot_13_13(shoot->dir, shoot->normal) > 0)
 	{
 		shoot->normal[0] *= -1;

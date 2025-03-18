@@ -80,6 +80,15 @@ t_bvh   *init_bvh(t_data *data)
 
     bvh = aligned_alloc(32, sizeof(t_bvh)); // aligned_alloc for opti !!!
 	bvh->depth[0] = 0;
+	ft_memset(bvh->min_x, 0, sizeof(float[8]));
+	ft_memset(bvh->min_y, 0, sizeof(float[8]));
+	ft_memset(bvh->min_z, 0, sizeof(float[8]));
+	ft_memset(bvh->max_x, 0, sizeof(float[8]));
+	ft_memset(bvh->max_y, 0, sizeof(float[8]));
+	ft_memset(bvh->max_z, 0, sizeof(float[8]));
+	ft_memset(bvh->group_size, 0, sizeof(int[8]));
+	ft_memset(bvh->group, 0, sizeof(void *) * 8);
+	// ft_memset(bvh->group_size, 0, sizeof(int[8]));
 	get_group_size(data, bvh);
 	copy_bvh_objects(data, bvh);
 	data->bvh_geo_data = create_obj_geo_data(bvh);
@@ -152,7 +161,7 @@ int	cut_into_child_nodes(t_bvh *bvh, int idx)
 	if (bvh->group_size[idx] <= MAX_BVH_GROUP || bvh->depth[idx] == BVH_DEPTH_MAX)
 	{
 		bvh->childs[idx] = -1;
-		return (0);
+		return (idx_c);
 	}
 	cut_in_two(bvh, idx, idx_c, 2);
 	bvh->childs[idx] = idx_c;

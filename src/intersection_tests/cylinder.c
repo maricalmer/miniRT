@@ -1,8 +1,7 @@
 #include "minirt.h"
 
-float	intersection_test_cylinder(t_cylinder *cylinder, float ray[3], float origin[3])
+float	intersection_test_cylinder(t_object *obj, float ray[3], float origin[3])
 {
-	//float	c_minus_o[3];
 	float   r_ao[3];
     float   v_a[3];
     float   tmp[3];
@@ -13,16 +12,16 @@ float	intersection_test_cylinder(t_cylinder *cylinder, float ray[3], float origi
 	float	discriminant;
 	float	res[2];
 	
-	vec_substr(origin, cylinder->center, tmp);
-    cprod_13_13(tmp, cylinder->dir, tmp2);
-    cprod_13_13(cylinder->dir, tmp2, r_ao);
+	vec_substr(origin, obj->geo.cyl.center, tmp);
+    cprod_13_13(tmp, obj->geo.cyl.dir, tmp2);
+    cprod_13_13(obj->geo.cyl.dir, tmp2, r_ao);
 
-    cprod_13_13(ray, cylinder->dir, tmp);
-    cprod_13_13(cylinder->dir, tmp, v_a);
+    cprod_13_13(ray, obj->geo.cyl.dir, tmp);
+    cprod_13_13(obj->geo.cyl.dir, tmp, v_a);
 
     a = dot_13_13(v_a, v_a);
     b = 2 * dot_13_13(r_ao, v_a);
-	c = dot_13_13 (r_ao, r_ao) - cylinder->radius * cylinder->radius;
+	c = dot_13_13 (r_ao, r_ao) - obj->geo.cyl.radius * obj->geo.cyl.radius;
 
 	discriminant = b * b - 4 * a * c;
 	if (discriminant < 0)
@@ -39,17 +38,17 @@ float	intersection_test_cylinder(t_cylinder *cylinder, float ray[3], float origi
 	
 	int i = -1;
 	while (++i < 3)
-		tmp[i] = origin[i] + res[0] * ray[i] - cylinder->center[i];
-	float	h = dot_13_13(tmp, cylinder->dir);
-	if (h >= - cylinder->height / 2 && h <= cylinder->height / 2)
+		tmp[i] = origin[i] + res[0] * ray[i] - obj->geo.cyl.center[i];
+	float	h = dot_13_13(tmp, obj->geo.cyl.dir);
+	if (h >= - obj->geo.cyl.height / 2 && h <= obj->geo.cyl.height / 2)
 		return (res[0]);
 	
 	// if not, then we check the second hit pt.
 	i = -1;
 	while (++i < 3)
-		tmp[i] = origin[i] + res[1] * ray[i] - cylinder->center[i];
-	h = dot_13_13(tmp, cylinder->dir);
-	if (h >= - cylinder->height / 2 && h <= cylinder->height / 2)
+		tmp[i] = origin[i] + res[1] * ray[i] - obj->geo.cyl.center[i];
+	h = dot_13_13(tmp, obj->geo.cyl.dir);
+	if (h >= - obj->geo.cyl.height / 2 && h <= obj->geo.cyl.height / 2)
 		return (res[1]);
 	
 	// if completly outside limits : 
