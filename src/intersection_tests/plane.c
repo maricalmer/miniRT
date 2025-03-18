@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-float	intersection_test_plane(t_object *obj, float ray[3], float origin[3])
+float	test_plane(t_object *obj, float ray[3], float origin[3])
 {
 	float	a;
 	float	pts_d[3];

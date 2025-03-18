@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-float	intersection_test_sphere(t_object *obj, float ray[3], float origin[3])
+float	test_sphere(t_object *obj, float ray[3], float origin[3])
 {
 	float	c_minus_o[3];
 	float	a;

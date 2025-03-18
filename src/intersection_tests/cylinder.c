@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-float	intersection_test_cylinder(t_object *obj, float ray[3], float origin[3])
+float	test_cylinder(t_object *obj, float ray[3], float origin[3])
 {
 	float   r_ao[3];
     float   v_a[3];

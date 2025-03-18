@@ -10,8 +10,8 @@ float	visi_test_bvh_strict(t_bvh *bvh, int idx, t_shoot *shoot)
 	t_object 	*obj;
 
 	if (bvh->childs[idx] == -1)
-		return (visibility_intersection_tests_leafs(bvh->group[idx], shoot, bvh->group_size[idx]));
-	v_res = aabb_test_SIMD(bvh, bvh->childs[idx], shoot->dir, shoot->src);
+		return (visi_test_leafs(bvh->group[idx], shoot, bvh->group_size[idx]));
+	v_res = aabb_test_simd(bvh, bvh->childs[idx], shoot->dir, shoot->src);
 	_mm256_storeu_ps(res, v_res);
 	i = -1;
 	t_min = FLT_MAX;
@@ -42,8 +42,8 @@ float	visi_test_bvh_fast(t_bvh *bvh, int idx, t_shoot *shoot)
 	float		t;
 
 	if (bvh->childs[idx] == -1)
-		return (visibility_intersection_tests_leafs(bvh->group[idx], shoot, bvh->group_size[idx]));
-	aabb_test_fast(bvh, bvh->childs[idx], shoot->dir, shoot->src, res);
+		return (visi_test_leafs(bvh->group[idx], shoot, bvh->group_size[idx]));
+	aabb_test_fast(bvh, bvh->childs[idx], shoot, res);
 	i = -1;
 	while (res[++i] != -1)
 	{
@@ -62,8 +62,8 @@ float	shadow_test_bvh(t_shoot *shoot, t_bvh *bvh, int idx, float dist_light)
 	float		t;
 
 	if (bvh->childs[idx] == -1)
-		return (shadow_intersection_tests_leaf(shoot, bvh->group[idx], dist_light, bvh->group_size[idx]));
-	v_res = aabb_test_SIMD(bvh, bvh->childs[idx], shoot->shadow_ray, shoot->hit_pt);
+		return (shadow_test_leafs(shoot, bvh->group[idx], dist_light, bvh->group_size[idx]));
+	v_res = aabb_test_simd(bvh, bvh->childs[idx], shoot->shadow_ray, shoot->hit_pt);
 	_mm256_storeu_ps(res, v_res);
 	i = -1;
 	while (++i < 8)

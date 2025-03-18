@@ -16,6 +16,7 @@
 # include <stdatomic.h>
 # include <fcntl.h>
 # include <immintrin.h> // SSE/AVX and prefetch
+# include <xmmintrin.h>
 
 # define WIDTH					800
 # define HEIGHT					800
@@ -36,7 +37,7 @@
 
 # define USLEEP_WORKER 			0
 # define USLEEP_PARENT			100 //fine tune those...
-# define N_THREAD				20
+# define N_THREAD				1
 
 # define CROSS_CLICK_EVENT 		17
 # define NO_EVENT_MASK			0
@@ -309,15 +310,29 @@ typedef struct s_obj_parser
 	float						tri_refl_coeff;
 }   t_obj_parser;
 
-typedef struct
+typedef struct s_bvh_stats
 {
-    int max_depth;
-    int n_nodes;
-    int n_obj;
-    int n_leafs;
-    int min;
-    int max;
+    int							max_depth;
+    int							n_nodes;
+    int							n_obj;
+    int							n_leafs;
+    int							min;
+    int							max;
 }   t_bvh_stats;
+
+typedef struct s_aabb_simd
+{
+    __m256						bbox;
+    __m256						v_dir;
+    __m256						v_src;
+    __m256						odd;
+    __m256						tmp;
+    __m256						t1;
+    __m256						t2;
+    __m256						mask;
+    __m256						min;
+    __m256						max;
+}	t_aabb_simd;
 
 
 /// FUNCTIONS
@@ -412,18 +427,19 @@ void							update_group(t_data *data, t_bvh *bvh);
 float							visi_test_bvh_strict(t_bvh *bvh, int idx, t_shoot *shoot);
 float							visi_test_bvh_fast(t_bvh *bvh, int idx, t_shoot *shoot);
 float							shadow_test_bvh(t_shoot *shoot, t_bvh *bvh, int idx, float dist_light);
-__m256 							aabb_test_SIMD(t_bvh *bvh, int idx, float dir[3], float src[3]);
-void 							aabb_test_fast(t_bvh *bvh, int idx, float dir[3], float src[3], char res[9]);
-float							visibility_intersection_tests(t_object *objects, t_shoot *shoot, int n_obj);
-float 							visibility_intersection_tests_leafs(t_object **objects, t_shoot *shoot, int n_obj);
-float							shadow_intersection_tests(t_shoot *shoot, t_object *objects, float dist_light, int n_obj);
-float 							shadow_intersection_tests_leaf(t_shoot *shoot, t_object **objects, float dist_light, int n_obj);
-float							intersection_test_sphere(t_object *obj, float ray[3], float origin[3]);
-float							intersection_test_cylinder(t_object *obj, float ray[3], float origin[3]);
-float							intersection_test_cylinder(t_object *obj, float ray[3], float origin[3]);
-float							intersection_test_plane(t_object *obj, float p_ray[3], float origin[3]);
-float							intersection_test_triangle(t_object *obj, float ray[3], float origin[3]);
+float							visi_tests(t_object *objects, t_shoot *shoot, int n_obj);
+float 							visi_test_leafs(t_object **objects, t_shoot *shoot, int n_obj);
+float							shadow_tests(t_shoot *shoot, t_object *objects, float dist_light, int n_obj);
+float 							shadow_test_leafs(t_shoot *shoot, t_object **objects, float dist_light, int n_obj);
+float							test_sphere(t_object *obj, float ray[3], float origin[3]);
+float							test_cylinder(t_object *obj, float ray[3], float origin[3]);
+float							test_cylinder(t_object *obj, float ray[3], float origin[3]);
+float							test_plane(t_object *obj, float p_ray[3], float origin[3]);
+float							test_triangle(t_object *obj, float ray[3], float origin[3]);
 
+__m256 							aabb_test_simd(t_bvh *bvh, int idx, float dir[3], float src[3]);
+void 							aabb_test_fast(t_bvh *bvh, int idx, t_shoot, char res[9]);
+void							copy_and_terminate(char *res, int *indices, int size);
 
 /*maths*/
 float							dot_13_13(float a[3], float b[3]);

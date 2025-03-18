@@ -153,7 +153,7 @@ void	shoot_ray(t_data *data, t_shoot *shoot)
 {
 	float t;
 
-	t = visibility_intersection_tests(data->objects, shoot, data->n_obj);
+	t = visi_tests(data->objects, shoot, data->n_obj);
 	// SWITCH sphere => get_hit_pt_n_normal_sphere
 					// => get_hit_pt_n_normal_plane
 					// => get_hit_pt_n_normal_tri

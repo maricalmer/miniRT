@@ -6,7 +6,7 @@ int		all_same_sign(float bary[3])
 			|| (bary[0] > 0 && bary[1] > 0 && bary[2] > 0));
 }
 /* Möller-Trumbore Ray-Triangle Intersection Test */
-float intersection_test_triangle(t_object *obj, float ray[3], float origin[3]) 
+float test_triangle(t_object *obj, float ray[3], float origin[3]) 
 {
     float edge1[3], edge2[3], h[3], s[3], q[3];
     float det, inv_det, u, v, t;
@@ -46,7 +46,7 @@ float intersection_test_triangle(t_object *obj, float ray[3], float origin[3])
 
 /*
 
-float	intersection_test_triangle_LEGACY(t_object *obj, float ray[3], float origin[3])
+float	test_triangle_LEGACY(t_object *obj, float ray[3], float origin[3])
 {
 	float   px[3][3];
 	float   bary[3];
