@@ -432,8 +432,10 @@ float 							visi_test_leafs(t_object **objects, t_shoot *shoot, int n_obj);
 float							shadow_tests(t_shoot *shoot, t_object *objects, float dist_light, int n_obj);
 float 							shadow_test_leafs(t_shoot *shoot, t_object **objects, float dist_light, int n_obj);
 float							test_sphere(t_object *obj, float ray[3], float origin[3]);
-float							test_cylinder(t_object *obj, float ray[3], float origin[3]);
-float							test_cylinder(t_object *obj, float ray[3], float origin[3]);
+// float							test_cylinder(t_object *obj, t_shoot *shoot, int shadow_flag);
+float	test_cylinder(t_object *obj, float ray[3], float origin[3]);
+float	intersection_test_cylinder(t_object *obj, float ray[3], float origin[3]);
+// float							test_cylinder(t_object *obj, float ray[3], float origin[3]);
 float							test_plane(t_object *obj, float p_ray[3], float origin[3]);
 float							test_triangle(t_object *obj, float ray[3], float origin[3]);
 

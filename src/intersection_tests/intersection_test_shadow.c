@@ -3,8 +3,8 @@
 /* returns t>epsilon as soon as one object is in the way of light, returns 0 when hit = shadow*/
 float shadow_tests(t_shoot *shoot, t_object *objects, float dist_light, int n_obj)
 {
-	float 		t;
-	int			i;
+	float 	t;
+	int		i;
 
 	t = 0;
 	i = 0;
@@ -17,7 +17,7 @@ float shadow_tests(t_shoot *shoot, t_object *objects, float dist_light, int n_ob
 		else if (objects[i].type == TRI)
 		 	t = test_triangle(&objects[i], shoot->shadow_ray, shoot->hit_pt);
 		else if (objects[i].type == CYLINDER)
-		 	t = test_cylinder(&objects[i], shoot->shadow_ray, shoot->hit_pt);
+			t = test_cylinder(&objects[i], shoot->shadow_ray, shoot->hit_pt);
 		else if (objects[i].type == BVH)
 			t = shadow_test_bvh(shoot, objects[i].geo.bvh, 0, dist_light);
 		if (t > EPSILON && dist_light > t)
@@ -29,8 +29,8 @@ float shadow_tests(t_shoot *shoot, t_object *objects, float dist_light, int n_ob
 
 float shadow_test_leafs(t_shoot *shoot, t_object **objects, float dist_light, int n_obj)
 {
-	float 		t;
-	int			i;
+	float	t;
+	int		i;
 
 	t = 0;
 	i = 0;
@@ -41,7 +41,7 @@ float shadow_test_leafs(t_shoot *shoot, t_object **objects, float dist_light, in
 		else if (objects[i]->type == TRI)
 			t = test_triangle(objects[i], shoot->shadow_ray, shoot->hit_pt);
 		else if (objects[i]->type == CYLINDER)
-		 	t = test_cylinder(objects[i], shoot->shadow_ray, shoot->hit_pt);
+			t = test_cylinder(objects[i], shoot->shadow_ray, shoot->hit_pt);
 		if (t > EPSILON && dist_light > t)
 			return (t);
 		i++;

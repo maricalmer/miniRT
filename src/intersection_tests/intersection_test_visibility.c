@@ -14,11 +14,11 @@ float visi_tests(t_object *objects, t_shoot *shoot, int n_obj)
 		if (objects[i].type == SPHERE)
 			t = test_sphere(&objects[i], shoot->dir, shoot->src);
 		else if (objects[i].type == PLANE)
-		 	t = test_plane(&objects[i], shoot->dir, shoot->src);
+			t = test_plane(&objects[i], shoot->dir, shoot->src);
 		else if (objects[i].type == TRI)
-			 t = test_triangle(&objects[i], shoot->dir, shoot->src);
+			t = test_triangle(&objects[i], shoot->dir, shoot->src);
 		else if (objects[i].type == CYLINDER)
-		 	t = test_cylinder(&objects[i], shoot->dir, shoot->src);
+			t = test_cylinder(&objects[i], shoot->dir, shoot->src);
 		else if (objects[i].type == BVH)
 		{
 			if (FAST_BVH_TRANSVERSAL)
@@ -55,7 +55,7 @@ float visi_test_leafs(t_object **objects, t_shoot *shoot, int n_obj)
 		else if (objects[i]->type == TRI)
 			t = test_triangle(objects[i], shoot->dir, shoot->src);
 		else if (objects[i]->type == CYLINDER)
-		 	t = test_cylinder(objects[i], shoot->dir, shoot->src);
+			t = test_cylinder(objects[i], shoot->dir, shoot->src);
 		if (t > EPSILON && t < t_min)
 		{
 			t_min = t;
