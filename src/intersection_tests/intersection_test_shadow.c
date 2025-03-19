@@ -1,21 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   intersection_test_shadow.c                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/19 18:29:38 by hruiz-fr          #+#    #+#             */
+/*   Updated: 2025/03/19 18:30:25 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
-/* returns t>epsilon as soon as one object is in the way of light, returns 0 when hit = shadow*/
-float shadow_tests(t_shoot *shoot, t_object *objects, float dist_light, int n_obj)
+float	shadow_tests(t_shoot *shoot, t_object *objects, float dist_light,
+	int n_obj)
 {
-	float 	t;
+	float	t;
 	int		i;
 
 	t = 0;
 	i = 0;
 	while (i < n_obj)
 	{
-        if (objects[i].type == SPHERE)
+		if (objects[i].type == SPHERE)
 			t = test_sphere(&objects[i], shoot->shadow_ray, shoot->hit_pt);
 		else if (objects[i].type == PLANE)
-		 	t = test_plane(&objects[i], shoot->shadow_ray, shoot->hit_pt);
+			t = test_plane(&objects[i], shoot->shadow_ray, shoot->hit_pt);
 		else if (objects[i].type == TRI)
-		 	t = test_triangle(&objects[i], shoot->shadow_ray, shoot->hit_pt);
+			t = test_triangle(&objects[i], shoot->shadow_ray, shoot->hit_pt);
 		else if (objects[i].type == CYLINDER)
 			t = test_cylinder(&objects[i], shoot->shadow_ray, shoot->hit_pt);
 		else if (objects[i].type == BVH)
@@ -27,7 +39,8 @@ float shadow_tests(t_shoot *shoot, t_object *objects, float dist_light, int n_ob
 	return (0);
 }
 
-float shadow_test_leafs(t_shoot *shoot, t_object **objects, float dist_light, int n_obj)
+float	shadow_test_leafs(t_shoot *shoot, t_object **objects, float dist_light,
+	int n_obj)
 {
 	float	t;
 	int		i;
@@ -36,7 +49,7 @@ float shadow_test_leafs(t_shoot *shoot, t_object **objects, float dist_light, in
 	i = 0;
 	while (i < n_obj)
 	{
-        if (objects[i]->type == SPHERE)
+		if (objects[i]->type == SPHERE)
 			t = test_sphere(objects[i], shoot->shadow_ray, shoot->hit_pt);
 		else if (objects[i]->type == TRI)
 			t = test_triangle(objects[i], shoot->shadow_ray, shoot->hit_pt);
