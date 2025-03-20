@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bvh_geodata.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/19 20:57:31 by hruiz-fr          #+#    #+#             */
+/*   Updated: 2025/03/19 21:00:23 by hruiz-fr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
-static t_obj_geo extract_geo_data_tri(t_object *obj);
-static t_obj_geo extract_geo_data_sphere(t_object *obj);
+static t_obj_geo	extract_geo_data_tri(t_object *obj);
+static t_obj_geo	extract_geo_data_sphere(t_object *obj);
 
-t_obj_geo *create_obj_geo_data(t_bvh *bvh)
+t_obj_geo	*create_obj_geo_data(t_bvh *bvh)
 {
-	t_object 	*obj;
-	t_obj_geo 	*geo_data;
-	int		i;
+	t_object	*obj;
+	t_obj_geo	*geo_data;
+	int			i;
 
 	geo_data = malloc(bvh->group_size[0] * sizeof(t_obj_geo));
 	bvh->obj_geo[0] = malloc(sizeof(t_obj_geo *) * bvh->group_size[0]);
@@ -19,14 +31,14 @@ t_obj_geo *create_obj_geo_data(t_bvh *bvh)
 			geo_data[i] = extract_geo_data_sphere(obj);
 		if (obj->type == TRI)
 			geo_data[i] = extract_geo_data_tri(obj);
-		bvh->obj_geo[0][i] = &geo_data[i];	
+		bvh->obj_geo[0][i] = &geo_data[i];
 	}
 	return (geo_data);
 }
 
-static t_obj_geo extract_geo_data_sphere(t_object *obj)
+static t_obj_geo	extract_geo_data_sphere(t_object *obj)
 {
-	t_obj_geo 	geo;
+	t_obj_geo	geo;
 	int			i;
 
 	i = -1;
@@ -39,17 +51,20 @@ static t_obj_geo extract_geo_data_sphere(t_object *obj)
 	return (geo);
 }
 
-static t_obj_geo extract_geo_data_tri(t_object *obj)
+static t_obj_geo	extract_geo_data_tri(t_object *obj)
 {
-	t_obj_geo 	geo;
+	t_obj_geo	geo;
 	int			i;
 
 	i = -1;
 	while (++i < 3)
 	{
-		geo.center[i] = (obj->geo.tri.v0[i] + obj->geo.tri.v1[i] + obj->geo.tri.v2[i]) / 3; // or the mid of min/max instead ??
-		geo.bmin[i] = fmin(obj->geo.tri.v0[i] , fmin(obj->geo.tri.v1[i], obj->geo.tri.v2[i]));
-		geo.bmax[i] = fmax(obj->geo.tri.v0[i] , fmax(obj->geo.tri.v1[i], obj->geo.tri.v2[i]));
+		geo.center[i] = (obj->geo.tri.v0[i] + obj->geo.tri.v1[i]
+				+ obj->geo.tri.v2[i]) / 3;
+		geo.bmin[i] = fmin(obj->geo.tri.v0[i],
+				fmin(obj->geo.tri.v1[i], obj->geo.tri.v2[i]));
+		geo.bmax[i] = fmax(obj->geo.tri.v0[i],
+				fmax(obj->geo.tri.v1[i], obj->geo.tri.v2[i]));
 	}
 	return (geo);
 }

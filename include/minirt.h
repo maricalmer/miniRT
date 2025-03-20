@@ -435,6 +435,7 @@ void							shading(t_shoot *shoot, t_data *data);
 /* BVH */
 t_bvh   						*init_bvh(t_data *data);
 void							update_group(t_data *data, t_bvh *bvh);
+void							cut_in_two(t_bvh *bvh, int idx, int idx_c, int i);
 void							get_group_size(t_data *data, t_bvh *bvh);
 void							create_obj_list_root(t_data *data, t_bvh *bvh);
 int								find_min_idx(int x[3]);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_bvh_utils.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/19 21:00:36 by hruiz-fr          #+#    #+#             */
+/*   Updated: 2025/03/19 21:08:37 by hruiz-fr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 void	get_group_size(t_data *data, t_bvh *bvh)
@@ -21,7 +33,7 @@ void	create_obj_list_root(t_data *data, t_bvh *bvh)
 	t_object	*obj;
 	int			i;
 	int			j;
-	
+
 	bvh->group[0] = malloc(sizeof(t_object *) * bvh->group_size[0]);
 	obj = data->objects;
 	i = -1;
@@ -32,6 +44,7 @@ void	create_obj_list_root(t_data *data, t_bvh *bvh)
 			bvh->group[0][j++] = &obj[i];
 	}
 }
+
 int	find_min_idx(int x[3])
 {
 	if (x[0] <= x[1] && x[0] <= x[2])
@@ -41,25 +54,26 @@ int	find_min_idx(int x[3])
 	return (2);
 }
 
-void malloc_groups_n_geo(t_bvh *bvh, t_cut_in_two *cut)
+void	malloc_groups_n_geo(t_bvh *bvh, t_cut_in_two *cut)
 {
 	bvh->group[cut->idx_left] = malloc(sizeof(t_object *)
-								* bvh->group_size[cut->idx_left]);
+			* bvh->group_size[cut->idx_left]);
 	bvh->group[cut->idx_right] = malloc(sizeof(t_object *)
-								* bvh->group_size[cut->idx_right]);
+			* bvh->group_size[cut->idx_right]);
 	bvh->obj_geo[cut->idx_left] = malloc(sizeof(t_obj_geo *)
-								* bvh->group_size[cut->idx_left]);
+			* bvh->group_size[cut->idx_left]);
 	bvh->obj_geo[cut->idx_right] = malloc(sizeof(t_obj_geo *)
-								* bvh->group_size[cut->idx_right]);
+			* bvh->group_size[cut->idx_right]);
 }
 
 void	get_mid_planes(t_bvh *bvh, int idx, t_cut_in_two *cut)
 {
-	float 	*centers;
+	float	*centers;
 	int		i;
 	int		j;
 
-	centers = malloc(sizeof(float) * bvh->group_size[idx]); // or custom find_median !!!!
+	// or custom median without malloc...
+	centers = malloc(sizeof(float) * bvh->group_size[idx]);
 	j = -1;
 	while (++j < 3)
 	{
