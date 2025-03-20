@@ -194,11 +194,35 @@ typedef	struct s_obj_geo  // used for creating the bvh.
 	float	bmax[3];
 }	t_obj_geo;
 
-typedef	struct s_bbox  // used for creating the bvh.
+
+// start of bvh helper struct
+typedef struct
+{
+	int			axis;
+	float		mid[3];
+	int			idx_left;
+	int			idx_right;
+	int			old_n_obj;
+	t_object	**old_group;
+	t_obj_geo	**old_geo;
+}	t_cut_in_two;
+
+typedef struct
+{
+    int max_depth;
+    int n_nodes;
+    int n_obj;
+    int n_leafs;
+    int min;
+    int max;
+}   t_bvh_stats;
+
+typedef	struct s_bbox
 {
 	float	min[3];
 	float	max[3];
 }	t_bbox;
+// end of bvh helper struct
 
 typedef struct s_calc_img_arg
 {
@@ -310,16 +334,6 @@ typedef struct s_obj_parser
 	float						tri_refl_coeff;
 }   t_obj_parser;
 
-typedef struct s_bvh_stats
-{
-    int							max_depth;
-    int							n_nodes;
-    int							n_obj;
-    int							n_leafs;
-    int							min;
-    int							max;
-}   t_bvh_stats;
-
 typedef struct s_aabb_simd
 {
     __m256						bbox;
@@ -418,10 +432,19 @@ int								check_checkerboard_grid(t_shoot *shoot);
 /*phong.c*/
 void							shading(t_shoot *shoot, t_data *data);
 
-/* bvh.c */
+/* BVH */
 t_bvh   						*init_bvh(t_data *data);
-void							get_bbox_min_max(t_bvh *bvh, int idx);
 void							update_group(t_data *data, t_bvh *bvh);
+void							cut_in_two(t_bvh *bvh, int idx, int idx_c, int i);
+void							get_group_size(t_data *data, t_bvh *bvh);
+void							create_obj_list_root(t_data *data, t_bvh *bvh);
+int								find_min_idx(int x[3]);
+void 							malloc_groups_n_geo(t_bvh *bvh, t_cut_in_two *cut);
+void							get_mid_planes(t_bvh *bvh, int idx, t_cut_in_two *cut);
+t_obj_geo 						*create_obj_geo_data(t_bvh *bvh);
+void 							get_bboxes(t_bvh *bvh, int idx, t_cut_in_two *cut);
+void							get_bbox_min_max_root(t_bvh *bvh);
+
 
 /* tests*/
 float							visi_test_bvh_strict(t_bvh *bvh, int idx, t_shoot *shoot);

@@ -104,6 +104,7 @@ void	ft_swap(float *t1, float *t2)
 	*t2 = tmp;
 }
 
+
 int	abs_int(int x)
 {
 	if (x < 0)
