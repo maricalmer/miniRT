@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:22:11 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/19 17:58:13 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/19 23:59:33 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,3 +94,5 @@ static int	switch_consecutive(float *tab1, int *tab2, int i)
 	else
 		return (0);
 }
+
+
