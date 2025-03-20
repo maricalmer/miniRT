@@ -165,15 +165,11 @@ typedef struct s_object
 
 typedef struct s_ray_prim
 {
-	// int							end_y;
-	// int							start_x;
 	float						max_x;
 	float						max_y;
 	int							size_hd;
 	float						dx;
 	float						hd_dx;
-	// float						top_left_y;
-	// float						top_left_x;
 }	t_ray_prim;
 
 typedef struct	s_mlxlib {

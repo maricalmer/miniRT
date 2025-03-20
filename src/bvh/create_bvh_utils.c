@@ -6,7 +6,7 @@
 /*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:00:36 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/19 21:08:37 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:32:58 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void	get_mid_planes(t_bvh *bvh, int idx, t_cut_in_two *cut)
 	int		j;
 
 	// or custom median without malloc...
+	// float find_median_custom(obj_geo_list, int size);
+	// cut->mid[j] = find_median_custom(bvh->obj_geo[idx], bvh->group_size[idx]);
 	centers = malloc(sizeof(float) * bvh->group_size[idx]);
 	j = -1;
 	while (++j < 3)

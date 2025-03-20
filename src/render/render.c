@@ -1,17 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/20 15:05:24 by hruiz-fr          #+#    #+#             */
+/*   Updated: 2025/03/20 16:24:04 by hruiz-fr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 void	average_hd_pixel(int (*hd_res)[3], int hd_size);
-void	iterate_hd_pxl(float *primary_rays, float dx, float top_left_x, float top_left_y, int anti_fa);
-void 	calculate_hit_pt(float t, t_shoot *shoot);
-void 	get_normal_intersect(t_shoot *shoot);
 void 	init_data_ray(t_ray_prim *data_ray, t_data *data);
+void	calculate_pixel(t_calc_img_arg *arg, int i, t_shoot *shoot, int	(*hd_res)[3]);
 
 void	render_first_image(t_data *data)
 {
 	clock_t	start;
 	t_bvh	*bvh;
 
-	start = clock();
+	start = clock(); //switch to get_time_of_day !!
+	// move all that initialisation in a specific function.
 	if (BVH_ON)
 	{
 		bvh = init_bvh(data); // rather return NULL  is no elements
@@ -82,12 +93,6 @@ void 	calculate_img_packet(t_calc_img_arg *arg)
 {
 	t_shoot 		first_shoot;
 	int				i;
-	int				j;
-	int				k;
-	int				l;
-
-	float			x;
-	float			y;
 	int				(*hd_res)[3]; 
 
 	hd_res = malloc(sizeof(int [3]) * arg->data->antialiasing_fact
@@ -96,30 +101,39 @@ void 	calculate_img_packet(t_calc_img_arg *arg)
 	first_shoot.depth = 0;
 	first_shoot.inside = 0;
 	i = -1;
-	while (++i < WIDTH) //pixel
-	{
-		y = arg->y_tl - arg->dx_hd;
-		j = -1;
-		while (++j < arg->data->antialiasing_fact) // hd line
-		{
-			x = arg->x_tl + arg->dx * i + arg->dx_hd;
-			k = -1;
-			while (++k < arg->data->antialiasing_fact) // hd_colum
-			{
-				calc_p_ray(x, y, first_shoot.dir, arg->data->cam.r_mat);
-				shoot_ray(arg->data, &first_shoot);
-				x += arg->dx_hd;
-				l = -1;
-				while (++l< 3)
-					hd_res[j * arg->data->antialiasing_fact + k][l] = imin(first_shoot.res_rgb[l], 255);
-			}
-			y -= arg->dx_hd;
-		}
-		average_hd_pixel(hd_res, arg->data->antialiasing_fact * arg->data->antialiasing_fact);
-		arg->data->mlx.addr[i + arg->line * WIDTH] = (hd_res[0][0] << 16 | hd_res[0][1] << 8 | hd_res[0][2]);
-	}
+	while (++i < WIDTH)
+		calculate_pixel(arg, i, &first_shoot, hd_res);
 	free(hd_res);
 }
+void	calculate_pixel(t_calc_img_arg *arg, int i, t_shoot *shoot, int	(*hd_res)[3])
+{
+	int				j;
+	int				k;
+	int				l;
+	float			x;
+	float			y;
+	
+	y = arg->y_tl - arg->dx_hd;
+	j = -1;
+	while (++j < arg->data->antialiasing_fact)
+	{
+		x = arg->x_tl + arg->dx * i + arg->dx_hd;
+		k = -1;
+		while (++k < arg->data->antialiasing_fact)
+		{
+			calc_p_ray(x, y, shoot->dir, arg->data->cam.r_mat);
+			shoot_ray(arg->data, shoot);
+			x += arg->dx_hd;
+			l = -1;
+			while (++l< 3)
+				hd_res[j * arg->data->antialiasing_fact + k][l] = imin(shoot->res_rgb[l], 255);
+		}
+		y -= arg->dx_hd;
+	}
+	average_hd_pixel(hd_res, arg->data->antialiasing_fact * arg->data->antialiasing_fact);
+	arg->data->mlx.addr[i + arg->line * WIDTH] = (hd_res[0][0] << 16 | hd_res[0][1] << 8 | hd_res[0][2]);
+}
+
 
 void init_data_ray(t_ray_prim *data_ray, t_data *data)
 {
@@ -149,118 +163,3 @@ void	average_hd_pixel(int (*hd_res)[3], int hd_size)
 		hd_res[0][j] *= divisor;
 }
 
-void	shoot_ray(t_data *data, t_shoot *shoot)
-{
-	float t;
-
-	t = visi_tests(data->objects, shoot, data->n_obj);
-	// SWITCH sphere => get_hit_pt_n_normal_sphere
-					// => get_hit_pt_n_normal_plane
-					// => get_hit_pt_n_normal_tri
-					// => get_hit_pt_n_normal_cylinder
-	calculate_hit_pt(t, shoot);
-	get_normal_intersect(shoot);
-	shading(shoot, data);
-}
-
-void calculate_hit_pt(float t, t_shoot *shoot)
-{
-	if (t > EPSILON)
-	{
-		if (shoot->obj->type == TRI)
-		{
-			float   px[3][3];
-			float   bary[3];
-			float   denom;
-			int     i;
-
-			vec_substr(shoot->obj->geo.tri.v0, shoot->src, px[0]);
-			vec_substr(shoot->obj->geo.tri.v1, shoot->src, px[1]);
-			vec_substr(shoot->obj->geo.tri.v2, shoot->src, px[2]);
-			bary[0] = triple_scalar(shoot->dir, px[2], px[1]);
-			bary[1] = triple_scalar(shoot->dir, px[0], px[2]);
-			bary[2] = triple_scalar(shoot->dir, px[1], px[0]);
-			denom = 1.0 / (bary[0] + bary[1] + bary[2]);
-			i = -1;
-			while (++i < 3)
-				bary[i] *= denom;
-			i = -1;
-			while (++i < 3)
-				shoot->hit_pt[i] = bary[0] * shoot->obj->geo.tri.v0[i] + bary[1] * shoot->obj->geo.tri.v1[i] + bary[2] * shoot->obj->geo.tri.v2[i];
-		}
-		else 
-		{
-		shoot->hit_pt[0] = shoot->src[0] + t * shoot->dir[0];
-		shoot->hit_pt[1] = shoot->src[1] + t * shoot->dir[1];
-		shoot->hit_pt[2] = shoot->src[2] + t * shoot->dir[2];
-		}
-	}
-	else
-		shoot->obj = NULL;
-}
-
-void get_normal_intersect(t_shoot *shoot)
-{
-	float r_inv;
-	
-	if (!shoot->obj)
-		return ;
-	if (shoot->obj->type == SPHERE)
-	{
-		r_inv = 1 / shoot->obj->geo.sph.radius;
-		shoot->normal[0] = r_inv * (shoot->hit_pt[0] - shoot->obj->geo.sph.center[0]);
-		shoot->normal[1] = r_inv * (shoot->hit_pt[1] - shoot->obj->geo.sph.center[1]);
-		shoot->normal[2] = r_inv * (shoot->hit_pt[2] - shoot->obj->geo.sph.center[2]);
-	}
-	else if (shoot->obj->type == PLANE)
-	{
-		shoot->normal[0] = shoot->obj->geo.pl.normal[0];
-		shoot->normal[1] = shoot->obj->geo.pl.normal[1];
-		shoot->normal[2] = shoot->obj->geo.pl.normal[2];
-	}
-	else if (shoot->obj->type == TRI)
-	{
-		int i;
-		float   px[3][3];
-		float   bary[3];
-
-		vec_substr(shoot->obj->geo.tri.v0, shoot->src, px[0]);
-		vec_substr(shoot->obj->geo.tri.v1, shoot->src, px[1]);
-		vec_substr(shoot->obj->geo.tri.v2, shoot->src, px[2]);
-		bary[0] = triple_scalar(shoot->dir, px[2], px[1]);
-		bary[1] = triple_scalar(shoot->dir, px[0], px[2]);
-		bary[2] = triple_scalar(shoot->dir, px[1], px[0]);
-		float denom = 1.0 / (bary[0] + bary[1] + bary[2]);
-		i = -1;
-		while (++i < 3)
-			bary[i] *= denom;
-		i = -1;
-		while (++i < 3)
-		shoot->normal[i] = shoot->obj->geo.tri.n0[i] * bary[0]
-						+ shoot->obj->geo.tri.n1[i] * bary[1]
-						+ shoot->obj->geo.tri.n2[i] * bary[2];
-	}
-	else if (shoot->obj->type == CYLINDER)
-	{
-		int i = -1;
-		float tmp[3];
-
-		vec_substr(shoot->hit_pt, shoot->obj->geo.cyl.center, tmp);
-		float h = dot_13_13(tmp, shoot->obj->geo.cyl.dir);
-		while (++i < 3)
-			tmp[i] = (shoot->obj->geo.cyl.center[i] + h) * shoot->obj->geo.cyl.dir[i];
-		
-		r_inv = 1 / shoot->obj->geo.cyl.radius;
-		shoot->normal[0] = r_inv * (shoot->hit_pt[0] - tmp[0]);
-		shoot->normal[1] = r_inv * (shoot->hit_pt[1] - tmp[1]);
-		shoot->normal[2] = r_inv * (shoot->hit_pt[2] - tmp[2]);
-	}
-
-	// reverse if we hit inside !
-	if (dot_13_13(shoot->dir, shoot->normal) > 0)
-	{
-		shoot->normal[0] *= -1;
-		shoot->normal[1] *= -1;
-		shoot->normal[2] *= -1;
-	}
-}
