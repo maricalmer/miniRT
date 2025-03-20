@@ -43,7 +43,7 @@
 # define NO_EVENT_MASK			0
 
 # define BVH_ON					1
-# define FAST_BVH_TRANSVERSAL	1   // fast is ok for convexe volumes, else strict (=> 0) should be used.
+# define FAST_BVH_TRANSVERSAL	0   // fast is ok for convexe volumes, else strict (=> 0) should be used.
 # define MAX_BVH_GROUP			20
 # define BVH_DEPTH_MAX			5
 # define BVH_SIZE_MAX			37464 // more tricky ... (w^(d+1) - 1)/(w-1) + (w-1) + w
