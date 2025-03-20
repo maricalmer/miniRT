@@ -46,6 +46,7 @@ SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/plane.c
 SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/sphere.c
 SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/triangle.c
 SOURCES += $(SOURCES_DIRECTORY)/math/math.c
+SOURCES += $(SOURCES_DIRECTORY)/math/math_utils.c
 SOURCES += $(SOURCES_DIRECTORY)/math/find_median.c
 SOURCES += $(SOURCES_DIRECTORY)/math/dot_in_place.c
 SOURCES += $(SOURCES_DIRECTORY)/math/rodrigues.c

@@ -468,19 +468,16 @@ void							dot_inplace_34_13(double a[3][4], float b[3]);
 void							dot_inplace_33_13(float a[3][3], float b[3]);
 void							dot_inplace_44_44(double a[4][4], double b[4][4]);
 void							cprod_13_13(float a[3], float b[3], float res[3]);
-void							normalize(float vector[3]);
-void							normalize2(float vector[3], float *magnitude);
+void							normalize(float vector[3], float *magnitude);
 int								imin(int a, int b);
 int								imax(int a, int b);
 void							vec_substr(float p1[3], float p2[3], float result[3]);
 void							cpy_vec(float v1[3], float v2[3]);
 float 							triple_scalar(float a[3], float b[3], float c[3]);
 void							ft_swap(float *t1, float *t2);
-int								abs_int(int x);
 float 							findMedian(float arr[], int n); // change this GPT code !!!
 void 							get_rotation_matrice(float cam_dir[3], double t_mat[4][4], float c[3]);
 void 							copy_r_mat(t_data *data);
-void							vec_add_inplace(float p1[3], float p2[3]);
 void 							rodrigues_matrice_handler(float u[3], float theta, float c[3], double r[4][4]);
 void							scale_vec(float v[3], float amp);
 

@@ -2,26 +2,19 @@
 
 #include "minirt.h"
 
-// Utility function to swap two elements
-static void swap(float *a, float *b) {
-    float temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
 // Partition function for QuickSelect
 int partition(float arr[], int left, int right, int pivotIndex) {
     float pivotValue = arr[pivotIndex];
-    swap(&arr[pivotIndex], &arr[right]);  // Move pivot to end
+    ft_swap(&arr[pivotIndex], &arr[right]);  // Move pivot to end
     int storeIndex = left;
     
     for (int i = left; i < right; i++) {
         if (arr[i] < pivotValue) {
-            swap(&arr[i], &arr[storeIndex]);
+            ft_swap(&arr[i], &arr[storeIndex]);
             storeIndex++;
         }
     }
-    swap(&arr[storeIndex], &arr[right]);  // Move pivot to its final place
+    ft_swap(&arr[storeIndex], &arr[right]);  // Move pivot to its final place
     return storeIndex;
 }
 

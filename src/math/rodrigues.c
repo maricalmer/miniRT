@@ -28,7 +28,7 @@ void get_rotation_matrice(float cam_dir[3], double t_mat[4][4], float c[3])
         return ;
     } 
     cprod_13_13(v1, cam_dir, u);
-    normalize2(u, &sin_theta);
+    normalize(u, &sin_theta);
     cos_theta = dot_13_13(v1, cam_dir);
     get_rodrigues_matrice(u, sin_theta, cos_theta, c, t_mat);
 }

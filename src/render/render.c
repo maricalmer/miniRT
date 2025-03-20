@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:05:24 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/20 16:24:04 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/20 21:08:12 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void calc_p_ray(float x, float y, float res[3], float r_mat[3][3])
 	res[0] = x;
 	res[1] = y;
 	res[2] = -1;
-	normalize(res);
+	normalize(res, NULL);
 	dot_inplace_33_13(r_mat, res);
 }
 

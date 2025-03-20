@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shading.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:10:51 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/19 21:52:36 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/20 21:11:08 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	shading(t_shoot *shoot, t_data *data)
 	while (++i < data->n_light)
 	{
 		vec_substr(data->lights[i].origin, shoot->hit_pt, shoot->shadow_ray);
-		normalize2(shoot->shadow_ray, &dist_light);
+		normalize(shoot->shadow_ray, &dist_light);
 		theta_ln = dot_13_13(shoot->normal, shoot->shadow_ray);
 		if (theta_ln > 0 && shadow_tests
 			(shoot, data->objects, dist_light, data->n_obj) < EPSILON)
@@ -83,7 +83,7 @@ static void	add_phong_specular(t_shoot *shoot, t_light light, float theta_LN,
 	while (++i < 3)
 		reflection_ray[i] = -shoot->shadow_ray[i]
 			+ 2 * theta_LN * shoot->normal[i];
-	normalize(reflection_ray);
+	normalize(reflection_ray, NULL);
 	r_dot_e = -dot_13_13(reflection_ray, shoot->dir);
 	r_dot_e = fmaxf(0, r_dot_e);
 	r_dot_e = powf(r_dot_e, SPECULAR_POWER);

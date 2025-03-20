@@ -164,9 +164,9 @@ int create_triangle(t_data *data, char *line, t_obj_parser *parser)
 			i++;
 		}
 
-		normalize(data->objects[data->objects_idx].geo.tri.n0);
-		normalize(data->objects[data->objects_idx].geo.tri.n1);
-		normalize(data->objects[data->objects_idx].geo.tri.n2);
+		normalize(data->objects[data->objects_idx].geo.tri.n0, NULL);
+		normalize(data->objects[data->objects_idx].geo.tri.n1, NULL);
+		normalize(data->objects[data->objects_idx].geo.tri.n2, NULL);
 
 		data->objects[data->objects_idx].type = TRI;
 		data->objects[data->objects_idx].mat.checker_flag = 0;
