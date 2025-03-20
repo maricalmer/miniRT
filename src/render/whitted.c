@@ -6,7 +6,7 @@
 /*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:23:09 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/20 12:59:19 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:49:11 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	add_whitted_refraction(t_shoot *shoot, t_data *data)
 	if (r < 1)
 		shoot_refraction_ray(shoot, &new_shoot_2, data);
 	else
-		ft_memset(&new_shoot_1.res_rgb, 0, sizeof(int [3]));
+		ft_memset(&new_shoot_2.res_rgb, 0, sizeof(int [3]));
 	i = -1;
 	while (++i < 3)
 		shoot->res_rgb[i] = (1 - shoot->obj->mat.refr_coeff) * shoot->res_rgb[i]
