@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:34:56 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 12:12:08 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/23 13:41:56 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static void	handle_input_2(int keysym, t_data *data)
 		rotate_cam(data, -15 * M_PI / 180, (float [3]){1, 0, 0}, 1);
 	else if (keysym == 'm')
 	{
-		data->antialiasing_fact = ANTIALIASING_FACT;
+		data->anti_fa = ANTIALIASING_FACT;
 		calculate_img(data);
 	}
 }
