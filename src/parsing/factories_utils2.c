@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   factories_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 09:49:05 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 10:19:37 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/23 17:14:45 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	get_vec_norm(char **specs, float *value)
 			(*specs)++;
 		}
 	}
+	normalize(value, NULL);
 	return (EXIT_SUCCESS);
 }
 

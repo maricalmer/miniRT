@@ -6,7 +6,7 @@
 /*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 21:34:47 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 16:58:00 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/23 17:38:17 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ void	first_rotation_matrice(t_data *data)
 		r[1][1] = -1;
 		r[2][2] = 1;
 		r[3][3] = 1;
-		dot_inplace_44_44(r, data->cam.t_mat);
+		dot_inplace_44_44(data->cam.t_mat, r);
+		ft_memcpy(data->cam.t_mat, r, sizeof(double [4][4]));
 		copy_r_mat_0(data);
 	}
 	ft_memset(data->cam.t_mat, 0, sizeof(double [4][4]));
