@@ -6,7 +6,7 @@
 /*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:42:06 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/23 10:53:07 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/23 12:19:05 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	calc_p_ray(float x, float y, float res[3], float r_mat[3][3])
 	res[0] = x;
 	res[1] = y;
 	res[2] = -1;
-	normalize(res);
+	normalize(res, NULL);
 	dot_inplace_33_13(r_mat, res);
 }
 
