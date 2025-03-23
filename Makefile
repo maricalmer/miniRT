@@ -19,6 +19,7 @@ SOURCES += $(SOURCES_DIRECTORY)/parsing/factories_utils3.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/checker.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/init.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/obj_file.c
+SOURCES += $(SOURCES_DIRECTORY)/parsing/obj_file2.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/rt_file.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/counter.c
 SOURCES += $(SOURCES_DIRECTORY)/bvh/bvh_bbox.c

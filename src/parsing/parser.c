@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/23 12:38:13 by dlemaire          #+#    #+#             */
+/*   Updated: 2025/03/23 12:38:19 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 static void	apply_uniform_spacing(char *specs, char *start, char *end);
@@ -6,6 +18,8 @@ int	handle_parsing(char **av, t_data *data)
 {
 	if (read_rt(data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	if (!data->n_light)
+		return (print_error(4), EXIT_FAILURE);
 	if (data->n_obj_files)
 	{
 		if (parse_obj_files(data, av[1]) == EXIT_FAILURE)
@@ -46,8 +60,6 @@ int	read_rt(t_data *data)
 			return (EXIT_FAILURE);
 	}
 	close(data->rt_fd);
-	if (!data->n_light)
-		return (print_error(4), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
