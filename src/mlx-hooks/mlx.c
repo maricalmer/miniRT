@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:34:56 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 13:41:56 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/23 13:56:58 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	init_mlx(t_mlxlib	*data)
 int	handle_close(t_data *data)
 {
 	free_mlx(&data->mlx);
-	if (1)//BVH_ON && data->is_bvh)
+	if (1)
 		free_bvh_2(data->objects[0].geo.bvh);
 	free_data(data);
 	join_threads(data);

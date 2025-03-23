@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rodrigues.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 21:34:47 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/20 22:26:59 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/23 13:37:40 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,3 @@ void	first_rotation_matrice(t_data *data)
 	}
 	copy_r_mat(data);
 }
-

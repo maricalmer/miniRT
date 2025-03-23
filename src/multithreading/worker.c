@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   worker.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:00:48 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/21 18:02:02 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/23 13:39:29 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,13 @@ void	*worker(void *arg)
 	return (NULL);
 }
 
-/* check if it works like that or if we need atomic or mutex protection to have the L1 cache of the parent uptodate. */
 void	wait_for_workers(t_data *data)
 {
 	while (data->joblist_top < HEIGHT || data->active_threads > 0)
 		usleep(USLEEP_PARENT);
 }
 
-void	launch_pool(t_data *data) // initialisation_MT
+void	launch_pool(t_data *data)
 {
 	int	i;
 

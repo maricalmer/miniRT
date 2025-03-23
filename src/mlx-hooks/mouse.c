@@ -6,11 +6,11 @@
 /*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:50:02 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 12:12:51 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/23 13:41:28 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minirt.h"
+#include "minirt.h"
 
 static void	handle_mouse_left(t_data *data, int x, int y);
 static void	handle_mouse_right(t_data *data, int x, int y);
@@ -84,7 +84,7 @@ static void	handle_mouse_left(t_data *data, int x, int y)
 	v[1] = dy;
 	v[2] = 0;
 	normalize(v, NULL);
-	amp = 5;  // Scaling can be handled elsewhere if needed
+	amp = 5;
 	translate_cam(data, v, amp, 1);
 }
 
@@ -106,46 +106,3 @@ static void	handle_mouse_right(t_data *data, int x, int y)
 	normalize(v, NULL);
 	rotate_cam(data, 2 * M_PI / 180, v, 1);
 }
-
-// int	mouse_move(int x, int y, void *arg)
-// {
-// 	int		dx;
-// 	int		dy;
-// 	float	v[3];
-// 	float	amp;
-// 	t_data	*data;
-
-// 	data = arg;
-// 	if (data->mouse_pressed_l)
-// 	{
-// 		dx = x - data->mouse_x;
-// 		dy = y - data->mouse_y;
-// 		if ((dx * dx + dy * dy) >= MOVE_THRESHOLD_2)
-// 		{
-// 			data->mouse_x = x;
-// 			data->mouse_y = y;
-// 			v[0] = -dx;
-// 			v[1] = dy; 
-// 			v[2] = 0;
-// 			normalize(v, NULL);
-// 			amp = 5;  // need to be scaled !!!! somehow ?
-// 			translate_cam(data, v, amp, 1);
-// 		}
-// 	}
-// 	if (data->mouse_pressed_r)
-// 	{
-// 		dx = x - data->mouse_x;
-// 		dy = y - data->mouse_y;
-// 		if ((dx * dx + dy * dy) >= MOVE_THRESHOLD_2)
-// 		{
-// 			data->mouse_x = x;
-// 			data->mouse_y = y;
-// 			v[0] = -dy;
-// 			v[1] = -dx;
-// 			v[2] = 0;
-// 			normalize(v, NULL);
-// 			rotate_cam(data, 2 * M_PI / 180, v, 1);
-// 		}
-// 	}
-// 	return (0);
-// }

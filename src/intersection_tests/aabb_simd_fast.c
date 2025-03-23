@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aabb_simd_fast.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:22:11 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/19 23:59:33 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/23 13:35:44 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,3 @@ static int	switch_consecutive(float *tab1, int *tab2, int i)
 	else
 		return (0);
 }
-
-

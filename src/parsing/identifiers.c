@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   identifiers.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:12 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 10:59:14 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/23 13:53:47 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,3 @@ int	is_plane(char *specs)
 {
 	return (specs[0] == 'p' && specs[1] == 'l' && specs[2] == ' ');
 }
-
