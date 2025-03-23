@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prints2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:39:21 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 13:40:44 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/23 14:00:34 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,3 @@ void	print_tri_count(int counter)
 	printf("%s  [TRIMESH]\n\n", CYAN_TXT_START);
 	printf("    > %d tris%s\n\n", counter, COLOR_END);
 }
-

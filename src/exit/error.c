@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:32:55 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 13:33:01 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/23 14:00:02 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,3 @@ static void	print_error_2(int errnum)
 		printf("\n%sError%s%sWrong settings for tri element%s\n", RED_BG_START,
 			COLOR_END, RED_TXT_START, COLOR_END);
 }
-
-
