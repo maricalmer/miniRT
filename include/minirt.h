@@ -76,7 +76,11 @@ typedef struct s_camera
 	float						direction[3];
 	double						t_mat[4][4];
 	float						r_mat[3][3];
+	float						r_mat_0[3][3];
 	float						world_center[3];
+	float						x[3];
+	float						y[3];
+	float						z[3];
 }	t_camera;
 
 typedef struct s_light
@@ -481,6 +485,7 @@ void							dot_inplace_44_44(double a[4][4], double b[4][4]);
 void							dot_inplace_34_13(double a[3][4], float b[3]);
 void							dot_inplace_33_13(float a[3][3], float b[3]);
 void 							copy_r_mat(t_data *data);
+void copy_r_mat_0(t_data *data);
 void							vec_add_inplace(float p1[3], float p2[3]);
 void 							rodrigues_matrice_handler(float u[3], float theta, float c[3], double r[4][4]);
 void							dot_inplace_44_14(float a[4][4], float b[4]);

@@ -20,25 +20,25 @@ int	handle_input(int keysym, t_data *data)
 	else if (keysym == XK_Escape)
 		handle_close(data);
 	else if (keysym == 'a')
-		translate_cam(data, (float[3]){1, 0, 0}, -CAM_D_TRANS, 1);
+		translate_cam(data, data->cam.x, -CAM_D_TRANS, 1);
 	else if (keysym == 'd')
-		translate_cam(data, (float[3]){1, 0, 0}, CAM_D_TRANS, 1);
+		translate_cam(data, data->cam.x, CAM_D_TRANS, 1);
 	else if (keysym == 'w')
-		translate_cam(data, (float[3]){0, 1, 0}, -CAM_D_TRANS, 1);
+		translate_cam(data, data->cam.y, -CAM_D_TRANS, 1);
 	else if (keysym == 's')
-		translate_cam(data, (float[3]){0, 1, 0}, CAM_D_TRANS, 1);
+		translate_cam(data, data->cam.y, CAM_D_TRANS, 1);
 	else if (keysym == 'z')
-		translate_cam(data, (float[3]){0, 0, 1}, -CAM_D_TRANS, 1);
+		translate_cam(data, data->cam.z, -CAM_D_TRANS, 1);
 	else if (keysym == 'x')
-		translate_cam(data, (float[3]){0, 0, 1}, CAM_D_TRANS, 1);
+		translate_cam(data, data->cam.z, CAM_D_TRANS, 1);
 	else if (keysym == 'j') // around y
-		rotate_cam(data, 15 * M_PI / 180, (float[3]){0, 1, 0}, 1);
+		rotate_cam(data, 15 * M_PI / 180, data->cam.y, 1);
 	else if (keysym == 'l') // around y
-		rotate_cam(data, -15 * M_PI / 180, (float[3]){0, 1, 0}, 1);
+		rotate_cam(data, -15 * M_PI / 180, data->cam.y, 1);
 	else if (keysym == 'i') // around y
-		rotate_cam(data, 15 * M_PI / 180, (float[3]){1, 0, 0}, 1);
+		rotate_cam(data, 15 * M_PI / 180, data->cam.x, 1);
 	else if (keysym == 'k') // around y
-		rotate_cam(data, -15 * M_PI / 180, (float[3]){1, 0, 0}, 1);
+		rotate_cam(data, -15 * M_PI / 180, data->cam.x, 1);
 	else if (keysym == 'm')
 	{
 		data->antialiasing_fact = ANTIALIASING_FACT;

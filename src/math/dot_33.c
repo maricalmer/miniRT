@@ -155,6 +155,6 @@ void	dot_inplace_44_44(double a[4][4], double b[4][4])
             }
         }
     }
-    save_result_in_place_44(res, a);
+    save_result_in_place_44(res, b);
 }
 

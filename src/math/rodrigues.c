@@ -67,10 +67,10 @@ void first_rotation_matrice(t_data *data)
     double   R[4][4];
     
     get_rotation_matrice(data->cam.direction, data->cam.t_mat,
-        data->cam.world_center);
+        (float [3]){0, 0, 0});
     cpy_vec((float[3]){0, 1, 0}, tmp);
-    copy_r_mat(data);
-    dot_inplace_33_13(data->cam.r_mat, tmp);
+    copy_r_mat_0(data);
+    dot_inplace_33_13(data->cam.r_mat_0, tmp);
     if (tmp[1] < 0)
     {
         ft_memset(R, 0, sizeof(float[4][4]));
@@ -78,8 +78,20 @@ void first_rotation_matrice(t_data *data)
         R[1][1] = -1;
         R[2][2] = 1;
         R[3][3] = 1;
-        dot_inplace_44_44(data->cam.t_mat, R);
+        dot_inplace_44_44(R, data->cam.t_mat);
     }
-    copy_r_mat(data);
+    copy_r_mat_0(data);
+    // now update the axis of the cam
+	ft_memcpy(data->cam.x, (float [3]){1, 0, 0}, sizeof(float[3]));
+	dot_inplace_33_13(data->cam.r_mat, data->cam.x);
+	ft_memcpy(data->cam.y, (float [3]){0, 1, 0}, sizeof(float[3]));
+	dot_inplace_33_13(data->cam.r_mat, data->cam.y);
+	ft_memcpy(data->cam.x, (float [3]){1, 0, 0}, sizeof(float[3]));
+	dot_inplace_33_13(data->cam.r_mat, data->cam.x);
+	ft_memcpy(data->cam.z, (float [3]){0, 0, 1}, sizeof(float[3]));
+	dot_inplace_33_13(data->cam.r_mat, data->cam.z);
+	// clean up t_mat
+    ft_memset(data->cam.t_mat, 0, sizeof(double [4][4]));
+    data->cam.t_mat[0][0] = data->cam.t_mat[1][1] = data->cam.t_mat[2][2] = data->cam.t_mat[3][3] = 1;
 }
 
