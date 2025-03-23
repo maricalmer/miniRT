@@ -6,7 +6,7 @@
 /*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 14:59:58 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/23 09:57:59 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/23 15:22:11 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,7 @@ static void	get_hitpt_n_normal_cyl(t_shoot *shoot, float t)
 	h = dot_13_13(tmp, shoot->obj->geo.cyl.dir);
 	i = -1;
 	while (++i < 3)
-		tmp[i] = (shoot->obj->geo.cyl.center[i] + h)
-			* shoot->obj->geo.cyl.dir[i];
+		tmp[i] = shoot->obj->geo.cyl.center[i] + h * shoot->obj->geo.cyl.dir[i];
 	r_inv = 1 / shoot->obj->geo.cyl.radius;
 	shoot->normal[0] = r_inv * (shoot->hit_pt[0] - tmp[0]);
 	shoot->normal[1] = r_inv * (shoot->hit_pt[1] - tmp[1]);

@@ -18,8 +18,8 @@
 # include <immintrin.h> // SSE/AVX and prefetch
 # include <xmmintrin.h>
 
-# define WIDTH					200
-# define HEIGHT					200
+# define WIDTH					400
+# define HEIGHT					400
 # define EPSILON    			0.001f // adjust
 # define SPECULAR_POWER 		50
 # define FRESNEL_TOLERANCE		0.02f
@@ -30,6 +30,7 @@
 # define SKY_COLOR_G			130
 # define SKY_COLOR_B			180
 
+# define CAM_MODE				1 // 0 for object mode, 1 for flight mode		
 # define CAM_D_THETA			15
 # define CAM_D_TRANS			10
 # define MOVE_THRESHOLD_2		400
@@ -75,7 +76,11 @@ typedef struct s_camera
 	float						direction[3];
 	double						t_mat[4][4];
 	float						r_mat[3][3];
+	float						r_mat_0[3][3];
 	float						world_center[3];
+	float						x[3];
+	float						y[3];
+	float						z[3];
 }	t_camera;
 
 typedef struct s_light
@@ -467,6 +472,7 @@ void							copy_and_terminate(char *res, int *indices, int size);
 float							dot_13_13(float a[3], float b[3]);
 void							dot_inplace_34_13(double a[3][4], float b[3]);
 void							dot_inplace_33_13(float a[3][3], float b[3]);
+void							dot_inplace_33_33(float a[3][3], float b[3][3]);
 void							dot_inplace_44_44(double a[4][4], double b[4][4]);
 void							cprod_13_13(float a[3], float b[3], float res[3]);
 void							normalize(float vector[3], float *magnitude);
@@ -480,6 +486,7 @@ float							find_median_custom(t_bvh *bvh, int idx, int axis);
 float 							find_median2(float centers[3], int n); // change this GPT code !!!
 void 							get_rotation_matrice(float cam_dir[3], double t_mat[4][4], float c[3]);
 void 							copy_r_mat(t_data *data);
+void							copy_r_mat_0(t_data *data);
 void 							rodrigues_matrice_handler(float u[3], float theta, float c[3], double r[4][4]);
 void							scale_vec(float v[3], float amp);
 

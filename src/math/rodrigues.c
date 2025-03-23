@@ -6,7 +6,7 @@
 /*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 21:34:47 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 13:37:40 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/23 16:58:00 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,18 +91,31 @@ void	first_rotation_matrice(t_data *data)
 	double	r[4][4];
 
 	get_rotation_matrice(data->cam.direction, data->cam.t_mat,
-		data->cam.world_center);
+		(float [3]){0, 0, 0});
 	cpy_vec((float [3]){0, 1, 0}, tmp);
-	copy_r_mat(data);
-	dot_inplace_33_13(data->cam.r_mat, tmp);
+	copy_r_mat_0(data);
+	dot_inplace_33_13(data->cam.r_mat_0, tmp);
 	if (tmp[1] < 0)
 	{
-		ft_memset(r, 0, sizeof(float [4][4]));
+		ft_memset(r, 0, sizeof(double [4][4]));
 		r[0][0] = -1;
 		r[1][1] = -1;
 		r[2][2] = 1;
 		r[3][3] = 1;
-		dot_inplace_44_44(data->cam.t_mat, r);
+		dot_inplace_44_44(r, data->cam.t_mat);
+		copy_r_mat_0(data);
 	}
-	copy_r_mat(data);
+	ft_memset(data->cam.t_mat, 0, sizeof(double [4][4]));
+	data->cam.t_mat[0][0] = 1;
+	data->cam.t_mat[1][1] = 1;
+	data->cam.t_mat[2][2] = 1;
+	data->cam.t_mat[3][3] = 1;
+	// function
+	ft_memcpy(data->cam.x, (float [3]){1, 0, 0}, sizeof(float [3]));
+	ft_memcpy(data->cam.y, (float [3]){0, 1, 0}, sizeof(float [3]));
+	ft_memcpy(data->cam.z, (float [3]){0, 0, 1}, sizeof(float [3]));
+	dot_inplace_33_13(data->cam.r_mat, data->cam.x);
+	dot_inplace_33_13(data->cam.r_mat, data->cam.y);
+	dot_inplace_33_13(data->cam.r_mat, data->cam.z);
+	// end of function ==> see move_rotate for duplicate
 }

@@ -6,7 +6,7 @@
 /*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:50:02 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 13:41:28 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/23 16:55:25 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ int	mouse_press(int button, int x, int y, void *arg)
 		data->mouse_y = y;
 	}
 	else if (button == 4)
-		translate_cam(data, (float [3]){0, 0, 1}, -CAM_D_TRANS * 0.5, 1);
+		translate_cam(data, data->cam.z, -CAM_D_TRANS * 0.5, 1);
 	else if (button == 5)
-		translate_cam(data, (float [3]){0, 0, 1}, CAM_D_TRANS * 0.5, 1);
+		translate_cam(data, data->cam.z, CAM_D_TRANS * 0.5, 1);
 	return (0);
 }
 
@@ -80,9 +80,9 @@ static void	handle_mouse_left(t_data *data, int x, int y)
 		return ;
 	data->mouse_x = x;
 	data->mouse_y = y;
-	v[0] = -dx;
-	v[1] = dy;
-	v[2] = 0;
+	v[0] = -dx * data->cam.x[0] + dy * data->cam.y[0];
+	v[1] = -dx * data->cam.x[1] + dy * data->cam.y[1];
+	v[2] = -dx * data->cam.x[2] + dy * data->cam.y[2];
 	normalize(v, NULL);
 	amp = 5;
 	translate_cam(data, v, amp, 1);
@@ -100,9 +100,9 @@ static void	handle_mouse_right(t_data *data, int x, int y)
 		return ;
 	data->mouse_x = x;
 	data->mouse_y = y;
-	v[0] = -dy;
-	v[1] = -dx;
-	v[2] = 0;
+	v[0] = -dy * data->cam.x[0] - dx * data->cam.y[0];
+	v[1] = -dy * data->cam.x[1] - dx * data->cam.y[1];
+	v[2] = -dy * data->cam.x[2] - dx * data->cam.y[2];
 	normalize(v, NULL);
 	rotate_cam(data, 2 * M_PI / 180, v, 1);
 }

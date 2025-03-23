@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shading.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:10:51 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/20 21:11:08 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/23 15:07:18 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	shading(t_shoot *shoot, t_data *data)
 		normalize(shoot->shadow_ray, &dist_light);
 		theta_ln = dot_13_13(shoot->normal, shoot->shadow_ray);
 		if (theta_ln > 0 && shadow_tests
-			(shoot, data->objects, dist_light, data->n_obj) < EPSILON)
+			(shoot, data->objects, dist_light, data->n_obj) == 0)
 		{
 			add_phong_diffuse(shoot, data->lights[i], theta_ln, rgb);
 			add_phong_specular(shoot, data->lights[i], theta_ln, rgb);
