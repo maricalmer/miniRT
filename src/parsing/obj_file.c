@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 12:00:47 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/23 12:43:31 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	get_obj_filenames(t_obj_parser *parsers, t_data *data,
 				char *filename);
-static void	process_obj_file(t_obj_parser *parsers, char *specs);
+static int	process_obj_file(t_obj_parser *parsers, char *specs);
 static int	create_elements_obj(t_data *data, t_obj_parser *parser);
 int			read_obj_file(t_data *data, t_obj_parser *parser);
 
@@ -75,16 +75,17 @@ static int	get_obj_filenames(t_obj_parser *parsers, t_data *data,
 	return (EXIT_SUCCESS);
 }
 
-static void	process_obj_file(t_obj_parser *parsers, char *specs)
+static int	process_obj_file(t_obj_parser *parsers, char *specs)
 {
-	//investigate while loop
-	int	i;
+	static int	i;
 
-	i = 0;
 	parsers[i].filename = malloc(sizeof(char) * (ft_strlen(specs) - 1));
+	if (!parsers[i].filename)
+		return (print_error(3), EXIT_FAILURE);
 	if (sscanf(specs, "o %s", parsers[i].filename) == 1)
 		set_tri(&parsers[i], specs);
 	i++;
+	return (EXIT_SUCCESS);
 }
 
 static int	create_elements_obj(t_data *data, t_obj_parser *parser)
@@ -123,26 +124,5 @@ int	read_obj_file(t_data *data, t_obj_parser *parser)
 			return (free(specs), EXIT_FAILURE);
 		free(specs);
 	}
-	return (EXIT_SUCCESS);
-}
-
-static int	set_tri(t_obj_parser *parser, char *specs)
-{
-	int len_filepath;
-
-	len_filepath = ft_strlen(parser->filename);
-	specs += len_filepath + 3;
-	if (get_obj_rgb(&specs, &parser->tri_rgb[0]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_obj_rgb(&specs, &parser->tri_rgb[1]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_obj_rgb(&specs, &parser->tri_rgb[2]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_ratio(&specs, &parser->tri_refl_coeff) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_ratio(&specs, &parser->tri_refr_coeff) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_refr_idx(&specs, &parser->tri_refr_idx) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

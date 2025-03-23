@@ -6,13 +6,18 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 11:25:31 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 11:26:54 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/23 13:19:53 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static int	process_obj_line(char *specs, t_data *data, t_obj_parser *parser)
+static int	handle_vertex_line(char *specs, t_obj_parser *parser);
+static int	parse_vertex(char *line, t_obj_parser *parser);
+static int	parse_normal(char *line, t_obj_parser *parser);
+static int	handle_face_line(char *specs, t_data *data, t_obj_parser *parser);
+
+int	process_obj_line(char *specs, t_data *data, t_obj_parser *parser)
 {
 	if (specs[0] == 'v')
 		return (handle_vertex_line(specs, parser));

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_file.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/23 12:39:09 by dlemaire          #+#    #+#             */
+/*   Updated: 2025/03/23 12:39:55 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 static int	read_rt_file(t_data *data);
@@ -15,6 +27,8 @@ int	create_elements_rt(t_data *data, char *filename)
 		close(data->rt_fd);
 		return (EXIT_FAILURE);
 	}
+	if (!data->n_light)
+		return (print_error(4), EXIT_FAILURE);
 	close(data->rt_fd);
 	return (EXIT_SUCCESS);
 }

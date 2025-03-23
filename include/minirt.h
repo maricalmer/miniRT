@@ -350,6 +350,7 @@ void							print_outro(void);
 void    						print_bvh_stats(t_bvh *bvh);
 void							print_bvh_build_t(struct timeval t_start, struct timeval t_end);
 void							print_img_render_t(struct timeval t_start, struct timeval t_end);
+void							print_tri_count(int counter);
 /*checker.c*/
 int								check_input(int ac, char **av, t_data *data);
 /*identifiers.c*/
@@ -374,6 +375,7 @@ int								count_rt_elems(char *specs, t_data *data, int *n_cam, int *n_ambient)
 /*obj_file*/
 int								parse_obj_files(t_data *data, char *filename);
 int								read_obj_file(t_data *data, t_obj_parser *parser);
+int								process_obj_line(char *specs, t_data *data, t_obj_parser *parser);
 /*rt_file*/
 int								create_elements_rt(t_data *data, char *filename);
 /*parser.c*/
@@ -387,6 +389,7 @@ int								create_sphere(t_data *data, char *specs);
 int								create_plane(t_data *data, char *specs);
 int								create_cylinder(t_data *data, char *specs);
 int								create_triangle(t_data *data, char *line, t_obj_parser *parser);
+int								set_tri(t_obj_parser *parser, char *specs);
 /*factories_utils.c*/
 int								get_ratio(char **specs, float *ratio);
 int								get_refr_idx(char **specs, float *ratio);
