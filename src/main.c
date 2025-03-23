@@ -9,7 +9,7 @@ static void	init_data(t_data *data)
 	data->obj_fd = -1;
 	data->rt_fd = -1;
 	data->exit = 0;
-	data->antialiasing_fact = ANTIALIASING_FACT;
+	data->anti_fa = ANTIALIASING_FACT;
 	srand(123456);
 }
 

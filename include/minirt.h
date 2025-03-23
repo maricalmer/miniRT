@@ -42,7 +42,6 @@
 # define CROSS_CLICK_EVENT 		17
 # define NO_EVENT_MASK			0
 
-# define BVH_ON					1
 # define FAST_BVH_TRANSVERSAL	1   // fast is ok for convexe volumes, else strict (=> 0) should be used.
 # define MAX_BVH_GROUP			20
 # define BVH_DEPTH_MAX			5
@@ -167,7 +166,6 @@ typedef struct s_ray_prim
 {
 	float						max_x;
 	float						max_y;
-	int							size_hd;
 	float						dx;
 	float						hd_dx;
 }	t_ray_prim;
@@ -250,7 +248,7 @@ typedef struct s_data
 	int							mouse_pressed_r;
 	int							mouse_x;
 	int							mouse_y;
-	int							antialiasing_fact;
+	int							anti_fa;
 
 	// multithreading
 	atomic_int					joblist_top;
@@ -350,7 +348,7 @@ typedef struct s_aabb_simd
 void							print_intro(void);
 void							print_outro(void);
 void    						print_bvh_stats(t_bvh *bvh);
-void							print_bvh_build_t(clock_t start, clock_t end);
+void							print_bvh_build_t(struct timeval t_start, struct timeval t_end);
 void							print_img_render_t(struct timeval t_start, struct timeval t_end);
 /*checker.c*/
 int								check_input(int ac, char **av, t_data *data);
@@ -417,10 +415,10 @@ void							parsing(t_data *data);
 
 /*render.c*/
 void							render_first_image(t_data *data);
+void							calculate_pixel(t_calc_img_arg *arg, int p, t_shoot *shoot, int (*hd_res)[3]);
 void							shoot_ray(t_data *data, t_shoot *shoot);
 void 							first_rotation_matrice(t_data *data);
 void 							calculate_img(t_data *data);
-// void 		move_cam_origin(float cam_origin_backup[3], float R[3][3], float center[3], float cam_origin[3]);
 
 /*checkerboard.c*/
 int								check_checkerboard_grid(t_shoot *shoot);

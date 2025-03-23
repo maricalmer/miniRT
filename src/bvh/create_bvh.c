@@ -6,7 +6,7 @@
 /*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:41 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/20 12:30:39 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/23 10:37:53 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@ static void	memset_bvh8_first_block(t_bvh *bvh);
 
 t_bvh	*init_bvh(t_data *data)
 {
-	t_bvh	*bvh;
-	int		idx_c;
+	t_bvh			*bvh;
+	int				idx_c;
+	struct timeval	t_start;
+	struct timeval	t_end;
 
+	gettimeofday(&t_start, NULL);
 	bvh = aligned_alloc(32, sizeof(t_bvh));
 	memset_bvh8_first_block(bvh);
 	get_group_size(data, bvh);
@@ -33,6 +36,9 @@ t_bvh	*init_bvh(t_data *data)
 	print_bvh_stats(bvh);
 	free_bvh_1(bvh);
 	free(data->bvh_geo_data);
+	update_group(data, bvh);
+	gettimeofday(&t_end, NULL);
+	print_bvh_build_t(t_start, t_end);
 	return (bvh);
 }
 

@@ -27,6 +27,7 @@ SOURCES += $(SOURCES_DIRECTORY)/exit/prints.c
 SOURCES += $(SOURCES_DIRECTORY)/exit/error.c
 SOURCES += $(SOURCES_DIRECTORY)/exit/free.c
 SOURCES += $(SOURCES_DIRECTORY)/render/render.c
+SOURCES += $(SOURCES_DIRECTORY)/render/calculate_pixel.c
 SOURCES += $(SOURCES_DIRECTORY)/render/shoot_ray.c
 SOURCES += $(SOURCES_DIRECTORY)/render/shading.c
 SOURCES += $(SOURCES_DIRECTORY)/render/checkerboard.c

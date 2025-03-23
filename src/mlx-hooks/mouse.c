@@ -41,7 +41,7 @@ int mouse_release(int button, int x, int y, void *arg)
     {
         data->mouse_pressed_r = 0;
     }
-	data->antialiasing_fact = ANTIALIASING_FACT;
+	data->anti_fa = ANTIALIASING_FACT;
     calculate_img(data);
     return (0);
 }

@@ -19,7 +19,7 @@ void translate_cam(t_data *data, float v[3], float amp, int anti_fa)
 	float 	t[3];
 	double 	new_t_mat[4][4];
 
-	data->antialiasing_fact = anti_fa;
+	data->anti_fa = anti_fa;
 	cpy_vec(v, t);
 	scale_vec(t, amp);
 	ft_memset(new_t_mat, 0, sizeof(double[4][4]));
@@ -38,7 +38,7 @@ void rotate_cam(t_data *data, float theta, float axis[3], int anti_fa)
 {
 	double new_t_mat[4][4]; // change that name
 	
-	data->antialiasing_fact = anti_fa;
+	data->anti_fa = anti_fa;
 	rodrigues_matrice_handler(axis, theta, data->cam.world_center, new_t_mat);
 	// rodrigues_matrice_handler(axis, theta, data->cam.origin, new_t_mat);
 	dot_inplace_44_44(data->cam.t_mat, new_t_mat);

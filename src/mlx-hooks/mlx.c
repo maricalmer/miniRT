@@ -41,7 +41,7 @@ int	handle_input(int keysym, t_data *data)
 		rotate_cam(data, -15 * M_PI / 180, (float[3]){1, 0, 0}, 1);
 	else if (keysym == 'm')
 	{
-		data->antialiasing_fact = ANTIALIASING_FACT;
+		data->anti_fa = ANTIALIASING_FACT;
 		calculate_img(data);
 	}
 
@@ -51,7 +51,7 @@ int	handle_input(int keysym, t_data *data)
 int	handle_close(t_data *data)
 {
 	free_mlx(&data->mlx);
-	if (BVH_ON && data->is_bvh)
+	if (1)//BVH_ON && data->is_bvh)
 		free_bvh_2(data->objects[0].geo.bvh);
 	free_data(data);
 	join_threads(data);
