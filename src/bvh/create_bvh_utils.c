@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_bvh_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:00:36 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/20 16:32:58 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/22 20:12:19 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,21 +68,29 @@ void	malloc_groups_n_geo(t_bvh *bvh, t_cut_in_two *cut)
 
 void	get_mid_planes(t_bvh *bvh, int idx, t_cut_in_two *cut)
 {
-	float	*centers;
 	int		i;
-	int		j;
 
+
+	i = 0;
+	while (i < 3)
+	{
+		cut->mid[i] = find_median_custom(bvh, idx, i);
+		i++;
+	}
 	// or custom median without malloc...
 	// float find_median_custom(obj_geo_list, int size);
 	// cut->mid[j] = find_median_custom(bvh->obj_geo[idx], bvh->group_size[idx]);
-	centers = malloc(sizeof(float) * bvh->group_size[idx]);
-	j = -1;
-	while (++j < 3)
-	{
-		i = -1;
-		while (++i < bvh->group_size[idx])
-			centers[i] = bvh->obj_geo[idx][i]->center[j];
-		cut->mid[j] = findMedian(centers, bvh->group_size[idx]);
-	}
-	free(centers);
+	// cut->mid[j] = find_median_custom(bvh, idx, j);
+	// float	*centers;
+	// int		j;
+	// centers = malloc(sizeof(float) * bvh->group_size[idx]);
+	// j = -1;
+	// while (++j < 3)
+	// {
+	// 	i = -1;
+	// 	while (++i < bvh->group_size[idx])
+	// 		centers[i] = bvh->obj_geo[idx][i]->center[j];
+	// 	cut->mid[j] = find_median2(centers, bvh->group_size[idx]);
+	// }
+	// free(centers);
 }

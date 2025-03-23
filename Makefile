@@ -8,10 +8,14 @@ OBJECTS_DIRECTORY := build
 
 SOURCES := $(SOURCES_DIRECTORY)/main.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/identifiers.c
-SOURCES += $(SOURCES_DIRECTORY)/parsing/identifiers_2.c
+SOURCES += $(SOURCES_DIRECTORY)/parsing/identifiers2.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/parser.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/factories.c
+SOURCES += $(SOURCES_DIRECTORY)/parsing/factories2.c
+SOURCES += $(SOURCES_DIRECTORY)/parsing/factories3.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/factories_utils.c
+SOURCES += $(SOURCES_DIRECTORY)/parsing/factories_utils2.c
+SOURCES += $(SOURCES_DIRECTORY)/parsing/factories_utils3.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/checker.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/init.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/obj_file.c
@@ -48,6 +52,7 @@ SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/triangle.c
 SOURCES += $(SOURCES_DIRECTORY)/math/math.c
 SOURCES += $(SOURCES_DIRECTORY)/math/math_utils.c
 SOURCES += $(SOURCES_DIRECTORY)/math/find_median.c
+SOURCES += $(SOURCES_DIRECTORY)/math/find_median2.c
 SOURCES += $(SOURCES_DIRECTORY)/math/dot_in_place.c
 SOURCES += $(SOURCES_DIRECTORY)/math/rodrigues.c
 

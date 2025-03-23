@@ -392,11 +392,11 @@ int								create_triangle(t_data *data, char *line, t_obj_parser *parser);
 /*factories_utils.c*/
 int								get_ratio(char **specs, float *ratio);
 int								get_refr_idx(char **specs, float *ratio);
-int								get_rgb_normalized(char **specs, float *color);
+int								get_rgb_norm(char **specs, float *color);
 int								get_rgb(char **specs, unsigned char *color);
 int								get_obj_rgb(char **specs, int *color);
 int								get_coord(char **specs, float *value);
-int								get_vec_normalized(char **specs, float *value);
+int								get_vec_norm(char **specs, float *value);
 int								get_fov_range(char **specs, int *fov);
 int								get_radius(char **specs, float *radius);
 int								get_length(char **specs, float *length);
@@ -475,7 +475,8 @@ void							vec_substr(float p1[3], float p2[3], float result[3]);
 void							cpy_vec(float v1[3], float v2[3]);
 float 							triple_scalar(float a[3], float b[3], float c[3]);
 void							ft_swap(float *t1, float *t2);
-float 							findMedian(float arr[], int n); // change this GPT code !!!
+float							find_median_custom(t_bvh *bvh, int idx, int axis);
+float 							find_median2(float centers[3], int n); // change this GPT code !!!
 void 							get_rotation_matrice(float cam_dir[3], double t_mat[4][4], float c[3]);
 void 							copy_r_mat(t_data *data);
 void 							rodrigues_matrice_handler(float u[3], float theta, float c[3], double r[4][4]);

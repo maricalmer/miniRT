@@ -108,3 +108,9 @@ void	print_img_render_t(struct timeval t_start, struct timeval t_end)
 	t = (t_end.tv_sec - t_start.tv_sec) * 1000 + (t_end.tv_usec - t_start.tv_usec) * 0.001; 
 	printf("%s    > img %d rendered after %.1f ms%s\n", CYAN_TXT_START, n_img++, t, COLOR_END);
 }
+
+void	print_tri_count(int counter, clock_t end)
+{
+	printf("%s  [TRIMESH]\n\n", CYAN_TXT_START);
+	printf("    > %d tris%s\n\n", counter, COLOR_END);
+}

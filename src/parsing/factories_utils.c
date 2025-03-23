@@ -1,19 +1,23 @@
-#include "minirt.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   factories_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/21 18:25:58 by dlemaire          #+#    #+#             */
+/*   Updated: 2025/03/23 10:19:27 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	is_between_0_and_1(double n);
-int	is_between_neg1_and_1(double n);
-int	is_between_0_and_180(int n);
-int	is_between_0_and_255(int n);
-int	is_between_minus1_and_255(int n);
-int	is_between_0_and_2_7(double n);
-int	is_0_or_1(int n);
+#include "minirt.h"
 
 int	get_ratio(char **specs, float *ratio)
 {
 	if (!ft_isdigit(**specs))
 		return (EXIT_FAILURE);
 	*ratio = ft_strtof(*specs, specs);
-	if (errno == ERANGE || !is_between_0_and_1(*ratio))
+	if (errno == ERANGE || (*ratio < 0.0 || *ratio > 1.0))
 		return (EXIT_FAILURE);
 	if (**specs != ' ')
 		return (EXIT_FAILURE);
@@ -21,7 +25,7 @@ int	get_ratio(char **specs, float *ratio)
 	return (EXIT_SUCCESS);
 }
 
-int	get_rgb_normalized(char **specs, float *color)
+int	get_rgb_norm(char **specs, float *color)
 {
 	int	i;
 
@@ -31,7 +35,7 @@ int	get_rgb_normalized(char **specs, float *color)
 		if (!ft_isdigit(**specs))
 			return (EXIT_FAILURE);
 		color[i] = ft_strtof(*specs, specs) / 255.0f;
-		if (errno == ERANGE || !is_between_0_and_1(*color))
+		if (errno == ERANGE || (color[i] < 0.0 || color[i] > 1.0))
 			return (EXIT_FAILURE);
 		while (!ft_isdigit(**specs) && **specs != '\0')
 		{
@@ -53,7 +57,7 @@ int	get_rgb(char **specs, unsigned char *color)
 		if (!ft_isdigit(**specs))
 			return (EXIT_FAILURE);
 		color[i] = ft_strtoi(*specs, specs);
-		if (errno == ERANGE || !is_between_0_and_255(*color))
+		if (errno == ERANGE || (color[i] < 0 || color[i] > 255))
 			return (EXIT_FAILURE);
 		while (!ft_isdigit(**specs) && **specs != '\0')
 		{
@@ -70,7 +74,7 @@ int	get_obj_rgb(char **specs, int *color)
 	if (!ft_isdigit(**specs) && **specs != '-')
 		return (EXIT_FAILURE);
 	*color = ft_strtoi(*specs, specs);
-	if (errno == ERANGE || !is_between_minus1_and_255(*color))
+	if (errno == ERANGE || (*color < -1 || *color > 255))
 		return (EXIT_FAILURE);
 	while (!ft_isdigit(**specs) && **specs != '\0' && **specs != '-')
 	{
@@ -83,144 +87,17 @@ int	get_obj_rgb(char **specs, int *color)
 
 int	get_refr_idx(char **specs, float *ratio)
 {
-	char *p;
+	char	*p;
+
 	if (!ft_isdigit(**specs))
 		return (EXIT_FAILURE);
 	p = *specs;
 	*ratio = ft_strtof(*specs, specs);
-	if (errno == ERANGE || !is_between_0_and_2_7(*ratio))
+	if (errno == ERANGE || (*ratio < 0.0 || *ratio > 2.7))
 		return (EXIT_FAILURE);
 	if (**specs != ' ' && *specs != p)
 		return (EXIT_FAILURE);
 	if (**specs == ' ')
 		(*specs)++;
 	return (EXIT_SUCCESS);
-}
-
-int	get_coord(char **specs, float *value)
-{
-	int	i;
-
-	i = -1;
-	while (++i < 3)
-	{
-		if (!ft_isdigit(**specs) && **specs != '-')
-			return (EXIT_FAILURE);
-		value[i] = ft_strtof(*specs, specs);
-		if (errno == ERANGE)
-			return (EXIT_FAILURE);
-		while (!ft_isdigit(**specs) && **specs != '\0' && **specs != '-')
-		{
-			if (**specs != ' ' && **specs != ',')
-				return (EXIT_FAILURE);
-			(*specs)++;
-		}
-	}
-	return (EXIT_SUCCESS);
-}
-
-int get_vec_normalized(char **specs, float *value)
-{
-	int	i;
-
-	i = -1;
-	while (++i < 3)
-	{
-		if (!ft_isdigit(**specs) && **specs != '-')
-			return (EXIT_FAILURE);
-		value[i] = ft_strtof(*specs, specs);
-		if (errno == ERANGE || !is_between_neg1_and_1(*value))
-			return (EXIT_FAILURE);
-		while (!ft_isdigit(**specs) && **specs != '\0' && **specs != '-')
-		{
-			if (**specs != ' ' && **specs != ',')
-				return (EXIT_FAILURE);
-			(*specs)++;
-		}
-	}
-	return (EXIT_SUCCESS);
-}
-
-int get_radius(char **specs, float *radius)
-{
-    if (!ft_isdigit(**specs))
-		return (EXIT_FAILURE);
-	*radius = ft_strtof(*specs, specs) * 0.5f;
-	if (errno == ERANGE)
-		return (EXIT_FAILURE);
-	if (**specs != ' ')
-		return (EXIT_FAILURE);
-	(*specs)++;
-	return (EXIT_SUCCESS);
-}
-
-int get_length(char **specs, float *length)
-{
-    if (!ft_isdigit(**specs))
-		return (EXIT_FAILURE);
-	*length = ft_strtof(*specs, specs);
-	if (errno == ERANGE)
-		return (EXIT_FAILURE);
-	if (**specs != ' ')
-		return (EXIT_FAILURE);
-	(*specs)++;
-	return (EXIT_SUCCESS);
-}
-
-int get_fov_range(char **specs, int *fov)
-{
-    if (!ft_isdigit(**specs))
-		return (EXIT_FAILURE);
-	*fov = ft_strtoi(*specs, specs);
-	if (errno == ERANGE || !is_between_0_and_180(*fov))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
-}
-
-int get_checkerboard_flag(char **specs, int *flag)
-{
-    if (!ft_isdigit(**specs))
-		return (EXIT_FAILURE);
-	*flag = ft_strtoi(*specs, specs);
-	if (errno == ERANGE || !is_0_or_1(*flag))
-		return (EXIT_FAILURE);
-	if (**specs != ' ')
-		return (EXIT_FAILURE);
-	(*specs)++;
-	return (EXIT_SUCCESS);
-}
-
-int	is_between_neg1_and_1(double n)
-{
-	return (n >= -1.0 && n <= 1.0);
-}
-
-int	is_between_0_and_1(double n)
-{
-	return (n >= 0.0 && n <= 1.0);
-}
-
-int	is_0_or_1(int n)
-{
-	return (n == 0 || n == 1);
-}
-
-int	is_between_0_and_2_7(double n)
-{
-	return (n >= 0.0 && n <= 2.7);
-}
-
-int	is_between_0_and_180(int n)
-{
-	return (n >= 0 && n <= 180);
-}
-
-int	is_between_0_and_255(int n)
-{
-	return (n >= 0 && n <= 255);
-}
-
-int	is_between_minus1_and_255(int n)
-{
-	return (n >= -1 && n <= 255);
 }

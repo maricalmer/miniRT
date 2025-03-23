@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   counter.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/21 18:25:40 by dlemaire          #+#    #+#             */
+/*   Updated: 2025/03/21 18:25:51 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 static int	count_tri_data(char *line, t_obj_parser *parser);
@@ -82,4 +94,3 @@ static int	count_tri_data(char *line, t_obj_parser *parser)
 	free(specs);
 	return (EXIT_SUCCESS);
 }
-

@@ -38,6 +38,7 @@ int main(int ac, char **av)
     mlx_hook(data.mlx.win, 4, 1L << 2, &mouse_press, &data);
     mlx_hook(data.mlx.win, 5, 1L << 3, &mouse_release, &data);
     mlx_hook(data.mlx.win, 6, 1L << 6, &mouse_move, &data);
+	mlx_hook(data.mlx.win, 17, 0, &handle_close, &data);
 	mlx_loop(data.mlx.mlx);
 	// free dyn alloc mem (incl. pthread_mutex_destroy)
 

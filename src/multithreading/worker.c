@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   worker.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/21 18:00:48 by dlemaire          #+#    #+#             */
+/*   Updated: 2025/03/21 18:02:02 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 void	*worker(void *arg)
@@ -25,26 +37,24 @@ void	*worker(void *arg)
 		}
 		usleep(USLEEP_WORKER);
 	}
-	return(NULL);
+	return (NULL);
 }
 
 /* check if it works like that or if we need atomic or mutex protection to have the L1 cache of the parent uptodate. */
-void wait_for_workers(t_data *data)
+void	wait_for_workers(t_data *data)
 {
 	while (data->joblist_top < HEIGHT || data->active_threads > 0)
 		usleep(USLEEP_PARENT);
 }
 
-void launch_pool(t_data *data) // initialisation_MT
+void	launch_pool(t_data *data) // initialisation_MT
 {
-	int i;
+	int	i;
 
 	pthread_mutex_init(&data->joblist_mutex, NULL);
 	data->active_threads = 0;
 	data->joblist_top = HEIGHT;
 	i = -1;
 	while (++i < N_THREAD)
-	{
 		pthread_create(&data->threads[i], NULL, worker, data);
-	}
 }

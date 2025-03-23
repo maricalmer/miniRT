@@ -1,39 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   identifiers.c                                      :+:      :+:    :+:   */
+/*   factories_utils3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/23 10:59:12 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 10:59:14 by dlemaire         ###   ########.fr       */
+/*   Created: 2025/03/23 09:53:28 by dlemaire          #+#    #+#             */
+/*   Updated: 2025/03/23 09:53:41 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	is_object_file(char *specs)
+int	get_checkerboard_flag(char **specs, int *flag)
 {
-	return (specs[0] == 'o' && specs[1] == ' ');
+	if (!ft_isdigit(**specs))
+		return (EXIT_FAILURE);
+	*flag = ft_strtoi(*specs, specs);
+	if (errno == ERANGE || (*flag != 0 && *flag != 1))
+		return (EXIT_FAILURE);
+	if (**specs != ' ')
+		return (EXIT_FAILURE);
+	(*specs)++;
+	return (EXIT_SUCCESS);
 }
-
-int	is_light(char *specs)
-{
-	return (specs[0] == 'L' && specs[1] == ' ');
-}
-
-int	is_cam(char *specs)
-{
-	return (specs[0] == 'C' && specs[1] == ' ');
-}
-
-int	is_ambient(char *specs)
-{
-	return (specs[0] == 'A' && specs[1] == ' ');
-}
-
-int	is_plane(char *specs)
-{
-	return (specs[0] == 'p' && specs[1] == 'l' && specs[2] == ' ');
-}
-
