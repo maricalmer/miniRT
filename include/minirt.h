@@ -18,8 +18,8 @@
 # include <immintrin.h> // SSE/AVX and prefetch
 # include <xmmintrin.h>
 
-# define WIDTH					800
-# define HEIGHT					800
+# define WIDTH					200
+# define HEIGHT					200
 # define EPSILON    			0.001f // adjust
 # define SPECULAR_POWER 		50
 # define FRESNEL_TOLERANCE		0.02f

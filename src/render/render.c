@@ -6,7 +6,7 @@
 /*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:05:24 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/23 12:14:44 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/23 14:48:39 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,10 @@ void	render_first_image(t_data *data)
 	t_bvh	*bvh;
 
 	bvh = init_bvh(data);
-	if (bvh)
-	{
-		data->cam.world_center[0] = (bvh->min_x[0] + bvh->max_x[0]) * 0.5;
-		data->cam.world_center[1] = (bvh->min_y[0] + bvh->max_y[0]) * 0.5; 
-		data->cam.world_center[2] = (bvh->min_z[0] + bvh->max_z[0]) * 0.5;
-	}
-	else
-		ft_memset(data->cam.world_center, 0, sizeof(float [3]));
+	data->cam.world_center[0] = (bvh->min_x[0] + bvh->max_x[0]) * 0.5;
+	data->cam.world_center[1] = (bvh->min_y[0] + bvh->max_y[0]) * 0.5; 
+	data->cam.world_center[2] = (bvh->min_z[0] + bvh->max_z[0]) * 0.5;
 	cpy_vec(data->cam.origin, data->cam.origin_backup);
-	data->mouse_pressed_l = 0;
-	data->mouse_pressed_r = 0;
 	first_rotation_matrice(data);
 	calculate_img(data);
 }

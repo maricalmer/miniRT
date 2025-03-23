@@ -81,7 +81,7 @@ CFLAGS := -Wall -Wextra -Werror
 CFLAGS += -g
 CFLAGS += -Wuninitialized
 CFLAGS += -mavx
-CFLAGS += -Ofast
+#CFLAGS += -Ofast
 CFLAGS += -mavx
 CFLAGS += -march=native
 CFLAGS += -ffunction-sections

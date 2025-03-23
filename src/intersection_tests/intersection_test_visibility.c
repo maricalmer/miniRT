@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersection_test_visibility.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 18:52:02 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/19 18:52:24 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/23 14:41:00 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,8 @@ static float	find_closest_hit(t_object *objects, t_shoot *shoot, int n_obj)
 
 static float	test_object(t_object *obj, t_shoot *shoot)
 {
-	if (obj->type == SPHERE)
-		return (test_sphere(obj, shoot->dir, shoot->src));
-	else if (obj->type == PLANE)
+	if (obj->type == PLANE)
 		return (test_plane(obj, shoot->dir, shoot->src));
-	else if (obj->type == TRI)
-		return (test_triangle(obj, shoot->dir, shoot->src));
 	else if (obj->type == CYLINDER)
 		return (test_cylinder(obj, shoot->dir, shoot->src));
 	else if (obj->type == BVH)
@@ -82,8 +78,6 @@ float	visi_test_leafs(t_object **objects, t_shoot *shoot, int n_obj)
 			t = test_sphere(objects[i], shoot->dir, shoot->src);
 		else if (objects[i]->type == TRI)
 			t = test_triangle(objects[i], shoot->dir, shoot->src);
-		else if (objects[i]->type == CYLINDER)
-			t = test_cylinder(objects[i], shoot->dir, shoot->src);
 		if (t > EPSILON && t < t_min)
 		{
 			t_min = t;

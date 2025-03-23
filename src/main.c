@@ -6,24 +6,13 @@
 /*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:42:51 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/23 13:44:07 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/23 14:48:21 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static void	init_data(t_data *data)
-{
-	data->n_obj = 0;
-	data->n_light = 0;
-	data->n_obj_files = 0;
-	data->objects_idx = 0;
-	data->obj_fd = -1;
-	data->rt_fd = -1;
-	data->exit = 0;
-	data->anti_fa = ANTIALIASING_FACT;
-	srand(123456);
-}
+static void	init_data(t_data *data);
 
 int	main(int ac, char **av)
 {
@@ -48,4 +37,19 @@ int	main(int ac, char **av)
 	mlx_hook(data.mlx.win, 17, 0, &handle_close, &data);
 	mlx_loop(data.mlx.mlx);
 	return (1);
+}
+
+static void	init_data(t_data *data)
+{
+	data->n_obj = 0;
+	data->n_light = 0;
+	data->n_obj_files = 0;
+	data->objects_idx = 0;
+	data->obj_fd = -1;
+	data->rt_fd = -1;
+	data->exit = 0;
+	data->anti_fa = ANTIALIASING_FACT;
+	data->mouse_pressed_l = 0;
+	data->mouse_pressed_r = 0;
+	srand(123456);
 }
