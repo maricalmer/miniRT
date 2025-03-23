@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   obj_file2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 11:25:31 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 13:19:53 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/23 13:54:29 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,3 @@ static int	handle_face_line(char *specs, t_data *data, t_obj_parser *parser)
 		return (print_error(12), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
-

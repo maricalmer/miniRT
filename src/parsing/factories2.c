@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   factories2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:49:04 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 10:57:53 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/23 13:53:25 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ static int	is_valid_triangle_face(char *line, int v[3], int vn[3], int vt[3])
 		return (1);
 	return (0);
 }
-
 
 static void	set_tri_n_and_v(t_data *data, t_obj_parser *parser,
 	int v[3], int vn[3])

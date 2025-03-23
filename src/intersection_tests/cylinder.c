@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 17:57:55 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/19 18:29:56 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/23 13:36:05 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void	calculate_cylinder_coeffs(t_object *obj, float ray[3],
 static int	compute_hits(float coeffs[3], float res[2]);
 static int	check_cylinder_hit(t_object *obj, float hit_t, float ray[3],
 				float origin[3]);
-
 
 float	test_cylinder(t_object *obj, float ray[3], float origin[3])
 {
@@ -62,11 +61,9 @@ static int	compute_hits(float coeffs[3], float res[2])
 	discriminant = coeffs[1] * coeffs[1] - 4 * coeffs[0] * coeffs[2];
 	if (discriminant < 0)
 		return (0);
-
 	discriminant = sqrtf(discriminant);
 	res[0] = (-coeffs[1] - discriminant) / (2 * coeffs[0]);
 	res[1] = (-coeffs[1] + discriminant) / (2 * coeffs[0]);
-
 	return (1);
 }
 

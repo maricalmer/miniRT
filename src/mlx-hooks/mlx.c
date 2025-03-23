@@ -6,7 +6,7 @@
 /*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:34:56 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 12:12:08 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/23 13:40:40 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	init_mlx(t_mlxlib	*data)
 int	handle_close(t_data *data)
 {
 	free_mlx(&data->mlx);
-	if (1)//BVH_ON && data->is_bvh)
+	if (1)
 		free_bvh_2(data->objects[0].geo.bvh);
 	free_data(data);
 	join_threads(data);
@@ -85,7 +85,7 @@ static void	handle_input_2(int keysym, t_data *data)
 		rotate_cam(data, -15 * M_PI / 180, (float [3]){1, 0, 0}, 1);
 	else if (keysym == 'm')
 	{
-		data->antialiasing_fact = ANTIALIASING_FACT;
+		data->anti_fa = ANTIALIASING_FACT;
 		calculate_img(data);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:39 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 10:59:43 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/23 13:53:57 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	init_obj_lists(t_obj_parser *parser)
 	return (EXIT_SUCCESS);
 }
 
-
 static int	alloc_float_array(float (**array)[3], int count)
 {
 	*array = malloc(sizeof(float [3]) * count);
@@ -42,4 +41,3 @@ static int	alloc_float_array(float (**array)[3], int count)
 		return (print_error(3), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
-
