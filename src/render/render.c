@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:05:24 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/24 12:23:28 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:56:20 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	calculate_img_packet(t_calc_img_arg *arg)
 
 	hd_res = malloc(sizeof(int [3]) * arg->data->anti_fa
 			* arg->data->anti_fa);
+	if (!hd_res)
+		exit(EXIT_FAILURE);
 	first_shoot.src = arg->data->cam.origin;
 	first_shoot.depth = 0;
 	first_shoot.inside = 0;

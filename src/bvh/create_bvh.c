@@ -6,7 +6,7 @@
 /*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:41 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/23 13:33:25 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:54:14 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_bvh	*init_bvh(t_data *data)
 
 	gettimeofday(&t_start, NULL);
 	bvh = aligned_alloc(32, sizeof(t_bvh));
+	if (!bvh)
+		exit(EXIT_FAILURE);
 	memset_bvh8_first_block(bvh);
 	get_group_size(data, bvh);
 	create_obj_list_root(data, bvh);

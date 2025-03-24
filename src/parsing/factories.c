@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   factories.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 09:55:14 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/24 16:21:56 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:49:39 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	create_plane(t_data *data, char *specs)
 	// BONUS
 	if (get_bonus_data_pl(data, specs) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	data->objects_idx++;
 	return (EXIT_SUCCESS);
 }
 

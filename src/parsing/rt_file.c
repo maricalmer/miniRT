@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_file.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:39:09 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/24 16:22:27 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:50:04 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,27 +103,28 @@ static int	handle_light_creation(t_data *data, char *specs)
 
 static int	handle_object_creation(t_data *data, char *specs)
 {
-	if (specs[0] == 'p' && create_plane(data, &specs[3]) == EXIT_FAILURE)
-		return (print_error(10), EXIT_FAILURE);
+	if (specs[0] == 'p')
+	{
+		if (create_plane(data, &specs[3]) == EXIT_FAILURE)
+			return (print_error(10), EXIT_FAILURE);
+	}
 	else if (specs[0] == 's')
 	{
 		if (create_sphere(data, &specs[3]) == EXIT_FAILURE)
 			return (print_error(9), EXIT_FAILURE);
-		data->objects_idx++;
 	}
 	else if (specs[0] == 'c')
 	{
 		if (create_cylinder(data, &specs[3]) == EXIT_FAILURE)
 			return (print_error(11), EXIT_FAILURE);
-		data->objects_idx++;
 	}
 	else if (specs[0] == 'r')
 	{
 		if (create_rectangle(data, &specs[3]) == EXIT_FAILURE)
 			return (print_error(11), EXIT_FAILURE);
-		data->objects_idx++;
 	}
 	else
 		return (print_error(5), EXIT_FAILURE);
+	data->objects_idx++;
 	return (EXIT_SUCCESS);
 }

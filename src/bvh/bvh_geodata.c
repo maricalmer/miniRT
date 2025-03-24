@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bvh_geodata.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 20:57:31 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/24 15:56:52 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:50:41 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ t_obj_geo	*create_obj_geo_data(t_bvh *bvh)
 	int			i;
 
 	geo_data = malloc(bvh->group_size[0] * sizeof(t_obj_geo));
+	if (!geo_data)
+		exit(EXIT_FAILURE);
 	bvh->obj_geo[0] = malloc(sizeof(t_obj_geo *) * bvh->group_size[0]);
+	if (!bvh->obj_geo[0])
+		exit(EXIT_FAILURE);
 	i = -1;
 	while (++i < bvh->group_size[0])
 	{

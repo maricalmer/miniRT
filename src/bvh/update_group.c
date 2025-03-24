@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_group.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:05:07 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/24 11:00:51 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:55:03 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	update_group(t_data *data, t_bvh *bvh)
 			&& data->objects[i].type != RECTANGLE)
 			plane_counter++;
 	new_objects = aligned_alloc(64, sizeof(t_object) * (plane_counter + 1));
+	if (!new_objects)
+		exit(EXIT_FAILURE);
 	new_objects[0].type = BVH;
 	new_objects[0].geo.bvh = (void *)bvh;
 	i = -1;
