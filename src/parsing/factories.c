@@ -6,13 +6,14 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 09:55:14 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/24 10:46:41 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:21:56 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 static int	get_bonus_data_pl(t_data *data, char *specs);
+static int	get_checker_data_pl(t_data *data, char *specs);
 
 int	create_ambient_light(t_data *data, char *specs)
 {
@@ -40,22 +41,6 @@ int	create_cam(t_data *data, char *specs)
 	return (EXIT_SUCCESS);
 }
 
-int	create_light(t_data *data, char *specs)
-{
-	t_light		light;
-	static int	i;
-
-	if (get_coord(&specs, light.origin) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_ratio(&specs, &light.brightness) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (get_rgb_norm(&specs, light.rgb) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	// BONUS
-	data->lights[i++] = light;
-	return (EXIT_SUCCESS);
-}
-
 int	create_plane(t_data *data, char *specs)
 {
 	if (get_coord(&specs, data->objects[data->objects_idx].geo.pl.point)
@@ -71,6 +56,7 @@ int	create_plane(t_data *data, char *specs)
 	// BONUS
 	if (get_bonus_data_pl(data, specs) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	data->objects_idx++;
 	return (EXIT_SUCCESS);
 }
 
@@ -90,16 +76,24 @@ static int	get_bonus_data_pl(t_data *data, char *specs)
 		return (EXIT_FAILURE);
 	if (data->objects[data->objects_idx].mat.checker_size)
 	{
-		data->objects[data->objects_idx].mat.checker_size = 1 / data->objects[data->objects_idx].mat.checker_size;
-		if (get_rgb(&specs, data->objects[data->objects_idx].mat.rgb2)
-			== EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		if (get_vec_norm(&specs, data->objects[data->objects_idx].geo.pl.u)
-			== EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		if (get_vec_norm(&specs, data->objects[data->objects_idx].geo.pl.v)
-			== EXIT_FAILURE)
+		if (get_checker_data_pl(data, specs) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
+	return (EXIT_SUCCESS);
+}
+
+static int	get_checker_data_pl(t_data *data, char *specs)
+{
+	data->objects[data->objects_idx].mat.checker_size = 1 
+		/ data->objects[data->objects_idx].mat.checker_size;
+	if (get_rgb(&specs, data->objects[data->objects_idx].mat.rgb2)
+		== EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (get_vec_norm(&specs, data->objects[data->objects_idx].geo.pl.u)
+		== EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (get_vec_norm(&specs, data->objects[data->objects_idx].geo.pl.v)
+		== EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:39 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 13:53:57 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:15:29 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,14 @@ static int	alloc_float_array(float (**array)[3], int count)
 	*array = malloc(sizeof(float [3]) * count);
 	if (!*array)
 		return (print_error(3), EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
+int	increase_if_uniq(int *value)
+{
+	if (!*value)
+		(*value)++;
+	else
+		return (print_error(4), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

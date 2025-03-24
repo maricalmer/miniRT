@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:23:09 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/24 12:33:58 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:25:18 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	add_whitted(t_shoot *shoot, t_data	*data)
 {
 	if (shoot->depth >= DEPTH_MAX || (shoot->obj->mat.refr_coeff < EPSILON
 			&& shoot->obj->mat.refl_coeff < EPSILON)
-			|| shoot->intens < FRESNEL_TOLERANCE)
+		|| shoot->intens < FRESNEL_TOLERANCE)
 		return ;
 	else if (shoot->obj->mat.refr_coeff >= EPSILON)
 		add_whitted_refraction(shoot, data);
@@ -42,7 +42,7 @@ static void	add_whitted_refraction(t_shoot *shoot, t_data *data)
 
 	r = get_fresnel(shoot);
 	new_shoot_1.intens = shoot->intens * shoot->obj->mat.refr_coeff * r;
-	new_shoot_2.intens = shoot->intens * shoot->obj->mat.refr_coeff * (1-r);
+	new_shoot_2.intens = shoot->intens * shoot->obj->mat.refr_coeff * (1 - r);
 	shoot_reflection_ray(shoot, &new_shoot_1, data);
 	shoot_refraction_ray(shoot, &new_shoot_2, data);
 	i = -1;

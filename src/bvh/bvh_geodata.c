@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 20:57:31 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/24 11:47:15 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:56:52 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,16 +81,22 @@ static t_obj_geo	extract_geo_data_rec(t_object *obj)
 	i = -1;
 	while (++i < 3)
 	{
-		pts[0][i] = obj->geo.rec.point[i] + obj->geo.rec.u[i] * obj->geo.rec.uv_size + obj->geo.rec.v[i] * obj->geo.rec.uv_size;
-		pts[1][i] = obj->geo.rec.point[i] - obj->geo.rec.u[i] * obj->geo.rec.uv_size + obj->geo.rec.v[i] * obj->geo.rec.uv_size;
-		pts[2][i] = obj->geo.rec.point[i] + obj->geo.rec.u[i] * obj->geo.rec.uv_size - obj->geo.rec.v[i] * obj->geo.rec.uv_size;
-		pts[3][i] = obj->geo.rec.point[i] - obj->geo.rec.u[i] * obj->geo.rec.uv_size - obj->geo.rec.v[i] * obj->geo.rec.uv_size;
+		pts[0][i] = obj->geo.rec.point[i] + obj->geo.rec.u[i] 
+			* obj->geo.rec.uv_size + obj->geo.rec.v[i] * obj->geo.rec.uv_size;
+		pts[1][i] = obj->geo.rec.point[i] - obj->geo.rec.u[i] 
+			* obj->geo.rec.uv_size + obj->geo.rec.v[i] * obj->geo.rec.uv_size;
+		pts[2][i] = obj->geo.rec.point[i] + obj->geo.rec.u[i] 
+			* obj->geo.rec.uv_size - obj->geo.rec.v[i] * obj->geo.rec.uv_size;
+		pts[3][i] = obj->geo.rec.point[i] - obj->geo.rec.u[i] 
+			* obj->geo.rec.uv_size - obj->geo.rec.v[i] * obj->geo.rec.uv_size;
 	}
 	i = -1;
 	while (++i < 3)
 	{
-		geo.bmin[i] = fmin(fmin(fmin(pts[0][i], pts[1][i]), pts[2][i]), pts[3][i]);
-		geo.bmax[i] = fmax(fmax(fmax(pts[0][i], pts[1][i]), pts[2][i]), pts[3][i]);
+		geo.bmin[i] = fmin(fmin(fmin(pts[0][i], pts[1][i]),
+					pts[2][i]), pts[3][i]);
+		geo.bmax[i] = fmax(fmax(fmax(pts[0][i], pts[1][i]),
+					pts[2][i]), pts[3][i]);
 	}
 	return (geo);
 }

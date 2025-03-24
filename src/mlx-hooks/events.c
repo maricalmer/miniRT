@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:34:36 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 17:01:36 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:02:44 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ void	rotate_cam(t_data *data, float theta, float axis[3], int anti_fa)
 	if (CAM_MODE)
 		rodrigues_matrice_handler(axis, theta, data->cam.origin, new_t_mat);
 	else
-		rodrigues_matrice_handler(axis, theta, data->cam.world_center, new_t_mat);
+		rodrigues_matrice_handler(axis, theta, data->cam.world_center,
+			new_t_mat);
 	dot_inplace_44_44(new_t_mat, data->cam.t_mat);
 	copy_r_mat(data);
 	ft_memcpy(data->cam.origin, data->cam.origin_backup, sizeof(float [3]));

@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:40 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/24 11:29:34 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:04:23 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	count_rt_elems(char *specs, t_data *data, int *n_cam, int *n_ambient)
 		if (increase_if_uniq(n_ambient) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
-	else if (is_plane(specs) || is_sphere(specs) || is_cylinder(specs) || is_rectangle(specs) )
+	else if (is_plane(specs) || is_sphere(specs) || is_cylinder(specs)
+		|| is_rectangle(specs))
 		data->n_obj++;
 	else
 	{

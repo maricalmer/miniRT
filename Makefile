@@ -13,6 +13,7 @@ SOURCES += $(SOURCES_DIRECTORY)/parsing/parser.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/factories.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/factories2.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/factories3.c
+SOURCES += $(SOURCES_DIRECTORY)/parsing/factories4.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/factories_utils.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/factories_utils2.c
 SOURCES += $(SOURCES_DIRECTORY)/parsing/factories_utils3.c
@@ -57,7 +58,8 @@ SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/triangle.c
 SOURCES += $(SOURCES_DIRECTORY)/math/math.c
 SOURCES += $(SOURCES_DIRECTORY)/math/math_utils.c
 SOURCES += $(SOURCES_DIRECTORY)/math/find_median.c
-SOURCES += $(SOURCES_DIRECTORY)/math/dot_in_place.c
+SOURCES += $(SOURCES_DIRECTORY)/math/dot_in_place_33.c
+SOURCES += $(SOURCES_DIRECTORY)/math/dot_in_place_44.c
 SOURCES += $(SOURCES_DIRECTORY)/math/rodrigues.c
 
 OBJECTS := $(patsubst $(SOURCES_DIRECTORY)/%.c,$(OBJECTS_DIRECTORY)/%.o, $(SOURCES))
@@ -82,7 +84,7 @@ CFLAGS := -Wall -Wextra -Werror
 CFLAGS += -g
 CFLAGS += -Wuninitialized
 CFLAGS += -mavx
-CFLAGS += -Ofast
+#CFLAGS += -Ofast
 CFLAGS += -mavx
 CFLAGS += -march=native
 CFLAGS += -ffunction-sections

@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:39:09 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/24 11:41:27 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:22:27 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ static int	process_rt_line(t_data *data, char *specs)
 {
 	if (specs[0] == 'o')
 		return (EXIT_SUCCESS);
-	if (specs[0] == 'p' || specs[0] == 's' || specs[0] == 'c' || specs[0] == 'r')
+	if (specs[0] == 'p' || specs[0] == 's' || specs[0] == 'c'
+		|| specs[0] == 'r')
 	{
 		if (handle_object_creation(data, specs) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
@@ -102,12 +103,8 @@ static int	handle_light_creation(t_data *data, char *specs)
 
 static int	handle_object_creation(t_data *data, char *specs)
 {
-	if (specs[0] == 'p')
-	{
-		if (create_plane(data, &specs[3]) == EXIT_FAILURE)
-			return (print_error(10), EXIT_FAILURE);
-		data->objects_idx++;
-	}
+	if (specs[0] == 'p' && create_plane(data, &specs[3]) == EXIT_FAILURE)
+		return (print_error(10), EXIT_FAILURE);
 	else if (specs[0] == 's')
 	{
 		if (create_sphere(data, &specs[3]) == EXIT_FAILURE)
