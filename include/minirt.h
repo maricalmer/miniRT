@@ -18,17 +18,17 @@
 # include <immintrin.h> // SSE/AVX and prefetch
 # include <xmmintrin.h>
 
-# define WIDTH					400
-# define HEIGHT					400
+# define WIDTH					800
+# define HEIGHT					800
 # define EPSILON    			0.001f // adjust
 # define SPECULAR_POWER 		50
 # define FRESNEL_TOLERANCE		0.02f
 # define DEPTH_MAX				50
 # define ANTIALIASING_FACT		3
 
-# define SKY_COLOR_R			70
-# define SKY_COLOR_G			130
-# define SKY_COLOR_B			180
+# define SKY_COLOR_R			176
+# define SKY_COLOR_G			221
+# define SKY_COLOR_B			252
 
 # define CAM_MODE				0 // 0 for object mode, 1 for flight mode		
 # define CAM_D_THETA			15
