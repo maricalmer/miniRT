@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:34:56 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 16:48:46 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/24 12:40:11 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,17 @@ int	handle_input(int keysym, t_data *data)
 static void	handle_input_2(int keysym, t_data *data)
 {
 	if (keysym == 'j')
-		rotate_cam(data, 15 * M_PI / 180, data->cam.y, 1);
+		rotate_cam(data, CAM_D_THETA * M_PI / 180, data->cam.y, 1);
 	else if (keysym == 'l')
-		rotate_cam(data, -15 * M_PI / 180, data->cam.y, 1);
+		rotate_cam(data, -CAM_D_THETA * M_PI / 180, data->cam.y, 1);
 	else if (keysym == 'i')
-		rotate_cam(data, 15 * M_PI / 180, data->cam.x, 1);
+		rotate_cam(data, CAM_D_THETA * M_PI / 180, data->cam.x, 1);
 	else if (keysym == 'k')
-		rotate_cam(data, -15 * M_PI / 180, data->cam.x, 1);
+		rotate_cam(data, -CAM_D_THETA * M_PI / 180, data->cam.x, 1);
+	else if (keysym == 'u')
+		rotate_cam(data, CAM_D_THETA * M_PI / 180, data->cam.z, 1);
+	else if (keysym == 'o')
+		rotate_cam(data, -CAM_D_THETA * M_PI / 180, data->cam.z, 1);
 	else if (keysym == 'm')
 	{
 		data->anti_fa = ANTIALIASING_FACT;

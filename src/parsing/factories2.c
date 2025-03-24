@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   factories2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:49:04 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 13:53:25 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/24 09:44:56 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	create_sphere(t_data *data, char *specs)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	data->objects[data->objects_idx].type = SPHERE;
-	data->objects[data->objects_idx].mat.checker_flag = 0;
+	data->objects[data->objects_idx].mat.checker_size = 0;
 	// BONUS
 	if (get_ratio(&specs, &data->objects[data->objects_idx].mat.refl_coeff)
 		== EXIT_FAILURE)
@@ -53,7 +53,7 @@ int	create_triangle(t_data *data, char *line, t_obj_parser *parser)
 	{
 		set_tri_n_and_v(data, parser, v, vn);
 		data->objects[data->objects_idx].type = TRI;
-		data->objects[data->objects_idx].mat.checker_flag = 0;
+		data->objects[data->objects_idx].mat.checker_size = 0;
 		data->objects[data->objects_idx].mat.refl_coeff 
 			= parser->tri_refl_coeff;
 		data->objects[data->objects_idx].mat.refr_coeff 

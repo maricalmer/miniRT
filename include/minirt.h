@@ -23,16 +23,18 @@
 # define EPSILON    			0.001f // adjust
 # define SPECULAR_POWER 		50
 # define FRESNEL_TOLERANCE		0.02f
-# define DEPTH_MAX				6
+# define DEPTH_MAX				50
 # define ANTIALIASING_FACT		3
 
 # define SKY_COLOR_R			70
 # define SKY_COLOR_G			130
 # define SKY_COLOR_B			180
 
-# define CAM_MODE				1 // 0 for object mode, 1 for flight mode		
+# define CAM_MODE				0 // 0 for object mode, 1 for flight mode		
 # define CAM_D_THETA			15
 # define CAM_D_TRANS			10
+# define CAM_D_THETA_MOUSE		2
+# define CAM_D_TRANS_MOUSE		5
 # define MOVE_THRESHOLD_2		400
 
 
@@ -43,12 +45,10 @@
 # define CROSS_CLICK_EVENT 		17
 # define NO_EVENT_MASK			0
 
-# define FAST_BVH_TRANSVERSAL	1   // fast is ok for convexe volumes, else strict (=> 0) should be used.
+# define FAST_BVH_TRANSVERSAL	0   // fast is ok for convexe volumes, else strict (=> 0) should be used.
 # define MAX_BVH_GROUP			20
 # define BVH_DEPTH_MAX			5
 # define BVH_SIZE_MAX			37464 // more tricky ... (w^(d+1) - 1)/(w-1) + (w-1) + w
-
-# define CHECKER_SIZE			0.004
 
 # define RED_BG_START			"\033[41;1;37m"
 # define RED_TXT_START			"\033[1;31m"
@@ -63,6 +63,7 @@ typedef enum e_obj_type
 {
 	PLANE,
 	SPHERE,
+	RECTANGLE,
 	CYLINDER,
 	TRI,
 	BVH
@@ -142,6 +143,15 @@ typedef struct s_plane
 	float						v[3];
 }	t_plane;
 
+typedef struct s_rectangle
+{
+	float						point[3];
+	float						normal[3];
+	float						u[3];
+	float						v[3];
+	float						uv_size;
+}	t_rectangle;
+
 typedef struct s_material
 {
 	float						refr_idx;
@@ -149,7 +159,7 @@ typedef struct s_material
 	float						refl_coeff;
 	unsigned char				rgb[3];
 	unsigned char				rgb2[3]; // NEEDS redesign to set rgb per object
-	int							checker_flag;
+	float						checker_size;
 }	t_material;
 
 typedef struct s_object 
@@ -161,6 +171,7 @@ typedef struct s_object
         t_cylinder				cyl;
         t_triangle				tri;
         t_plane					pl;
+		t_rectangle				rec;
 		void					*bvh;
     } geo;
 	t_material mat;
@@ -288,6 +299,7 @@ typedef struct s_shoot
 	float						normal[3];
 	float						hit_pt[3];
 	float						shadow_ray[3];
+	float						intens;
 	// output
 	int							res_rgb[3];
 }	t_shoot;
@@ -364,6 +376,7 @@ int								is_light(char *specs);
 int								is_cam(char *specs);
 int								is_ambient(char *specs);
 int								is_plane(char *specs);
+int								is_rectangle(char *specs);
 /*identifiers_2.c*/
 int								is_sphere(char *specs);
 int								is_cylinder(char *specs);
@@ -394,6 +407,7 @@ int								create_sphere(t_data *data, char *specs);
 int								create_plane(t_data *data, char *specs);
 int								create_cylinder(t_data *data, char *specs);
 int								create_triangle(t_data *data, char *line, t_obj_parser *parser);
+int								create_rectangle(t_data *data, char *specs);
 int								set_tri(t_obj_parser *parser, char *specs);
 /*factories_utils.c*/
 int								get_ratio(char **specs, float *ratio);
@@ -406,7 +420,7 @@ int								get_vec_norm(char **specs, float *value);
 int								get_fov_range(char **specs, int *fov);
 int								get_radius(char **specs, float *radius);
 int								get_length(char **specs, float *length);
-int								get_checkerboard_flag(char **specs, int *flag);
+int								get_pos_float(char **specs, float *size);
 /*error.c*/
 void							print_error(int errnum);
 /*free.c*/
@@ -462,6 +476,7 @@ float	test_cylinder(t_object *obj, float ray[3], float origin[3]);
 float	intersection_test_cylinder(t_object *obj, float ray[3], float origin[3]);
 // float							test_cylinder(t_object *obj, float ray[3], float origin[3]);
 float							test_plane(t_object *obj, float p_ray[3], float origin[3]);
+float							test_rectangle(t_object *obj, float ray[3], float origin[3]);
 float							test_triangle(t_object *obj, float ray[3], float origin[3]);
 
 __m256 							aabb_test_simd(t_bvh *bvh, int idx, float dir[3], float src[3]);

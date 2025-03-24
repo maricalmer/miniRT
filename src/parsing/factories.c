@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   factories.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 09:55:14 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 17:14:37 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:46:41 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,12 @@ static int	get_bonus_data_pl(t_data *data, char *specs)
 	if (get_refr_idx(&specs, &data->objects[data->objects_idx].mat.refr_idx)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_checkerboard_flag(&specs,
-			&data->objects[data->objects_idx].mat.checker_flag) == EXIT_FAILURE)
+	if (get_pos_float(&specs,
+			&data->objects[data->objects_idx].mat.checker_size) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (data->objects[data->objects_idx].mat.checker_flag)
+	if (data->objects[data->objects_idx].mat.checker_size)
 	{
+		data->objects[data->objects_idx].mat.checker_size = 1 / data->objects[data->objects_idx].mat.checker_size;
 		if (get_rgb(&specs, data->objects[data->objects_idx].mat.rgb2)
 			== EXIT_FAILURE)
 			return (EXIT_FAILURE);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_bvh_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:00:36 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/23 13:35:01 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:22:30 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	get_group_size(t_data *data, t_bvh *bvh)
 	i = -1;
 	while (++i < data->n_obj)
 	{
-		if (obj->type == SPHERE || obj->type == TRI)
+		if (obj->type == SPHERE || obj->type == TRI
+			|| obj->type == RECTANGLE)
 			bvh->group_size[0]++;
 		obj++;
 	}
@@ -40,7 +41,8 @@ void	create_obj_list_root(t_data *data, t_bvh *bvh)
 	j = 0;
 	while (++i < data->n_obj)
 	{
-		if (obj[i].type == SPHERE || obj[i].type == TRI)
+		if (obj[i].type == SPHERE || obj[i].type == TRI
+			|| obj[i].type == RECTANGLE)
 			bvh->group[0][j++] = &obj[i];
 	}
 }

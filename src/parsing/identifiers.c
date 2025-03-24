@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   identifiers.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:12 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 13:53:47 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:30:21 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,9 @@ int	is_ambient(char *specs)
 int	is_plane(char *specs)
 {
 	return (specs[0] == 'p' && specs[1] == 'l' && specs[2] == ' ');
+}
+
+int	is_rectangle(char *specs)
+{
+	return (specs[0] == 'r' && specs[1] == 'e' && specs[2] == ' ');
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:50:02 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 16:55:25 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/24 12:42:45 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,17 @@ int	mouse_release(int button, int x, int y, void *arg)
 	(void)y;
 	data = arg;
 	if (button == 1)
+	{
 		data->mouse_pressed_l = 0;
+		data->anti_fa = ANTIALIASING_FACT;
+		calculate_img(data);
+	}
 	else if (button == 3)
+	{
 		data->mouse_pressed_r = 0;
-	data->anti_fa = ANTIALIASING_FACT;
-	calculate_img(data);
+		data->anti_fa = ANTIALIASING_FACT;
+		calculate_img(data);
+	}
 	return (0);
 }
 
@@ -84,7 +90,7 @@ static void	handle_mouse_left(t_data *data, int x, int y)
 	v[1] = -dx * data->cam.x[1] + dy * data->cam.y[1];
 	v[2] = -dx * data->cam.x[2] + dy * data->cam.y[2];
 	normalize(v, NULL);
-	amp = 5;
+	amp = CAM_D_TRANS_MOUSE;
 	translate_cam(data, v, amp, 1);
 }
 
@@ -104,5 +110,5 @@ static void	handle_mouse_right(t_data *data, int x, int y)
 	v[1] = -dy * data->cam.x[1] - dx * data->cam.y[1];
 	v[2] = -dy * data->cam.x[2] - dx * data->cam.y[2];
 	normalize(v, NULL);
-	rotate_cam(data, 2 * M_PI / 180, v, 1);
+	rotate_cam(data, CAM_D_THETA_MOUSE * M_PI / 180, v, 1);
 }

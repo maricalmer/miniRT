@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_group.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:05:07 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/19 21:05:12 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:00:51 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	update_group(t_data *data, t_bvh *bvh)
 	i = -1;
 	plane_counter = 0;
 	while (++i < data->n_obj)
-		if (data->objects[i].type != SPHERE && data->objects[i].type != TRI)
+		if (data->objects[i].type != SPHERE && data->objects[i].type != TRI
+			&& data->objects[i].type != RECTANGLE)
 			plane_counter++;
 	new_objects = aligned_alloc(64, sizeof(t_object) * (plane_counter + 1));
 	new_objects[0].type = BVH;
@@ -30,7 +31,8 @@ void	update_group(t_data *data, t_bvh *bvh)
 	i = -1;
 	j = 1;
 	while (++i < data->n_obj)
-		if (data->objects[i].type != SPHERE && data->objects[i].type != TRI)
+		if (data->objects[i].type != SPHERE && data->objects[i].type != TRI
+			&& data->objects[i].type != RECTANGLE)
 			ft_memcpy(&new_objects[j++], &data->objects[i], sizeof(t_object));
 	data->all_objects = data->objects;
 	data->objects = new_objects;

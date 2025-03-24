@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rodrigues.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 21:34:47 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 17:38:17 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:28:23 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,24 +88,11 @@ static void	get_rodrigues_matrice(float u[3], float cos_sin_thetas[2],
 void	first_rotation_matrice(t_data *data)
 {
 	float	tmp[3];
-	double	r[4][4];
 
 	get_rotation_matrice(data->cam.direction, data->cam.t_mat,
 		(float [3]){0, 0, 0});
 	cpy_vec((float [3]){0, 1, 0}, tmp);
 	copy_r_mat_0(data);
-	dot_inplace_33_13(data->cam.r_mat_0, tmp);
-	if (tmp[1] < 0)
-	{
-		ft_memset(r, 0, sizeof(double [4][4]));
-		r[0][0] = -1;
-		r[1][1] = -1;
-		r[2][2] = 1;
-		r[3][3] = 1;
-		dot_inplace_44_44(data->cam.t_mat, r);
-		ft_memcpy(data->cam.t_mat, r, sizeof(double [4][4]));
-		copy_r_mat_0(data);
-	}
 	ft_memset(data->cam.t_mat, 0, sizeof(double [4][4]));
 	data->cam.t_mat[0][0] = 1;
 	data->cam.t_mat[1][1] = 1;

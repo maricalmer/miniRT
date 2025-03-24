@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shading.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:10:51 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/23 15:07:18 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/24 09:44:56 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	shading(t_shoot *shoot, t_data *data)
 	if (!shoot->obj)
 		return (sky_color(shoot));
 	rgb = shoot->obj->mat.rgb;
-	if (shoot->obj->mat.checker_flag == 1 && check_checkerboard_grid(shoot))
+	if (shoot->obj->mat.checker_size > 0 && check_checkerboard_grid(shoot))
 		rgb = shoot->obj->mat.rgb2;
 	add_phong_ambient(shoot, data, rgb);
 	i = -1;

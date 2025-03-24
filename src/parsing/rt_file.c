@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:39:09 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 12:39:55 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:41:27 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	process_rt_line(t_data *data, char *specs)
 {
 	if (specs[0] == 'o')
 		return (EXIT_SUCCESS);
-	if (specs[0] == 'p' || specs[0] == 's' || specs[0] == 'c')
+	if (specs[0] == 'p' || specs[0] == 's' || specs[0] == 'c' || specs[0] == 'r')
 	{
 		if (handle_object_creation(data, specs) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
@@ -117,6 +117,12 @@ static int	handle_object_creation(t_data *data, char *specs)
 	else if (specs[0] == 'c')
 	{
 		if (create_cylinder(data, &specs[3]) == EXIT_FAILURE)
+			return (print_error(11), EXIT_FAILURE);
+		data->objects_idx++;
+	}
+	else if (specs[0] == 'r')
+	{
+		if (create_rectangle(data, &specs[3]) == EXIT_FAILURE)
 			return (print_error(11), EXIT_FAILURE);
 		data->objects_idx++;
 	}

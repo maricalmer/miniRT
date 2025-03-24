@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkerboard.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:38:28 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/19 21:38:29 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/24 09:55:59 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ int	check_checkerboard_grid(t_shoot *shoot)
 	u = dot_13_13(oc, shoot->obj->geo.pl.u);
 	v = dot_13_13(oc, shoot->obj->geo.pl.v);
 	if (u < 0)
-		u_idx = u * CHECKER_SIZE - 1;
+		u_idx = u * shoot->obj->mat.checker_size - 1;
 	else
-		u_idx = u * CHECKER_SIZE;
+		u_idx = u * shoot->obj->mat.checker_size;
 	if (v < 0)
-		v_idx = v * CHECKER_SIZE - 1;
+		v_idx = v * shoot->obj->mat.checker_size - 1;
 	else
-		v_idx = v * CHECKER_SIZE;
+		v_idx = v * shoot->obj->mat.checker_size;
 	if ((u_idx + v_idx) & 1)
 		return (1);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersection_test_shadow.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 18:29:38 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/23 15:03:17 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:22:30 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,10 @@ float	shadow_test_leafs(t_shoot *shoot, t_object **objects, float dist_light,
 	{
 		if (objects[i]->type == SPHERE)
 			t = test_sphere(objects[i], shoot->shadow_ray, hit_pt);
-		else
+		else if (objects[i]->type == TRI)
 			t = test_triangle(objects[i], shoot->shadow_ray, hit_pt);
+		else
+			t = test_rectangle(objects[i], shoot->shadow_ray, hit_pt);
 		if (t > 0 && dist_light > t)
 			return (t);
 		i++;

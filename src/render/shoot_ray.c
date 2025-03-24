@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shoot_ray.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 14:59:58 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/23 15:22:11 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:22:21 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	shoot_ray(t_data *data, t_shoot *shoot)
 	t = visi_tests(data->objects, shoot, data->n_obj);
 	if (t > EPSILON)
 	{
-		if (shoot->obj->type == PLANE)
+		if (shoot->obj->type == PLANE || shoot->obj->type == RECTANGLE)
 			get_hitpt_n_normal_plane(shoot, t);
 		else if (shoot->obj->type == TRI)
 			get_hitpt_n_normal_tri(shoot);

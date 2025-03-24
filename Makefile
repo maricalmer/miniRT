@@ -51,6 +51,7 @@ SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/cylinder.c
 SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/intersection_test_shadow.c
 SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/intersection_test_visibility.c
 SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/plane.c
+SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/rectangle.c
 SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/sphere.c
 SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/triangle.c
 SOURCES += $(SOURCES_DIRECTORY)/math/math.c
@@ -81,7 +82,7 @@ CFLAGS := -Wall -Wextra -Werror
 CFLAGS += -g
 CFLAGS += -Wuninitialized
 CFLAGS += -mavx
-#CFLAGS += -Ofast
+CFLAGS += -Ofast
 CFLAGS += -mavx
 CFLAGS += -march=native
 CFLAGS += -ffunction-sections
