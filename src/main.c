@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:42:51 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/23 16:29:41 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/25 11:07:57 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ static void	init_data(t_data *data)
 	data->anti_fa = ANTIALIASING_FACT;
 	data->mouse_pressed_l = 0;
 	data->mouse_pressed_r = 0;
+	data->cam.mode = 0;
 	srand(123456);
 }

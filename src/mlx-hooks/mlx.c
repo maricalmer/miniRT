@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:34:56 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/24 12:40:11 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/25 11:10:01 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,17 @@ int	handle_input(int keysym, t_data *data)
 	else if (keysym == XK_Escape)
 		handle_close(data);
 	else if (keysym == 'a')
-		translate_cam(data, data->cam.x, CAM_D_TRANS, 1);
+		translate_cam(data, data->cam.x, data->cam.d_trans, 1);
 	else if (keysym == 'd')
-		translate_cam(data, data->cam.x, -CAM_D_TRANS, 1);
+		translate_cam(data, data->cam.x, -data->cam.d_trans, 1);
 	else if (keysym == 'w')
-		translate_cam(data, data->cam.y, -CAM_D_TRANS, 1);
+		translate_cam(data, data->cam.y, -data->cam.d_trans, 1);
 	else if (keysym == 's')
-		translate_cam(data, data->cam.y, CAM_D_TRANS, 1);
+		translate_cam(data, data->cam.y, data->cam.d_trans, 1);
 	else if (keysym == 'z')
-		translate_cam(data, data->cam.z, -CAM_D_TRANS, 1);
+		translate_cam(data, data->cam.z, -data->cam.d_trans, 1);
 	else if (keysym == 'x')
-		translate_cam(data, data->cam.z, CAM_D_TRANS, 1);
+		translate_cam(data, data->cam.z, data->cam.d_trans, 1);
 	else
 		handle_input_2(keysym, data);
 	return (0);
@@ -87,6 +87,8 @@ static void	handle_input_2(int keysym, t_data *data)
 		rotate_cam(data, CAM_D_THETA * M_PI / 180, data->cam.z, 1);
 	else if (keysym == 'o')
 		rotate_cam(data, -CAM_D_THETA * M_PI / 180, data->cam.z, 1);
+	else if (keysym == 'c')
+		data->cam.mode = !data->cam.mode;
 	else if (keysym == 'm')
 	{
 		data->anti_fa = ANTIALIASING_FACT;

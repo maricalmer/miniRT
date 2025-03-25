@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:05:24 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/24 18:56:20 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/25 10:56:27 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ void	render_first_image(t_data *data)
 	data->cam.world_center[0] = (bvh->min_x[0] + bvh->max_x[0]) * 0.5;
 	data->cam.world_center[1] = (bvh->min_y[0] + bvh->max_y[0]) * 0.5; 
 	data->cam.world_center[2] = (bvh->min_z[0] + bvh->max_z[0]) * 0.5;
+	data->cam.d_trans = (-bvh->min_x[0] + bvh->max_x[0] - bvh->min_y[0] +
+		bvh->max_y[0] - bvh->min_z[0] + bvh->max_z[0]) / 3 / TRANS_SENS;
+	if (data->cam.d_trans < EPSILON)
+		data->cam.d_trans = 10;
 	cpy_vec(data->cam.origin, data->cam.origin_backup);
 	first_rotation_matrice(data);
 	calculate_img(data);

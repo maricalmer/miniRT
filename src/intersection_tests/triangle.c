@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   triangle.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:36:17 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/23 13:37:21 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/25 10:44:13 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ float	test_triangle(t_object *obj, float ray[3], float origin[3])
 	vec_substr(obj->geo.tri.v2, obj->geo.tri.v0, edges + 3);
 	cprod_13_13(ray, edges + 3, h);
 	det_and_bar[0] = dot_13_13(edges, h);
-	if (fabs(det_and_bar[0]) < EPSILON)
+	if (fabs(det_and_bar[0]) < 0)
 		return (0.0f);
 	vec_substr(origin, obj->geo.tri.v0, s);
 	det_and_bar[1] = 1.0f / det_and_bar[0];

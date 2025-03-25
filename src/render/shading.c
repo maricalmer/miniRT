@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:10:51 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/24 09:44:56 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/25 10:27:23 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	shading(t_shoot *shoot, t_data *data)
 		normalize(shoot->shadow_ray, &dist_light);
 		theta_ln = dot_13_13(shoot->normal, shoot->shadow_ray);
 		if (theta_ln > 0 && shadow_tests
-			(shoot, data->objects, dist_light, data->n_obj) == 0)
+			(shoot, data->objects, dist_light, data->n_obj) < EPSILON)
 		{
 			add_phong_diffuse(shoot, data->lights[i], theta_ln, rgb);
 			add_phong_specular(shoot, data->lights[i], theta_ln, rgb);
