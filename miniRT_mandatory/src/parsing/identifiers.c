@@ -6,16 +6,12 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:12 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/24 16:14:36 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:06:37 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	is_object_file(char *specs)
-{
-	return (specs[0] == 'o' && specs[1] == ' ');
-}
 
 int	is_light(char *specs)
 {

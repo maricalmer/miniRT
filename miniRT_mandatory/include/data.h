@@ -34,7 +34,7 @@ typedef struct s_light
 {
 	float						brightness;
 	float						origin[3];
-	float						rgb[3]; // 0-1 value for each component
+	float						rgb[3];
 }	t_light;
 
 typedef struct s_ambient_light
@@ -62,10 +62,6 @@ typedef struct s_triangle
 	float						v0[3];
 	float						v1[3];
 	float						v2[3];
-	// float						n[3];
-	// float						u01[3];
-	// float						u02[2];
-	// float						u03[3];
 	float						n0[3];
 	float						n1[3];
 	float						n2[3];
@@ -73,12 +69,12 @@ typedef struct s_triangle
 
 typedef struct s_triangle2
 {
-	int 						v0_idx;
-	int 						v1_idx;
-	int 						v2_idx;
-	int 						n0_idx;
-	int 						n1_idx;
-	int 						n2_idx;
+	int							v0_idx;
+	int							v1_idx;
+	int							v2_idx;
+	int							n0_idx;
+	int							n1_idx;
+	int							n2_idx;
 }	t_triangle2;
 
 typedef struct s_plane
@@ -108,19 +104,21 @@ typedef struct s_material
 	float						checker_size;
 }	t_material;
 
+typedef union u_geo
+{
+	t_sphere				sph;
+	t_cylinder				cyl;
+	t_triangle				tri;
+	t_plane					pl;
+	t_rectangle				rec;
+	void					*bvh;
+}	t_geo;
+
 typedef struct s_object 
 {
-    t_obj_type					type;
-    union 
-	{
-        t_sphere				sph;
-        t_cylinder				cyl;
-        t_triangle				tri;
-        t_plane					pl;
-		t_rectangle				rec;
-		void					*bvh;
-    } geo;
-	t_material mat;
+	t_obj_type					type;
+	t_geo						geo;
+	t_material					mat;
 	int							padding[4];
 }	t_object;
 

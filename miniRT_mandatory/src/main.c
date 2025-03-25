@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:42:51 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/25 11:41:07 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:59:18 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	init_data(t_data *data);
 int	main(int ac, char **av)
 {
 	t_data	data;
-	
+
 	print_intro();
 	init_data(&data);
 	if (check_input(ac, av, &data) == EXIT_FAILURE)

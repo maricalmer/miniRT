@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:39:09 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/25 11:53:39 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:00:54 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	read_rt_file(t_data *data);
 static int	process_rt_line(t_data *data, char *specs);
-static int	handle_light_creation(t_data *data, char *specs);
+static int	handle_components_creation(t_data *data, char *specs);
 static int	handle_object_creation(t_data *data, char *specs);
 
 int	create_elements_rt(t_data *data, char *filename)
@@ -27,8 +27,6 @@ int	create_elements_rt(t_data *data, char *filename)
 		close(data->rt_fd);
 		return (EXIT_FAILURE);
 	}
-	if (data->n_light != 1)
-		return (print_error(4), EXIT_FAILURE);
 	close(data->rt_fd);
 	return (EXIT_SUCCESS);
 }
@@ -62,23 +60,20 @@ static int	read_rt_file(t_data *data)
 
 static int	process_rt_line(t_data *data, char *specs)
 {
-	if (specs[0] == 'o')
-		return (EXIT_SUCCESS);
-	if (specs[0] == 'p' || specs[0] == 's' || specs[0] == 'c'
-		|| specs[0] == 'r')
+	if (specs[0] == 'p' || specs[0] == 's' || specs[0] == 'c')
 	{
 		if (handle_object_creation(data, specs) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
 	else
 	{
-		if (handle_light_creation(data, specs) == EXIT_FAILURE)
+		if (handle_components_creation(data, specs) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
 
-static int	handle_light_creation(t_data *data, char *specs)
+static int	handle_components_creation(t_data *data, char *specs)
 {
 	if (specs[0] == 'L')
 	{

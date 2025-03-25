@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 09:55:14 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/25 11:35:09 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/25 20:59:14 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,12 @@ int	create_ambient_light(t_data *data, char *specs)
 
 int	create_cam(t_data *data, char *specs)
 {
-	t_camera	camera;
-
-	if (get_coord(&specs, camera.origin) == EXIT_FAILURE)
+	if (get_coord(&specs, data->cam.origin) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_vec_norm(&specs, camera.direction) == EXIT_FAILURE)
+	if (get_vec_norm(&specs, data->cam.direction) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_fov_range(&specs, &camera.fov) == EXIT_FAILURE)
+	if (get_fov_range(&specs, &data->cam.fov) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	data->cam = camera;
 	return (EXIT_SUCCESS);
 }
 
