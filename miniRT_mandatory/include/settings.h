@@ -1,8 +1,8 @@
 #ifndef SETTINGS_H
 # define SETTINGS_H
 
-# define WIDTH					80
-# define HEIGHT					80
+# define WIDTH					800
+# define HEIGHT					800
 # define EPSILON    			0.01f // adjust to scene size
 # define SPECULAR_POWER 		50
 # define FRESNEL_TOLERANCE		0.02f
