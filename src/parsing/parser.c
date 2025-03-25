@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:38:13 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 12:38:19 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/24 23:07:53 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,12 @@ int	read_rt(t_data *data)
 			continue ;
 		}
 		specs = format_string(line, ft_strlen(line));
+		if (!specs)
+			continue ;
 		if (count_rt_elems(specs, data, &n_cam, &n_ambient) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
-	close(data->rt_fd);
-	return (EXIT_SUCCESS);
+	return (close(data->rt_fd), EXIT_SUCCESS);
 }
 
 char	*format_string(char *str, int len)
@@ -74,6 +75,8 @@ char	*format_string(char *str, int len)
 	i = 0;
 	while (ft_iswhitespace(str[i]))
 		i++;
+	if (!str[i])
+		return (free(str), NULL);
 	start = &str[i];
 	while (len > 0 && ft_iswhitespace(str[len - 1]))
 		len--;
@@ -83,7 +86,7 @@ char	*format_string(char *str, int len)
 	if (!specs)
 	{
 		free(str);
-		return (NULL);
+		exit(EXIT_FAILURE);
 	}
 	apply_uniform_spacing(specs, start, end);
 	free(str);

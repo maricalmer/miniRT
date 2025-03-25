@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_file.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:39:09 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/24 17:50:04 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/24 23:12:16 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,10 @@ static int	read_rt_file(t_data *data)
 			continue ;
 		}
 		specs = format_string(line, len);
+		if (!specs)
+			continue ;
 		if (process_rt_line(data, specs) == EXIT_FAILURE)
-		{
-			free(specs);
-			return (EXIT_FAILURE);
-		}
+			return (free(specs), EXIT_FAILURE);
 		free(specs);
 	}
 	return (EXIT_SUCCESS);
