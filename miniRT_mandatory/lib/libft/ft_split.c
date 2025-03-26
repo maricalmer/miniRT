@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 13:18:20 by dlemaire          #+#    #+#             */
-/*   Updated: 2024/05/07 15:04:46 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:59:46 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 
 #include "libft.h"
 
-static int ft_substring_len(char const *str, char delimiter)
+static int	ft_substring_len(char const *str, char delimiter)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	while (str[len] && str[len] != delimiter)
@@ -27,10 +27,10 @@ static int ft_substring_len(char const *str, char delimiter)
 	return (len);
 }
 
-static int ft_substring_amount(char const *s, char delimiter)
+static int	ft_substring_amount(char const *s, char delimiter)
 {
-	size_t index;
-	int count;
+	size_t	index;
+	int		count;
 
 	index = 0;
 	count = 0;
@@ -48,7 +48,7 @@ static int ft_substring_amount(char const *s, char delimiter)
 	return (count);
 }
 
-static char **ft_free_array(char **strs, int i)
+static char	**ft_free_array(char **strs, int i)
 {
 	while (i > 0)
 	{
@@ -58,11 +58,11 @@ static char **ft_free_array(char **strs, int i)
 	return (NULL);
 }
 
-char **ft_split(char const *s, char delimiter)
+char	**ft_split(char const *s, char delimiter)
 {
-	int index;
-	int substring_length;
-	char **strings;
+	int		index;
+	int		substring_length;
+	char	**strings;
 
 	if (!s)
 		return (NULL);

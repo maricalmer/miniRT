@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:33:11 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/25 21:09:26 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:32:08 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	free_data(t_data *data)
 {
-	// free(data->all_objects);  creates invalid free in valgrind
 	free(data->objects);
 	free(data->lights);
 }
-

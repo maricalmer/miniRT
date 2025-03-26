@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   factories3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:53:31 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/25 20:59:24 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:32:53 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,3 @@ int	create_cylinder(t_data *data, char *specs)
 	data->objects[data->objects_idx].type = CYLINDER;
 	return (EXIT_SUCCESS);
 }
-

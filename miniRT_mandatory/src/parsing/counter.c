@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   counter.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:40 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/25 15:23:07 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:32:43 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,3 @@ int	count_rt_elems(char *specs, t_data *data, int *n_cam, int *n_ambient)
 		free(specs);
 	return (EXIT_SUCCESS);
 }
-

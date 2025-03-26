@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtoi.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 17:45:22 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/02/27 00:04:27 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/03/26 11:59:15 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,39 +44,44 @@ static long long	ft_parse_integer(const char **str)
 	return (result);
 }
 
-
-static int   ft_handle_limits_and_endptr(long long result, const char *str, const char *start, char **endptr)
+static float	ft_handle_limits_and_endptr(double result, const char *str,
+	const char *start, char **endptr)
 {
-    if (result > INT_MAX)
-    {
-        errno = ERANGE;
-        return (INT_MAX);
-    }
-    if (result < INT_MIN)
-    {
-        errno = ERANGE;
-        return (INT_MIN);
-    }
-    if (endptr)
-    {
-        if (*str)
-            *endptr = (char *)str;
-        else
-            *endptr = (char *)start;
-    }
-    return (int)result;
+	if (result > FLT_MAX)
+	{
+		errno = ERANGE;
+		return (HUGE_VALF);
+	}
+	if (result < -FLT_MAX)
+	{
+		errno = ERANGE;
+		return (-HUGE_VALF);
+	}
+	if (result != 0.0 && ft_fabs(result) < FLT_MIN)
+	{
+		errno = ERANGE;
+		return (0.0f);
+	}
+	if (endptr)
+	{
+		if (*str)
+			*endptr = (char *)str;
+		else
+			*endptr = (char *)start;
+	}
+	return ((float)result);
 }
 
 int	ft_strtoi(const char *str, char **endptr)
 {
-	long long   result;
-	int		    sign;
-    const char  *start;
+	long long	result;
+	int			sign;
+	const char	*start;
 
-    start = str;
-    while (ft_iswhitespace(*str))
+	start = str;
+	while (ft_iswhitespace(*str))
 		str++;
 	sign = ft_parse_sign(&str);
 	result = ft_parse_integer(&str) * sign;
-    return (ft_handle_limits_and_endptr(result, str, start, endptr));
+	return (ft_handle_limits_and_endptr(result, str, start, endptr));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:50:12 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/01/31 02:53:00 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:53:11 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	ft_printx(unsigned int nbr, char *chars)
 	}
 	return (counter);
 }
-
 
 int	ft_printud(unsigned int nbr)
 {

@@ -17,7 +17,7 @@
 float	ft_fabs(float num)
 {
 	if (num < 0)
-        return (-num);
-    else
-        return (num);
+		return (-num);
+	else
+		return (num);
 }

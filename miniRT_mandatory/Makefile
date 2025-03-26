@@ -2,6 +2,9 @@ NAME := minirt
 
 HEADERS_DIRECTORY := include
 HEADERS := $(HEADERS_DIRECTORY)/minirt.h
+HEADERS += $(HEADERS_DIRECTORY)/data.h
+HEADERS += $(HEADERS_DIRECTORY)/functions.h
+HEADERS += $(HEADERS_DIRECTORY)/settings.h
 
 SOURCES_DIRECTORY := src
 OBJECTS_DIRECTORY := build
@@ -39,7 +42,6 @@ SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/plane.c
 SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/sphere.c
 SOURCES += $(SOURCES_DIRECTORY)/math/math.c
 SOURCES += $(SOURCES_DIRECTORY)/math/math_utils.c
-SOURCES += $(SOURCES_DIRECTORY)/math/find_median.c
 SOURCES += $(SOURCES_DIRECTORY)/math/dot_in_place_33.c
 SOURCES += $(SOURCES_DIRECTORY)/math/dot_in_place_44.c
 SOURCES += $(SOURCES_DIRECTORY)/math/rodrigues.c

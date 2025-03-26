@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersection_test_visibility.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 18:52:02 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/25 11:48:28 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:45:13 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ static float	find_closest_hit(t_object *objects, t_shoot *shoot, int n_obj)
 		if (t > EPSILON && t < t_min)
 		{
 			t_min = t;
-			if (objects[i].type != BVH)
-				shoot->obj = &objects[i];
+			shoot->obj = &objects[i];
 		}
 	}
 	return (t_min);
