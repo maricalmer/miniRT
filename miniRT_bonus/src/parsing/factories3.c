@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   factories3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:53:31 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/24 16:14:11 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:39:03 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	create_cylinder(t_data *data, char *specs)
 		return (EXIT_FAILURE);
 	data->objects[data->objects_idx].type = CYLINDER;
 	data->objects[data->objects_idx].mat.checker_size = 0;
-	// BONUS
 	if (get_bonus_data_cy(data, specs) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
@@ -67,7 +66,6 @@ int	create_rectangle(t_data *data, char *specs)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	data->objects[data->objects_idx].type = RECTANGLE;
-	// BONUS
 	if (get_bonus_data_rec(data, specs) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

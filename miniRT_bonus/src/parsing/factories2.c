@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   factories2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:49:04 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/24 09:44:56 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:38:49 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	create_sphere(t_data *data, char *specs)
 		return (EXIT_FAILURE);
 	data->objects[data->objects_idx].type = SPHERE;
 	data->objects[data->objects_idx].mat.checker_size = 0;
-	// BONUS
 	if (get_ratio(&specs, &data->objects[data->objects_idx].mat.refl_coeff)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);

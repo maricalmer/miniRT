@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtof.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 17:45:22 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/02/26 23:13:04 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/03/26 11:57:05 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,45 +64,45 @@ static float	ft_parse_fraction(const char **str)
 	return (fraction);
 }
 
-static float   ft_handle_limits_and_endptr(double result, const char *str, const char *start, char **endptr)
+static float	ft_handle_limits_and_endptr(double result, const char *str,
+		const char *start, char **endptr)
 {
-    if (result > FLT_MAX)
-    {
-        errno = ERANGE;
-        return HUGE_VALF;
-    }
-    if (result < -FLT_MAX)
-    {
-        errno = ERANGE;
-        return -HUGE_VALF;
-    }
-    if (result != 0.0 && ft_fabs(result) < FLT_MIN)
-    {
-        errno = ERANGE;
-        return 0.0f;
-    }
-    if (endptr)
-    {
-        if (*str)
-            *endptr = (char *)str;
-        else
-            *endptr = (char *)start;
-    }
-    return (float)result;
+	if (result > FLT_MAX)
+	{
+		errno = ERANGE;
+		return (HUGE_VALF);
+	}
+	if (result < -FLT_MAX)
+	{
+		errno = ERANGE;
+		return (-HUGE_VALF);
+	}
+	if (result != 0.0 && ft_fabs(result) < FLT_MIN)
+	{
+		errno = ERANGE;
+		return (0.0f);
+	}
+	if (endptr)
+	{
+		if (*str)
+			*endptr = (char *)str;
+		else
+			*endptr = (char *)start;
+	}
+	return ((float)result);
 }
 
 float	ft_strtof(const char *str, char **endptr)
 {
-	double	result;
-	int		sign;
-    const char *start;
+	double		result;
+	int			sign;
+	const char	*start;
 
-    start = str;
-    while (ft_iswhitespace(*str))
+	start = str;
+	while (ft_iswhitespace(*str))
 		str++;
 	sign = ft_parse_sign(&str);
 	result = ft_parse_integer(&str) + ft_parse_fraction(&str);
 	result *= sign;
-    return (ft_handle_limits_and_endptr(result, str, start, endptr));
+	return (ft_handle_limits_and_endptr(result, str, start, endptr));
 }
-

@@ -3,18 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:04:00 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/11 12:23:28 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/26 12:28:35 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-
-# define BUFFER_SIZE 92
+# define BUFFER_SIZE 56
 # define NB_FILES_MAX 1024
+# undef FLT_MAX
+# define FLT_MAX 1e+20F
+# undef FLT_MIN
+# define FLT_MIN 1e-20F
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -23,10 +26,8 @@
 # include <stdarg.h>
 # include <stdint.h>
 # include <math.h>
-# include <float.h>
 # include <errno.h>
 # include <limits.h>
-
 
 typedef struct s_list
 {
@@ -105,6 +106,5 @@ char	*get_next_line(int fd);
 float	ft_strtof(const char *str, char **endptr);
 int		ft_strtoi(const char *str, char **endptr);
 float	ft_fabs(float num);
-
 
 #endif

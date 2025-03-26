@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:53:10 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/01/31 02:54:12 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:53:24 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_printd(int nbr)
 
 int	ft_printc(const char c)
 {
-	int		bytes_written;
+	int				bytes_written;
 	unsigned char	uc;
 
 	uc = (unsigned char) c;

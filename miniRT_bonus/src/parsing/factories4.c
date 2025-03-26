@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   factories4.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:08:59 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/24 16:22:44 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:39:19 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	create_light(t_data *data, char *specs)
 		return (EXIT_FAILURE);
 	if (get_rgb_norm(&specs, light.rgb) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	// BONUS
 	data->lights[i++] = light;
 	return (EXIT_SUCCESS);
 }

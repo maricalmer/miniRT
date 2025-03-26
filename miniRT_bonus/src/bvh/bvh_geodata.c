@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bvh_geodata.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 20:57:31 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/25 21:05:18 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:59:29 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,11 @@ static t_obj_geo	extract_geo_data_rec(t_object *obj)
 			* obj->geo.rec.uv_size - obj->geo.rec.v[i] * obj->geo.rec.uv_size;
 		pts[3][i] = obj->geo.rec.point[i] - obj->geo.rec.u[i] 
 			* obj->geo.rec.uv_size - obj->geo.rec.v[i] * obj->geo.rec.uv_size;
-	}
-	i = -1;
-	while (++i < 3)
-	{
 		geo.bmin[i] = fmin(fmin(fmin(pts[0][i], pts[1][i]),
 					pts[2][i]), pts[3][i]);
 		geo.bmax[i] = fmax(fmax(fmax(pts[0][i], pts[1][i]),
 					pts[2][i]), pts[3][i]);
+		geo.center[i] = obj->geo.rec.point[i];
 	}
 	return (geo);
 }

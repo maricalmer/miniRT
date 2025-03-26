@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minirt.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 13:49:11 by hruiz-fr          #+#    #+#             */
+/*   Updated: 2025/03/26 13:49:12 by hruiz-fr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINIRT_H
 # define MINIRT_H
 
@@ -10,12 +22,11 @@
 # include <math.h>
 # include <time.h>
 # include <sys/time.h>
-# include <float.h>
 # include <stdio.h>
 # include <pthread.h>
 # include <stdatomic.h>
 # include <fcntl.h>
-# include <immintrin.h> // SSE/AVX and prefetch
+# include <immintrin.h>
 # include <xmmintrin.h>
 
 # include "settings.h"
