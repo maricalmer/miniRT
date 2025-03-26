@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:42:51 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/25 11:07:57 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:12:20 by hruiz-fr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@ int	main(int ac, char **av)
 
 	_MM_SET_FLUSH_ZERO_MODE(_MM_FLUSH_ZERO_ON);
 	_MM_SET_DENORMALS_ZERO_MODE(_MM_DENORMALS_ZERO_ON);
+	printf("%li\n", sizeof(t_object));
 	print_intro();
 	init_data(&data);
 	if (check_input(ac, av, &data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (handle_parsing(av, &data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	data.cam.mode = 0;
 	launch_pool(&data);
 	if (init_mlx(&data.mlx) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
