@@ -1,4 +1,4 @@
-NAME := minirt
+NAME := miniRT
 
 HEADERS_DIRECTORY := include
 HEADERS := $(HEADERS_DIRECTORY)/minirt.h

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   factories4.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:08:59 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/26 13:39:19 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/29 16:01:44 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,14 @@ int	set_tri(t_obj_parser *parser, char *specs)
 	specs += len_filepath + 3;
 	if (get_obj_rgb(&specs, &parser->tri_rgb[0]) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	if (*specs != ',')
+		return (EXIT_FAILURE);
+	specs++;
 	if (get_obj_rgb(&specs, &parser->tri_rgb[1]) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	if (*specs != ',')
+		return (EXIT_FAILURE);
+	specs++;
 	if (get_obj_rgb(&specs, &parser->tri_rgb[2]) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (get_ratio(&specs, &parser->tri_refl_coeff) == EXIT_FAILURE)

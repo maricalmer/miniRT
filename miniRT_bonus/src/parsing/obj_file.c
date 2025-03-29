@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 12:43:31 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/29 16:14:29 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ static int	get_obj_filenames(t_obj_parser *parsers, t_data *data,
 		}
 		specs = format_string(line, ft_strlen(line));
 		if (is_object_file(specs))
-			process_obj_file(parsers, specs);
+		{
+			if (process_obj_file(parsers, specs) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
+		}
 		free(specs);
 	}
 	return (EXIT_SUCCESS);
@@ -83,7 +86,10 @@ static int	process_obj_file(t_obj_parser *parsers, char *specs)
 	if (!parsers[i].filename)
 		return (print_error(3), EXIT_FAILURE);
 	if (sscanf(specs, "o %s", parsers[i].filename) == 1)
-		set_tri(&parsers[i], specs);
+	{
+		if (set_tri(&parsers[i], specs) == EXIT_FAILURE)
+			return (print_error(13), EXIT_FAILURE);
+	}
 	i++;
 	return (EXIT_SUCCESS);
 }

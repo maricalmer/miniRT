@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   factories_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 09:49:05 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 17:14:45 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/03/29 15:54:00 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ int	get_coord(char **specs, float *value)
 			return (EXIT_FAILURE);
 		while (!ft_isdigit(**specs) && **specs != '\0' && **specs != '-')
 		{
-			if (**specs != ' ' && **specs != ',')
+			if (i < 2 && **specs != ',')
+				return (EXIT_FAILURE);
+			if (i > 2 && **specs != ' ')
 				return (EXIT_FAILURE);
 			(*specs)++;
 		}
@@ -48,7 +50,9 @@ int	get_vec_norm(char **specs, float *value)
 			return (EXIT_FAILURE);
 		while (!ft_isdigit(**specs) && **specs != '\0' && **specs != '-')
 		{
-			if (**specs != ' ' && **specs != ',')
+			if (i < 2 && **specs != ',')
+				return (EXIT_FAILURE);
+			if (i > 2 && **specs != ' ')
 				return (EXIT_FAILURE);
 			(*specs)++;
 		}

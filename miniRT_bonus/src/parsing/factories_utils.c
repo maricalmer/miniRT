@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 10:19:27 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/03/29 16:07:15 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ int	get_rgb_norm(char **specs, float *color)
 			return (EXIT_FAILURE);
 		while (!ft_isdigit(**specs) && **specs != '\0')
 		{
-			if (**specs != ' ' && **specs != ',')
+			if (i < 2 && **specs != ',')
+				return (EXIT_FAILURE);
+			if (i > 2 && **specs != ' ')
 				return (EXIT_FAILURE);
 			(*specs)++;
 		}
@@ -61,7 +63,9 @@ int	get_rgb(char **specs, unsigned char *color)
 			return (EXIT_FAILURE);
 		while (!ft_isdigit(**specs) && **specs != '\0')
 		{
-			if (**specs != ' ' && **specs != ',')
+			if (i < 2 && **specs != ',')
+				return (EXIT_FAILURE);
+			if (i > 2 && **specs != ' ')
 				return (EXIT_FAILURE);
 			(*specs)++;
 		}
@@ -76,12 +80,9 @@ int	get_obj_rgb(char **specs, int *color)
 	*color = ft_strtoi(*specs, specs);
 	if (errno == ERANGE || (*color < -1 || *color > 255))
 		return (EXIT_FAILURE);
-	while (!ft_isdigit(**specs) && **specs != '\0' && **specs != '-')
-	{
-		if (**specs != ' ' && **specs != ',')
-			return (EXIT_FAILURE);
+	while (!ft_isdigit(**specs) && **specs != '\0' && **specs != '-'
+		&& **specs != ',')
 		(*specs)++;
-	}
 	return (EXIT_SUCCESS);
 }
 
