@@ -52,7 +52,7 @@ int	get_rgb_norm(char **specs, float *color)
 int	get_rgb(char **specs, unsigned char *color)
 {
 	int	i;
-    int temp;
+	int	temp;
 
 	i = -1;
 	while (++i < 3)
@@ -62,7 +62,7 @@ int	get_rgb(char **specs, unsigned char *color)
 		temp = ft_strtoi(*specs, specs);
 		if (errno == ERANGE || temp < 0 || temp > 255)
 			return (EXIT_FAILURE);
-        color[i] = (unsigned char)temp;
+		color[i] = (unsigned char)temp;
 		while (!ft_isdigit(**specs) && **specs != '\0')
 		{
 			if (i < 2 && **specs != ',')

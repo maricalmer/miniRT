@@ -36,7 +36,8 @@ static float	process_bvh_children(t_bvh *bvh, int idx, t_shoot *shoot,
 	t_object	*obj;
 
 	t_min = FLT_MAX;
-	i = -1;
+	obj = NULL;
+    i = -1;
 	while (++i < 8)
 	{
 		if (res[i] != -1)
