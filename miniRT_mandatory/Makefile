@@ -9,42 +9,15 @@ HEADERS += $(HEADERS_DIRECTORY)/settings.h
 SOURCES_DIRECTORY := src
 OBJECTS_DIRECTORY := build
 
-SOURCES := $(SOURCES_DIRECTORY)/main.c
-SOURCES += $(SOURCES_DIRECTORY)/parsing/identifiers.c
-SOURCES += $(SOURCES_DIRECTORY)/parsing/identifiers2.c
-SOURCES += $(SOURCES_DIRECTORY)/parsing/parser.c
-SOURCES += $(SOURCES_DIRECTORY)/parsing/factories.c
-SOURCES += $(SOURCES_DIRECTORY)/parsing/factories2.c
-SOURCES += $(SOURCES_DIRECTORY)/parsing/factories3.c
-SOURCES += $(SOURCES_DIRECTORY)/parsing/factories4.c
-SOURCES += $(SOURCES_DIRECTORY)/parsing/factories_utils.c
-SOURCES += $(SOURCES_DIRECTORY)/parsing/factories_utils2.c
-SOURCES += $(SOURCES_DIRECTORY)/parsing/factories_utils3.c
-SOURCES += $(SOURCES_DIRECTORY)/parsing/checker.c
-SOURCES += $(SOURCES_DIRECTORY)/parsing/init.c
-SOURCES += $(SOURCES_DIRECTORY)/parsing/rt_file.c
-SOURCES += $(SOURCES_DIRECTORY)/parsing/counter.c
-SOURCES += $(SOURCES_DIRECTORY)/exit/prints.c
-SOURCES += $(SOURCES_DIRECTORY)/exit/error.c
-SOURCES += $(SOURCES_DIRECTORY)/exit/free.c
-SOURCES += $(SOURCES_DIRECTORY)/exit/free2.c
-SOURCES += $(SOURCES_DIRECTORY)/render/render.c
-SOURCES += $(SOURCES_DIRECTORY)/render/calculate_pixel.c
-SOURCES += $(SOURCES_DIRECTORY)/render/shoot_ray.c
-SOURCES += $(SOURCES_DIRECTORY)/render/shading.c
-SOURCES += $(SOURCES_DIRECTORY)/mlx-hooks/mlx.c
-SOURCES += $(SOURCES_DIRECTORY)/mlx-hooks/events.c
-SOURCES += $(SOURCES_DIRECTORY)/mlx-hooks/mouse.c
-SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/cylinder.c
-SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/intersection_test_shadow.c
-SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/intersection_test_visibility.c
-SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/plane.c
-SOURCES += $(SOURCES_DIRECTORY)/intersection_tests/sphere.c
-SOURCES += $(SOURCES_DIRECTORY)/math/math.c
-SOURCES += $(SOURCES_DIRECTORY)/math/math_utils.c
-SOURCES += $(SOURCES_DIRECTORY)/math/dot_in_place_33.c
-SOURCES += $(SOURCES_DIRECTORY)/math/dot_in_place_44.c
-SOURCES += $(SOURCES_DIRECTORY)/math/rodrigues.c
+SOURCES := $(addprefix $(SOURCES_DIRECTORY)/,\
+		main.c \
+		$(addprefix parsing/, identifiers.c identifiers2.c parser.c factories.c factories2.c factories3.c factories4.c factories_utils.c factories_utils2.c factories_utils3.c checker.c init.c rt_file.c counter.c) \
+		$(addprefix exit/, prints.c error.c free.c free2.c) \
+		$(addprefix render/, render.c calculate_pixel.c shoot_ray.c shading.c) \
+		$(addprefix mlx_hooks/, mlx.c events.c mouse.c) \
+		$(addprefix intersection_tests/, cylinder.c intersection_test_shadow.c intersection_test_visibility.c plane.c sphere.c) \
+		$(addprefix math/, math.c math_utils.c dot_in_place_33.c dot_in_place_44.c rodrigues.c) \
+)
 
 OBJECTS := $(patsubst $(SOURCES_DIRECTORY)/%.c,$(OBJECTS_DIRECTORY)/%.o, $(SOURCES))
 

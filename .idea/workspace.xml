@@ -20,10 +20,10 @@
   <component name="ChangeListManager">
     <list default="true" id="754d8692-9753-4f77-a9c6-ce628b1ce14c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/miniRT_bonus/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/miniRT_bonus/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/miniRT_mandatory/src/mlx-hooks/events.c" beforeDir="false" afterPath="$PROJECT_DIR$/miniRT_mandatory/src/mlx_hooks/events.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/miniRT_mandatory/src/mlx-hooks/mlx.c" beforeDir="false" afterPath="$PROJECT_DIR$/miniRT_mandatory/src/mlx_hooks/mlx.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/miniRT_mandatory/src/mlx-hooks/mouse.c" beforeDir="false" afterPath="$PROJECT_DIR$/miniRT_mandatory/src/mlx_hooks/mouse.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/miniRT_bonus/src/mlx-hooks/events.c" beforeDir="false" afterPath="$PROJECT_DIR$/miniRT_bonus/src/mlx_hooks/events.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/miniRT_bonus/src/mlx-hooks/mlx.c" beforeDir="false" afterPath="$PROJECT_DIR$/miniRT_bonus/src/mlx_hooks/mlx.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/miniRT_bonus/src/mlx-hooks/mouse.c" beforeDir="false" afterPath="$PROJECT_DIR$/miniRT_bonus/src/mlx_hooks/mouse.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/miniRT_mandatory/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/miniRT_mandatory/Makefile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +86,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1743431090112</updated>
-      <workItem from="1743431091196" duration="6802000" />
+      <workItem from="1743431091196" duration="7836000" />
     </task>
     <servers />
   </component>
