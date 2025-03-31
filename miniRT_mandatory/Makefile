@@ -78,15 +78,19 @@ CFLAGS += -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY)
 
 all: $(OBJECTS_DIRECTORY) $(LIBMLX) $(LIBFT) $(NAME)
 
+YELLOW=\033[0;33m
+GREEN=\033[0;32m
+NC=\033[0m
+
 $(LIBMLX):
 	@if [ ! -d "$(MLX_DIRECTORY)" ]; then \
 			mkdir -p $(MLX_DIRECTORY); \
 			echo "Cloning MiniLibX repository..."; \
 			git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIRECTORY); \
 	fi
-	@echo "Compiling MiniLibX..."
+	@echo "$(YELLOW)Compiling MiniLibX...$(NC)"
 	@make -s -C $(MLX_DIRECTORY) >/dev/null 2>&1;
-	@echo "MiniLibX compiled"
+	@echo "$(GREEN)MiniLibX compiled$(NC)"
 
 $(NAME): $(OBJECTS) $(LIBFT) $(LIBMLX)
 	@$(CC) $(CFLAGS) $(OBJECTS) $(LIB_FLAGS) -o $(NAME) -Wl,--gc-sections
@@ -99,7 +103,9 @@ $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)
 
 $(LIBFT):
-	@$(MAKE) -C $(LIBFT_DIRECTORY)
+	@echo "$(YELLOW)Compiling Libft...$(NC)"
+	@make -C $(LIBFT_DIRECTORY) >/dev/null 2>&1;
+	@echo "$(GREEN)Libft compiled$(NC)"
 
 clean:
 	@rm -rf $(OBJECTS_DIRECTORY)
