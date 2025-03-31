@@ -11,13 +11,17 @@ OBJECTS_DIRECTORY := build
 
 SOURCES := $(addprefix $(SOURCES_DIRECTORY)/,\
 		main.c \
-		$(addprefix parsing/, identifiers.c identifiers2.c parser.c factories.c factories2.c factories3.c factories4.c factories_utils.c factories_utils2.c factories_utils3.c checker.c init.c obj_file.c obj_file2.c rt_file.c counter.c) \
+		$(addprefix parsing/, identifiers.c identifiers2.c parser.c factories.c factories2.c factories3.c factories4.c \
+			factories_utils.c factories_utils2.c factories_utils3.c checker.c init.c obj_file.c obj_file2.c rt_file.c \
+			counter.c) \
 		$(addprefix bvh/, bvh_bbox.c bvh_geodata.c create_bvh.c create_bvh_utils.c cut_in_two.c update_group.c) \
 		$(addprefix exit/, prints.c prints2.c error.c free.c free2.c) \
-		$(addprefix render/, render.c calculate_pixel.c shoot_ray.c shading.c checkerboard.c shoot_refrac_reflec.c whitted.c) \
+		$(addprefix render/, render.c calculate_pixel.c shoot_ray.c shading.c checkerboard.c shoot_refrac_reflec.c \
+			whitted.c) \
 		$(addprefix multithreading/, worker.c) \
 		$(addprefix mlx_hooks/, mlx.c events.c mouse.c) \
-		$(addprefix intersection_tests/, aabb_simd.c aabb_simd_fast.c bvh.c cylinder.c intersection_test_shadow.c intersection_test_visibility.c plane.c rectangle.c sphere.c triangle.c) \
+		$(addprefix intersection_tests/, aabb_simd.c aabb_simd_fast.c bvh.c cylinder.c intersection_test_shadow.c \
+			intersection_test_visibility.c plane.c rectangle.c sphere.c triangle.c) \
 		$(addprefix math/, math.c math_utils.c find_median.c dot_in_place_33.c dot_in_place_44.c rodrigues.c) \
 )
 
@@ -61,7 +65,7 @@ NC=\033[0m
 $(LIBMLX):
 	@if [ ! -d "$(MLX_DIRECTORY)" ]; then \
 			mkdir -p $(MLX_DIRECTORY); \
-			echo "Cloning MiniLibX repository..."; \
+			echo "$(YELLOW)Cloning MiniLibX repository...$(NC)"; \
 			git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIRECTORY); \
 	fi
 	@echo "$(YELLOW)Compiling MiniLibX...$(NC)"
