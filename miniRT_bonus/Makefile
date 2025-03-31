@@ -84,8 +84,9 @@ LIB_FLAGS += -lm
 CC := cc
 
 CFLAGS := -Wall -Wextra -Werror
-CFLAGS += -g
 CFLAGS += -Wuninitialized
+CFLAGS += -g
+CFLAGS += -pthread
 CFLAGS += -mavx
 CFLAGS += -Ofast
 CFLAGS += -mavx
