@@ -27,6 +27,10 @@ SOURCES := $(addprefix $(SOURCES_DIRECTORY)/,\
 
 OBJECTS := $(patsubst $(SOURCES_DIRECTORY)/%.c,$(OBJECTS_DIRECTORY)/%.o, $(SOURCES))
 
+TEST_SOURCES := test/test_main.c
+TEST_OBJECTS := $(patsubst %.c, $(OBJECTS_DIRECTORY)/%.o, $(TEST_SOURCES))
+TEST_EXEC := test_runner
+
 LIBFT_DIRECTORY := lib/libft
 LIBFT := $(LIBFT_DIRECTORY)/libft.a
 
@@ -82,6 +86,16 @@ $(OBJECTS_DIRECTORY)/%.o: $(SOURCES_DIRECTORY)/%.c $(HEADERS) | $(OBJECTS_DIRECT
 $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)
 
+$(TEST_EXEC): $(TEST_OBJECTS) $(OBJECTS) $(LIBFT) $(LIBMLX)
+	@$(CC) $(CFLAGS) $(TEST_OBJECTS) $(OBJECTS) $(LIB_FLAGS) -lcunit -o $(TEST_EXEC) -Wl,--gc-sections
+
+$(OBJECTS_DIRECTORY)/test/%.o: test/%.c $(HEADERS) | $(OBJECTS_DIRECTORY)/test
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJECTS_DIRECTORY)/test:
+	@mkdir -p $(OBJECTS_DIRECTORY)/test
+
 $(LIBFT):
 	@echo "$(YELLOW)Compiling Libft...$(NC)"
 	@make -C $(LIBFT_DIRECTORY) >/dev/null 2>&1;
@@ -91,10 +105,15 @@ clean:
 	@rm -rf $(OBJECTS_DIRECTORY)
 	@rm -rf $(MLX_DIRECTORY) clean >/dev/null 2>&1
 	@make -s -C $(LIBFT_DIRECTORY) fclean >/dev/null 2>&1
+	@rm -f $(TEST_EXEC)
 
 fclean: clean
 	@rm -f $(NAME)
 
 re: fclean all
+
+test: $(TEST_EXEC)
+	@echo "$(GREEN)Running tests...$(NC)"
+	@./$(TEST_EXEC)
 
 .PHONY: all clean fclean re
