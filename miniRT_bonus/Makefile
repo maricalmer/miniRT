@@ -1,14 +1,14 @@
 NAME := miniRT
 
+# headers
 HEADERS_DIRECTORY := include
-HEADERS := $(HEADERS_DIRECTORY)/minirt.h
-HEADERS += $(HEADERS_DIRECTORY)/data.h
-HEADERS += $(HEADERS_DIRECTORY)/functions.h
-HEADERS += $(HEADERS_DIRECTORY)/settings.h
+HEADERS := $(addprefix $(HEADERS_DIRECTORY)/, \
+		minirt.h data.h functions.h settings.h \
+)
 
+# source files
 SOURCES_DIRECTORY := src
 OBJECTS_DIRECTORY := build
-
 SOURCES := $(addprefix $(SOURCES_DIRECTORY)/,\
 		main.c \
 		$(addprefix parsing/, identifiers.c identifiers2.c parser.c factories.c factories2.c factories3.c factories4.c \
@@ -24,16 +24,21 @@ SOURCES := $(addprefix $(SOURCES_DIRECTORY)/,\
 			intersection_test_visibility.c plane.c rectangle.c sphere.c triangle.c) \
 		$(addprefix math/, math.c math_utils.c find_median.c dot_in_place_33.c dot_in_place_44.c rodrigues.c) \
 )
-
 OBJECTS := $(patsubst $(SOURCES_DIRECTORY)/%.c,$(OBJECTS_DIRECTORY)/%.o, $(SOURCES))
 
+# test framework
+CUNIT_DIRECTORY := lib/cunit
+CUNIT := $(CUNIT_DIRECTORY)/local/lib/libcunit.a
+LDFLAGS += -L$(CUNIT_DIRECTORY)/local/lib -lcunit
 TEST_SOURCES := test/test_main.c
 TEST_OBJECTS := $(patsubst %.c, $(OBJECTS_DIRECTORY)/%.o, $(TEST_SOURCES))
 TEST_EXEC := test_runner
 
+# libft
 LIBFT_DIRECTORY := lib/libft
 LIBFT := $(LIBFT_DIRECTORY)/libft.a
 
+# mlx
 MLX_DIRECTORY := lib/minilibx-linux
 LIBMLX := $(MLX_DIRECTORY)/libmlx.a
 
@@ -58,7 +63,7 @@ CFLAGS += -march=native
 CFLAGS += -ffunction-sections
 CFLAGS += -flto
 CFLAGS += -finline-functions
-CFLAGS += -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY)
+CFLAGS += -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) -I$(CUNIT_DIRECTORY)
 
 all: $(OBJECTS_DIRECTORY) $(LIBMLX) $(LIBFT) $(NAME)
 
@@ -68,13 +73,24 @@ NC=\033[0m
 
 $(LIBMLX):
 	@if [ ! -d "$(MLX_DIRECTORY)" ]; then \
-			mkdir -p $(MLX_DIRECTORY); \
-			echo "$(YELLOW)Cloning MiniLibX repository...$(NC)"; \
-			git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIRECTORY); \
+		mkdir -p $(MLX_DIRECTORY); \
+		echo "$(YELLOW)Cloning MiniLibX repository...$(NC)"; \
+		git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIRECTORY); \
 	fi
 	@echo "$(YELLOW)Compiling MiniLibX...$(NC)"
 	@make -s -C $(MLX_DIRECTORY) >/dev/null 2>&1;
 	@echo "$(GREEN)MiniLibX compiled$(NC)"
+
+$(CUNIT):
+	@if [ ! -d "$(CUNIT_DIRECTORY)" ]; then \
+		echo "$(YELLOW)CUnit not found! Downloading and building...$(NC)"; \
+		mkdir -p lib && cd lib && \
+		wget https://sourceforge.net/projects/cunit/files/CUnit/2.1-3/CUnit-2.1-3.tar.bz2 && \
+		tar -xvf CUnit-2.1-3.tar.bz2 && mv CUnit-2.1-3 cunit && rm CUnit-2.1-3.tar.bz2; \
+	fi
+	@echo "$(YELLOW)Building CUnit...$(NC)"
+	@cd $(CUNIT_DIRECTORY) && autoreconf -fi && ./configure --prefix=$(shell pwd)/$(CUNIT_DIRECTORY) && make && make install
+	@echo "$(GREEN)CUnit compiled and installed$(NC)"
 
 $(NAME): $(OBJECTS) $(LIBFT) $(LIBMLX)
 	@$(CC) $(CFLAGS) $(OBJECTS) $(LIB_FLAGS) -o $(NAME) -Wl,--gc-sections
@@ -87,7 +103,7 @@ $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)
 
 $(TEST_EXEC): $(TEST_OBJECTS) $(OBJECTS) $(LIBFT) $(LIBMLX)
-	@$(CC) $(CFLAGS) $(TEST_OBJECTS) $(OBJECTS) $(LIB_FLAGS) -lcunit -o $(TEST_EXEC) -Wl,--gc-sections
+	@$(CC) $(TEST_OBJECTS) $(OBJECTS) $(LIB_FLAGS) $(LDFLAGS) -o $(TEST_EXEC) -Wl,--gc-sections
 
 $(OBJECTS_DIRECTORY)/test/%.o: test/%.c $(HEADERS) | $(OBJECTS_DIRECTORY)/test
 	@mkdir -p $(dir $@)
@@ -105,6 +121,7 @@ clean:
 	@rm -rf $(OBJECTS_DIRECTORY)
 	@rm -rf $(MLX_DIRECTORY) clean >/dev/null 2>&1
 	@make -s -C $(LIBFT_DIRECTORY) fclean >/dev/null 2>&1
+	@rm -rf $(CUNIT_DIRECTORY) clean >/dev/null 2>&1
 	@rm -f $(TEST_EXEC)
 
 fclean: clean
@@ -112,7 +129,7 @@ fclean: clean
 
 re: fclean all
 
-test: $(TEST_EXEC)
+test: $(CUNIT) $(TEST_EXEC)
 	@echo "$(GREEN)Running tests...$(NC)"
 	@./$(TEST_EXEC)
 
