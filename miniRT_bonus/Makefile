@@ -28,9 +28,9 @@ OBJECTS := $(patsubst $(SOURCES_DIRECTORY)/%.c,$(OBJECTS_DIRECTORY)/%.o, $(SOURC
 
 # test framework
 CUNIT_DIRECTORY := lib/cunit
-CUNIT := $(CUNIT_DIRECTORY)/local/lib/libcunit.a
-LDFLAGS += -L$(CUNIT_DIRECTORY)/local/lib -lcunit
-TEST_SOURCES := test/test_main.c
+CUNIT := $(CUNIT_DIRECTORY)/lib/libcunit.a
+CUNIT_LIB += -L$(CUNIT_DIRECTORY)/lib -lcunit
+TEST_SOURCES := test/test_dot_in_place_33.c
 TEST_OBJECTS := $(patsubst %.c, $(OBJECTS_DIRECTORY)/%.o, $(TEST_SOURCES))
 TEST_EXEC := test_runner
 
@@ -61,9 +61,9 @@ CFLAGS += -Ofast
 CFLAGS += -mavx
 CFLAGS += -march=native
 CFLAGS += -ffunction-sections
-CFLAGS += -flto
+#CFLAGS += -flto
 CFLAGS += -finline-functions
-CFLAGS += -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) -I$(CUNIT_DIRECTORY)
+CFLAGS += -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) -I$(CUNIT_DIRECTORY)/include
 
 all: $(OBJECTS_DIRECTORY) $(LIBMLX) $(LIBFT) $(NAME)
 
@@ -102,12 +102,13 @@ $(OBJECTS_DIRECTORY)/%.o: $(SOURCES_DIRECTORY)/%.c $(HEADERS) | $(OBJECTS_DIRECT
 $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)
 
-$(TEST_EXEC): $(TEST_OBJECTS) $(OBJECTS) $(LIBFT) $(LIBMLX)
-	@$(CC) $(TEST_OBJECTS) $(OBJECTS) $(LIB_FLAGS) $(LDFLAGS) -o $(TEST_EXEC) -Wl,--gc-sections
+$(TEST_EXEC): $(TEST_OBJECTS) $(filter-out $(OBJECTS_DIRECTORY)/main.o, $(OBJECTS)) $(LIBFT) $(LIBMLX)
+	@$(CC) $(TEST_OBJECTS) $(filter-out $(OBJECTS_DIRECTORY)/main.o, $(OBJECTS)) $(LIB_FLAGS) $(CUNIT_LIB) -o $(TEST_EXEC) -Wl,--gc-sections
+
 
 $(OBJECTS_DIRECTORY)/test/%.o: test/%.c $(HEADERS) | $(OBJECTS_DIRECTORY)/test
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -Iinclude -c $< -o $@
 
 $(OBJECTS_DIRECTORY)/test:
 	@mkdir -p $(OBJECTS_DIRECTORY)/test

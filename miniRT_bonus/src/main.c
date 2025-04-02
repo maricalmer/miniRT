@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:42:51 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/25 18:12:20 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/04/02 21:22:48 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 static void	init_data(t_data *data);
+
 
 int	main(int ac, char **av)
 {
