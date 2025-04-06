@@ -29,7 +29,8 @@ jobs:
             autoconf \
             libx11-dev \
             libxext-dev \
-            git
+            git \
+            libbsd-dev
     
       - name: Clone and compile MiniLibX
         run: |
