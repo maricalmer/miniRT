@@ -28,8 +28,10 @@ jobs:
             wget \
             tar \
             autoconf \
+            libc6-dev \
             libx11-dev \
             libxext-dev \
+            libclang-dev \
             libpthread-stubs0-dev \
             git \
             libbsd-dev
