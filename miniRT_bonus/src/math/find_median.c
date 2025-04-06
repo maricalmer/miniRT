@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 22:39:15 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/22 21:26:44 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/03 22:57:31 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static float	quick_select(t_bvh *bvh, int bounds[2], int k,
 					int idx_axis[2]);
 static int		partition(t_bvh *bvh, int bounds[2], int idx_pivot,
 					int idx_axis[2]);
-void			ft_swap_custom(t_bvh *bvh, int idx_1, int idx_2, int node_idx);
+static void		ft_swap_custom(t_bvh *bvh, int idx_1, int idx_2, int node_idx);
 
 float	find_median_custom(t_bvh *bvh, int idx, int axis)
 {
@@ -93,7 +93,7 @@ static int	partition(t_bvh *bvh, int bounds[2], int idx_pivot,
 	return (idx_final);
 }
 
-void	ft_swap_custom(t_bvh *bvh, int idx_1, int idx_2, int node_idx)
+static void	ft_swap_custom(t_bvh *bvh, int idx_1, int idx_2, int node_idx)
 {
 	t_obj_geo	*tmp;
 	t_object	*object;

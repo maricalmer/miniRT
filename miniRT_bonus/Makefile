@@ -29,8 +29,15 @@ OBJECTS := $(patsubst $(SOURCES_DIRECTORY)/%.c,$(OBJECTS_DIRECTORY)/%.o, $(SOURC
 # test framework
 CUNIT_DIRECTORY := lib/cunit
 CUNIT := $(CUNIT_DIRECTORY)/lib/libcunit.a
-CUNIT_LIB += -L$(CUNIT_DIRECTORY)/lib -lcunit
-TEST_SOURCES := test/test_dot_in_place_33.c
+CUNIT_LIB := -L$(CUNIT_DIRECTORY)/lib -lcunit
+TEST_SOURCES := $(addprefix test/, \
+		test_rodrigues.c test_find_median.c test_math.c test_dot_in_place_33.c test_dot_in_place_44.c \
+		test_factories2.c test_factories.c test_checker.c test_runner.c \
+		test_cylinder.c test_plane.c test_rectangle.c test_sphere.c test_factories4.c test_factories3.c \
+		test_triangle.c \
+)
+
+TEST_HEADER := test/test.h
 TEST_OBJECTS := $(patsubst %.c, $(OBJECTS_DIRECTORY)/%.o, $(TEST_SOURCES))
 TEST_EXEC := test_runner
 
@@ -102,11 +109,10 @@ $(OBJECTS_DIRECTORY)/%.o: $(SOURCES_DIRECTORY)/%.c $(HEADERS) | $(OBJECTS_DIRECT
 $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)
 
-$(TEST_EXEC): $(TEST_OBJECTS) $(filter-out $(OBJECTS_DIRECTORY)/main.o, $(OBJECTS)) $(LIBFT) $(LIBMLX)
+$(TEST_EXEC): $(filter-out $(OBJECTS_DIRECTORY)/main.o, $(OBJECTS)) $(TEST_OBJECTS) $(LIBFT) $(LIBMLX)
 	@$(CC) $(TEST_OBJECTS) $(filter-out $(OBJECTS_DIRECTORY)/main.o, $(OBJECTS)) $(LIB_FLAGS) $(CUNIT_LIB) -o $(TEST_EXEC) -Wl,--gc-sections
 
-
-$(OBJECTS_DIRECTORY)/test/%.o: test/%.c $(HEADERS) | $(OBJECTS_DIRECTORY)/test
+$(OBJECTS_DIRECTORY)/test/%.o: test/%.c $(HEADERS) $(TEST_HEADER) | $(OBJECTS_DIRECTORY)/test
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -Iinclude -c $< -o $@
 
@@ -132,6 +138,6 @@ re: fclean all
 
 test: $(CUNIT) $(TEST_EXEC)
 	@echo "$(GREEN)Running tests...$(NC)"
-	@./$(TEST_EXEC)
+	@export LD_LIBRARY_PATH=lib/cunit/lib:$$LD_LIBRARY_PATH && ./$(TEST_EXEC)
 
 .PHONY: all clean fclean re
