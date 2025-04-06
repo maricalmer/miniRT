@@ -9,20 +9,44 @@ on:
       - main
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
-
+    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            libcunit1 \
+            make \
+            xorg-dev \
+            wget \
+            tar \
+            autoconf \
+            libx11-dev \
+            libxext-dev \
+            git
+    
+      - name: Clone and compile MiniLibX
+        run: |
+          if [ ! -d "lib/minilibx-linux" ]; then
+            git clone https://github.com/42Paris/minilibx-linux lib/minilibx-linux
+          fi
+          cd lib/minilibx-linux
+          make
+        
+      - name: Compile Libft
+        run: |
+          if [ ! -d "lib/libft" ]; then
+            git clone https://github.com/42Paris/libft lib/libft
+          fi
+          cd lib/libft
+          make
 
-    - name: Install build dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential libcunit1
-
-    - name: Build project
-      run: make
-
-    - name: Run tests
-      run: make test
+      - name: Run tests
+        run: |
+          make test
