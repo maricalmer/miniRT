@@ -20,6 +20,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y \
+            clang \
             build-essential \
             libcunit1 \
             make \
@@ -29,24 +30,20 @@ jobs:
             autoconf \
             libx11-dev \
             libxext-dev \
+            libpthread-stubs0-dev \
             git \
             libbsd-dev
+
+      - name: Set environment variables
+        run: |
+          echo "CC=clang" >> $GITHUB_ENV
+          echo "CXX=clang++" >> $GITHUB_ENV
+          echo "CFLAGS=-Wall -Wextra -Werror -Wuninitialized -g -pthread -mavx -Ofast -march=native -ffunction-sections -finline-functions -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) -I$(CUNIT_DIRECTORY)/include" >> $GITHUB_ENV
     
-      - name: Clone and compile MiniLibX
+      - name: Build project
         run: |
-          if [ ! -d "lib/minilibx-linux" ]; then
-            git clone https://github.com/42Paris/minilibx-linux lib/minilibx-linux
-          fi
-          cd lib/minilibx-linux
-          make
-        
-      - name: Compile Libft
-        run: |
-          if [ ! -d "lib/libft" ]; then
-            git clone https://github.com/42Paris/libft lib/libft
-          fi
-          cd lib/libft
-          make
+          make clean
+          make all
 
       - name: Run tests
         run: |
