@@ -41,6 +41,7 @@ jobs:
           echo "CC=clang" >> $GITHUB_ENV
           echo "CXX=clang++" >> $GITHUB_ENV
           echo "CFLAGS=-Wall -Wextra -Werror -Wuninitialized -g -pthread -mavx -Ofast -march=native -ffunction-sections -finline-functions -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) -I$(CUNIT_DIRECTORY)/include" >> $GITHUB_ENV
+          echo "LDFLAGS=-lc" >> $GITHUB_ENV
     
       - name: Build project
         run: |
