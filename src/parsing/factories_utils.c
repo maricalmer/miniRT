@@ -6,13 +6,12 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/07 11:54:19 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:23:20 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-__attribute__((optimize(0)))
 int	get_ratio(char **specs, float *ratio)
 {
 	if (!ft_isdigit(**specs))
@@ -26,7 +25,6 @@ int	get_ratio(char **specs, float *ratio)
 	return (EXIT_SUCCESS);
 }
 
-__attribute__((optimize(0)))
 int	get_rgb_norm(char **specs, float *color)
 {
 	int	i;
@@ -50,7 +48,6 @@ int	get_rgb_norm(char **specs, float *color)
 	}
 	return (EXIT_SUCCESS);
 }
-
 
 int	get_rgb(char **specs, unsigned char *color)
 {
@@ -91,7 +88,6 @@ int	get_obj_rgb(char **specs, int *color)
 	return (EXIT_SUCCESS);
 }
 
-__attribute__((optimize(0)))
 int	get_refr_idx(char **specs, float *ratio)
 {
 	char	*p;

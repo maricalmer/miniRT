@@ -49,4 +49,5 @@ jobs:
           make
       - name: Run tests
         run: |
+          make CFLAGS="$CFLAGS -Wno-stringop-overflow"
           make test
