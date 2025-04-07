@@ -33,7 +33,8 @@ jobs:
             libbsd-dev \
             automake \
             libtool \
-            pkg-config
+            pkg-config \
+            libc-dev
 
       - name: Clone and compile MiniLibX
         run: |
