@@ -54,4 +54,4 @@ jobs:
       - name: Build and run tests with flags
         run: |
           make fclean
-          make test CFLAGS="-Wno-stringop-overflow"
+          make test CFLAGS="-Werror -Iinclude"
