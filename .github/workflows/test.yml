@@ -47,8 +47,12 @@ jobs:
           fi
           cd lib/libft
           make
+    
+      - name: Debug MLX header
+        run: |
+          ls -l lib/minilibx-linux/mlx.h
       
       - name: Run tests
         run: |
           make fclean
-          make test
+          make test 
