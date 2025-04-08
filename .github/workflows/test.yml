@@ -51,4 +51,4 @@ jobs:
       - name: Run tests
         run: |
           make fclean
-          make test CFLAGS="-Werror -Iinclude"
+          make test CFLAGS="$CFLAGS -Werror -Iinclude"
