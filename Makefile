@@ -57,7 +57,7 @@ LIB_FLAGS += -lXext
 LIB_FLAGS += -lX11
 LIB_FLAGS += -lm
 
-CC := clang
+CC := cc
 
 CFLAGS := -Wall -Wextra -Werror
 CFLAGS += -Wuninitialized
