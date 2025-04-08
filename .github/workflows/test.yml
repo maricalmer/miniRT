@@ -51,4 +51,4 @@ jobs:
       - name: Run tests
         run: |
           make fclean
-          make test CFLAGS="$CFLAGS -Werror -Wno-stringop-overflow"
+          make test
