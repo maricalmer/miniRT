@@ -41,7 +41,7 @@ jobs:
             echo "MiniLibX already exists"
           fi
           ls -l lib/minilibx-linux
-          cd lib/minilibx-linux && make clean && make
+          cd lib/minilibx-linux && make
 
       - name: Compile Libft
         run: |
