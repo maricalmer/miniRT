@@ -13,31 +13,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
       - name: Install build dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y \
             build-essential \
-            libc6-dev \
-            libcunit1 \
-            make \
-            gcc \
-            gawk \
-            xorg-dev \
-            wget \
-            tar \
             autoconf \
-            libx11-dev \
-            libxext-dev \
-            git \
-            libbsd-dev \
             automake \
             libtool \
-            pkg-config \
-            libc-dev
+            gcc \
+            libc6-dev \
+            gawk
+
+      - name: Prepare and build CUnit
+        run: |
+          cd lib/cunit
+          autoreconf -fi
+          [ -f configure.in ] && mv configure.in configure.ac
+          autoupdate
+
+          ./configure CFLAGS="-O2" LDFLAGS="-lc" || (cat config.log && exit 1)
+          make -j$(nproc)
 
       - name: Clone and compile MiniLibX
         run: |
