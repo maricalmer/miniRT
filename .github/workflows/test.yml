@@ -21,8 +21,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y \
             build-essential \
+            libc6-dev \
             libcunit1 \
             make \
+            gcc \
+            gawk \
             xorg-dev \
             wget \
             tar \
