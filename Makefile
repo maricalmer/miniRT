@@ -103,8 +103,13 @@ $(CUNIT):
 $(NAME): $(OBJECTS) $(LIBFT) $(LIBMLX)
 	@$(CC) $(CFLAGS) $(OBJECTS) $(LIB_FLAGS) -o $(NAME) -Wl,--gc-sections
 
+#$(OBJECTS_DIRECTORY)/%.o: $(SOURCES_DIRECTORY)/%.c $(HEADERS) | $(OBJECTS_DIRECTORY)
+#	@mkdir -p $(dir $@)
+#	@$(CC) $(CFLAGS) -c $< -o $@
+
 $(OBJECTS_DIRECTORY)/%.o: $(SOURCES_DIRECTORY)/%.c $(HEADERS) | $(OBJECTS_DIRECTORY)
 	@mkdir -p $(dir $@)
+	@echo "[Compile] $(CC) $(CFLAGS) -c $< -o $@"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJECTS_DIRECTORY):
