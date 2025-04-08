@@ -21,15 +21,16 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y \
             build-essential \
+            libcunit1-dev \
+            gcc \
+            gawk \
             autoconf \
             automake \
             libtool \
-            libcunit1 \
-            libcunit1-doc \
-            libcunit1-dev \
-            gcc \
             libc6-dev \
-            gawk
+            libx11-dev \
+            libxext-dev \
+            libbsd-dev
 
       - name: Clone and compile MiniLibX
         run: |
