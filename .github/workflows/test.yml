@@ -32,14 +32,17 @@ jobs:
             git \
             libbsd-dev
     
-      - name: Clone and compile MiniLibX
+      - name: Clean MiniLibX and rebuild
         run: |
           if [ ! -d "lib/minilibx-linux" ]; then
+            echo "Cloning MiniLibX..."
             git clone https://github.com/42Paris/minilibx-linux lib/minilibx-linux
+          else
+            echo "MiniLibX already exists"
           fi
-          cd lib/minilibx-linux
-          make
-        
+          ls -l lib/minilibx-linux
+          cd lib/minilibx-linux && make clean && make
+
       - name: Compile Libft
         run: |
           if [ ! -d "lib/libft" ]; then
