@@ -108,8 +108,9 @@ $(NAME): $(OBJECTS) $(LIBFT) $(LIBMLX)
 #	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJECTS_DIRECTORY)/%.o: $(SOURCES_DIRECTORY)/%.c $(HEADERS) | $(OBJECTS_DIRECTORY)
-	@mkdir -p $(dir $@)
 	@echo "[Compile] $(CC) $(CFLAGS) -c $< -o $@"
+	@ls -l lib/minilibx-linux/mlx.h
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJECTS_DIRECTORY):

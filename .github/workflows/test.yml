@@ -47,10 +47,16 @@ jobs:
           fi
           cd lib/libft
           make
-    
-      - name: Debug MLX header
+
+      - name: Debug List MLX header location
         run: |
+          echo "Checking lib/minilibx-linux"
           ls -l lib/minilibx-linux/mlx.h
+          echo "Printing include paths..."
+          echo $CFLAGS
+
+      - name: Print mlx.h content
+        run: cat lib/minilibx-linux/mlx.h
       
       - name: Run tests
         run: |
