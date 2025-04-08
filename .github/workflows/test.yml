@@ -24,37 +24,12 @@ jobs:
             autoconf \
             automake \
             libtool \
+            libcunit1 \
+            libcunit1-doc \
+            libcunit1-dev \
             gcc \
             libc6-dev \
             gawk
-
-      - name: Download and build CUnit
-        run: |
-            CUNIT_DIR=lib/cunit
-            if [ ! -d "$CUNIT_DIR" ]; then
-            echo "CUnit not found! Downloading and building..."
-            mkdir -p lib && cd lib
-            wget https://sourceforge.net/projects/cunit/files/CUnit/2.1-3/CUnit-2.1-3.tar.bz2
-            tar -xvf CUnit-2.1-3.tar.bz2
-            mv CUnit-2.1-3 cunit
-            rm CUnit-2.1-3.tar.bz2
-            fi
-
-            echo "Building CUnit..."
-            cd $CUNIT_DIR
-            autoreconf -fi
-            ./configure --prefix="$(pwd)"
-            make -j$(nproc)
-            make install
-
-            echo "CUnit compiled and installed"
-                cd lib/cunit
-                autoreconf -fi
-                [ -f configure.in ] && mv configure.in configure.ac
-                autoupdate
-
-                ./configure CFLAGS="-O2" LDFLAGS="-lc" || (cat config.log && exit 1)
-                make -j$(nproc)
 
       - name: Clone and compile MiniLibX
         run: |
