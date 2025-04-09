@@ -70,7 +70,7 @@ CFLAGS += -Ofast
 CFLAGS += -mavx
 CFLAGS += -march=native
 CFLAGS += -ffunction-sections
-CFLAGS += -Wno-stringop-overflow
+#CFLAGS += -Wno-stringop-overflow
 #CFLAGS += -flto
 CFLAGS += -finline-functions
 CFLAGS += -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) -I$(CUNIT_DIRECTORY)/include
