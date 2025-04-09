@@ -79,15 +79,27 @@ YELLOW=\033[0;33m
 GREEN=\033[0;32m
 NC=\033[0m
 
-$(LIBMLX):
-	@if [ ! -d "$(MLX_DIRECTORY)" ]; then \
+#$(LIBMLX):
+#	@if [ ! -d "$(MLX_DIRECTORY)" ]; then \
 		mkdir -p $(MLX_DIRECTORY); \
 		echo "$(YELLOW)Cloning MiniLibX repository...$(NC)"; \
 		git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIRECTORY); \
 	fi
-	@echo "$(YELLOW)Compiling MiniLibX...$(NC)"
-	@make -s -C $(MLX_DIRECTORY) >/dev/null 2>&1;
-	@echo "$(GREEN)MiniLibX compiled$(NC)"
+#	@echo "$(YELLOW)Compiling MiniLibX...$(NC)"
+#	@make -s -C $(MLX_DIRECTORY) >/dev/null 2>&1;
+#	@echo "$(GREEN)MiniLibX compiled$(NC)"
+
+$(LIBMLX):
+    @if [ ! -d "$(MLX_DIRECTORY)" ]; then \
+        mkdir -p $(MLX_DIRECTORY); \
+        echo "$(YELLOW)Cloning MiniLibX repository...$(NC)"; \
+        git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIRECTORY); \
+    fi
+    @echo "$(YELLOW)Compiling MiniLibX...$(NC)"
+    @cd $(MLX_DIRECTORY) && make clean && make >/dev/null 2>&1
+    @echo "$(GREEN)MiniLibX compiled$(NC)"
+	@echo "Contents of $(MLX_DIRECTORY):"
+    @ls -l $(MLX_DIRECTORY)
 
 $(CUNIT):
 	@if [ ! -d "$(CUNIT_DIRECTORY)" ]; then \
@@ -109,6 +121,8 @@ $(NAME): $(OBJECTS) $(LIBFT) $(LIBMLX)
 
 $(OBJECTS_DIRECTORY)/%.o: $(SOURCES_DIRECTORY)/%.c $(HEADERS) | $(OBJECTS_DIRECTORY)
 	@echo "[Compile] $(CC) $(CFLAGS) -c $< -o $@"
+	@echo "Absolute path to mlx.h: $(PWD)/lib/minilibx-linux/mlx.h"
+	@echo "Include path for MiniLibX: $(PWD)/lib/minilibx-linux"
 	@ls -l lib/minilibx-linux/mlx.h
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
