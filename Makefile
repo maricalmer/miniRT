@@ -71,12 +71,11 @@ CFLAGS += -mavx
 CFLAGS += -march=native
 CFLAGS += -ffunction-sections
 CFLAGS += -finline-functions
+CFLAGS += -flto
 CFLAGS += -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) -I$(CUNIT_DIRECTORY)/include
 ifeq ($(GITHUB_ACTIONS),true)
 	CFLAGS += -Wno-stringop-overflow
 endif
-#CFLAGS += -Wno-stringop-overflow
-#CFLAGS += -flto
 
 all: $(OBJECTS_DIRECTORY) $(LIBMLX) $(LIBFT) $(NAME)
 
