@@ -105,8 +105,9 @@ $(CUNIT):
 $(NAME): $(OBJECTS) $(LIBFT) $(LIBMLX)
 	@$(CC) $(CFLAGS) $(OBJECTS) $(LIB_FLAGS) -o $(NAME) -Wl,--gc-sections
 
-$(OBJECTS_DIRECTORY)/%.o: $(SOURCES_DIRECTORY)/%.c $(HEADERS) | $(OBJECTS_DIRECTORY)
+$(OBJECTS_DIRECTORY)/%.o: $(SOURCES_DIRECTORY)/%.c $(HEADERS) $(LIBMLX) | $(OBJECTS_DIRECTORY)
 	@mkdir -p $(dir $@)
+	@echo "Compiling $< with include path: $(MLX_DIRECTORY)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJECTS_DIRECTORY):
