@@ -1,14 +1,16 @@
 NAME := miniRT
 
+ROOT_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+
 # headers
-HEADERS_DIRECTORY := include
+HEADERS_DIRECTORY := $(ROOT_DIR)/include
 HEADERS := $(addprefix $(HEADERS_DIRECTORY)/, \
 		minirt.h data.h functions.h settings.h \
 )
 
 # source files
-SOURCES_DIRECTORY := src
-OBJECTS_DIRECTORY := build
+SOURCES_DIRECTORY := $(ROOT_DIR)/src
+OBJECTS_DIRECTORY := $(ROOT_DIR)/build
 SOURCES := $(addprefix $(SOURCES_DIRECTORY)/,\
 		main.c \
 		$(addprefix parsing/, identifiers.c identifiers2.c parser.c factories.c factories2.c factories3.c factories4.c \
@@ -27,7 +29,7 @@ SOURCES := $(addprefix $(SOURCES_DIRECTORY)/,\
 OBJECTS := $(patsubst $(SOURCES_DIRECTORY)/%.c,$(OBJECTS_DIRECTORY)/%.o, $(SOURCES))
 
 # test framework
-CUNIT_DIRECTORY := lib/cunit
+CUNIT_DIRECTORY := $(ROOT_DIR)/lib/cunit
 CUNIT := $(CUNIT_DIRECTORY)/lib/libcunit.a
 CUNIT_LIB := -L$(CUNIT_DIRECTORY)/lib -lcunit
 TEST_SOURCES := $(addprefix test/, \
@@ -37,16 +39,16 @@ TEST_SOURCES := $(addprefix test/, \
 		test_triangle.c \
 )
 
-TEST_HEADER := test/test.h
+TEST_HEADER := $(ROOT_DIR)/test/test.h
 TEST_OBJECTS := $(patsubst %.c, $(OBJECTS_DIRECTORY)/%.o, $(TEST_SOURCES))
 TEST_EXEC := test_runner
 
 # libft
-LIBFT_DIRECTORY := lib/libft
+LIBFT_DIRECTORY := $(ROOT_DIR)/lib/libft
 LIBFT := $(LIBFT_DIRECTORY)/libft.a
 
 # mlx
-MLX_DIRECTORY := lib/minilibx-linux
+MLX_DIRECTORY := $(ROOT_DIR)/lib/minilibx-linux
 LIBMLX := $(MLX_DIRECTORY)/libmlx.a
 
 LIB_FLAGS := -L$(LIBFT_DIRECTORY)
@@ -79,16 +81,6 @@ YELLOW=\033[0;33m
 GREEN=\033[0;32m
 NC=\033[0m
 
-#$(LIBMLX):
-#	@if [ ! -d "$(MLX_DIRECTORY)" ]; then \
-		mkdir -p $(MLX_DIRECTORY); \
-		echo "$(YELLOW)Cloning MiniLibX repository...$(NC)"; \
-		git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIRECTORY); \
-	fi
-#	@echo "$(YELLOW)Compiling MiniLibX...$(NC)"
-#	@make -s -C $(MLX_DIRECTORY) >/dev/null 2>&1;
-#	@echo "$(GREEN)MiniLibX compiled$(NC)"
-
 $(LIBMLX):
 	@if [ ! -d "$(MLX_DIRECTORY)" ]; then \
 		mkdir -p $(MLX_DIRECTORY); \
@@ -96,34 +88,24 @@ $(LIBMLX):
 		git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIRECTORY); \
 	fi
 	@echo "$(YELLOW)Compiling MiniLibX...$(NC)"
-	@cd $(MLX_DIRECTORY) && make clean && make >/dev/null 2>&1
+	@make -s -C $(MLX_DIRECTORY) >/dev/null 2>&1;
 	@echo "$(GREEN)MiniLibX compiled$(NC)"
-	@echo "Contents of $(MLX_DIRECTORY):"
-	@ls -l $(MLX_DIRECTORY)
 
 $(CUNIT):
 	@if [ ! -d "$(CUNIT_DIRECTORY)" ]; then \
 		echo "$(YELLOW)CUnit not found! Downloading and building...$(NC)"; \
-		mkdir -p lib && cd lib && \
+		mkdir -p $(ROOT_DIR)/lib && cd $(ROOT_DIR)/lib && \
 		wget https://sourceforge.net/projects/cunit/files/CUnit/2.1-3/CUnit-2.1-3.tar.bz2 && \
 		tar -xvf CUnit-2.1-3.tar.bz2 && mv CUnit-2.1-3 cunit && rm CUnit-2.1-3.tar.bz2; \
 	fi
 	@echo "$(YELLOW)Building CUnit...$(NC)"
-	@cd $(CUNIT_DIRECTORY) && autoreconf -fi && ./configure --prefix=$(shell pwd)/$(CUNIT_DIRECTORY) && make && make install
+	@cd $(CUNIT_DIRECTORY) && autoreconf -fi && ./configure --prefix=$(CUNIT_DIRECTORY) && make && make install
 	@echo "$(GREEN)CUnit compiled and installed$(NC)"
 
 $(NAME): $(OBJECTS) $(LIBFT) $(LIBMLX)
 	@$(CC) $(CFLAGS) $(OBJECTS) $(LIB_FLAGS) -o $(NAME) -Wl,--gc-sections
 
-#$(OBJECTS_DIRECTORY)/%.o: $(SOURCES_DIRECTORY)/%.c $(HEADERS) | $(OBJECTS_DIRECTORY)
-#	@mkdir -p $(dir $@)
-#	@$(CC) $(CFLAGS) -c $< -o $@
-
 $(OBJECTS_DIRECTORY)/%.o: $(SOURCES_DIRECTORY)/%.c $(HEADERS) | $(OBJECTS_DIRECTORY)
-	@echo "[Compile] $(CC) $(CFLAGS) -c $< -o $@"
-	@echo "Absolute path to mlx.h: $(PWD)/lib/minilibx-linux/mlx.h"
-	@echo "Include path for MiniLibX: $(PWD)/lib/minilibx-linux"
-	@ls -l lib/minilibx-linux/mlx.h
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
@@ -135,7 +117,7 @@ $(TEST_EXEC): $(filter-out $(OBJECTS_DIRECTORY)/main.o, $(OBJECTS)) $(TEST_OBJEC
 
 $(OBJECTS_DIRECTORY)/test/%.o: test/%.c $(HEADERS) $(TEST_HEADER) | $(OBJECTS_DIRECTORY)/test
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -Iinclude -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJECTS_DIRECTORY)/test:
 	@mkdir -p $(OBJECTS_DIRECTORY)/test
@@ -159,6 +141,6 @@ re: fclean all
 
 test: $(CUNIT) $(TEST_EXEC)
 	@echo "$(GREEN)Running tests...$(NC)"
-	@export LD_LIBRARY_PATH=lib/cunit/lib:$$LD_LIBRARY_PATH && ./$(TEST_EXEC)
+	@export LD_LIBRARY_PATH=$(CUNIT_DIRECTORY)/lib:$$LD_LIBRARY_PATH && ./$(TEST_EXEC)
 
 .PHONY: all clean fclean re
