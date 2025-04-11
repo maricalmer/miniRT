@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 21:01:29 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/06 19:36:58 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/11 15:27:49 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	main(void)
 {
+	int	failed;
+
 	if (CU_initialize_registry() != CUE_SUCCESS)
 		return (CU_get_error());
 	if (add_dot_in_place_33_tests() != CUE_SUCCESS
@@ -37,6 +39,9 @@ int	main(void)
 	}
 	CU_basic_set_mode(CU_BRM_VERBOSE);
 	CU_basic_run_tests();
+	failed = CU_get_number_of_failures();
 	CU_cleanup_registry();
-	return (0);
+	if (failed > 0)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

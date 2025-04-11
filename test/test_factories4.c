@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 23:08:40 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/06 18:52:00 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/11 15:35:21 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ void	test_create_light_success(void)
 	int result = create_light(&data, specs);
 	CU_ASSERT_EQUAL(result, EXIT_SUCCESS);
 	CU_ASSERT_TRUE(assert_float_equal(data.lights[0].origin[0], 0.0f, EPSILON_TEST));
+	printf("\n----> data.lights[0].brightness: %f\n", data.lights[0].brightness);
 	CU_ASSERT_TRUE(assert_float_equal(data.lights[0].brightness, 0.6f, EPSILON_TEST));
+	printf("\n----> data.lights[0].rgb[0]: %f\n", data.lights[0].rgb[0]);
 	CU_ASSERT_TRUE(assert_float_equal(data.lights[0].rgb[0], 1.0f, EPSILON_TEST));
 	free(data.lights);
 }
