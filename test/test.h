@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:45:24 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/06 19:40:37 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/11 15:53:24 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <CUnit/Basic.h>
 # include <CUnit/CUnit.h>
+# include <locale.h>
 # include "minirt.h"
 # include "data.h"
 # include "functions.h"

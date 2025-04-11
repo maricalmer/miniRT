@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 21:01:29 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/11 15:27:49 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/11 15:52:44 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	main(void)
 {
 	int	failed;
 
+	setlocale(LC_NUMERIC, "C");
 	if (CU_initialize_registry() != CUE_SUCCESS)
 		return (CU_get_error());
 	if (add_dot_in_place_33_tests() != CUE_SUCCESS
