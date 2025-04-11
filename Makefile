@@ -61,18 +61,20 @@ LIB_FLAGS += -lm
 
 CC := cc
 
-CFLAGS := -Wall -Wextra -Werror
-CFLAGS += -Wuninitialized
-CFLAGS += -g
-CFLAGS += -pthread
-CFLAGS += -mavx
-CFLAGS += -Ofast
-CFLAGS += -mavx
-CFLAGS += -march=native
-CFLAGS += -ffunction-sections
-CFLAGS += -finline-functions
-CFLAGS += -flto
-CFLAGS += -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) -I$(CUNIT_DIRECTORY)/include
+BASE_CFLAGS := -Wall -Wextra -Werror
+BASE_CFLAGS += -Wuninitialized
+BASE_CFLAGS += -g
+BASE_CFLAGS += -pthread
+BASE_CFLAGS += -mavx
+BASE_CFLAGS += -Ofast
+BASE_CFLAGS += -mavx
+BASE_CFLAGS += -march=native
+BASE_CFLAGS += -ffunction-sections
+BASE_CFLAGS += -finline-functions
+BASE_CFLAGS += -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) -I$(CUNIT_DIRECTORY)/include
+CFLAGS := $(BASE_CFLAGS)
+OPT_CFLAGS := $(BASE_CFLAGS) -flto
+
 ifeq ($(GITHUB_ACTIONS),true)
 	CFLAGS += -Wno-stringop-overflow
 endif
@@ -105,7 +107,7 @@ $(CUNIT):
 	@echo "$(GREEN)CUnit compiled and installed$(NC)"
 
 $(NAME): $(OBJECTS) $(LIBFT) $(LIBMLX)
-	@$(CC) $(CFLAGS) $(OBJECTS) $(LIB_FLAGS) -o $(NAME) -Wl,--gc-sections
+	@$(CC) $(OPT_CFLAGS) $(OBJECTS) $(LIB_FLAGS) -o $(NAME) -Wl,--gc-sections
 
 $(OBJECTS_DIRECTORY)/%.o: $(SOURCES_DIRECTORY)/%.c $(HEADERS) $(LIBMLX) | $(OBJECTS_DIRECTORY)
 	@mkdir -p $(dir $@)
