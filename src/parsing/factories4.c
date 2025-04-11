@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:08:59 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/11 16:43:27 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:52:23 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int	create_light(t_data *data, char *specs)
 	if (get_rgb_norm(&specs, light.rgb) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	data->lights[i++] = light;
-	printf("\ndata->lights[0].brightness from factory: %.6f\n", data->lights[0].brightness);
-	printf("\ndata->lights[0].rgb[0] from factory: %.6f\n", data->lights[0].rgb[0]);
 	return (EXIT_SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/11 16:29:11 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:52:07 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,15 @@ int	get_ratio(char **specs, float *ratio)
 		return (EXIT_FAILURE);
 	*ratio = ft_strtof(*specs, specs);
 	if (errno == ERANGE || (*ratio < 0.0 || *ratio > 1.0))
+	{
+		printf("\n----> first failure get_ratio\n");
 		return (EXIT_FAILURE);
+	}
 	if (**specs != ' ')
+	{
+		printf("\n----> second failure get_ratio\n");
 		return (EXIT_FAILURE);
+	}
 	(*specs)++;
 	return (EXIT_SUCCESS);
 }
@@ -36,13 +42,22 @@ int	get_rgb_norm(char **specs, float *color)
 			return (EXIT_FAILURE);
 		color[i] = ft_strtof(*specs, specs) / 255.0f;
 		if (errno == ERANGE || (color[i] < 0.0 || color[i] > 1.0))
+		{
+			printf("\n----> first failure get_rgb_norm\n");
 			return (EXIT_FAILURE);
+		}
 		while (!ft_isdigit(**specs) && **specs != '\0')
 		{
 			if (i < 2 && **specs != ',')
+			{
+				printf("\n----> second failure get_rgb_norm\n");
 				return (EXIT_FAILURE);
+			}
 			if (i > 2 && **specs != ' ')
+			{
+				printf("\n----> third failure get_rgb_norm\n");
 				return (EXIT_FAILURE);
+			}
 			(*specs)++;
 		}
 	}
