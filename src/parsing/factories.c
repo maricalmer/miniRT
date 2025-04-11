@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   factories.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 09:55:14 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/26 13:38:36 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:28:15 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	create_ambient_light(t_data *data, char *specs)
 	if (get_rgb_norm(&specs, ambient.rgb) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	data->ambient = ambient;
+	printf("\ndata->ambient.brightness from factory: %f\n", data->ambient.brightness);
+	printf("\ndata->ambient.rgb[0] from factory: %f\n", data->ambient.rgb[0]);
 	return (EXIT_SUCCESS);
 }
 
