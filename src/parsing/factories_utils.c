@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/11 17:09:43 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:18:52 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ int	get_rgb_norm(char **specs, float *color)
 	{
 		if (!ft_isdigit(**specs))
 			return (EXIT_FAILURE);
-		color[i] = strtof(*specs, specs) / 255.0f;
-		//color[i] = ft_strtof(*specs, specs) / 255.0f;
+		color[i] = ft_strtof(*specs, specs) / 255.0f;
 		//printf("\ncolor[i]: %.6f\n", color[i]);
-		if (errno == ERANGE || (color[i] < 0.0 || color[i] > 1.0))
+		//if (errno == ERANGE || (color[i] < 0.0 || color[i] > 1.0))
+		if (errno == ERANGE || color[i] < -1e-5f || color[i] > 1.0f + 1e-5f)
 		{
 			printf("\n----> first failure get_rgb_norm\n");
 			return (EXIT_FAILURE);
