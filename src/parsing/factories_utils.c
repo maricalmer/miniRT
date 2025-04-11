@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/07 15:23:20 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:00:09 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	get_ratio(char **specs, float *ratio)
 	if (!ft_isdigit(**specs))
 		return (EXIT_FAILURE);
 	*ratio = ft_strtof(*specs, specs);
+	printf("\n----> *ratio: %f\n", *ratio);
 	if (errno == ERANGE || (*ratio < 0.0 || *ratio > 1.0))
 		return (EXIT_FAILURE);
 	if (**specs != ' ')
