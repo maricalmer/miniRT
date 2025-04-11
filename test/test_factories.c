@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 21:23:54 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/11 15:33:47 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:35:32 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ void	test_create_ambient_light_success(void)
 	int result = create_ambient_light(&data, specs);
 
 	CU_ASSERT_EQUAL(result, EXIT_SUCCESS);
-	printf("\n----> data.ambient.brightness: %f\n", data.ambient.brightness);
-	printf("\n----> data.ambient.rgb[0]: %f\n", data.ambient.rgb[0]);
 	CU_ASSERT_TRUE(assert_float_equal(data.ambient.brightness, 0.2f, EPSILON_TEST));
 	CU_ASSERT_TRUE(assert_float_equal(data.ambient.rgb[0], 1.0f, EPSILON_TEST));
 }
