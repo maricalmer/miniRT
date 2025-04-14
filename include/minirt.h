@@ -31,6 +31,6 @@
 
 # include "settings.h"
 # include "data.h"
-# include "functions.h"
+# include "prototypes.h"
 
 #endif

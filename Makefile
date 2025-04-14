@@ -5,7 +5,7 @@ ROOT_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 # headers
 HEADERS_DIRECTORY := $(ROOT_DIR)/include
 HEADERS := $(addprefix $(HEADERS_DIRECTORY)/, \
-		minirt.h data.h functions.h settings.h \
+		minirt.h data.h prototypes.h settings.h \
 )
 
 # source files
