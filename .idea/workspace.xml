@@ -50,13 +50,13 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "refacto",
-    "last_opened_file_path": "/Users/maricalmer/code/maricalmer/42core/miniRT_ci",
+    "last_opened_file_path": "/Users/maricalmer/code/maricalmer/42core/miniRT_phase2",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "preferences.keymap",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -82,7 +82,6 @@
       <option name="presentableId" value="Default" />
       <updated>1743431090112</updated>
       <workItem from="1743431091196" duration="8575000" />
-      <workItem from="1744635251848" duration="727000" />
     </task>
     <servers />
   </component>
