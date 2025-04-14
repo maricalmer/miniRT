@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:45:24 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/11 17:34:32 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:23:32 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <locale.h>
 # include "minirt.h"
 # include "data.h"
-# include "functions.h"
+# include "prototypes.h"
 # include "settings.h"
 
 # define EPSILON_TEST 1e-6
