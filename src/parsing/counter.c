@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:40 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/15 17:10:37 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:25:04 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	count_rt_elems(char *specs, t_data *data, int *n_cam, int *n_ambient)
 	else
 	{
 		free(specs);
-		return (print_error(5), EXIT_FAILURE);
+		return (print_error(4), EXIT_FAILURE);
 	}
 	if (specs != NULL)
 		free(specs);

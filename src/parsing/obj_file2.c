@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   obj_file2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 11:25:31 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 13:54:29 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:26:50 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	process_obj_line(char *specs, t_data *data, t_obj_parser *parser)
 	else if (specs[0] == 's')
 		return (EXIT_SUCCESS);
 	else
-		return (print_error(5), EXIT_FAILURE);
+		return (print_error(4), EXIT_FAILURE);
 }
 
 static int	handle_vertex_line(char *specs, t_obj_parser *parser)

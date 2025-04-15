@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:38:13 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/15 17:17:16 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:24:38 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	handle_parsing(char **av, t_data *data)
 	if (read_rt(data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (!data->n_light)
-		return (print_error(4), EXIT_FAILURE);
+		return (print_error(3), EXIT_FAILURE);
 	if (data->n_obj_files)
 	{
 		if (parse_obj_files(data, av[1]) == EXIT_FAILURE)

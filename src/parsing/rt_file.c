@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:39:09 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/15 17:15:18 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:28:24 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	create_elements_rt(t_data *data, char *filename)
 		return (EXIT_FAILURE);
 	}
 	if (!data->n_light)
-		return (print_error(4), EXIT_FAILURE);
+		return (print_error(3), EXIT_FAILURE);
 	close(data->rt_fd);
 	return (EXIT_SUCCESS);
 }
@@ -83,20 +83,20 @@ static int	handle_light_creation(t_data *data, char *specs)
 	if (specs[0] == 'L')
 	{
 		if (create_light(data, &specs[2]) == EXIT_FAILURE)
-			return (print_error(8), EXIT_FAILURE);
+			return (print_error(7), EXIT_FAILURE);
 	}
 	else if (specs[0] == 'A')
 	{
 		if (create_ambient_light(data, &specs[2]) == EXIT_FAILURE)
-			return (print_error(6), EXIT_FAILURE);
+			return (print_error(5), EXIT_FAILURE);
 	}
 	else if (specs[0] == 'C')
 	{
 		if (create_cam(data, &specs[2]) == EXIT_FAILURE)
-			return (print_error(7), EXIT_FAILURE);
+			return (print_error(6), EXIT_FAILURE);
 	}
 	else
-		return (print_error(5), EXIT_FAILURE);
+		return (print_error(4), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
@@ -105,17 +105,17 @@ static int	handle_object_creation(t_data *data, char *specs)
 	if (specs[0] == 'p')
 	{
 		if (create_plane(data, &specs[3]) == EXIT_FAILURE)
-			return (print_error(10), EXIT_FAILURE);
+			return (print_error(9), EXIT_FAILURE);
 	}
 	else if (specs[0] == 's')
 	{
 		if (create_sphere(data, &specs[3]) == EXIT_FAILURE)
-			return (print_error(9), EXIT_FAILURE);
+			return (print_error(8), EXIT_FAILURE);
 	}
 	else if (specs[0] == 'c')
 	{
 		if (create_cylinder(data, &specs[3]) == EXIT_FAILURE)
-			return (print_error(11), EXIT_FAILURE);
+			return (print_error(10), EXIT_FAILURE);
 	}
 	else if (specs[0] == 'r')
 	{
@@ -123,7 +123,7 @@ static int	handle_object_creation(t_data *data, char *specs)
 			return (print_error(11), EXIT_FAILURE);
 	}
 	else
-		return (print_error(5), EXIT_FAILURE);
+		return (print_error(4), EXIT_FAILURE);
 	data->objects_idx++;
 	return (EXIT_SUCCESS);
 }

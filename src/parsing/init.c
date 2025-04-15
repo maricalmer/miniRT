@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:39 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/15 17:18:32 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:24:32 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,6 @@ int	increase_if_uniq(int *value)
 	if (!*value)
 		(*value)++;
 	else
-		return (print_error(4), EXIT_FAILURE);
+		return (print_error(3), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
