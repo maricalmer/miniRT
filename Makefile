@@ -17,7 +17,8 @@ SOURCES := $(addprefix $(SOURCES_DIRECTORY)/,\
 			factories_utils.c factories_utils2.c factories_utils3.c checker.c init.c obj_file.c obj_file2.c rt_file.c \
 			counter.c) \
 		$(addprefix bvh/, bvh_bbox.c bvh_geodata.c create_bvh.c create_bvh_utils.c cut_in_two.c update_group.c) \
-		$(addprefix exit/, prints.c prints2.c error.c free.c free2.c) \
+		$(addprefix exit/, error.c free.c free2.c) \
+		$(addprefix logs/, prints.c prints2.c) \
 		$(addprefix render/, render.c calculate_pixel.c shoot_ray.c shading.c checkerboard.c shoot_refrac_reflec.c \
 			whitted.c) \
 		$(addprefix multithreading/, worker.c) \

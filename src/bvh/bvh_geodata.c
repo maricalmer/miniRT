@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 20:57:31 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/15 17:17:56 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:53:14 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ t_obj_geo	*create_obj_geo_data(t_bvh *bvh)
 		handle_memory_failure(__func__);
 	bvh->obj_geo[0] = malloc(sizeof(t_obj_geo *) * bvh->group_size[0]);
 	if (!bvh->obj_geo[0])
+	{
+		free(geo_data);
 		handle_memory_failure(__func__);
+	}
 	i = -1;
 	while (++i < bvh->group_size[0])
 	{

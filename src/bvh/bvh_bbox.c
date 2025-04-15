@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bvh_bbox.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 20:52:57 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/19 20:57:16 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:51:06 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static t_bbox	get_bbox_node(t_bvh *bvh, int idx, t_cut_in_two *cut, int side);
 static t_bbox	get_bbox_elem(t_bvh *bvh, int idx);
-static void		save_bbox_min(t_bvh *bvh, t_bbox bbox_node,
-					t_bbox bbox_elem, int idx);
+static void		save_bbox_min(t_bvh *bvh, t_bbox bbox_node, t_bbox bbox_elem,
+					int idx);
 
 void	get_bboxes(t_bvh *bvh, int idx, t_cut_in_two *cut)
 {
