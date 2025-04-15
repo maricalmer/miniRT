@@ -6,19 +6,19 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/15 17:18:42 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/15 20:09:32 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static int	get_obj_filenames(t_obj_parser *parsers, t_data *data,
+static void	get_obj_filenames(t_obj_parser *parsers, t_data *data,
 				char *filename);
-static int	process_obj_file(t_obj_parser *parsers, char *specs);
+static void	process_obj_file(t_obj_parser *parsers, char *specs);
 static int	create_elements_obj(t_data *data, t_obj_parser *parser);
 int			read_obj_file(t_data *data, t_obj_parser *parser);
 
-int	parse_obj_files(t_data *data, char *filename)
+void	parse_obj_files(t_data *data, char *filename)
 {
 	int				i;
 	t_obj_parser	*parsers;
@@ -26,28 +26,26 @@ int	parse_obj_files(t_data *data, char *filename)
 	parsers = ft_calloc(data->n_obj_files, sizeof(t_obj_parser));
 	if (!parsers)
 		handle_memory_failure(__func__);
-	if (get_obj_filenames(parsers, data, filename) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+	get_obj_filenames(parsers, data, filename);
 	i = -1;
 	while (++i < data->n_obj_files)
 	{
-		if (read_obj(data, &parsers[i]) == EXIT_FAILURE 
-			|| init_obj_lists(&parsers[i]) == EXIT_FAILURE)
-			return (free_obj_parse_1(parsers, data->n_obj_files), EXIT_FAILURE);
+		read_obj(data, &parsers[i]);
+		if (init_obj_lists(&parsers[i]) == EXIT_FAILURE)
+			free_obj_parse_1_and_exit(parsers, data->n_obj_files);
 	}
-	if (init_rt_lists(data) == EXIT_FAILURE)
-		return (free_obj_parse_2(parsers, data->n_obj_files), EXIT_FAILURE);
+	init_rt_lists(data, parsers);
 	i = -1;
 	while (++i < data->n_obj_files)
 	{
 		if (create_elements_obj(data, &parsers[i]) == EXIT_FAILURE)
-			return (free_obj_parse_2(parsers, data->n_obj_files), EXIT_FAILURE);
+			free_obj_parse_2_and_exit(parsers, data->n_obj_files);
 	}
 	print_tri_count(parsers[0].n_f);
-	return (free_obj_parse_2(parsers, data->n_obj_files), EXIT_SUCCESS);
+	free_obj_parse_2(parsers, data->n_obj_files);
 }
 
-static int	get_obj_filenames(t_obj_parser *parsers, t_data *data,
+static void	get_obj_filenames(t_obj_parser *parsers, t_data *data,
 	char *filename)
 {
 	char	*line;
@@ -72,16 +70,12 @@ static int	get_obj_filenames(t_obj_parser *parsers, t_data *data,
 		}
 		specs = format_string(line, ft_strlen(line));
 		if (is_object_file(specs))
-		{
-			if (process_obj_file(parsers, specs) == EXIT_FAILURE)
-				return (EXIT_FAILURE);
-		}
+			process_obj_file(parsers, specs);
 		free(specs);
 	}
-	return (EXIT_SUCCESS);
 }
 
-static int	process_obj_file(t_obj_parser *parsers, char *specs)
+static void	process_obj_file(t_obj_parser *parsers, char *specs)
 {
 	static int	i;
 
@@ -91,10 +85,13 @@ static int	process_obj_file(t_obj_parser *parsers, char *specs)
 	if (sscanf(specs, "o %s", parsers[i].filename) == 1)
 	{
 		if (set_tri(&parsers[i], specs) == EXIT_FAILURE)
-			return (print_error(13), EXIT_FAILURE);
+		{
+			free(specs);
+			print_error(13);
+			exit(EXIT_FAILURE);
+		}
 	}
 	i++;
-	return (EXIT_SUCCESS);
 }
 
 static int	create_elements_obj(t_data *data, t_obj_parser *parser)

@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:33:11 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 13:38:18 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:50:46 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	free_data(t_data *data)
 	pthread_mutex_destroy(&data->joblist_mutex);
 }
 
-void	free_obj_parse_1(t_obj_parser *parsers, int n_files)
+void	free_obj_parse_1_and_exit(t_obj_parser *parsers, int n_files)
 {
 	int	i;
 
@@ -67,4 +67,5 @@ void	free_obj_parse_1(t_obj_parser *parsers, int n_files)
 	while (++i < n_files)
 		free(parsers[i].filename);
 	free(parsers);
+	exit(EXIT_FAILURE);
 }

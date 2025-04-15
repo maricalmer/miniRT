@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:40 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/15 17:25:04 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/15 23:31:33 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,31 @@
 
 static int	count_tri_data(char *line, t_obj_parser *parser);
 
-int	count_rt_elems(char *specs, t_data *data, int *n_cam, int *n_ambient)
+void	count_rt_elems(char *specs, t_data *data, int *n_cam, int *n_ambient)
 {
 	if (is_object_file(specs))
 		data->n_obj_files++;
 	else if (is_light(specs))
 		data->n_light++;
 	else if (is_cam(specs))
-	{
-		if (increase_if_uniq(n_cam) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-	}
+		increase_if_uniq(n_cam, specs, data);
 	else if (is_ambient(specs))
-	{
-		if (increase_if_uniq(n_ambient) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-	}
+		increase_if_uniq(n_ambient, specs, data);
 	else if (is_plane(specs) || is_sphere(specs) || is_cylinder(specs)
 		|| is_rectangle(specs))
 		data->n_obj++;
 	else
 	{
 		free(specs);
-		return (print_error(4), EXIT_FAILURE);
+		print_error(3);
+		close(data->rt_fd);
+		exit(EXIT_FAILURE);
 	}
 	if (specs != NULL)
 		free(specs);
-	return (EXIT_SUCCESS);
 }
 
-int	read_obj(t_data *data, t_obj_parser *parser)
+void	read_obj(t_data *data, t_obj_parser *parser)
 {
 	int		fd;
 	char	*line;
@@ -65,7 +60,6 @@ int	read_obj(t_data *data, t_obj_parser *parser)
 		count_tri_data(line, parser);
 	}
 	data->n_obj += parser->n_f;
-	return (EXIT_SUCCESS);
 }
 
 static int	count_tri_data(char *line, t_obj_parser *parser)

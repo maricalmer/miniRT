@@ -6,34 +6,32 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:39:09 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/15 17:28:24 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/15 23:42:00 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static int	read_rt_file(t_data *data);
-static int	process_rt_line(t_data *data, char *specs);
+static void	read_rt_file(t_data *data);
+static void	process_rt_line(t_data *data, char *specs);
 static int	handle_light_creation(t_data *data, char *specs);
 static int	handle_object_creation(t_data *data, char *specs);
 
-int	create_elements_rt(t_data *data, char *filename)
+void	create_elements_rt(t_data *data, char *filename)
 {
 	data->rt_fd = open(filename, O_RDONLY);
 	if (data->rt_fd < 0)
 		handle_file_error(__func__, filename);
-	if (read_rt_file(data) == EXIT_FAILURE)
-	{
-		close(data->rt_fd);
-		return (EXIT_FAILURE);
-	}
+	read_rt_file(data);
 	if (!data->n_light)
-		return (print_error(3), EXIT_FAILURE);
+	{
+		print_error(3);
+		exit(EXIT_FAILURE);
+	}
 	close(data->rt_fd);
-	return (EXIT_SUCCESS);
 }
 
-static int	read_rt_file(t_data *data)
+static void	read_rt_file(t_data *data)
 {
 	char	*line;
 	char	*specs;
@@ -53,29 +51,26 @@ static int	read_rt_file(t_data *data)
 		specs = format_string(line, len);
 		if (!specs)
 			continue ;
-		if (process_rt_line(data, specs) == EXIT_FAILURE)
-			return (free(specs), EXIT_FAILURE);
+		process_rt_line(data, specs);
 		free(specs);
 	}
-	return (EXIT_SUCCESS);
 }
 
-static int	process_rt_line(t_data *data, char *specs)
+static void	process_rt_line(t_data *data, char *specs)
 {
 	if (specs[0] == 'o')
-		return (EXIT_SUCCESS);
+		return ;
 	if (specs[0] == 'p' || specs[0] == 's' || specs[0] == 'c'
 		|| specs[0] == 'r')
 	{
 		if (handle_object_creation(data, specs) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
+			free_post_creation_and_exit(data, specs);
 	}
 	else
 	{
 		if (handle_light_creation(data, specs) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
+			free_post_creation_and_exit(data, specs);
 	}
-	return (EXIT_SUCCESS);
 }
 
 static int	handle_light_creation(t_data *data, char *specs)

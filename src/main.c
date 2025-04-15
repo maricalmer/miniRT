@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:42:51 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/11 14:31:13 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/15 18:53:40 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,8 @@ int	main(int ac, char **av)
 	_MM_SET_DENORMALS_ZERO_MODE(_MM_DENORMALS_ZERO_ON);
 	print_intro();
 	init_data(&data);
-	if (check_input(ac, av, &data) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (handle_parsing(av, &data) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+	check_input(ac, av, &data);
+	handle_parsing(av, &data);
 	data.cam.mode = 0;
 	launch_pool(&data);
 	if (init_mlx(&data.mlx) == EXIT_FAILURE)

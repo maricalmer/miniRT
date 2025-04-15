@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 09:49:05 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/07 11:54:28 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/16 00:12:15 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int	get_vec_norm(char **specs, float *value)
 		value[i] = ft_strtof(*specs, specs);
 		if (errno == ERANGE || (value[i] < -1.0 || value[i] > 1.0))
 			return (EXIT_FAILURE);
-		while (!ft_isdigit(**specs) && **specs != '\0' && **specs != '-')
+		while ((ft_iswhitespace(**specs) || **specs == ',') && **specs != '\0'
+			&& **specs != '-')
 		{
 			if (i < 2 && **specs != ',')
 				return (EXIT_FAILURE);
