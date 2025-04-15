@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prototypes.h                                        :+:      :+:    :+:   */
+/*   prototypes.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:49:20 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/02 21:19:52 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:08:48 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int			get_length(char **specs, float *length);
 int			get_pos_float(char **specs, float *size);
 /*error.c*/
 void		print_error(int errnum);
+void		handle_memory_failure(const char *function);
+void		handle_file_error(const char *function, const char *filename);
 /*free.c*/
 void		free_bvh_1(t_bvh *bvh);
 void		free_bvh_2(t_bvh *bvh);

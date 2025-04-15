@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:39 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/24 16:15:29 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:18:32 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,13 @@ int	init_rt_lists(t_data *data)
 {
 	data->objects = malloc(sizeof(t_object) * data->n_obj);
 	if (!data->objects)
-		return (print_error(3), EXIT_FAILURE);
+		handle_memory_failure(__func__);
 	data->lights = malloc(sizeof(t_light) * data->n_light);
 	if (!data->lights)
-		return (free(data->objects), print_error(3), EXIT_FAILURE);
+	{
+		free(data->objects);
+		handle_memory_failure(__func__);
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -38,7 +41,7 @@ static int	alloc_float_array(float (**array)[3], int count)
 {
 	*array = malloc(sizeof(float [3]) * count);
 	if (!*array)
-		return (print_error(3), EXIT_FAILURE);
+		handle_memory_failure(__func__);
 	return (EXIT_SUCCESS);
 }
 

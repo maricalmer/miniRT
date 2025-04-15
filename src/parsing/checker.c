@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:18 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/21 18:25:31 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:08:06 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ static int	check_filename(char *file, int *fd)
 	}
 	*fd = open(file, O_RDONLY);
 	if (*fd < 0)
-	{
-		print_error(3);
-		return (EXIT_FAILURE);
-	}
+		handle_file_error(__func__, file);
 	return (EXIT_SUCCESS);
 }
 

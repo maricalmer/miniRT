@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/29 16:14:29 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:18:42 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	parse_obj_files(t_data *data, char *filename)
 
 	parsers = ft_calloc(data->n_obj_files, sizeof(t_obj_parser));
 	if (!parsers)
-		return (print_error(3), EXIT_FAILURE);
+		handle_memory_failure(__func__);
 	if (get_obj_filenames(parsers, data, filename) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	i = -1;
@@ -55,7 +55,10 @@ static int	get_obj_filenames(t_obj_parser *parsers, t_data *data,
 
 	data->rt_fd = open(filename, O_RDONLY);
 	if (data->rt_fd < 0)
-		return (free(parsers), print_error(3), EXIT_FAILURE);
+	{
+		free(parsers);
+		handle_file_error(__func__, filename);
+	}
 	line = NULL;
 	while (1)
 	{
@@ -84,7 +87,7 @@ static int	process_obj_file(t_obj_parser *parsers, char *specs)
 
 	parsers[i].filename = malloc(sizeof(char) * (ft_strlen(specs) - 1));
 	if (!parsers[i].filename)
-		return (print_error(3), EXIT_FAILURE);
+		handle_memory_failure(__func__);
 	if (sscanf(specs, "o %s", parsers[i].filename) == 1)
 	{
 		if (set_tri(&parsers[i], specs) == EXIT_FAILURE)
@@ -98,7 +101,7 @@ static int	create_elements_obj(t_data *data, t_obj_parser *parser)
 {
 	data->obj_fd = open(parser->filename, O_RDONLY);
 	if (data->obj_fd < 0)
-		return (print_error(3), EXIT_FAILURE);
+		handle_file_error(__func__, parser->filename);
 	if (read_obj_file(data, parser) == EXIT_FAILURE)
 	{
 		close(data->obj_fd);

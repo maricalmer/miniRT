@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:40 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/24 16:04:23 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:10:37 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	read_obj(t_data *data, t_obj_parser *parser)
 
 	fd = open(parser->filename, O_RDONLY);
 	if (fd < 0)
-		return (print_error(3), EXIT_FAILURE);
+		handle_file_error(__func__, parser->filename);
 	line = NULL;
 	while (1)
 	{

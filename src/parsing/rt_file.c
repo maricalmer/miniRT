@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:39:09 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/24 23:12:16 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:15:18 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	create_elements_rt(t_data *data, char *filename)
 {
 	data->rt_fd = open(filename, O_RDONLY);
 	if (data->rt_fd < 0)
-		return (print_error(3), EXIT_FAILURE);
+		handle_file_error(__func__, filename);
 	if (read_rt_file(data) == EXIT_FAILURE)
 	{
 		close(data->rt_fd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_bvh_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:00:36 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/24 18:53:38 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:18:13 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	create_obj_list_root(t_data *data, t_bvh *bvh)
 
 	bvh->group[0] = malloc(sizeof(t_object *) * bvh->group_size[0]);
 	if (!bvh->group[0])
-		exit(EXIT_FAILURE);
+		handle_memory_failure(__func__);
 	obj = data->objects;
 	i = -1;
 	j = 0;
@@ -70,7 +70,7 @@ void	malloc_groups_n_geo(t_bvh *bvh, t_cut_in_two *cut)
 			* bvh->group_size[cut->idx_right]);
 	if (!bvh->group[cut->idx_left] || !bvh->group[cut->idx_right]
 		|| !bvh->obj_geo[cut->idx_left] || !bvh->obj_geo[cut->idx_right])
-		exit(EXIT_FAILURE);
+		handle_memory_failure(__func__);
 }
 
 void	get_mid_planes(t_bvh *bvh, int idx, t_cut_in_two *cut)

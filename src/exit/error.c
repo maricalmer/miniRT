@@ -6,13 +6,27 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:32:55 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/29 16:13:43 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:16:31 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minirt.h>
 
 static void	print_error_2(int errnum);
+
+void	handle_memory_failure(const char *function)
+{
+	printf("\n%sError at %s%s%s%s%s\n", RED_BG_START, function, COLOR_END,
+		RED_TXT_START, strerror(errno), COLOR_END);
+	exit(EXIT_FAILURE);
+}
+
+void	handle_file_error(const char *function, const char *filename)
+{
+	printf("\n%s%s: Failed to open %s%s%s%s%s\n", RED_BG_START, function,
+		filename, COLOR_END, RED_TXT_START, strerror(errno), COLOR_END);
+	exit(EXIT_FAILURE);
+}
 
 void	print_error(int errnum)
 {
@@ -22,9 +36,6 @@ void	print_error(int errnum)
 	else if (errnum == 2)
 		printf("\n%sError%s%sWrong input file%s\n", RED_BG_START, COLOR_END,
 			RED_TXT_START, COLOR_END);
-	else if (errnum == 3)
-		printf("\n%sError%s%s%s%s\n", RED_BG_START, COLOR_END, RED_TXT_START,
-			strerror(errno), COLOR_END);
 	else if (errnum == 4)
 		printf("\n%sError%s%sWrong set of light, cam or ambient%s\n",
 			RED_BG_START, COLOR_END, RED_TXT_START, COLOR_END);

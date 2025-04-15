@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:38:13 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/26 12:57:51 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:17:16 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*format_string(char *str, int len)
 	if (!specs)
 	{
 		free(str);
-		exit(EXIT_FAILURE);
+		handle_memory_failure(__func__);
 	}
 	apply_uniform_spacing(specs, start, end);
 	free(str);
