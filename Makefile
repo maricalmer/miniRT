@@ -64,15 +64,18 @@ CC := cc
 
 BASE_CFLAGS := -Wall -Wextra -Werror
 BASE_CFLAGS += -Wuninitialized
-BASE_CFLAGS += -g
 BASE_CFLAGS += -pthread
-BASE_CFLAGS += -mavx
-BASE_CFLAGS += -Ofast
 BASE_CFLAGS += -mavx
 BASE_CFLAGS += -march=native
 BASE_CFLAGS += -ffunction-sections
 BASE_CFLAGS += -finline-functions
 BASE_CFLAGS += -I$(HEADERS_DIRECTORY) -I$(LIBFT_DIRECTORY) -I$(MLX_DIRECTORY) -I$(CUNIT_DIRECTORY)/include
+DEBUG ?= 0
+ifeq ($(DEBUG), 1)
+	BASE_CFLAGS += -g -O0
+else
+	BASE_CFLAGS += -Ofast
+endif
 CFLAGS := $(BASE_CFLAGS)
 OPT_CFLAGS := $(BASE_CFLAGS) -flto
 
@@ -145,6 +148,7 @@ fclean: clean
 
 re: fclean all
 
+test: DEBUG=1
 test: $(CUNIT) $(TEST_EXEC)
 	@echo "$(GREEN)Running tests...$(NC)"
 	@export LD_LIBRARY_PATH=$(CUNIT_DIRECTORY)/lib:$$LD_LIBRARY_PATH && ./$(TEST_EXEC)
