@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 22:39:15 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/03 22:57:31 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/16 00:47:22 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ float	find_median_custom(t_bvh *bvh, int idx, int axis)
 	idx_axis[0] = idx;
 	idx_axis[1] = axis;
 	if (n & 1)
-		return (quick_select(bvh, bounds, n / 2, idx_axis));
+		return (quick_select(bvh, bounds, n * 0.5, idx_axis));
 	else
 	{
-		mid_l = quick_select(bvh, bounds, n / 2 - 1, idx_axis);
-		mid_r = quick_select(bvh, bounds, n / 2, idx_axis);
+		mid_l = quick_select(bvh, bounds, n * 0.5 - 1, idx_axis);
+		mid_r = quick_select(bvh, bounds, n * 0.5, idx_axis);
 		return ((mid_l + mid_r) * 0.5f);
 	}
 }

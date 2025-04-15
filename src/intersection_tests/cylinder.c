@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 17:57:55 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/23 13:36:05 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/04/16 00:46:08 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,5 @@ static int	check_cylinder_hit(t_object *obj, float hit_t, float ray[3],
 	while (++i < 3)
 		tmp[i] = origin[i] + hit_t * ray[i] - obj->geo.cyl.center[i];
 	h = dot_13_13(tmp, obj->geo.cyl.dir);
-	return (h >= -obj->geo.cyl.height / 2 && h <= obj->geo.cyl.height / 2);
+	return (h >= -obj->geo.cyl.height * 0.5 && h <= obj->geo.cyl.height * 0.5);
 }
