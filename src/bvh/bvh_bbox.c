@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bvh_bbox.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 20:52:57 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/15 17:51:06 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/18 00:21:07 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void	get_bboxes(t_bvh *bvh, int idx, t_cut_in_two *cut)
 	t_bbox	bbox_node;
 	t_bbox	bbox_elem;
 
-	bbox_node = get_bbox_node(bvh, idx, cut, 1);
+	bbox_node = get_bbox_node(bvh, idx, cut, RIGHT_HALF);
 	bbox_elem = get_bbox_elem(bvh, cut->idx_right);
 	save_bbox_min(bvh, bbox_node, bbox_elem, cut->idx_right);
-	bbox_node = get_bbox_node(bvh, idx, cut, 0);
+	bbox_node = get_bbox_node(bvh, idx, cut, LEFT_HALF);
 	bbox_elem = get_bbox_elem(bvh, cut->idx_left);
 	save_bbox_min(bvh, bbox_node, bbox_elem, cut->idx_left);
 }
@@ -50,9 +50,9 @@ static t_bbox	get_bbox_node(t_bvh *bvh, int idx, t_cut_in_two *cut, int side)
 	res.max[0] = bvh->max_x[idx];
 	res.max[1] = bvh->max_y[idx];
 	res.max[2] = bvh->max_z[idx];
-	if (side == 0)
+	if (side == LEFT_HALF)
 		res.max[cut->axis] = cut->mid[cut->axis];
-	else if (side == 1)
+	else if (side == RIGHT_HALF)
 		res.min[cut->axis] = cut->mid[cut->axis];
 	return (res);
 }

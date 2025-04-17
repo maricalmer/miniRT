@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   settings.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:49:25 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/16 00:13:14 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/18 00:18:16 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@
 # define MAX_BVH_GROUP			20
 # define BVH_DEPTH_MAX			5
 # define BVH_SIZE_MAX			37464 
+# define LEFT_HALF              0
+# define RIGHT_HALF             1
 // more tricky ... (w^(d+1) - 1)/(w-1) + (w-1) + w
 
 # define RED_BG_START			"\033[41;1;37m"
