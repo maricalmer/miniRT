@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:33:11 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/15 19:50:46 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/18 01:11:39 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	free_bvh_1(t_bvh *bvh)
 	int	i;
 
 	i = -1;
-	while (bvh->childs[++i] != -2)
+	while (bvh->childs[++i] != BVH_CHILD_END)
 	{
-		if (bvh->childs[i] != -1)
+		if (bvh->childs[i] != BVH_LEAF)
 			free(bvh->group[i]);
 		free(bvh->obj_geo[i]);
 	}
@@ -30,9 +30,9 @@ void	free_bvh_2(t_bvh *bvh)
 	int	i;
 
 	i = -1;
-	while (bvh->childs[++i] != -2)
+	while (bvh->childs[++i] != BVH_CHILD_END)
 	{
-		if (bvh->childs[i] == -1)
+		if (bvh->childs[i] == BVH_LEAF)
 			free(bvh->group[i]);
 	}
 	free(bvh);

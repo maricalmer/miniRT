@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:32:55 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/15 17:29:52 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/18 00:46:24 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minirt.h>
+#include "minirt.h"
 
 static void	print_error_2(int errnum);
 

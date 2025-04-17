@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aabb_simd_fast.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:22:11 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/23 13:35:44 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/04/18 01:12:57 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static int	switch_consecutive(float *tab1, int *tab2, int i)
 	int		temp;
 	float	tmp;
 
-	if (tab1[i] > tab1[i +1])
+	if (tab1[i] > tab1[i + 1])
 	{
 		tmp = tab1[i];
 		tab1[i] = tab1[i + 1];

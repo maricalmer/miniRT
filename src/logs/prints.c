@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prints.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:39:30 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/15 20:42:35 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/18 01:11:51 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	print_bvh_stats(t_bvh *bvh)
 {
 	t_bvh_stats	stats;
 
-	if (bvh->childs[0] != -2)
+	if (bvh->childs[0] != BVH_CHILD_END)
 	{
 		get_bvh_stats(bvh, &stats);
 		printf("%s  [BVH]\n\n", CYAN_TXT_START);
@@ -91,9 +91,9 @@ static void	get_bvh_stats(t_bvh *bvh, t_bvh_stats *stats)
 	ft_memset(stats, 0, sizeof(t_bvh_stats));
 	stats->min = INT_MAX;
 	i = -1;
-	while (bvh->childs[++i] != -2)
+	while (bvh->childs[++i] != BVH_CHILD_END)
 	{
-		if (bvh->childs[i] == -1)
+		if (bvh->childs[i] == BVH_LEAF)
 		{
 			stats->max_depth = imax(stats->max_depth, bvh->depth[i]);
 			stats->n_leafs++;

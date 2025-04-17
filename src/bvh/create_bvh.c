@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_bvh.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:41 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/15 18:20:13 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/18 01:11:15 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_bvh	*init_bvh(t_data *data)
 	struct timeval	t_end;
 
 	gettimeofday(&t_start, NULL);
-	bvh = aligned_alloc(32, sizeof(t_bvh));
+	bvh = aligned_alloc(ALGN_BVH_STR, sizeof(t_bvh));
 	if (!bvh)
 		handle_memory_failure(__func__);
 	memset_bvh8_first_block(bvh);
@@ -34,7 +34,7 @@ t_bvh	*init_bvh(t_data *data)
 	data->bvh_geo_data = create_obj_geo_data(bvh);
 	get_bbox_min_max_root(bvh);
 	idx_c = cut_into_child_nodes(bvh, 0);
-	bvh->childs[idx_c] = -2;
+	bvh->childs[idx_c] = BVH_CHILD_END;
 	print_bvh_stats(bvh);
 	free_bvh_1(bvh);
 	free(data->bvh_geo_data);
@@ -68,7 +68,7 @@ static int	cut_into_child_nodes(t_bvh *bvh, int idx)
 	if (bvh->group_size[idx] <= MAX_BVH_GROUP
 		|| bvh->depth[idx] == BVH_DEPTH_MAX)
 	{
-		bvh->childs[idx] = -1;
+		bvh->childs[idx] = BVH_LEAF;
 		return (idx_c);
 	}
 	cut_in_two(bvh, idx, idx_c, 2);
@@ -95,7 +95,7 @@ static int	handle_fail_to_cut(t_bvh *bvh, int idx)
 		free(bvh->group[bvh->childs[idx] + i]);
 		free(bvh->obj_geo[bvh->childs[idx] + i]);
 	}
-	bvh->childs[idx] = -1;
+	bvh->childs[idx] = BVH_LEAF;
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:49:25 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/18 00:18:16 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/18 01:11:01 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,16 @@
 # undef FLT_MIN
 # define FLT_MIN				1e-20F
 
-// fast is ok for convexe volumes, else strict (=> 0) should be used.
-# define FAST_BVH_TRANSVERSAL	0   
+# define FAST_BVH_TRANSVERSAL	0 // fast is ok for convexe volumes, else strict (=> 0) should be used
 # define MAX_BVH_GROUP			20
 # define BVH_DEPTH_MAX			5
-# define BVH_SIZE_MAX			37464 
-# define LEFT_HALF              0
-# define RIGHT_HALF             1
-// more tricky ... (w^(d+1) - 1)/(w-1) + (w-1) + w
+# define BVH_SIZE_MAX			37464 // (w^(d+1) - 1)/(w-1) + (w-1) + w
+# define LEFT_HALF				0
+# define RIGHT_HALF				1
+# define ALGN_BVH_STR			32
+# define ALGN_OBJ_ARR			64
+# define BVH_CHILD_END			-2
+# define BVH_LEAF				-1
 
 # define RED_BG_START			"\033[41;1;37m"
 # define RED_TXT_START			"\033[1;31m"
