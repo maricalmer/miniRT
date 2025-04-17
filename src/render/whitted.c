@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   whitted.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:23:09 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/05 20:28:44 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/17 22:15:10 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,5 @@ static float	get_fresnel(t_shoot *shoot)
 	r_par = (n[1] * cos_theta_i - n[0] * cos_theta_t)
 		/ (n[1] * cos_theta_i + n[0] * cos_theta_t);
 	r_par = r_par * r_par;
-	return ((r_per + r_par) / 2);
+	return ((r_per + r_par) * 0.5f);
 }

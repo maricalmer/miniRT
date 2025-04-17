@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   factories_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/15 18:39:47 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/17 22:15:31 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	get_refr_idx(char **specs, float *ratio)
 		return (EXIT_FAILURE);
 	p = *specs;
 	*ratio = ft_strtof(*specs, specs);
-	if (errno == ERANGE || (*ratio < 0.0 || *ratio > 2.7))
+	if (errno == ERANGE || (*ratio < 0.0f || *ratio > 2.7f))
 		return (EXIT_FAILURE);
 	if (**specs != ' ' && *specs != p)
 		return (EXIT_FAILURE);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:05:24 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/15 17:18:51 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/17 22:15:28 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	render_first_image(t_data *data)
 	t_bvh	*bvh;
 
 	bvh = init_bvh(data);
-	data->cam.world_center[0] = (bvh->min_x[0] + bvh->max_x[0]) * 0.5;
-	data->cam.world_center[1] = (bvh->min_y[0] + bvh->max_y[0]) * 0.5; 
-	data->cam.world_center[2] = (bvh->min_z[0] + bvh->max_z[0]) * 0.5;
+	data->cam.world_center[0] = (bvh->min_x[0] + bvh->max_x[0]) * 0.5f;
+	data->cam.world_center[1] = (bvh->min_y[0] + bvh->max_y[0]) * 0.5f; 
+	data->cam.world_center[2] = (bvh->min_z[0] + bvh->max_z[0]) * 0.5f;
 	data->cam.d_trans = (-bvh->min_x[0] + bvh->max_x[0] - bvh->min_y[0]
 			+ bvh->max_y[0] - bvh->min_z[0] + bvh->max_z[0]) / 3 / TRANS_SENS;
 	if (data->cam.d_trans < EPSILON)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shoot_ray.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 14:59:58 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/24 11:22:21 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/17 22:15:27 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	get_hitpt_n_normal_tri(t_shoot *shoot)
 	bary[0] = triple_scalar(shoot->dir, px[2], px[1]);
 	bary[1] = triple_scalar(shoot->dir, px[0], px[2]);
 	bary[2] = triple_scalar(shoot->dir, px[1], px[0]);
-	denom = 1.0 / (bary[0] + bary[1] + bary[2]);
+	denom = 1.0f / (bary[0] + bary[1] + bary[2]);
 	i = -1;
 	while (++i < 3)
 		bary[i] *= denom;

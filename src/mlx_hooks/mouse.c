@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:50:02 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/25 10:57:53 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/17 22:15:32 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ int	mouse_press(int button, int x, int y, void *arg)
 		data->mouse_y = y;
 	}
 	else if (button == 4)
-		translate_cam(data, data->cam.z, -data->cam.d_trans * 0.5, 1);
+		translate_cam(data, data->cam.z, -data->cam.d_trans * 0.5f, 1);
 	else if (button == 5)
-		translate_cam(data, data->cam.z, data->cam.d_trans * 0.5, 1);
+		translate_cam(data, data->cam.z, data->cam.d_trans * 0.5f, 1);
 	return (0);
 }
 
@@ -90,7 +90,7 @@ static void	handle_mouse_left(t_data *data, int x, int y)
 	v[1] = -dx * data->cam.x[1] + dy * data->cam.y[1];
 	v[2] = -dx * data->cam.x[2] + dy * data->cam.y[2];
 	normalize(v, NULL);
-	amp = data->cam.d_trans / 2;
+	amp = data->cam.d_trans * 0.5f;
 	translate_cam(data, v, amp, 1);
 }
 

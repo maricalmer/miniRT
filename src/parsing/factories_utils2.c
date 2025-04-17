@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   factories_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 09:49:05 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/16 00:12:15 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/17 22:15:30 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	get_vec_norm(char **specs, float *value)
 		if (!ft_isdigit(**specs) && **specs != '-')
 			return (EXIT_FAILURE);
 		value[i] = ft_strtof(*specs, specs);
-		if (errno == ERANGE || (value[i] < -1.0 || value[i] > 1.0))
+		if (errno == ERANGE || (value[i] < -1.0f || value[i] > 1.0f))
 			return (EXIT_FAILURE);
 		while ((ft_iswhitespace(**specs) || **specs == ',') && **specs != '\0'
 			&& **specs != '-')
