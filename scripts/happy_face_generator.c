@@ -4,15 +4,15 @@
 #include <time.h>
 
 #define NUM_SPHERES 100000
-#define FACE_RADIUS 1000  // Radius of the giant smiley face disk
-#define EYE_RADIUS 100  // Radius of the eyes
-#define EYE_X_OFFSET 300  // Horizontal position of eyes
-#define EYE_Y_OFFSET -400  // Moving eyes closer to origin
-#define MOUTH_RADIUS 400  // Radius of the smile curve
-#define MOUTH_Y_OFFSET 300  // Moving mouth further down
+#define FACE_RADIUS 1000
+#define EYE_RADIUS 100
+#define EYE_X_OFFSET 300
+#define EYE_Y_OFFSET -400
+#define MOUTH_RADIUS 400
+#define MOUTH_Y_OFFSET 300
 #define MIN_DIAM 1.5
 #define MAX_DIAM 15.0
-#define SPACING_FACTOR 1.5  // Ensuring spacing between spheres
+#define SPACING_FACTOR 1.5
 #define MAX_ATTEMPTS 10000
 
 typedef struct {
@@ -25,7 +25,8 @@ typedef struct {
 } Sphere;
 
 // Function to check if a new sphere collides with existing ones
-int is_valid_position(double x, double z, double radius, Sphere *spheres, int count) {
+int is_valid_position(double x, double z, double radius, Sphere *spheres, int count)
+{
     for (int i = 0; i < count; i++) {
         double dx = spheres[i].x - x;
         double dz = spheres[i].z - z;
@@ -38,12 +39,14 @@ int is_valid_position(double x, double z, double radius, Sphere *spheres, int co
 }
 
 // Function to generate random double within a range
-double random_double(double min, double max) {
+double random_double(double min, double max)
+{
     return min + ((double)rand() / RAND_MAX) * (max - min);
 }
 
 // Function to determine if a point is inside the face but outside eyes and mouth
-int is_valid_smiley_position(double x, double z) {
+int is_valid_smiley_position(double x, double z)
+{
     double dist_from_center = sqrt(x * x + z * z);
     if (dist_from_center > FACE_RADIUS) return 0; // Outside the face disk
 
@@ -60,7 +63,8 @@ int is_valid_smiley_position(double x, double z) {
 }
 
 // Function to generate spheres
-void generate_spheres(Sphere *spheres) {
+void generate_spheres(Sphere *spheres)
+{
     int count = 0;
     srand(time(NULL));
 
@@ -96,7 +100,8 @@ void generate_spheres(Sphere *spheres) {
 }
 
 // Function to save spheres to a file
-void save_spheres_to_file(Sphere *spheres) {
+void save_spheres_to_file(Sphere *spheres)
+{
     FILE *file = fopen("spheres.txt", "w");
     if (!file) {
         printf("Error opening file!\n");
@@ -120,7 +125,8 @@ void save_spheres_to_file(Sphere *spheres) {
     printf("Generated %d spheres and saved to file.\n", NUM_SPHERES);
 }
 
-int main() {
+int main()
+{
     Sphere *spheres = malloc(NUM_SPHERES * sizeof(Sphere));
     if (!spheres) {
         printf("Memory allocation failed!\n");
