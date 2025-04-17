@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   obj_file.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/15 20:09:32 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/17 20:44:55 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,20 +78,27 @@ static void	get_obj_filenames(t_obj_parser *parsers, t_data *data,
 static void	process_obj_file(t_obj_parser *parsers, char *specs)
 {
 	static int	i;
+	char		*name_start;
+	char		*name_end;
+	size_t		len;
 
-	parsers[i].filename = malloc(sizeof(char) * (ft_strlen(specs) - 1));
+	name_start = specs + 2;
+	while (*name_start == ' ')
+		name_start++;
+	name_end = name_start;
+	while (*name_end && !ft_iswhitespace(*name_end))
+		name_end++;
+	len = name_end - name_start;
+	parsers[i].filename = malloc(len + 1);   
 	if (!parsers[i].filename)
 		handle_memory_failure(__func__);
-	if (sscanf(specs, "o %s", parsers[i].filename) == 1)
+	ft_strlcpy(parsers[i].filename, name_start, len + 1);
+	if (set_tri(&parsers[i], specs) == EXIT_FAILURE)
 	{
-		if (set_tri(&parsers[i], specs) == EXIT_FAILURE)
-		{
-			free(specs);
-			print_error(13);
-			exit(EXIT_FAILURE);
-		}
+		free(specs);
+		print_error(13);
+		free_obj_parse_1_and_exit(parsers, i);
 	}
-	i++;
 }
 
 static int	create_elements_obj(t_data *data, t_obj_parser *parser)
