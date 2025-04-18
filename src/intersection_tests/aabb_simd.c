@@ -6,15 +6,15 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:22:11 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/18 13:04:58 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/18 13:09:18 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static void	test_axis_x(t_aabb_simd *x, t_bvh *bvh, int idx);
-static void	test_axis_y(t_aabb_simd *x, t_bvh *bvh, int idx);
-static void	test_axis_z(t_aabb_simd *x, t_bvh *bvh, int idx);
+//static void	test_axis_x(t_aabb_simd *x, t_bvh *bvh, int idx);
+//static void	test_axis_y(t_aabb_simd *x, t_bvh *bvh, int idx);
+//static void	test_axis_z(t_aabb_simd *x, t_bvh *bvh, int idx);
 static void	test_axis_generic(t_aabb_simd *x,
 	const float *min, const float *max);
 
@@ -61,6 +61,7 @@ static void	test_axis_generic(t_aabb_simd *x, const float *min,
 	x->max = _mm256_min_ps(x->t2, x->max);
 }
 
+/*
 static void	test_axis_x(t_aabb_simd *x, t_bvh *bvh, int idx)
 {
 	x->mask = _mm256_cmp_ps(x->v_dir, _mm256_set1_ps(0.0f), _CMP_EQ_OQ);
@@ -120,6 +121,7 @@ static void	test_axis_z(t_aabb_simd *x, t_bvh *bvh, int idx)
 	x->min = _mm256_max_ps(x->t1, x->min);
 	x->max = _mm256_min_ps(x->t2, x->max);
 }
+*/
 
 void	copy_and_terminate(char *res, int *indices, int size)
 {
