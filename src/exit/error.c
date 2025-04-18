@@ -6,13 +6,13 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:32:55 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/18 00:46:24 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/18 02:09:44 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static void	print_error_2(int errnum);
+static void	print_error_2(int error_code);
 
 void	handle_memory_failure(const char *function)
 {
@@ -28,51 +28,51 @@ void	handle_file_error(const char *function, const char *filename)
 	exit(EXIT_FAILURE);
 }
 
-void	print_error(int errnum)
+void	print_error(int error_code)
 {
-	if (errnum == 1)
+	if (error_code == ARGS_ERROR)
 		printf("\n%sError%s%sWrong args%s\n", RED_BG_START, COLOR_END,
 			RED_TXT_START, COLOR_END);
-	else if (errnum == 2)
+	else if (error_code == FILE_ERROR)
 		printf("\n%sError%s%sWrong input file%s\n", RED_BG_START, COLOR_END,
 			RED_TXT_START, COLOR_END);
-	else if (errnum == 3)
+	else if (error_code == MAND_SET_ERROR)
 		printf("\n%sError%s%sWrong set of light, cam or ambient%s\n",
 			RED_BG_START, COLOR_END, RED_TXT_START, COLOR_END);
-	else if (errnum == 4)
+	else if (error_code == TYPES_ERROR)
 		printf("\n%sError%s%sWrong set of element types%s\n", RED_BG_START,
 			COLOR_END, RED_TXT_START, COLOR_END);
-	else if (errnum == 5)
+	else if (error_code == AMB_ERROR)
 		printf("\n%sError%s%sWrong settings for ambient lighting element%s\n",
 			RED_BG_START, COLOR_END, RED_TXT_START, COLOR_END);
-	else if (errnum == 6)
+	else if (error_code == CAM_ERROR)
 		printf("\n%sError%s%sWrong settings for camera element%s\n",
 			RED_BG_START, COLOR_END, RED_TXT_START, COLOR_END);
 	else
-		print_error_2(errnum);
+		print_error_2(error_code);
 }
 
-static void	print_error_2(int errnum)
+static void	print_error_2(int error_code)
 {
-	if (errnum == 7)
+	if (error_code == LIGHT_ERROR)
 		printf("\n%sError%s%sWrong settings for light element%s\n",
 			RED_BG_START, COLOR_END, RED_TXT_START, COLOR_END);
-	else if (errnum == 8)
+	else if (error_code == SPHERE_ERROR)
 		printf("\n%sError%s%sWrong settings for sphere element%s\n",
 			RED_BG_START, COLOR_END, RED_TXT_START, COLOR_END);
-	else if (errnum == 9)
+	else if (error_code == PLANE_ERROR)
 		printf("\n%sError%s%sWrong settings for plane element%s\n",
 			RED_BG_START, COLOR_END, RED_TXT_START, COLOR_END);
-	else if (errnum == 10)
+	else if (error_code == CYLINDER_ERROR)
 		printf("\n%sError%s%sWrong settings for cylinder element%s\n",
 			RED_BG_START, COLOR_END, RED_TXT_START, COLOR_END);
-	else if (errnum == 11)
+	else if (error_code == RECTANGLE_ERROR)
 		printf("\n%sError%s%sWrong settings for rectangle element%s\n",
 			RED_BG_START, COLOR_END, RED_TXT_START, COLOR_END);
-	else if (errnum == 12)
+	else if (error_code == TRI_ERROR)
 		printf("\n%sError%s%sWrong settings for tri element%s\n", RED_BG_START,
 			COLOR_END, RED_TXT_START, COLOR_END);
-	else if (errnum == 13)
+	else if (error_code == OBJ_ERROR)
 		printf("\n%sError%s%sWrong settings for obj element%s\n", RED_BG_START,
 			COLOR_END, RED_TXT_START, COLOR_END);
 }

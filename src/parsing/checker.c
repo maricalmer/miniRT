@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:18 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/15 18:33:13 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/18 02:03:48 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	check_input(int ac, char **av, t_data *data)
 {
 	if (ac != 2)
 	{
-		print_error(1);
+		print_error(ARGS_ERROR);
 		exit(EXIT_FAILURE);
 	}
 	check_filename(av[1], &data->rt_fd); 
@@ -29,7 +29,7 @@ static void	check_filename(char *file, int *fd)
 {
 	if (!ft_strncmp(file, "", 1) || !is_rt_extension(file))
 	{
-		print_error(2);
+		print_error(FILE_ERROR);
 		exit(EXIT_FAILURE);
 	}
 	*fd = open(file, O_RDONLY);

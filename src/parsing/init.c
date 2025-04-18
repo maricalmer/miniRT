@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:39 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/15 21:41:40 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/18 02:04:15 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	increase_if_uniq(int *value, char *specs, t_data *data)
 		(*value)++;
 	else
 	{
-		print_error(3);
+		print_error(MAND_SET_ERROR);
 		free(specs);
 		close(data->rt_fd);
 		exit(EXIT_FAILURE);

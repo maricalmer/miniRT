@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dot_in_place_33.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:34:09 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/07 11:44:56 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/18 01:21:25 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,7 @@ void	dot_inplace_33_33(float a[3][3], float b[3][3])
 			res[i][j] = 0;
 			k = -1;
 			while (++k < 3)
-			{
 				res[i][j] += a[i][k] * b[k][j];
-			}
 		}
 	}
 	save_result_in_place_33(res, a);

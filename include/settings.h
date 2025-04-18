@@ -6,7 +6,7 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:49:25 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/18 01:11:01 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/18 01:56:55 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,14 @@
 # define USLEEP_PARENT			100 //fine tune those...
 # define N_THREAD				24
 
-# define CROSS_CLICK_EVENT 		17
-# define NO_EVENT_MASK			0
+# define EVENT_BUTTON_PRESS		4
+# define EVENT_BUTTON_RELEASE	5
+# define EVENT_MOTION_NOTIFY	6
+# define EVENT_CROSS_CLICK 		17
+# define MASK_NO_EVENT			0
+# define MASK_BUTTON_PRESS		(1L<<2)
+# define MASK_BUTTON_RELEASE	(1L<<3)
+# define MASK_POINTER_MOTION	(1L<<6)
 
 # undef FLT_MAX
 # define FLT_MAX				1e+20F
@@ -58,5 +64,7 @@
 # define CYAN_TXT_START			"\033[1;36m"
 # define PINK_TXT_START			"\033[1;95m"
 # define COLOR_END				"\033[0m\n"
+
+# define FILENAME_OFFSET        2
 
 #endif

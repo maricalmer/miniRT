@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:38:13 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/15 21:20:03 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/18 02:04:19 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	handle_parsing(char **av, t_data *data)
 	read_rt(data);
 	if (!data->n_light)
 	{
-		print_error(3);
+		print_error(MAND_SET_ERROR);
 		exit(EXIT_FAILURE);
 	}
 	if (data->n_obj_files)

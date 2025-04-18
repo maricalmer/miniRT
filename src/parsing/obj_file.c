@@ -6,7 +6,7 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/17 20:44:55 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/18 02:08:38 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	process_obj_file(t_obj_parser *parsers, char *specs)
 	char		*name_end;
 	size_t		len;
 
-	name_start = specs + 2;
+	name_start = specs + FILENAME_OFFSET;
 	while (*name_start == ' ')
 		name_start++;
 	name_end = name_start;
@@ -96,7 +96,7 @@ static void	process_obj_file(t_obj_parser *parsers, char *specs)
 	if (set_tri(&parsers[i], specs) == EXIT_FAILURE)
 	{
 		free(specs);
-		print_error(13);
+		print_error(OBJ_ERROR);
 		free_obj_parse_1_and_exit(parsers, i);
 	}
 }

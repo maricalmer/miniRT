@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:23:19 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/26 13:44:40 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/04/18 02:03:03 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,23 @@
 # define DATA_H
 
 typedef struct s_data	t_data;
+
+typedef enum e_err_msg
+{
+	ARGS_ERROR,
+	FILE_ERROR,
+	MAND_SET_ERROR,
+	TYPES_ERROR,
+	AMB_ERROR,
+	CAM_ERROR,
+	LIGHT_ERROR,
+	SPHERE_ERROR,
+	PLANE_ERROR,
+	CYLINDER_ERROR,
+	RECTANGLE_ERROR,
+	TRI_ERROR,
+	OBJ_ERROR
+}	t_err_msg;
 
 typedef enum e_obj_type
 {

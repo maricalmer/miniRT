@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:42:51 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/15 18:53:40 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/18 01:56:34 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,13 @@ int	main(int ac, char **av)
 		return (EXIT_FAILURE);
 	render_first_image(&data);
 	mlx_key_hook(data.mlx.win, &handle_input, &data);
-	mlx_hook(data.mlx.win, 4, 1L << 2, &mouse_press, &data);
-	mlx_hook(data.mlx.win, 5, 1L << 3, &mouse_release, &data);
-	mlx_hook(data.mlx.win, 6, 1L << 6, &mouse_move, &data);
-	mlx_hook(data.mlx.win, 17, 0, &handle_close, &data);
+	mlx_hook(data.mlx.win, EVENT_BUTTON_PRESS, MASK_BUTTON_PRESS, &mouse_press, &data);
+	mlx_hook(data.mlx.win, EVENT_BUTTON_RELEASE,
+        MASK_BUTTON_RELEASE, &mouse_release, &data);
+	mlx_hook(data.mlx.win, EVENT_MOTION_NOTIFY, MASK_POINTER_MOTION,
+        &mouse_move, &data);
+	mlx_hook(data.mlx.win, EVENT_CROSS_CLICK, MASK_NO_EVENT,
+        &handle_close, &data);
 	mlx_loop(data.mlx.mlx);
 	return (1);
 }
