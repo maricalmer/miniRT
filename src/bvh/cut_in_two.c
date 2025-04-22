@@ -3,10 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   cut_in_two.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 12:28:39 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/20 22:46:55 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/22 22:40:23 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* File subdivides a BVH node into two child nodes recursively. From depth 1  */
+/* onward, cutting occurs in-place within the preallocated SoA BVH structure. */
+/* The axis is chosen by evaluating object counts across mid-planes (up to    */
+/* depth 3, splits tend to happen along the Y axis). The node is split into   */
+/* left/right groups based on AABB bounds. Child groups are allocated and     */
+/* filled with relevant objects and geometry data. AABBs are computed for the */
+/* children, and memory is cleaned up when needed.                            */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +27,6 @@
 static void	set_cutting_plane_n_obj(t_bvh *bvh, int idx, t_cut_in_two *cut);
 static void	create_child_groups(t_bvh *bvh, t_cut_in_two *cut);
 
-/* recursive function to halve a bvh node in two.
-up to depth == 3 ---> cut in height ;)
-if depth != 0, then the cutting occurs inplace in the preallocated SoA BVH..*/
 void	cut_in_two(t_bvh *bvh, int idx, int idx_c, int i)
 {
 	t_cut_in_two	cut;

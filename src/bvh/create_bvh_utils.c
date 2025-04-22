@@ -3,10 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   create_bvh_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:00:36 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/15 17:18:13 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:43:40 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Utility functions. Sets up object groupings and memory allocation for BVH  */
+/* construction. Counts geometry-relevant objects (spheres, triangles,        */
+/* rectangles), stores them in the root node's group. Allocates memory for    */
+/* grouped objects and their geometry data in both left and right             */
+/* partitions. It computes median split planes along each axis and finding    */
+/* the axis with minimal split cost.                                          */
 /*                                                                            */
 /* ************************************************************************** */
 

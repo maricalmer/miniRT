@@ -6,7 +6,18 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:41 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/18 01:11:15 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/22 20:12:36 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* File initializes a BVH (Bounding Volume Hierarchy) structure from scene    */
+/* data. It allocates and zeroes out the BVH’s root node and metadata.        */
+/* Geometry-relevant objects are grouped and their spatial data extracted.    */
+/* The root aabb is computed, then the BVH is recursively split into 8-wide   */
+/* child nodes. Each node is subdivided or marked as a leaf, based on size    */
+/* and depth constraints. Failed subdivisions are reverted.                   */
 /*                                                                            */
 /* ************************************************************************** */
 

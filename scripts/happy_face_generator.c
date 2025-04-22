@@ -6,7 +6,17 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 20:52:57 by maricalmer        #+#    #+#             */
-/*   Updated: 2025/04/22 15:14:06 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/22 15:57:12 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Program generates a set of non-overlapping spheres positioned within a     */
+/* predefined *happy* smiley face shape in the XZ plane. Each sphere is       */
+/* assigned random visual and optical properties, such as color, reflection,  */
+/* and refraction. The generated sphere data is saved to a formatted text     */
+/* file.                                                                      */
 /*                                                                            */
 /* ************************************************************************** */
 

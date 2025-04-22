@@ -3,10 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   bvh_geodata.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 20:57:31 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/15 17:53:14 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:20:31 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* File extracts geo data (center, aabb min/max) for BVH-compatible objects:  */
+/* spheres, triangles, and rectangles. Each object type has a specific        */
+/* function to compute its axis-aligned bounding box and center position.     */
+/* The main function allocates and fills an array of t_obj_geo for all        */
+/* objects in the BVH root group. The extracted geometry data is stored in    */
+/* the BVH structure and used later for spatial partitioning.                 */
 /*                                                                            */
 /* ************************************************************************** */
 
