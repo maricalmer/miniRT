@@ -6,7 +6,7 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:39:09 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/18 02:10:12 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 11:54:44 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ static void	process_rt_line(t_data *data, char *specs)
 		|| specs[0] == 'r')
 	{
 		if (handle_object_creation(data, specs) == EXIT_FAILURE)
-			free_post_creation_and_exit(data, specs);
+			abort_scene_parsing_on_failure(data, specs);
 	}
 	else
 	{
 		if (handle_light_creation(data, specs) == EXIT_FAILURE)
-			free_post_creation_and_exit(data, specs);
+			abort_scene_parsing_on_failure(data, specs);
 	}
 }
 

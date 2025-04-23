@@ -6,7 +6,7 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:49:20 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/18 02:10:02 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 11:52:58 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,18 +74,18 @@ int			get_radius(char **specs, float *radius);
 int			get_length(char **specs, float *length);
 int			get_pos_float(char **specs, float *size);
 /*error.c*/
-void		print_error(int error_code);
+void		print_error_basic(int error_code);
 void		handle_memory_failure(const char *function);
 void		handle_file_error(const char *function, const char *filename);
 /*free.c*/
-void		free_bvh_1(t_bvh *bvh);
-void		free_bvh_2(t_bvh *bvh);
-void		free_data(t_data *data);
-void		join_threads(t_data *data);
-void		free_obj_parse_1_and_exit(t_obj_parser *parsers, int n_files);
-void		free_obj_parse_2(t_obj_parser *parsers, int n_files);
-void		free_obj_parse_2_and_exit(t_obj_parser *parsers, int n_files);
-void		free_post_creation_and_exit(t_data *data, char *specs);
+void		free_bvh_nonleaf_and_geo(t_bvh *bvh);
+void		free_bvh_leaf_and_struct(t_bvh *bvh);
+void		cleanup_data_resources(t_data *data);
+void		wait_for_render_threads(t_data *data);
+void		exit_with_obj_parser_cleanup(t_obj_parser *parsers, int n_files);
+void		free_obj_parser_resources(t_obj_parser *parsers, int n_files);
+void		cleanup_obj_parser_and_exit(t_obj_parser *parsers, int n_files);
+void		abort_scene_parsing_on_failure(t_data *data, char *specs);
 /*render.c*/
 void		render_first_image(t_data *data);
 void		calculate_pixel(t_calc_img_arg *arg, int p, t_shoot *shoot,

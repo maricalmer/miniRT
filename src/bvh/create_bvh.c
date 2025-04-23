@@ -6,7 +6,7 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:41 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/22 20:12:36 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 11:40:28 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* File initializes a BVH (Bounding Volume Hierarchy) structure from scene    */
 /* data. It allocates and zeroes out the BVH’s root node and metadata.        */
 /* Geometry-relevant objects are grouped and their spatial data extracted.    */
-/* The root aabb is computed, then the BVH is recursively split into 8-wide   */
+/* The root AABB is computed, then the BVH is recursively split into 8-wide   */
 /* child nodes. Each node is subdivided or marked as a leaf, based on size    */
 /* and depth constraints. Failed subdivisions are reverted.                   */
 /*                                                                            */
@@ -47,7 +47,7 @@ t_bvh	*init_bvh(t_data *data)
 	idx_c = cut_into_child_nodes(bvh, 0);
 	bvh->childs[idx_c] = BVH_CHILD_END;
 	print_bvh_stats(bvh);
-	free_bvh_1(bvh);
+	free_bvh_nonleaf_and_geo(bvh);
 	free(data->bvh_geo_data);
 	update_group(data, bvh);
 	gettimeofday(&t_end, NULL);

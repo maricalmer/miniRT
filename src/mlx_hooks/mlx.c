@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:34:56 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/25 11:10:01 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 11:42:05 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ int	handle_close(t_data *data)
 {
 	free_mlx(&data->mlx);
 	if (1)
-		free_bvh_2(data->objects[0].geo.bvh);
-	free_data(data);
-	join_threads(data);
+		free_bvh_leaf_and_struct(data->objects[0].geo.bvh);
+	cleanup_data_resources(data);
+	wait_for_render_threads(data);
 	print_outro();
 	exit(EXIT_SUCCESS);
 	return (0);

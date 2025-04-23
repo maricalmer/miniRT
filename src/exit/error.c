@@ -6,13 +6,20 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:32:55 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/18 02:09:44 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 11:42:16 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* This file provides error handling and reporting functions. Error codes are */
+/* interpreted and translated into descriptive, color-formatted messages.     */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static void	print_error_2(int error_code);
+static void	print_error_extended(int error_code);
 
 void	handle_memory_failure(const char *function)
 {
@@ -28,7 +35,7 @@ void	handle_file_error(const char *function, const char *filename)
 	exit(EXIT_FAILURE);
 }
 
-void	print_error(int error_code)
+void	print_error_basic(int error_code)
 {
 	if (error_code == ARGS_ERROR)
 		printf("\n%sError%s%sWrong args%s\n", RED_BG_START, COLOR_END,
@@ -49,10 +56,10 @@ void	print_error(int error_code)
 		printf("\n%sError%s%sWrong settings for camera element%s\n",
 			RED_BG_START, COLOR_END, RED_TXT_START, COLOR_END);
 	else
-		print_error_2(error_code);
+		print_error_extended(error_code);
 }
 
-static void	print_error_2(int error_code)
+static void	print_error_extended(int error_code)
 {
 	if (error_code == LIGHT_ERROR)
 		printf("\n%sError%s%sWrong settings for light element%s\n",

@@ -6,7 +6,7 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 20:52:57 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/22 18:58:57 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 11:41:05 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 /* left and right partitions along a selected axis which is set to tightly    */
 /* fit all geometry elements. The final bounding box is the intersection of a */
 /* node's spatial region and the bounds of the geometry elements it contains. */
-/* These bounds are stored back into the BVH structure for further processing */
+/* These bounds are stored back into BVH structure for further processing.    */
 /*                                                                            */
 /* ************************************************************************** */
 

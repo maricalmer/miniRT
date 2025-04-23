@@ -6,7 +6,7 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:39 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/18 02:04:15 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 11:49:00 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ void	init_rt_lists(t_data *data, t_obj_parser *parsers)
 	if (!data->objects)
 	{
 		if (parsers)
-			free_obj_parse_2(parsers, data->n_obj_files);
+			free_obj_parser_resources(parsers, data->n_obj_files);
 		handle_memory_failure(__func__);
 	}
 	data->lights = malloc(sizeof(t_light) * data->n_light);
 	if (!data->lights)
 	{
 		if (parsers)
-			free_obj_parse_2(parsers, data->n_obj_files);
+			free_obj_parser_resources(parsers, data->n_obj_files);
 		free(data->objects);
 		handle_memory_failure(__func__);
 	}

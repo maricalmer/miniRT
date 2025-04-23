@@ -6,13 +6,19 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:33:11 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/18 01:11:39 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 11:56:52 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* File provides utility functions for memory cleanup and thread management.  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	free_bvh_1(t_bvh *bvh)
+void	free_bvh_nonleaf_and_geo(t_bvh *bvh)
 {
 	int	i;
 
@@ -25,7 +31,7 @@ void	free_bvh_1(t_bvh *bvh)
 	}
 }
 
-void	free_bvh_2(t_bvh *bvh)
+void	free_bvh_leaf_and_struct(t_bvh *bvh)
 {
 	int	i;
 
@@ -38,7 +44,7 @@ void	free_bvh_2(t_bvh *bvh)
 	free(bvh);
 }
 
-void	join_threads(t_data *data)
+void	wait_for_render_threads(t_data *data)
 {
 	int	i;
 
@@ -51,7 +57,7 @@ void	join_threads(t_data *data)
 	}
 }
 
-void	free_data(t_data *data)
+void	cleanup_data_resources(t_data *data)
 {
 	free(data->all_objects);
 	free(data->objects);
@@ -59,7 +65,7 @@ void	free_data(t_data *data)
 	pthread_mutex_destroy(&data->joblist_mutex);
 }
 
-void	free_obj_parse_1_and_exit(t_obj_parser *parsers, int n_files)
+void	exit_with_obj_parser_cleanup(t_obj_parser *parsers, int n_files)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/18 02:08:38 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 11:53:41 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,17 @@ void	parse_obj_files(t_data *data, char *filename)
 	{
 		read_obj(data, &parsers[i]);
 		if (init_obj_lists(&parsers[i]) == EXIT_FAILURE)
-			free_obj_parse_1_and_exit(parsers, data->n_obj_files);
+			exit_with_obj_parser_cleanup(parsers, data->n_obj_files);
 	}
 	init_rt_lists(data, parsers);
 	i = -1;
 	while (++i < data->n_obj_files)
 	{
 		if (create_elements_obj(data, &parsers[i]) == EXIT_FAILURE)
-			free_obj_parse_2_and_exit(parsers, data->n_obj_files);
+			cleanup_obj_parser_and_exit(parsers, data->n_obj_files);
 	}
 	print_tri_count(parsers[0].n_f);
-	free_obj_parse_2(parsers, data->n_obj_files);
+	free_obj_parser_resources(parsers, data->n_obj_files);
 }
 
 static void	get_obj_filenames(t_obj_parser *parsers, t_data *data,
@@ -97,7 +97,7 @@ static void	process_obj_file(t_obj_parser *parsers, char *specs)
 	{
 		free(specs);
 		print_error(OBJ_ERROR);
-		free_obj_parse_1_and_exit(parsers, i);
+		exit_with_obj_parser_cleanup(parsers, i);
 	}
 }
 
