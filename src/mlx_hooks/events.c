@@ -6,7 +6,15 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:34:36 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/07 15:25:19 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 20:05:20 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Handles camera transformations in the scene, including rotation and        */
+/* translation. Updates the camera's transformation and rotation matrices     */
+/* based on movement vectors or rotation angles, and recalculates the image.  */
 /*                                                                            */
 /* ************************************************************************** */
 

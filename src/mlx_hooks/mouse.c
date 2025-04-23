@@ -3,10 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   mouse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:50:02 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/17 22:15:32 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 20:13:01 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Handles mouse interactions for camera control in the miniRT engine.        */
+/* Left mouse button moves the camera based on the cursor's movement, while   */
+/* the right button rotates the camera. Scroll events zoom in and out by      */
+/* translating the camera along its z-axis. Includes threshold checks to      */
+/* avoid minor cursor movements.                                              */
 /*                                                                            */
 /* ************************************************************************** */
 

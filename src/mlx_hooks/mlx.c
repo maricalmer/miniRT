@@ -3,16 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:34:56 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 11:42:05 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 20:10:29 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Manages window creation, user input, and cleanup for the miniRT engine.    */
+/* Initializes the MLX graphics context, handles keypresses for camera        */
+/* movement and rotation, and responds to close events. Ensures clean exit by */
+/* freeing resources and stopping rendering threads when needed.              */
+/* Supports toggling camera modes and triggering antialiasing recalculation.  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static void	handle_input_2(int keysym, t_data *data);
+static void	handle_input_extended(int keysym, t_data *data);
 static void	free_mlx(t_mlxlib *vars);
 
 int	init_mlx(t_mlxlib	*data)
@@ -69,11 +79,11 @@ int	handle_input(int keysym, t_data *data)
 	else if (keysym == 'x')
 		translate_cam(data, data->cam.z, data->cam.d_trans, 1);
 	else
-		handle_input_2(keysym, data);
+		handle_input_extended(keysym, data);
 	return (0);
 }
 
-static void	handle_input_2(int keysym, t_data *data)
+static void	handle_input_extended(int keysym, t_data *data)
 {
 	if (keysym == 'j')
 		rotate_cam(data, CAM_D_THETA * M_PI / 180, data->cam.y, 1);
