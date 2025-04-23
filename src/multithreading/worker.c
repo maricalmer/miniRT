@@ -3,10 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   worker.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:00:48 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 13:39:29 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/04/23 20:17:00 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Manages a pool of worker threads to process image calculations in          */
+/* parallel. Threads are launched to process rows of the image by accessing   */
+/* a shared job list. Mutexes ensure thread safety while updating the         */
+/* the joblist. The parent thread waits for all workers to complete their     */
+/* tasks before exiting.                                                      */
 /*                                                                            */
 /* ************************************************************************** */
 
