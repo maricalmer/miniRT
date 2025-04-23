@@ -3,10 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   rodrigues.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 21:34:47 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/24 19:18:06 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/04/23 20:00:57 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Builds rotation matrices to align the camera direction with the -Z axis,   */
+/* using Rodrigues' rotation formula. Handles special alignment cases         */
+/* (camera looking directly up or down) and prepares transformation data      */
+/* for the rendering pipeline. Transforms world coordinates into camera       */
+/* space.                                                                     */
 /*                                                                            */
 /* ************************************************************************** */
 

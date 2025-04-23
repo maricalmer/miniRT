@@ -6,7 +6,14 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:58:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/24 16:02:01 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:48:19 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Performs in-place multiplication of two 4x4 matrices. The result           */
+/* overwrites the second input matrix to avoid extra memory allocation.       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,10 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   dot_in_place_33.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:34:09 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/18 01:21:25 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 19:46:55 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Provides in-place matrix-vector and matrix-matrix multiplication routines. */
+/* Supports 3x3 and 3x4 matrix operations with 3D vectors or matrices,        */
+/* storing the result directly back into the input.                           */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -6,7 +6,15 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:51:30 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/20 21:21:47 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:57:26 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Core vector math utilities used throughout the ray tracer. Includes vector */
+/* normalization, dot and cross product calculations, vector subtraction, and */
+/* triple scalar product.                                                     */
 /*                                                                            */
 /* ************************************************************************** */
 

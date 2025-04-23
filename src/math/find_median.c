@@ -3,10 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   find_median.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 22:39:15 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/17 22:15:33 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 19:53:30 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Finds the median position of BVH objects along a chosen axis using         */
+/* the Quickselect algorithm. This is used during BVH construction to         */
+/* determine spatial splits that help balance the tree and optimize           */
+/* ray-object intersection performance. Includes custom partitioning and      */
+/* object swapping for in-place selection.                                    */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +26,7 @@ static float	quick_select(t_bvh *bvh, int bounds[2], int k,
 					int idx_axis[2]);
 static int		partition(t_bvh *bvh, int bounds[2], int idx_pivot,
 					int idx_axis[2]);
-static void		ft_swap_custom(t_bvh *bvh, int idx_1, int idx_2, int node_idx);
+static void		swap_custom(t_bvh *bvh, int idx_1, int idx_2, int node_idx);
 
 float	find_median_custom(t_bvh *bvh, int idx, int axis)
 {
@@ -77,23 +87,23 @@ static int	partition(t_bvh *bvh, int bounds[2], int idx_pivot,
 	int		i;
 
 	pivot = bvh->obj_geo[idx_axis[0]][idx_pivot]->center[idx_axis[1]];
-	ft_swap_custom(bvh, idx_pivot, bounds[1], idx_axis[0]);
+	swap_custom(bvh, idx_pivot, bounds[1], idx_axis[0]);
 	idx_final = bounds[0];
 	i = bounds[0];
 	while (i < bounds[1])
 	{
 		if (bvh->obj_geo[idx_axis[0]][i]->center[idx_axis[1]] < pivot)
 		{
-			ft_swap_custom(bvh, i, idx_final, idx_axis[0]);
+			swap_custom(bvh, i, idx_final, idx_axis[0]);
 			idx_final++;
 		}
 		i++;
 	}
-	ft_swap_custom(bvh, idx_final, bounds[1], idx_axis[0]);
+	swap_custom(bvh, idx_final, bounds[1], idx_axis[0]);
 	return (idx_final);
 }
 
-static void	ft_swap_custom(t_bvh *bvh, int idx_1, int idx_2, int node_idx)
+static void	swap_custom(t_bvh *bvh, int idx_1, int idx_2, int node_idx)
 {
 	t_obj_geo	*tmp;
 	t_object	*object;

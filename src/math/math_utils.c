@@ -6,7 +6,15 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 21:14:45 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/20 21:22:07 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:55:37 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Utility functions for basic numerical and vector operations. Includes      */
+/* float swapping, min/max comparison, vector copying, and uniform vector     */
+/* scaling.                                                                   */
 /*                                                                            */
 /* ************************************************************************** */
 
