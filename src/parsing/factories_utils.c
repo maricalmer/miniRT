@@ -3,10 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   factories_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/18 01:26:41 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 20:36:30 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Parses and extracts numerical values from strings in different formats,    */
+/* such as ratios, RGB values, and refractive indices. It ensures the values  */
+/* are within valid ranges and handles errors in case of invalid input.       */
 /*                                                                            */
 /* ************************************************************************** */
 

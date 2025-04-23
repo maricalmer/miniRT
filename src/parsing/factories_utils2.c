@@ -3,10 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   factories_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 09:49:05 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/17 22:15:30 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 20:53:04 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Parses and extracts numerical values from strings in different formats,    */
+/* such as coordinates, vectors, radius, length, and field of view (FOV) from */
+/* input strings. The functions ensure valid ranges and handle errors in case */
+/* of invalid or out-of-range data.                                           */
 /*                                                                            */
 /* ************************************************************************** */
 

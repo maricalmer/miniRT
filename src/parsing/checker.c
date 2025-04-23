@@ -6,7 +6,16 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:18 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 17:17:32 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 20:29:13 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Validates the command-line arguments for the correct input file format.    */
+/* Ensures that exactly one argument is provided, and the file has a ".rt"    */
+/* extension. The file is then opened for reading. If any error occurs, an    */
+/* appropriate error message is printed, and the program exits.               */
 /*                                                                            */
 /* ************************************************************************** */
 
