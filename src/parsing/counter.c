@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:40 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 17:02:28 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:17:43 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	count_rt_elems(char *specs, t_data *data, int *n_cam, int *n_ambient)
 	else
 	{
 		free(specs);
-		print_error_basic(MAND_SET_ERROR);
+		print_error(MAND_SET_ERROR);
 		close(data->rt_fd);
 		exit(EXIT_FAILURE);
 	}
@@ -76,7 +76,7 @@ static int	count_tri_data(char *line, t_obj_parser *parser)
 		else
 		{
 			free(specs);
-			return (print_error_basic(TRI_ERROR), EXIT_FAILURE);
+			return (print_error(TRI_ERROR), EXIT_FAILURE);
 		}
 	}
 	else if (is_face(specs))
@@ -84,7 +84,7 @@ static int	count_tri_data(char *line, t_obj_parser *parser)
 	else if (!is_smoothing(specs))
 	{
 		free(specs);
-		return (print_error_basic(TRI_ERROR), EXIT_FAILURE);
+		return (print_error(TRI_ERROR), EXIT_FAILURE);
 	}
 	free(specs);
 	return (EXIT_SUCCESS);

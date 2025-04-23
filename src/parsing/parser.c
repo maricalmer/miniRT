@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:38:13 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 17:02:56 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:18:16 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	handle_parsing(char **av, t_data *data)
 	read_rt(data);
 	if (!data->n_light)
 	{
-		print_error_basic(MAND_SET_ERROR);
+		print_error(MAND_SET_ERROR);
 		exit(EXIT_FAILURE);
 	}
 	if (data->n_obj_files)

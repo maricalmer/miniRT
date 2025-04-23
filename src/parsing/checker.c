@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:18 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 17:02:11 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:17:32 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	check_input(int ac, char **av, t_data *data)
 {
 	if (ac != 2)
 	{
-		print_error_basic(ARGS_ERROR);
+		print_error(ARGS_ERROR);
 		exit(EXIT_FAILURE);
 	}
 	check_filename(av[1], &data->rt_fd); 
@@ -29,7 +29,7 @@ static void	check_filename(char *file, int *fd)
 {
 	if (!ft_strncmp(file, "", 1) || !is_rt_extension(file))
 	{
-		print_error_basic(FILE_ERROR);
+		print_error(FILE_ERROR);
 		exit(EXIT_FAILURE);
 	}
 	*fd = open(file, O_RDONLY);

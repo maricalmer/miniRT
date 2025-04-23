@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:39 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 17:02:32 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:17:51 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	increase_if_uniq(int *value, char *specs, t_data *data)
 		(*value)++;
 	else
 	{
-		print_error_basic(MAND_SET_ERROR);
+		print_error(MAND_SET_ERROR);
 		free(specs);
 		close(data->rt_fd);
 		exit(EXIT_FAILURE);

@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:39:09 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 17:03:27 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:18:34 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	create_elements_rt(t_data *data, char *filename)
 	read_rt_file(data);
 	if (!data->n_light)
 	{
-		print_error_basic(MAND_SET_ERROR);
+		print_error(MAND_SET_ERROR);
 		exit(EXIT_FAILURE);
 	}
 	close(data->rt_fd);
@@ -78,20 +78,20 @@ static int	handle_light_creation(t_data *data, char *specs)
 	if (specs[0] == 'L')
 	{
 		if (create_light(data, &specs[2]) == EXIT_FAILURE)
-			return (print_error_basic(LIGHT_ERROR), EXIT_FAILURE);
+			return (print_error(LIGHT_ERROR), EXIT_FAILURE);
 	}
 	else if (specs[0] == 'A')
 	{
 		if (create_ambient_light(data, &specs[2]) == EXIT_FAILURE)
-			return (print_error_basic(AMB_ERROR), EXIT_FAILURE);
+			return (print_error(AMB_ERROR), EXIT_FAILURE);
 	}
 	else if (specs[0] == 'C')
 	{
 		if (create_cam(data, &specs[2]) == EXIT_FAILURE)
-			return (print_error_basic(CAM_ERROR), EXIT_FAILURE);
+			return (print_error(CAM_ERROR), EXIT_FAILURE);
 	}
 	else
-		return (print_error_basic(TYPES_ERROR), EXIT_FAILURE);
+		return (print_error(TYPES_ERROR), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
@@ -100,25 +100,25 @@ static int	handle_object_creation(t_data *data, char *specs)
 	if (specs[0] == 'p')
 	{
 		if (create_plane(data, &specs[3]) == EXIT_FAILURE)
-			return (print_error_basic(PLANE_ERROR), EXIT_FAILURE);
+			return (print_error(PLANE_ERROR), EXIT_FAILURE);
 	}
 	else if (specs[0] == 's')
 	{
 		if (create_sphere(data, &specs[3]) == EXIT_FAILURE)
-			return (print_error_basic(SPHERE_ERROR), EXIT_FAILURE);
+			return (print_error(SPHERE_ERROR), EXIT_FAILURE);
 	}
 	else if (specs[0] == 'c')
 	{
 		if (create_cylinder(data, &specs[3]) == EXIT_FAILURE)
-			return (print_error_basic(CYLINDER_ERROR), EXIT_FAILURE);
+			return (print_error(CYLINDER_ERROR), EXIT_FAILURE);
 	}
 	else if (specs[0] == 'r')
 	{
 		if (create_rectangle(data, &specs[3]) == EXIT_FAILURE)
-			return (print_error_basic(RECTANGLE_ERROR), EXIT_FAILURE);
+			return (print_error(RECTANGLE_ERROR), EXIT_FAILURE);
 	}
 	else
-		return (print_error_basic(TYPES_ERROR), EXIT_FAILURE);
+		return (print_error(TYPES_ERROR), EXIT_FAILURE);
 	data->objects_idx++;
 	return (EXIT_SUCCESS);
 }

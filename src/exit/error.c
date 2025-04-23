@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:32:55 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 11:42:16 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 17:16:55 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	handle_file_error(const char *function, const char *filename)
 	exit(EXIT_FAILURE);
 }
 
-void	print_error_basic(int error_code)
+void	print_error(int error_code)
 {
 	if (error_code == ARGS_ERROR)
 		printf("\n%sError%s%sWrong args%s\n", RED_BG_START, COLOR_END,

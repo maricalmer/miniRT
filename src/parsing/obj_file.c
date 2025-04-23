@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 17:02:35 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:17:55 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static void	process_obj_file(t_obj_parser *parsers, char *specs)
 	if (set_tri(&parsers[i], specs) == EXIT_FAILURE)
 	{
 		free(specs);
-		print_error_basic(OBJ_ERROR);
+		print_error(OBJ_ERROR);
 		exit_with_obj_parser_cleanup(parsers, i);
 	}
 }
