@@ -3,10 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   prints2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:39:21 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/23 14:00:34 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:37:26 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Logs timing information and mesh statistics. Reports BVH build time,       */
+/* per-image render times, and total triangle count for loaded triangle       */
+/* meshes.                                                                    */
 /*                                                                            */
 /* ************************************************************************** */
 

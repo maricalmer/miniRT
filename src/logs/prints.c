@@ -3,10 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   prints.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:39:30 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/18 01:11:51 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 19:34:37 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Displays program intro/outro banners and prints statistics about the BVH   */
+/* used in the scene. Provides information like tree depth, number of leaf    */
+/* nodes, object distribution, and leaf density.                              */
 /*                                                                            */
 /* ************************************************************************** */
 
