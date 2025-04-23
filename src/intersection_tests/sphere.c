@@ -6,7 +6,16 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 19:21:40 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/19 19:22:31 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:23:15 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Performs a ray-sphere intersection test. Calculates the intersection of a  */
+/* ray with a sphere based on the ray's direction and origin. If an           */
+/* intersection exists, it returns the distance to the point of intersection  */
+/* and 0 otherwise.                                                           */
 /*                                                                            */
 /* ************************************************************************** */
 

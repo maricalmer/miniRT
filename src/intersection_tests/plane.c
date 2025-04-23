@@ -6,7 +6,15 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 18:55:06 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/19 18:55:34 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:18:03 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Performs a ray-plane intersection test. Given a plane object and a ray,    */
+/* it calculates the intersection point, returning the distance to the plane  */
+/* if an intersection exists and 0 otherwise.                                 */
 /*                                                                            */
 /* ************************************************************************** */
 

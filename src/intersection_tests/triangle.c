@@ -6,7 +6,16 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:36:17 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/25 10:44:13 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:26:47 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Performs a ray-triangle intersection test using the Möller-Trumbore        */
+/* algorithm. This test calculates whether a ray intersects a triangle in 3D  */
+/* space, and if so, it returns the distance to the intersection point and 0  */
+/* otherwise.                                                                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +24,6 @@
 static float	get_t(float s[3], float ray[3], float edges[6],
 					float det_and_bar[4]);
 
-/* Möller-Trumbore Ray-Triangle Intersection Test */
 float	test_triangle(t_object *obj, float ray[3], float origin[3])
 {
 	float	edges[6];

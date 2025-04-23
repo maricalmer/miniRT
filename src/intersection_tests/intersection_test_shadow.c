@@ -6,7 +6,15 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 18:29:38 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/24 11:22:30 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:07:08 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Handles shadow ray tests against all scene objects. Offsets hit point      */
+/* slightly to avoid self-shadowing artifacts. Supports direct object lists   */
+/* and BVH-accelerated structures.                                            */
 /*                                                                            */
 /* ************************************************************************** */
 

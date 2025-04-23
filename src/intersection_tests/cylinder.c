@@ -3,10 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 17:57:55 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/17 22:01:06 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 19:04:39 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Implements ray-cylinder intersection for finite cylinders. Computes        */
+/* quadratic intersection using cross products and dot products. Validates    */
+/* hits based on the cylinder's finite height along its axis.                 */
 /*                                                                            */
 /* ************************************************************************** */
 

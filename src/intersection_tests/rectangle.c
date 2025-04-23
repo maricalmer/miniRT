@@ -6,13 +6,21 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 18:55:06 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/24 11:20:11 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:21:19 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Performs a ray-rectangle intersection test. Given a rectangle object and a */
+/* ray, it calculates the intersection point and checks if it lies within the */
+/* rectangle's bounds. Returns the distance to the rectangle if an            */
+/* intersection exists and 0 otherwise.                                       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-/* super slow rectangle test ==> shall be optimized ...*/
 float	test_rectangle(t_object *obj, float ray[3], float origin[3])
 {
 	float	pts_d[3];

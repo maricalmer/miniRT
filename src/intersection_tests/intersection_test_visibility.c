@@ -6,7 +6,15 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 18:52:02 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/25 10:31:46 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:13:58 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Performs visibility tests for all scene objects. Supports primitive types  */
+/* and BVH-accelerated geometry. Uses FAST_BVH flag to determine traversal    */
+/* strategy (fast or strict).                                                 */
 /*                                                                            */
 /* ************************************************************************** */
 

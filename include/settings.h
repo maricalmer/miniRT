@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   settings.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:49:25 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/18 01:56:55 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 18:12:26 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@
 # undef FLT_MIN
 # define FLT_MIN				1e-20F
 
-# define FAST_BVH_TRANSVERSAL	0 // fast is ok for convexe volumes, else strict (=> 0) should be used
+# define FAST_BVH_TRANSVERSAL	1 // fast is ok for convexe volumes, else strict (=> 0) should be used
 # define MAX_BVH_GROUP			20
 # define BVH_DEPTH_MAX			5
 # define BVH_SIZE_MAX			37464 // (w^(d+1) - 1)/(w-1) + (w-1) + w

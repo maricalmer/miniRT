@@ -3,10 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   aabb_simd_fast.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:22:11 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/23 13:51:21 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 18:50:16 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Fast AABB test for BVH traversal using SIMD. Filters out invalid           */
+/* intersections early (= -1). Sorts valid hits front-to-back for optimal     */
+/* traversal. Helps early-exit and reduces expensive geometry tests. Most     */
+/* effective in complex scenes with convex volumes (e.g. suzanne). Uses AVX   */
+/* to process 8 AABBs in parallel. Returns sorted valid indices in `res`.     */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +53,8 @@ static int	filter_valid_values(float *tmp, float *values, int *indices)
 	int		i;
 	int		size;
 
-	i = -1;
 	size = 0;
+	i = -1;
 	while (++i < 8)
 	{
 		if (tmp[i] != -1)

@@ -6,7 +6,18 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:22:11 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/20 03:09:02 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 18:58:35 by dlemaire         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Implements BVH traversal using SIMD-accelerated AABB tests for visibility  */
+/* and shadows. Provides both strict (sorted by distance) and fast            */
+/* (early-exit) traversal modes. `visi_test_bvh_strict` finds the closest     */
+/* hit, while `visi_test_bvh_fast` exits on first hit. `shadow_test_bvh`      */
+/* checks for occlusion between a point and a light source. Utilizes SIMD     */
+/* to test 8 AABBs in parallel                .                               */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +48,7 @@ static float	process_bvh_children(t_bvh *bvh, int idx, t_shoot *shoot,
 
 	t_min = FLT_MAX;
 	obj = NULL;
-    i = -1;
+	i = -1;
 	while (++i < 8)
 	{
 		if (res[i] != -1)
