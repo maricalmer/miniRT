@@ -3,10 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   factories2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:49:04 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/26 13:38:49 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/04/23 22:45:22 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Creation of sphere and triangle objects. It parses core parameters like    */
+/* position, color and size. For triangles, it validates face data and        */
+/* extracts vertex and normal vectors.                                        */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,10 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:39 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 17:17:51 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 23:00:36 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Memory allocation and initialization for core scene structures including   */
+/* objects, lights, and OBJ parser data. Manages unique entity constraints    */
+/* like a single camera or ambient light.                                     */
 /*                                                                            */
 /* ************************************************************************** */
 

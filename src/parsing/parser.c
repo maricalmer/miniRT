@@ -3,10 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:38:13 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 17:18:16 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 23:13:30 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Reads and formats input lines, extracts essential scene elements like      */
+/* cameras, lights and object file references. Ensures correct formatting     */
+/* before moving to object creation.                                          */
 /*                                                                            */
 /* ************************************************************************** */
 

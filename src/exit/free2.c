@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   free2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:37:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 17:04:48 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 22:22:02 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* ************************************************************************** */
 /*                                                                            */
-/* File provides utility functions to handle cleanup during scene parsing     */
-/* failure.                                                                   */
+/* Utility functions to handle cleanup during scene parsing failure.          */
 /*                                                                            */
 /* ************************************************************************** */
 

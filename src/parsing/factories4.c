@@ -3,10 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   factories4.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:08:59 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/11 16:52:23 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 22:53:15 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Creation of light and triangle objects. It parses core parameters like     */
+/* light position, brightness and color data. Processes material properties   */
+/* for triangles loaded from OBJ files, including colors, reflection and      */
+/* refraction attributes.                                                     */
 /*                                                                            */
 /* ************************************************************************** */
 

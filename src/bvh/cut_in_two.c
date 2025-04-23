@@ -6,13 +6,13 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 12:28:39 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/22 22:40:23 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 22:27:01 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* ************************************************************************** */
 /*                                                                            */
-/* File subdivides a BVH node into two child nodes recursively. From depth 1  */
+/* Subdivides a BVH node into two child nodes recursively. From depth 1       */
 /* onward, cutting occurs in-place within the preallocated SoA BVH structure. */
 /* The axis is chosen by evaluating object counts across mid-planes (up to    */
 /* depth 3, splits tend to happen along the Y axis). The node is split into   */

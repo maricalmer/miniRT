@@ -3,10 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   rt_file.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:39:09 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 17:18:34 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 23:13:29 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Reads the scene description file, processes each line to identify and      */
+/* create lights, objects (such as planes, spheres, etc.) and checks for      */
+/* necessary scene components.                                                */
 /*                                                                            */
 /* ************************************************************************** */
 

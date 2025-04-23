@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   identifiers.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:12 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/24 16:14:36 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 22:55:13 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Utility functions. Identifies different scene elements based on the prefix */
+/* of their specification strings.                                            */
 /*                                                                            */
 /* ************************************************************************** */
 

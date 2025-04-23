@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:32:55 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 17:16:55 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 22:22:40 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* ************************************************************************** */
 /*                                                                            */
-/* This file provides error handling and reporting functions. Error codes are */
-/* interpreted and translated into descriptive, color-formatted messages.     */
+/* Error handling and reporting functions. Error codes are interpreted and    */
+/* translated into descriptive, color-formatted messages.                     */
 /*                                                                            */
 /* ************************************************************************** */
 

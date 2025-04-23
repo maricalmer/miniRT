@@ -3,10 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   factories.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 09:55:14 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/11 16:52:16 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 22:40:23 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Creation of ambient lights, cameras, and planes. It parses core parameters */
+/* like position, color, direction, and field of view, as well as optional    */
+/* extended material data like reflectivity, refractivity, and checkerboard   */
+/* settings.                                                                  */
 /*                                                                            */
 /* ************************************************************************** */
 

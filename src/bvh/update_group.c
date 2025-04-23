@@ -6,14 +6,14 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:05:07 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/22 23:04:57 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 22:27:24 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* ************************************************************************** */
 /*                                                                            */
-/* File replaces the current object list with a new array starting with BVH   */
-/* as single object + all non-geo objects. Old list is preserved in           */
+/* Replaces the current object list with a new array starting with BVH as     */
+/* single object + all non-geo objects. Old list is preserved in              */
 /* data->all_objects.                                                         */
 /*                                                                            */
 /* ************************************************************************** */

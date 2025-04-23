@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   counter.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:40 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 20:33:25 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 22:20:03 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* ************************************************************************** */
 /*                                                                            */
-/* This file parses an input .obj file to extract and count various 3D        */
-/* elements like vertices, faces, and object types (plane, sphere...). It     */
-/* also checks for proper formatting and handles errors during parsing. The   */
-/* counts are stored in the provided data structure for further use.          */
+/* Parses an input .obj file to extract and count various 3D elements like    */
+/* vertices, faces, and object types (plane, sphere...). It also checks       */
+/* for proper formatting and handles errors during parsing. The counts are    */
+/* stored in the provided data structure for further use.                     */
 /*                                                                            */
 /* ************************************************************************** */
 

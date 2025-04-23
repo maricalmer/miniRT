@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   factories_utils3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 09:53:28 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/24 10:47:12 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 22:34:31 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Parses a positive float value from a string ensuring it is valid. Performs */
+/* error checks and moves the string pointer forward after parsing.           */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,10 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   obj_file.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 17:17:55 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/23 23:03:10 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Extracts object file paths from the scene file, loads and reads each .obj  */
+/* file, initializes data structures for geometry and materials and           */
+/* integrates the parsed elements into the main scene data.                   */
 /*                                                                            */
 /* ************************************************************************** */
 

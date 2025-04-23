@@ -6,18 +6,17 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 20:57:31 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/23 11:41:02 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 22:26:00 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* ************************************************************************** */
 /*                                                                            */
-/* File extracts geo data (center, AABB min/max) for BVH-compatible objects:  */
+/* Extracts geo data (center, AABB min/max) for BVH-compatible objects:       */
 /* spheres, triangles, and rectangles. Each object type has a specific        */
 /* function to compute its axis-aligned bounding box and center position.     */
-/* The main function allocates and fills an array of t_obj_geo for all        */
-/* objects in the BVH root group. The extracted geometry data is stored in    */
-/* the BVH structure and used later for spatial partitioning.                 */
+/* The extracted geometry data is stored in the BVH structure and used later  */
+/* for spatial partitioning.                                                  */
 /*                                                                            */
 /* ************************************************************************** */
 

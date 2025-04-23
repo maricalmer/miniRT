@@ -6,13 +6,13 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:33:11 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 11:56:52 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 22:22:11 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* ************************************************************************** */
 /*                                                                            */
-/* File provides utility functions for memory cleanup and thread management.  */
+/* Utility functions for memory cleanup and thread management.                */
 /*                                                                            */
 /* ************************************************************************** */
 

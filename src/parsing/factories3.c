@@ -3,10 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   factories3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:53:31 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/03/26 13:39:03 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/04/23 22:49:05 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Creation of cylinder and rectangle objects. It parses core parameters like */
+/* geometric, color and material properties. Bonus data such as secondary     */
+/* colors and texture directions are handled through helper functions.        */
 /*                                                                            */
 /* ************************************************************************** */
 
