@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   obj_file2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 11:25:31 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/18 02:08:23 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/23 17:02:53 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	process_obj_line(char *specs, t_data *data, t_obj_parser *parser)
 	else if (specs[0] == 's')
 		return (EXIT_SUCCESS);
 	else
-		return (print_error(TYPES_ERROR), EXIT_FAILURE);
+		return (print_error_basic(TYPES_ERROR), EXIT_FAILURE);
 }
 
 static int	handle_vertex_line(char *specs, t_obj_parser *parser)
@@ -34,12 +34,12 @@ static int	handle_vertex_line(char *specs, t_obj_parser *parser)
 	if (specs[1] == 'n')
 	{
 		if (parse_normal(specs, parser) == EXIT_FAILURE)
-			return (print_error(TRI_ERROR), EXIT_FAILURE);
+			return (print_error_basic(TRI_ERROR), EXIT_FAILURE);
 	}
 	else
 	{
 		if (parse_vertex(specs, parser) == EXIT_FAILURE)
-			return (print_error(TRI_ERROR), EXIT_FAILURE);
+			return (print_error_basic(TRI_ERROR), EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -50,7 +50,7 @@ static int	parse_vertex(char *line, t_obj_parser *parser)
 			&parser->vertices[parser->idx_v][0],
 		&parser->vertices[parser->idx_v][1],
 			&parser->vertices[parser->idx_v][2]) != 3)
-		return (print_error(TRI_ERROR), EXIT_FAILURE);
+		return (print_error_basic(TRI_ERROR), EXIT_FAILURE);
 	parser->idx_v++;
 	return (EXIT_SUCCESS);
 }
@@ -61,7 +61,7 @@ static int	parse_normal(char *line, t_obj_parser *parser)
 			&parser->normals[parser->idx_n][0],
 		&parser->normals[parser->idx_n][1],
 			&parser->normals[parser->idx_n][2]) != 3)
-		return (print_error(TRI_ERROR), EXIT_FAILURE);
+		return (print_error_basic(TRI_ERROR), EXIT_FAILURE);
 	parser->idx_n++;
 	return (EXIT_SUCCESS);
 }
@@ -69,6 +69,6 @@ static int	parse_normal(char *line, t_obj_parser *parser)
 static int	handle_face_line(char *specs, t_data *data, t_obj_parser *parser)
 {
 	if (create_triangle(data, specs, parser) == EXIT_FAILURE)
-		return (print_error(TRI_ERROR), EXIT_FAILURE);
+		return (print_error_basic(TRI_ERROR), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

@@ -3,18 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:37:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 11:57:02 by maricalmer       ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/* File replaces the current object list with a new array starting with BVH   */
-/* as single object + all non-geo objects. Old list is preserved in           */
-/* data->all_objects.                                                         */
+/*   Updated: 2025/04/23 17:04:48 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
