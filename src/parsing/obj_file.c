@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   obj_file.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 23:03:10 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/24 18:31:14 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static void	process_obj_file(t_obj_parser *parsers, char *specs)
 	while (*name_end && !ft_iswhitespace(*name_end))
 		name_end++;
 	len = name_end - name_start;
-	parsers[i].filename = malloc(len + 1);   
+	parsers[i].filename = malloc(len + 1);
 	if (!parsers[i].filename)
 		handle_memory_failure(__func__);
 	ft_strlcpy(parsers[i].filename, name_start, len + 1);
@@ -107,6 +107,7 @@ static void	process_obj_file(t_obj_parser *parsers, char *specs)
 		print_error(OBJ_ERROR);
 		exit_with_obj_parser_cleanup(parsers, i);
 	}
+	i++;
 }
 
 static int	create_elements_obj(t_data *data, t_obj_parser *parser)
