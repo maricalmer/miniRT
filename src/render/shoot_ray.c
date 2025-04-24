@@ -6,7 +6,15 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 14:59:58 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/17 22:15:27 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/24 11:41:23 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Determines the hit point and surface normal based on the object type.      */
+/* Supports planes, spheres, triangles, and cylinders with per-type logic.    */
+/* Reverses normals if they're facing away from the ray for correct lighting. */
 /*                                                                            */
 /* ************************************************************************** */
 

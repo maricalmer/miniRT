@@ -3,10 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   calculate_pixel.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hruiz-fr <hruiz-fr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:42:06 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/23 12:19:05 by hruiz-fr         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:18:06 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Per-pixel ray calculation for image rendering. Handles anti-aliasing by    */
+/* shooting multiple rays per pixel, averaging their color values for         */
+/* smoother results. Computes ray directions, fires into scene, stores final  */
+/* pixel color.                                                               */
 /*                                                                            */
 /* ************************************************************************** */
 

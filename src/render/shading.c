@@ -3,10 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   shading.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:10:51 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/25 10:27:23 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:38:06 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Combines ambient, diffuse, and specular lighting via the Phong model.      */
+/* Applies checkerboard patterns when enabled on objects. Performs shadow     */
+/* tests before applying direct light contributions. Adds reflections using   */
+/* the Whitted-style recursive ray tracing. Falls back to a sky color if the  */
+/* ray misses all objects.                                                    */
 /*                                                                            */
 /* ************************************************************************** */
 

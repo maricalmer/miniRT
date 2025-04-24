@@ -6,7 +6,18 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:05:24 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/17 22:15:28 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/24 11:33:56 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Handles the setup and rendering of the first image. Initializes camera     */
+/* position and field of view based on the BVH bounds. Sets up ray            */
+/* calculation parameters and distributes pixel rows as jobs. Calculates the  */
+/* rendered image using multithreaded workers. Displays the rendered image in */
+/* the window and prints render time. Includes logic to render per-line image */
+/* packets.                                                                   */
 /*                                                                            */
 /* ************************************************************************** */
 

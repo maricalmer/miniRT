@@ -3,10 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   shoot_refrac_reflec.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:29:21 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/24 12:26:44 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:48:00 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Handles reflection and refraction ray generation for Whitted algo.         */
+/* Computes the direction of bounced (mirror) rays and transmitted            */
+/* (refracted) rays. Uses surface normals and material properties for         */
+/* calculation. Reflection preserves the current medium, refraction toggles   */
+/* the inside/outside state. New rays are recursively traced with increased   */
+/* depth for multi-bounce effects. Central for simulating glass, mirrors and  */
+/* other transparent or shiny surfaces.                                       */
 /*                                                                            */
 /* ************************************************************************** */
 

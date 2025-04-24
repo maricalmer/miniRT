@@ -3,16 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   checkerboard.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:38:28 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/03/24 09:55:59 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:26:43 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Determines the checkerboard color at the hit point: returns 1 for color1   */
+/* (e.g., black), 0 for color2 (e.g., white). Computes which grid cell the    */
+/* point lies in using u/v coords then checks if the sum of cell indices is   */
+/* odd or even. An odd sum means the cell is of the alternate color (1),      */
+/* an even sum means it's the base color (0).                                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-// return 1 on color1 and 0 on color2
 int	check_checkerboard_grid(t_shoot *shoot)
 {
 	float	u;

@@ -6,7 +6,17 @@
 /*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:23:09 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/17 22:15:10 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/24 11:52:34 by maricalmer       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Determines whether to trace secondary rays based on material properties    */
+/* and depth. Supports pure reflection and combined reflection/refraction     */
+/* using Fresnel effect. Calculates color contributions from reflected and    */
+/* refracted rays and blends them. Prevents recursion overflow with a         */
+/* maximum depth and intensity threshold.                                     */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -22,7 +22,7 @@ SOURCES := $(addprefix $(SOURCES_DIRECTORY)/,\
 		$(addprefix render/, render.c calculate_pixel.c shoot_ray.c shading.c checkerboard.c shoot_refrac_reflec.c \
 			whitted.c) \
 		$(addprefix multithreading/, worker.c) \
-		$(addprefix mlx_hooks/, mlx.c events.c mouse.c) \
+		$(addprefix mlx_hooks/, mlx.c camera.c mouse.c) \
 		$(addprefix intersection_tests/, aabb_simd.c aabb_simd_fast.c bvh.c cylinder.c intersection_test_shadow.c \
 			intersection_test_visibility.c plane.c rectangle.c sphere.c triangle.c) \
 		$(addprefix math/, math.c math_utils.c find_median.c dot_in_place_33.c dot_in_place_44.c rodrigues.c) \

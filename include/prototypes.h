@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prototypes.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:49:20 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/23 17:17:12 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/24 10:04:31 by maricalmer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void		wait_for_workers(t_data *data);
 void		launch_pool(t_data *data);
 void		*worker(void *arg);
 void		calculate_img_packet(t_calc_img_arg *arg);
-/* mlx n events */
+/* mlx hooks */
 int			handle_input(int keysym, t_data *data);
 int			handle_close(t_data *data);
 int			init_mlx(t_mlxlib *data);
