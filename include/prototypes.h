@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:49:20 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 13:20:48 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 13:38:23 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void		cut_in_two(t_bvh *bvh, int idx, int idx_c, int i);
 void		get_group_size(t_data *data, t_bvh *bvh);
 void		create_root_obj_list(t_data *data, t_bvh *bvh);
 int			find_min_idx(int x[3]);
-void		malloc_groups_n_geo(t_bvh *bvh, t_cut_in_two *cut);
+void		malloc_groups_and_geo(t_bvh *bvh, t_cut_in_two *cut);
 void		get_mid_planes(t_bvh *bvh, int idx, t_cut_in_two *cut);
 t_obj_geo	*create_obj_geo_data(t_bvh *bvh);
 void		get_bboxes(t_bvh *bvh, int idx, t_cut_in_two *cut);

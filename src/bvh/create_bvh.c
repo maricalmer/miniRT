@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_bvh.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:41 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/23 22:26:51 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 13:35:28 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_bvh	*init_bvh(t_data *data)
 		handle_memory_failure(__func__);
 	memset_bvh8_first_block(bvh);
 	get_group_size(data, bvh);
-	create_obj_list_root(data, bvh);
+	create_root_obj_list(data, bvh);
 	data->bvh_geo_data = create_obj_geo_data(bvh);
 	get_bbox_min_max_root(bvh);
 	idx_c = cut_into_child_nodes(bvh, 0);

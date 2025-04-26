@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cut_in_two.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 12:28:39 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/23 22:27:01 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 13:38:26 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	cut_in_two(t_bvh *bvh, int idx, int idx_c, int i)
 	cut.old_geo = bvh->obj_geo[idx];
 	get_mid_planes(bvh, idx, &cut);
 	set_cutting_plane_n_obj(bvh, idx, &cut);
-	malloc_groups_n_geo(bvh, &cut);
+	malloc_groups_and_geo(bvh, &cut);
 	create_child_groups(bvh, &cut);
 	get_bboxes(bvh, idx, &cut);
 	if (idx == cut.idx_left)
