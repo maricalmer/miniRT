@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:34:56 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/26 14:40:00 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 17:04:57 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ static void	handle_input_extended(int keysym, t_data *data)
 	else if (keysym == 'm')
 	{
 		data->anti_fa = ANTIALIASING_FACT;
-		calculate_img(data);
+		prepare_image_jobs(data);
 	}
 }
 

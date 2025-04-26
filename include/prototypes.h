@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:49:20 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 16:54:37 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 17:05:43 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,9 @@ void		render_pixel(t_calc_img_arg *arg, int p, t_shoot *shoot,
 				int (*hd_res)[3]);
 void		shoot_ray(t_data *data, t_shoot *shoot);
 void		first_rotation_matrix(t_data *data);
-void		calculate_img(t_data *data);
+void		prepare_image_jobs(t_data *data);
 /*checkerboard.c*/
-int			check_checkerboard_grid(t_shoot *shoot);
+int			eval_checkerboard_pattern(t_shoot *shoot);
 /*phong.c*/
 void		shading(t_shoot *shoot, t_data *data);
 /* BVH */
@@ -154,7 +154,7 @@ void		scale_vec(float v[3], float amp);
 void		wait_for_workers(t_data *data);
 void		launch_pool(t_data *data);
 void		*worker(void *arg);
-void		calculate_img_packet(t_calc_img_arg *arg);
+void		render_image_batch(t_calc_img_arg *arg);
 /* mlx hooks */
 int			handle_input(int keysym, t_data *data);
 int			handle_close(t_data *data);

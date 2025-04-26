@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:05:24 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 16:54:44 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 17:05:31 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ void	render_first_image(t_data *data)
 		data->cam.d_trans = 10;
 	copy_vec(data->cam.origin, data->cam.origin_backup);
 	first_rotation_matrix(data);
-	calculate_img(data);
+	prepare_image_jobs(data);
 }
 
-void	calculate_img(t_data *data)
+void	prepare_image_jobs(t_data *data)
 {
 	int				i;
 	t_ray_prim		data_ray;
@@ -79,7 +79,7 @@ static void	init_data_ray(t_ray_prim *data_ray, t_data *data)
 	data_ray->hd_dx = data_ray->dx / data->anti_fa;
 }
 
-void	calculate_img_packet(t_calc_img_arg *arg)
+void	render_image_batch(t_calc_img_arg *arg)
 {
 	t_shoot			first_shoot;
 	int				i;

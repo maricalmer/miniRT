@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:34:36 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/26 16:15:05 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 17:04:55 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	translate_cam(t_data *data, float v[3], float amp,
 	copy_rotation_matrix_from_tmat(data);
 	ft_memcpy(data->cam.origin, data->cam.origin_backup, sizeof(float [3]));
 	matrix34_vec3_multiply_inplace(data->cam.t_mat, data->cam.origin);
-	calculate_img(data);
+	prepare_image_jobs(data);
 }
 
 void	rotate_cam(t_data *data, float theta, float axis[3],
@@ -97,5 +97,5 @@ void	rotate_cam(t_data *data, float theta, float axis[3],
 	matrix33_vec3_multiply_inplace(data->cam.r_mat, data->cam.x);
 	matrix33_vec3_multiply_inplace(data->cam.r_mat, data->cam.y);
 	matrix33_vec3_multiply_inplace(data->cam.r_mat, data->cam.z);
-	calculate_img(data);
+	prepare_image_jobs(data);
 }

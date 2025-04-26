@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:50:02 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/24 10:04:00 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 17:05:00 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,13 @@ int	mouse_release(int button, int x, int y, void *arg)
 	{
 		data->mouse_pressed_l = 0;
 		data->anti_fa = ANTIALIASING_FACT;
-		calculate_img(data);
+		prepare_image_jobs(data);
 	}
 	else if (button == 3)
 	{
 		data->mouse_pressed_r = 0;
 		data->anti_fa = ANTIALIASING_FACT;
-		calculate_img(data);
+		prepare_image_jobs(data);
 	}
 	return (0);
 }

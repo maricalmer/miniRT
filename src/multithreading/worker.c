@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:00:48 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/26 16:24:00 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 17:05:45 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	*worker(void *arg)
 			joblist_index = data->next_job_id;
 			data->next_job_id++;
 			pthread_mutex_unlock(&data->joblist_mutex);
-			calculate_img_packet(&data->joblist[joblist_index]);
+			render_image_batch(&data->joblist[joblist_index]);
 			data->active_threads--;
 		}
 		usleep(USLEEP_WORKER);

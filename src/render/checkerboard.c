@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:38:28 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 16:02:31 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 17:02:09 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 #include "minirt.h"
 
-int	check_checkerboard_grid(t_shoot *shoot)
+int	eval_checkerboard_pattern(t_shoot *shoot)
 {
 	float	u;
 	float	v;
