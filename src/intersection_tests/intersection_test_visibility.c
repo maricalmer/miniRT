@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 18:52:02 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/26 14:52:06 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:04:16 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static float	find_closest_hit(t_object *objects, t_shoot *shoot, int n_obj)
 static float	test_object(t_object *obj, t_shoot *shoot)
 {
 	if (obj->type == PLANE)
-		return (test_plane(obj, shoot->dir, shoot->src));
+		return (intersect_plane(obj, shoot->dir, shoot->src));
 	else if (obj->type == CYLINDER)
 		return (intersect_cylinder(obj, shoot->dir, shoot->src));
 	else if (obj->type == BVH)
@@ -83,11 +83,11 @@ float	visi_test_leafs(t_object **objects, t_shoot *shoot, int n_obj)
 	while (++i < n_obj)
 	{
 		if (objects[i]->type == SPHERE)
-			t = test_sphere(objects[i], shoot->dir, shoot->src);
+			t = intersect_sphere(objects[i], shoot->dir, shoot->src);
 		else if (objects[i]->type == TRI)
-			t = test_triangle(objects[i], shoot->dir, shoot->src);
+			t = intersect_triangle(objects[i], shoot->dir, shoot->src);
 		else
-			t = test_rectangle(objects[i], shoot->dir, shoot->src);
+			t = intersect_rectangle(objects[i], shoot->dir, shoot->src);
 		if (t > EPSILON && t < t_min)
 		{
 			t_min = t;

@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:16:27 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/06 19:22:38 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:01:31 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	test_plane_hit_directly(void)
 	t_object obj = create_test_plane();
 	float origin[3] = {0.0f, 0.0f, 0.0f};
 	float ray[3] = {0.0f, 0.0f, 1.0f};
-	float t = test_plane(&obj, ray, origin);
+	float t = intersect_plane(&obj, ray, origin);
 
 	CU_ASSERT_TRUE(assert_float_equal(t, 5.0f, EPSILON_TEST));
 }
@@ -41,7 +41,7 @@ void	test_plane_parallel_ray(void)
 	t_object obj = create_test_plane();
 	float origin[3] = {0.0f, 0.0f, 0.0f};
 	float ray[3] = {1.0f, 0.0f, 0.0f};
-	float t = test_plane(&obj, ray, origin);
+	float t = intersect_plane(&obj, ray, origin);
 
 	CU_ASSERT_TRUE(assert_float_equal(t, 0.0f, EPSILON_TEST));
 }
@@ -51,7 +51,7 @@ void	test_plane_back_facing_ray(void)
 	t_object obj = create_test_plane();
 	float origin[3] = {0.0f, 0.0f, 10.0f};
 	float ray[3] = {0.0f, 0.0f, 1.0f};
-	float t = test_plane(&obj, ray, origin);
+	float t = intersect_plane(&obj, ray, origin);
 
 	CU_ASSERT_TRUE(assert_float_equal(t, 0.0f, EPSILON_TEST));
 }
@@ -61,7 +61,7 @@ void	test_plane_origin_on_plane(void)
 	t_object obj = create_test_plane();
 	float origin[3] = {0.0f, 0.0f, 5.0f};
 	float ray[3] = {0.0f, 0.0f, 1.0f};
-	float t = test_plane(&obj, ray, origin);
+	float t = intersect_plane(&obj, ray, origin);
 
 	CU_ASSERT_TRUE(assert_float_equal(t, 0.0f, EPSILON_TEST));
 }

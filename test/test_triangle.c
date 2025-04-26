@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:35:15 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/06 19:44:49 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:03:42 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	test_triangle_hit_center(void)
 	t_object tri = create_test_triangle();
 	float origin[3] = {0.3f, 0.3f, -1.0f};
 	float ray[3] = {0.0f, 0.0f, 1.0f};
-	float t = test_triangle(&tri, ray, origin);
+	float t = intersect_triangle(&tri, ray, origin);
 
 	CU_ASSERT_TRUE(t > 0.0f);
 }
@@ -38,7 +38,7 @@ void	test_triangle_miss_bounds(void)
 	t_object tri = create_test_triangle();
 	float origin[3] = {1.0f, 1.0f, -1.0f};
 	float ray[3] = {0.0f, 0.0f, 1.0f};
-	float t = test_triangle(&tri, ray, origin);
+	float t = intersect_triangle(&tri, ray, origin);
 
 	CU_ASSERT_TRUE(assert_float_equal(t, 0.0f, EPSILON_TEST));
 }
@@ -48,7 +48,7 @@ void	test_triangle_edge_hit(void)
 	t_object tri = create_test_triangle();
 	float origin[3] = {1.0f, 0.0f, -1.0f};
 	float ray[3] = {0.0f, 0.0f, 1.0f};
-	float t = test_triangle(&tri, ray, origin);
+	float t = intersect_triangle(&tri, ray, origin);
 
 	CU_ASSERT_TRUE(t > 0.0f);
 }

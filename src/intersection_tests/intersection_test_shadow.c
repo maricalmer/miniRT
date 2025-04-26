@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 18:29:38 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 14:52:04 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:03:58 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 #include "minirt.h"
 
-float	shadow_tests(t_shoot *shoot, t_object *objects, float dist_light,
+float	shadow_intersect_objects(t_shoot *shoot, t_object *objects, float dist_light,
 	int n_obj)
 {
 	float	t;
@@ -34,7 +34,7 @@ float	shadow_tests(t_shoot *shoot, t_object *objects, float dist_light,
 	while (i < n_obj)
 	{
 		if (objects[i].type == PLANE)
-			t = test_plane(&objects[i], shoot->shadow_ray, hit_pt);
+			t = intersect_plane(&objects[i], shoot->shadow_ray, hit_pt);
 		else if (objects[i].type == CYLINDER)
 			t = intersect_cylinder(&objects[i], shoot->shadow_ray, hit_pt);
 		else
@@ -46,7 +46,7 @@ float	shadow_tests(t_shoot *shoot, t_object *objects, float dist_light,
 	return (0);
 }
 
-float	shadow_test_leafs(t_shoot *shoot, t_object **objects, float dist_light,
+float	shadow_intersect_leaves(t_shoot *shoot, t_object **objects, float dist_light,
 	int n_obj)
 {
 	float	t;
@@ -60,11 +60,11 @@ float	shadow_test_leafs(t_shoot *shoot, t_object **objects, float dist_light,
 	while (i < n_obj)
 	{
 		if (objects[i]->type == SPHERE)
-			t = test_sphere(objects[i], shoot->shadow_ray, hit_pt);
+			t = intersect_sphere(objects[i], shoot->shadow_ray, hit_pt);
 		else if (objects[i]->type == TRI)
-			t = test_triangle(objects[i], shoot->shadow_ray, hit_pt);
+			t = intersect_triangle(objects[i], shoot->shadow_ray, hit_pt);
 		else
-			t = test_rectangle(objects[i], shoot->shadow_ray, hit_pt);
+			t = intersect_rectangle(objects[i], shoot->shadow_ray, hit_pt);
 		if (t > 0 && dist_light > t)
 			return (t);
 		i++;

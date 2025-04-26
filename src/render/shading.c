@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shading.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:10:51 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/24 11:38:06 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 15:00:16 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	shading(t_shoot *shoot, t_data *data)
 		vec_substr(data->lights[i].origin, shoot->hit_pt, shoot->shadow_ray);
 		normalize(shoot->shadow_ray, &dist_light);
 		theta_ln = dot_13_13(shoot->normal, shoot->shadow_ray);
-		if (theta_ln > 0 && shadow_tests
+		if (theta_ln > 0 && shadow_intersect_objects
 			(shoot, data->objects, dist_light, data->n_obj) < EPSILON)
 		{
 			add_phong_diffuse(shoot, data->lights[i], theta_ln, rgb);

@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:49:20 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 14:51:41 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:03:54 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,15 +116,15 @@ float		shadow_test_bvh(t_shoot *shoot, t_bvh *bvh, int idx,
 				float dist_light);
 float		visi_tests(t_object *objects, t_shoot *shoot, int n_obj);
 float		visi_test_leafs(t_object **objects, t_shoot *shoot, int n_obj);
-float		shadow_tests(t_shoot *shoot, t_object *objects,
+float		shadow_intersect_objects(t_shoot *shoot, t_object *objects,
 				float dist_light, int n_obj);
-float		shadow_test_leafs(t_shoot *shoot, t_object **objects,
+float		shadow_intersect_leaves(t_shoot *shoot, t_object **objects,
 				float dist_light, int n_obj);
-float		test_sphere(t_object *obj, float ray[3], float origin[3]);
+float		intersect_sphere(t_object *obj, float ray[3], float origin[3]);
 float		intersect_cylinder(t_object *obj, float ray[3], float origin[3]);
-float		test_plane(t_object *obj, float p_ray[3], float origin[3]);
-float		test_rectangle(t_object *obj, float ray[3], float origin[3]);
-float		test_triangle(t_object *obj, float ray[3], float origin[3]);
+float		intersect_plane(t_object *obj, float p_ray[3], float origin[3]);
+float		intersect_rectangle(t_object *obj, float ray[3], float origin[3]);
+float		intersect_triangle(t_object *obj, float ray[3], float origin[3]);
 __m256		aabb_test_simd(t_bvh *bvh, int idx, float dir[3], float src[3]);
 void		aabb_test_fast(t_bvh *bvh, int idx, t_shoot *shoot, char res[9]);
 void		copy_and_terminate(char *res, int *indices, int size);

@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:36:17 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/23 19:26:47 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:03:30 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 static float	get_t(float s[3], float ray[3], float edges[6],
 					float det_and_bar[4]);
 
-float	test_triangle(t_object *obj, float ray[3], float origin[3])
+float	intersect_triangle(t_object *obj, float ray[3], float origin[3])
 {
 	float	edges[6];
 	float	s[3];

@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 19:21:40 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 19:23:15 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:02:50 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 static void	calculate_sphere_coeffs(t_object *obj, float ray[3],
 				float origin[3], float coeffs[3]);
 
-float	test_sphere(t_object *obj, float ray[3], float origin[3])
+float	intersect_sphere(t_object *obj, float ray[3], float origin[3])
 {
 	float	coeffs[3];
 	float	discriminant;

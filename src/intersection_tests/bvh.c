@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:22:11 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 14:47:24 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 14:59:52 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ float	shadow_test_bvh(t_shoot *shoot, t_bvh *bvh, int idx, float dist_light)
 	float		t;
 
 	if (bvh->children[idx] == -1)
-		return (shadow_test_leafs(shoot, bvh->group[idx], dist_light,
+		return (shadow_intersect_leaves(shoot, bvh->group[idx], dist_light,
 				bvh->group_size[idx]));
 	v_res = aabb_test_simd(bvh, bvh->children[idx], shoot->shadow_ray,
 			shoot->hit_pt);

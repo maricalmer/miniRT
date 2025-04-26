@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:54:06 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/06 19:14:25 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:06:00 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	test_rectangle_hit_center(void)
 	t_object rect = create_test_rectangle();
 	float origin[3] = {0.0f, 0.0f, 0.0f};
 	float ray[3] = {0.0f, 0.0f, 1.0f};
-	float t = test_rectangle(&rect, ray, origin);
+	float t = intersect_rectangle(&rect, ray, origin);
 
 	CU_ASSERT_TRUE(assert_float_equal(t, 5.0f, EPSILON_TEST));
 }
@@ -44,7 +44,7 @@ void	test_rectangle_parallel_ray(void)
 	t_object rect = create_test_rectangle();
 	float origin[3] = {0.0f, 0.0f, 0.0f};
 	float ray[3] = {1.0f, 0.0f, 0.0f};
-	float t = test_rectangle(&rect, ray, origin);
+	float t = intersect_rectangle(&rect, ray, origin);
 
 	CU_ASSERT_TRUE(assert_float_equal(t, 0.0f, EPSILON_TEST));
 }
@@ -54,10 +54,10 @@ void	test_rectangle_miss_bounds(void)
 	t_object rect = create_test_rectangle();
 	float origin[3] = {5.0f, 5.0f, 0.0f};
 	float ray[3] = {0.0f, 0.0f, 1.0f};
-	float t = test_rectangle(&rect, ray, origin);
+	float t = intersect_rectangle(&rect, ray, origin);
 
 	CU_ASSERT_TRUE(assert_float_equal(t, 0.0f, EPSILON_TEST));
-	CU_ASSERT_TRUE(assert_float_equal(test_rectangle(&rect, ray, origin), 0.0f, EPSILON_TEST));
+	CU_ASSERT_TRUE(assert_float_equal(intersect_rectangle(&rect, ray, origin), 0.0f, EPSILON_TEST));
 }
 
 void	test_rectangle_opposite_direction(void)
@@ -65,7 +65,7 @@ void	test_rectangle_opposite_direction(void)
 	t_object rect = create_test_rectangle();
 	float origin[3] = {0.0f, 0.0f, 0.0f};
 	float ray[3] = {0.0f, 0.0f, -1.0f};
-	float t = test_rectangle(&rect, ray, origin);
+	float t = intersect_rectangle(&rect, ray, origin);
 
 	CU_ASSERT_TRUE(assert_float_equal(t, 0.0f, EPSILON_TEST));
 }

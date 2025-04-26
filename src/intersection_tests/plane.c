@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 18:55:06 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/23 19:18:03 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:01:47 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 #include "minirt.h"
 
-float	test_plane(t_object *obj, float ray[3], float origin[3])
+float	intersect_plane(t_object *obj, float ray[3], float origin[3])
 {
 	float	pts_d[3];
 	float	a;
