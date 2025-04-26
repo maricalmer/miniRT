@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:49:20 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 16:04:28 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:12:33 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,8 @@ void		swap_float(float *t1, float *t2);
 float		find_bvh_median(t_bvh *bvh, int idx, int axis);
 void		get_rotation_matrix(float cam_dir[3], double t_mat[4][4],
 				float c[3]);
-void		copy_r_mat(t_data *data);
-void		copy_r_mat_0(t_data *data);
+void		copy_rotation_matrix_from_tmat(t_data *data);
+void		initialize_rotation_matrices(t_data *data);
 void		rodrigues_matrix_handler(float u[3], float theta, float c[3],
 				double r[4][4]);
 void		scale_vec(float v[3], float amp);

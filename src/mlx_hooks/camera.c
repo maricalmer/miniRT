@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:34:36 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/26 16:05:50 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:15:05 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 #include "minirt.h"
 
-void	copy_r_mat(t_data *data)
+void	copy_rotation_matrix_from_tmat(t_data *data)
 {
 	int	i;
 	int	j;
@@ -35,7 +35,7 @@ void	copy_r_mat(t_data *data)
 	matrix33_matrix33_multiply_inplace(data->cam.r_mat, data->cam.r_mat_0);
 }
 
-void	copy_r_mat_0(t_data *data)
+void	initialize_rotation_matrices(t_data *data)
 {
 	int	i;
 	int	j;
@@ -52,12 +52,13 @@ void	copy_r_mat_0(t_data *data)
 	}
 }
 
-void	translate_cam(t_data *data, float v[3], float amp, int anti_fa)
+void	translate_cam(t_data *data, float v[3], float amp,
+		int anti_aliasing_factor)
 {
 	float	t[3];
 	double	new_t_mat[4][4];
 
-	data->anti_fa = anti_fa;
+	data->anti_fa = anti_aliasing_factor;
 	copy_vec(v, t);
 	scale_vec(t, amp);
 	ft_memset(new_t_mat, 0, sizeof(double [4][4]));
@@ -69,24 +70,25 @@ void	translate_cam(t_data *data, float v[3], float amp, int anti_fa)
 	new_t_mat[1][3] = t[1];
 	new_t_mat[2][3] = t[2];
 	matrix44_multiply_inplace(new_t_mat, data->cam.t_mat);
-	copy_r_mat(data);
+	copy_rotation_matrix_from_tmat(data);
 	ft_memcpy(data->cam.origin, data->cam.origin_backup, sizeof(float [3]));
 	matrix34_vec3_multiply_inplace(data->cam.t_mat, data->cam.origin);
 	calculate_img(data);
 }
 
-void	rotate_cam(t_data *data, float theta, float axis[3], int anti_fa)
+void	rotate_cam(t_data *data, float theta, float axis[3],
+		int anti_aliasing_factor)
 {
 	double	new_t_mat[4][4];
 
-	data->anti_fa = anti_fa;
+	data->anti_fa = anti_aliasing_factor;
 	if (data->cam.mode)
 		rodrigues_matrix_handler(axis, theta, data->cam.origin, new_t_mat);
 	else
 		rodrigues_matrix_handler(axis, theta, data->cam.world_center,
 			new_t_mat);
 	matrix44_multiply_inplace(new_t_mat, data->cam.t_mat);
-	copy_r_mat(data);
+	copy_rotation_matrix_from_tmat(data);
 	ft_memcpy(data->cam.origin, data->cam.origin_backup, sizeof(float [3]));
 	matrix34_vec3_multiply_inplace(data->cam.t_mat, data->cam.origin);
 	ft_memcpy(data->cam.x, (float [3]){1, 0, 0}, sizeof(float [3]));

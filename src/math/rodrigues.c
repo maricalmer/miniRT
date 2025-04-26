@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 21:34:47 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/26 16:05:32 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:12:37 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	first_rotation_matrix(t_data *data)
 {
 	get_rotation_matrix(data->cam.direction, data->cam.t_mat,
 		(float [3]){0, 0, 0});
-	copy_r_mat_0(data);
+	initialize_rotation_matrices(data);
 	ft_memset(data->cam.t_mat, 0, sizeof(double [4][4]));
 	data->cam.t_mat[0][0] = 1;
 	data->cam.t_mat[1][1] = 1;
