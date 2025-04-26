@@ -1,10 +1,10 @@
 # MiniRT
 
-**MiniRT** is a C-based mini ray tracer that utilizes a minimal graphics library.
+**MiniRT** is a lightweight ray tracer written in C, designed to create realistic 3D images through a custom minimal graphics library.
 
-A ray tracer is a computer graphics technique used to create highly realistic images by simulating the behavior of light in a virtual 3D environment. In ray tracing, the core concept revolves around tracing the path of light rays as they interact with objects and surfaces within a scene.
+Ray tracing is a rendering technique that simulates the way light travels and interacts with objects to produce highly detailed visuals. By tracing the paths of light rays through a virtual scene, it generates lifelike reflections, shadows, and materials with great accuracy.
 
-This project focuses purely on **CPU calculations** and runs **only on Linux** systems.
+This project is entirely CPU-based and built specifically for Linux environments.
 
 ---
 
