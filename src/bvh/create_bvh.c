@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:41 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 13:52:56 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 14:10:01 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_bvh	*init_bvh(t_data *data)
 	print_bvh_stats(bvh);
 	free_bvh_nonleaf_and_geo(bvh);
 	free(data->bvh_geo_data);
-	update_group(data, bvh);
+	remap_objects_after_bvh(data, bvh);
 	gettimeofday(&t_end, NULL);
 	print_bvh_build_t(t_start, t_end);
 	return (bvh);

@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:49:20 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 13:56:37 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 14:09:53 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int			check_checkerboard_grid(t_shoot *shoot);
 void		shading(t_shoot *shoot, t_data *data);
 /* BVH */
 t_bvh		*init_bvh(t_data *data);
-void		update_group(t_data *data, t_bvh *bvh);
+void		remap_objects_after_bvh(t_data *data, t_bvh *bvh);
 void		cut_in_two(t_bvh *bvh, int idx, int idx_c, int cut_lvl);
 void		get_group_size(t_data *data, t_bvh *bvh);
 void		create_root_obj_list(t_data *data, t_bvh *bvh);

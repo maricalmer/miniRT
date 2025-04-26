@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:34:56 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/24 10:00:14 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 14:14:23 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ int	handle_input(int keysym, t_data *data)
 		handle_close(data);
 	else if (keysym == XK_Escape)
 		handle_close(data);
-	else if (keysym == 'a')
-		translate_cam(data, data->cam.x, data->cam.d_trans, 1);
 	else if (keysym == 'd')
+		translate_cam(data, data->cam.x, data->cam.d_trans, 1);
+	else if (keysym == 'a')
 		translate_cam(data, data->cam.x, -data->cam.d_trans, 1);
-	else if (keysym == 'w')
-		translate_cam(data, data->cam.y, -data->cam.d_trans, 1);
 	else if (keysym == 's')
+		translate_cam(data, data->cam.y, -data->cam.d_trans, 1);
+	else if (keysym == 'w')
 		translate_cam(data, data->cam.y, data->cam.d_trans, 1);
 	else if (keysym == 'z')
 		translate_cam(data, data->cam.z, -data->cam.d_trans, 1);

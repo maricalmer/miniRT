@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_group.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:05:07 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/23 22:27:24 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 14:09:37 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,21 @@
 
 #include "minirt.h"
 
-void	update_group(t_data *data, t_bvh *bvh)
+void	remap_objects_after_bvh(t_data *data, t_bvh *bvh)
 {
 	t_object	*new_objects;
-	int			n_pl;
+	int			n_other_objs;
 	int			i;
 	int			j;
 
 	i = -1;
-	n_pl = 0;
+	n_other_objs = 0;
 	while (++i < data->n_obj)
 		if (data->objects[i].type != SPHERE && data->objects[i].type != TRI
 			&& data->objects[i].type != RECTANGLE)
-			n_pl++;
-	new_objects = aligned_alloc(ALGN_OBJ_ARR, sizeof(t_object) * (n_pl + 1));
+			n_other_objs++;
+	new_objects = aligned_alloc(ALGN_OBJ_ARR, sizeof(t_object) * (n_other_objs
+				+ 1));
 	if (!new_objects)
 		handle_memory_failure(__func__);
 	new_objects[0].type = BVH;
@@ -46,5 +47,5 @@ void	update_group(t_data *data, t_bvh *bvh)
 			ft_memcpy(&new_objects[j++], &data->objects[i], sizeof(t_object));
 	data->all_objects = data->objects;
 	data->objects = new_objects;
-	data->n_obj = n_pl + 1;
+	data->n_obj = n_other_objs + 1;
 }
