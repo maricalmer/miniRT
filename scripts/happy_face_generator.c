@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   happy_face_generator.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/19 20:52:57 by maricalmer        #+#    #+#             */
-/*   Updated: 2025/04/22 15:57:12 by maricalmer       ###   ########.fr       */
+/*   Created: 2025/03/19 20:52:57 by dlemaire          #+#    #+#             */
+/*   Updated: 2025/04/26 19:17:47 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
