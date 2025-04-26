@@ -69,6 +69,3 @@ make
 
 # Run scene
 ./miniRT scenes/suzanne.rt
-
-# Run the program
-./miniRT scenes/whitted.rt
