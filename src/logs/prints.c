@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:39:30 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/26 13:49:42 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:29:44 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include "minirt.h"
 
 static void	print_top_stats(void);
-static void	get_bvh_stats(t_bvh *bvh, t_bvh_stats *stats);
+static void	compute_bvh_stats(t_bvh *bvh, t_bvh_stats *stats);
 
 void	print_intro(void)
 {
@@ -81,18 +81,18 @@ void	print_bvh_stats(t_bvh *bvh)
 
 	if (bvh->children[0] != BVH_CHILD_END)
 	{
-		get_bvh_stats(bvh, &stats);
+		compute_bvh_stats(bvh, &stats);
 		printf("%s  [BVH]\n\n", CYAN_TXT_START);
 		printf("    > max depth of %d\n\n", stats.max_depth);
-		printf("    > %d n_obj at leafs (%.0f%%)\n\n", 
+		printf("    > %d n_obj at leaves (%.0f%%)\n\n", 
 			stats.n_obj, (float)stats.n_obj / bvh->group_size[0] * 100);
-		printf("    > %.2f obj/leafs (min : %d / max : %d)%s\n",
-			(float)stats.n_obj / stats.n_leafs, stats.min, stats.max,
+		printf("    > %.2f obj/leaves (min : %d / max : %d)%s\n",
+			(float)stats.n_obj / stats.n_leaves, stats.min, stats.max,
 			COLOR_END);
 	}
 }
 
-static void	get_bvh_stats(t_bvh *bvh, t_bvh_stats *stats)
+static void	compute_bvh_stats(t_bvh *bvh, t_bvh_stats *stats)
 {
 	int	i;
 
@@ -104,7 +104,7 @@ static void	get_bvh_stats(t_bvh *bvh, t_bvh_stats *stats)
 		if (bvh->children[i] == BVH_LEAF)
 		{
 			stats->max_depth = imax(stats->max_depth, bvh->depth[i]);
-			stats->n_leafs++;
+			stats->n_leaves++;
 			stats->n_obj += bvh->group_size[i];
 			stats->min = imin(stats->min, bvh->group_size[i]);
 			stats->max = imax(stats->max, bvh->group_size[i]);

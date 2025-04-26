@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:05:24 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/24 11:33:56 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 15:27:50 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	calculate_img(t_data *data)
 	mlx_put_image_to_window(data->mlx.mlx, data->mlx.win, data->mlx.img, 0, 0);
 	mlx_do_sync(data->mlx.mlx);
 	gettimeofday(&t_end, NULL);
-	print_img_render_t(t_start, t_end);
+	print_render_time_for_image(t_start, t_end);
 }
 
 static void	init_data_ray(t_ray_prim *data_ray, t_data *data)

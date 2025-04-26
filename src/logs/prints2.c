@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:39:21 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 19:37:26 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:29:04 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,26 @@
 
 #include "minirt.h"
 
-void	print_bvh_build_t(struct timeval t_start, struct timeval t_end)
+void	print_bvh_build_time(struct timeval t_start, struct timeval t_end)
 {
-	float	t;
+	float	elapsed_ms;
 
-	t = (t_end.tv_sec - t_start.tv_sec) * 1000
+	elapsed_ms = (t_end.tv_sec - t_start.tv_sec) * 1000
 		+ (t_end.tv_usec - t_start.tv_usec) * 0.001; 
-	printf("%s    > %.2f ms to build BVH\n", CYAN_TXT_START, t);
+	printf("%s    > %.2f ms to build BVH\n", CYAN_TXT_START, elapsed_ms);
 	printf("\n  [RENDER]%s\n", COLOR_END);
 }
 
-void	print_img_render_t(struct timeval t_start, struct timeval t_end)
+void	print_render_time_for_image(struct timeval t_start,
+			struct timeval t_end)
 {
 	static int		n_img;
-	float			t;
+	float			elapsed_ms;
 
-	t = (t_end.tv_sec - t_start.tv_sec) * 1000
+	elapsed_ms = (t_end.tv_sec - t_start.tv_sec) * 1000
 		+ (t_end.tv_usec - t_start.tv_usec) * 0.001; 
 	printf("%s    > img %d rendered after %.1f ms%s\n", CYAN_TXT_START,
-		n_img++, t, COLOR_END);
+		n_img++, elapsed_ms, COLOR_END);
 }
 
 void	print_tri_count(int counter)

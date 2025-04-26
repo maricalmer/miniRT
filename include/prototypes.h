@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:49:20 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 15:03:54 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:27:47 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 void		print_intro(void);
 void		print_outro(void);
 void		print_bvh_stats(t_bvh *bvh);
-void		print_bvh_build_t(struct timeval t_start, struct timeval t_end);
-void		print_img_render_t(struct timeval t_start, struct timeval t_end);
+void		print_bvh_build_time(struct timeval t_start, struct timeval t_end);
+void		print_render_time_for_image(struct timeval t_start, struct timeval t_end);
 void		print_tri_count(int counter);
 /*checker.c*/
 void		check_input(int ac, char **av, t_data *data);
@@ -115,7 +115,7 @@ float		visibility_test_bvh_fast(t_bvh *bvh, int idx, t_shoot *shoot);
 float		shadow_test_bvh(t_shoot *shoot, t_bvh *bvh, int idx,
 				float dist_light);
 float		visi_tests(t_object *objects, t_shoot *shoot, int n_obj);
-float		visi_test_leafs(t_object **objects, t_shoot *shoot, int n_obj);
+float		visi_test_leaves(t_object **objects, t_shoot *shoot, int n_obj);
 float		shadow_intersect_objects(t_shoot *shoot, t_object *objects,
 				float dist_light, int n_obj);
 float		shadow_intersect_leaves(t_shoot *shoot, t_object **objects,

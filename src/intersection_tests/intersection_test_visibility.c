@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 18:52:02 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/26 15:04:16 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:25:26 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static float	test_object(t_object *obj, t_shoot *shoot)
 	return (0);
 }
 
-float	visi_test_leafs(t_object **objects, t_shoot *shoot, int n_obj)
+float	visi_test_leaves(t_object **objects, t_shoot *shoot, int n_obj)
 {
 	float		t_min;
 	float		t;

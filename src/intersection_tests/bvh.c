@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:22:11 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 14:59:52 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:25:19 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ float	visibility_test_bvh_strict(t_bvh *bvh, int idx, t_shoot *shoot)
 	float	res[8];
 
 	if (bvh->children[idx] == -1)
-		return (visi_test_leafs(bvh->group[idx], shoot, bvh->group_size[idx]));
+		return (visi_test_leaves(bvh->group[idx], shoot, bvh->group_size[idx]));
 	v_res = aabb_test_simd(bvh, bvh->children[idx], shoot->dir, shoot->src);
 	_mm256_storeu_ps(res, v_res);
 	return (process_bvh_children(bvh, idx, shoot, res));
@@ -76,7 +76,7 @@ float	visibility_test_bvh_fast(t_bvh *bvh, int idx, t_shoot *shoot)
 	float		t;
 
 	if (bvh->children[idx] == -1)
-		return (visi_test_leafs(bvh->group[idx], shoot, bvh->group_size[idx]));
+		return (visi_test_leaves(bvh->group[idx], shoot, bvh->group_size[idx]));
 	aabb_test_fast(bvh, bvh->children[idx], shoot, res);
 	i = -1;
 	while (res[++i] != -1)
