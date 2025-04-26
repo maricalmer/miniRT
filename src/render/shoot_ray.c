@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 14:59:58 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 16:02:39 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 17:18:44 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 
 #include "minirt.h"
 
-static void	get_hitpt_n_normal_plane(t_shoot *shoot, float t);
-static void	get_hitpt_n_normal_sphere(t_shoot *shoot, float t);
-static void	get_hitpt_n_normal_tri(t_shoot *shoot);
-static void	get_hitpt_n_normal_cyl(t_shoot *shoot, float t);
+static void	compute_plane_hit_and_normal(t_shoot *shoot, float t);
+static void	compute_sphere_hit_and_normal(t_shoot *shoot, float t);
+static void	compute_triangle_hit_and_normal(t_shoot *shoot);
+static void	compute_cylinder_hit_and_normal(t_shoot *shoot, float t);
 
 void	shoot_ray(t_data *data, t_shoot *shoot)
 {
@@ -33,13 +33,13 @@ void	shoot_ray(t_data *data, t_shoot *shoot)
 	if (t > EPSILON)
 	{
 		if (shoot->obj->type == PLANE || shoot->obj->type == RECTANGLE)
-			get_hitpt_n_normal_plane(shoot, t);
+			compute_plane_hit_and_normal(shoot, t);
 		else if (shoot->obj->type == TRI)
-			get_hitpt_n_normal_tri(shoot);
+			compute_triangle_hit_and_normal(shoot);
 		else if (shoot->obj->type == SPHERE)
-			get_hitpt_n_normal_sphere(shoot, t);
+			compute_sphere_hit_and_normal(shoot, t);
 		else
-			get_hitpt_n_normal_cyl(shoot, t);
+			compute_cylinder_hit_and_normal(shoot, t);
 		if (dot_vec3(shoot->dir, shoot->normal) > 0)
 			scale_vec(shoot->normal, -1);
 	}
@@ -48,7 +48,7 @@ void	shoot_ray(t_data *data, t_shoot *shoot)
 	shading(shoot, data);
 }
 
-static void	get_hitpt_n_normal_plane(t_shoot *shoot, float t)
+static void	compute_plane_hit_and_normal(t_shoot *shoot, float t)
 {
 	shoot->hit_pt[0] = shoot->src[0] + t * shoot->dir[0];
 	shoot->hit_pt[1] = shoot->src[1] + t * shoot->dir[1];
@@ -58,7 +58,7 @@ static void	get_hitpt_n_normal_plane(t_shoot *shoot, float t)
 	shoot->normal[2] = shoot->obj->geo.pl.normal[2];
 }
 
-static void	get_hitpt_n_normal_sphere(t_shoot *shoot, float t)
+static void	compute_sphere_hit_and_normal(t_shoot *shoot, float t)
 {
 	float	r_inv;
 
@@ -74,7 +74,7 @@ static void	get_hitpt_n_normal_sphere(t_shoot *shoot, float t)
 			- shoot->obj->geo.sph.center[2]);
 }
 
-static void	get_hitpt_n_normal_tri(t_shoot *shoot)
+static void	compute_triangle_hit_and_normal(t_shoot *shoot)
 {
 	float	px[3][3];
 	float	bary[3];
@@ -103,7 +103,7 @@ static void	get_hitpt_n_normal_tri(t_shoot *shoot)
 	}
 }
 
-static void	get_hitpt_n_normal_cyl(t_shoot *shoot, float t)
+static void	compute_cylinder_hit_and_normal(t_shoot *shoot, float t)
 {
 	int		i;
 	float	tmp[3];

@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:23:09 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 15:59:42 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 17:23:09 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 static void		add_whitted_refraction(t_shoot *shoot, t_data *data);
 static void		add_whitted_reflection(t_shoot *shoot, t_data *data);
-static float	get_fresnel(t_shoot *shoot);
+static float	compute_fresnel_coeff(t_shoot *shoot);
 
 void			shoot_refraction_ray(t_shoot *shoot, t_shoot *new_shoot,
 					t_data *data);
@@ -50,7 +50,7 @@ static void	add_whitted_refraction(t_shoot *shoot, t_data *data)
 	int				i;
 	float			r;
 
-	r = get_fresnel(shoot);
+	r = compute_fresnel_coeff(shoot);
 	new_shoot_1.intens = shoot->intens * shoot->obj->mat.refr_coeff * r;
 	new_shoot_2.intens = shoot->intens * shoot->obj->mat.refr_coeff * (1 - r);
 	shoot_reflection_ray(shoot, &new_shoot_1, data);
@@ -75,7 +75,7 @@ static void	add_whitted_reflection(t_shoot *shoot, t_data *data)
 			+ shoot->obj->mat.refl_coeff * new_shoot.res_rgb[i];
 }
 
-static float	get_fresnel(t_shoot *shoot)
+static float	compute_fresnel_coeff(t_shoot *shoot)
 {
 	float	n[2];
 	float	cos_theta_i;

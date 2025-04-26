@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:29:21 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 15:59:40 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 17:25:45 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,21 @@
 
 #include "minirt.h"
 
-static void	calculate_refraction_ray(float p[3], float n[3],
+static void	compute_refracted_ray(float p[3], float n[3],
 				float v[3], float r_idx);
 
 void	shoot_reflection_ray(t_shoot *shoot, t_shoot *new_shoot, t_data *data)
 {
 	float			theta_ln;
-	float			bouncing_ray[3];
+	float			reflected_ray[3];
 
 	theta_ln = dot_vec3(shoot->normal, shoot->dir);
-	bouncing_ray[0] = shoot->dir[0] - 2 * theta_ln * shoot->normal[0];
-	bouncing_ray[1] = shoot->dir[1] - 2 * theta_ln * shoot->normal[1];
-	bouncing_ray[2] = shoot->dir[2] - 2 * theta_ln * shoot->normal[2];
-	normalize(bouncing_ray, NULL);
+	reflected_ray[0] = shoot->dir[0] - 2 * theta_ln * shoot->normal[0];
+	reflected_ray[1] = shoot->dir[1] - 2 * theta_ln * shoot->normal[1];
+	reflected_ray[2] = shoot->dir[2] - 2 * theta_ln * shoot->normal[2];
+	normalize(reflected_ray, NULL);
 	new_shoot->src = shoot->hit_pt;
-	copy_vec(bouncing_ray, new_shoot->dir);
+	copy_vec(reflected_ray, new_shoot->dir);
 	new_shoot->depth = shoot->depth + 1;
 	new_shoot->inside = shoot->inside;
 	shoot_ray(data, new_shoot);
@@ -46,22 +46,22 @@ void	shoot_reflection_ray(t_shoot *shoot, t_shoot *new_shoot, t_data *data)
 
 void	shoot_refraction_ray(t_shoot *shoot, t_shoot *new_shoot, t_data *data)
 {
-	float	r_entry[3];
+	float	refracted_ray[3];
 
 	if (shoot->inside)
-		calculate_refraction_ray(r_entry, shoot->normal,
+		compute_refracted_ray(refracted_ray, shoot->normal,
 			shoot->dir, 1 / shoot->obj->mat.refr_idx);
 	else
-		calculate_refraction_ray(r_entry, shoot->normal,
+		compute_refracted_ray(refracted_ray, shoot->normal,
 			shoot->dir, shoot->obj->mat.refr_idx);
 	new_shoot->src = shoot->hit_pt;
-	copy_vec(r_entry, new_shoot->dir);
+	copy_vec(refracted_ray, new_shoot->dir);
 	new_shoot->depth = shoot->depth + 1;
 	new_shoot->inside = !shoot->inside;
 	shoot_ray(data, new_shoot);
 }
 
-static void	calculate_refraction_ray(float p[3], float n[3],
+static void	compute_refracted_ray(float p[3], float n[3],
 				float v[3], float r_idx)
 {
 	float	vp[3];
