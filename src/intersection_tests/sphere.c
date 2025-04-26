@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 19:21:40 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/26 15:15:40 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:02:22 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ static void	calculate_sphere_coeffs(t_object *obj, float ray[3],
 {
 	float	c_minus_o[3];
 
-	vec_substr(obj->geo.sph.center, origin, c_minus_o);
-	coeffs[0] = dot_13_13(ray, ray);
-	coeffs[1] = -2 * dot_13_13(ray, c_minus_o);
-	coeffs[2] = dot_13_13(c_minus_o, c_minus_o) - obj->geo.sph.radius
+	vec_subtract(obj->geo.sph.center, origin, c_minus_o);
+	coeffs[0] = dot_vec3(ray, ray);
+	coeffs[1] = -2 * dot_vec3(ray, c_minus_o);
+	coeffs[2] = dot_vec3(c_minus_o, c_minus_o) - obj->geo.sph.radius
 		* obj->geo.sph.radius;
 }

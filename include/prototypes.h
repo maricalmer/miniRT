@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:49:20 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 15:55:38 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:04:28 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void		render_first_image(t_data *data);
 void		calculate_pixel(t_calc_img_arg *arg, int p, t_shoot *shoot,
 				int (*hd_res)[3]);
 void		shoot_ray(t_data *data, t_shoot *shoot);
-void		first_rotation_matrice(t_data *data);
+void		first_rotation_matrix(t_data *data);
 void		calculate_img(t_data *data);
 /*checkerboard.c*/
 int			check_checkerboard_grid(t_shoot *shoot);
@@ -129,25 +129,25 @@ __m256		aabb_test_simd(t_bvh *bvh, int idx, float dir[3], float src[3]);
 void		aabb_test_fast(t_bvh *bvh, int idx, t_shoot *shoot, char res[9]);
 void		copy_and_terminate(char *res, int *indices, int size);
 /*maths*/
-float		dot_13_13(float a[3], float b[3]);
+float		dot_vec3(float a[3], float b[3]);
 void		matrix34_vec3_multiply_inplace(double a[3][4], float b[3]);
 void		matrix33_vec3_multiply_inplace(float a[3][3], float b[3]);
 void		matrix33_matrix33_multiply_inplace(float a[3][3], float b[3][3]);
 void		matrix44_multiply_inplace(double a[4][4], double b[4][4]);
-void		cprod_13_13(float a[3], float b[3], float res[3]);
+void		cross_vec3(float a[3], float b[3], float res[3]);
 void		normalize(float vector[3], float *magnitude);
 int			imin(int a, int b);
 int			imax(int a, int b);
-void		vec_substr(float p1[3], float p2[3], float result[3]);
+void		vec_subtract(float p1[3], float p2[3], float result[3]);
 void		copy_vec(float src[3], float dst[3]);
 float		triple_scalar(float a[3], float b[3], float c[3]);
 void		swap_float(float *t1, float *t2);
 float		find_bvh_median(t_bvh *bvh, int idx, int axis);
-void		get_rotation_matrice(float cam_dir[3], double t_mat[4][4],
+void		get_rotation_matrix(float cam_dir[3], double t_mat[4][4],
 				float c[3]);
 void		copy_r_mat(t_data *data);
 void		copy_r_mat_0(t_data *data);
-void		rodrigues_matrice_handler(float u[3], float theta, float c[3],
+void		rodrigues_matrix_handler(float u[3], float theta, float c[3],
 				double r[4][4]);
 void		scale_vec(float v[3], float amp);
 /* Multithreading */

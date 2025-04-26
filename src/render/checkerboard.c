@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkerboard.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:38:28 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/24 11:26:43 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 16:02:31 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	check_checkerboard_grid(t_shoot *shoot)
 	int		v_idx;
 	float	oc[3];
 
-	vec_substr(shoot->hit_pt, shoot->obj->geo.pl.point, oc);
-	u = dot_13_13(oc, shoot->obj->geo.pl.u);
-	v = dot_13_13(oc, shoot->obj->geo.pl.v);
+	vec_subtract(shoot->hit_pt, shoot->obj->geo.pl.point, oc);
+	u = dot_vec3(oc, shoot->obj->geo.pl.u);
+	v = dot_vec3(oc, shoot->obj->geo.pl.v);
 	if (u < 0)
 		u_idx = u * shoot->obj->mat.checker_size - 1;
 	else

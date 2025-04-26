@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shoot_ray.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 14:59:58 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/24 11:41:23 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 16:02:39 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	shoot_ray(t_data *data, t_shoot *shoot)
 			get_hitpt_n_normal_sphere(shoot, t);
 		else
 			get_hitpt_n_normal_cyl(shoot, t);
-		if (dot_13_13(shoot->dir, shoot->normal) > 0)
+		if (dot_vec3(shoot->dir, shoot->normal) > 0)
 			scale_vec(shoot->normal, -1);
 	}
 	else
@@ -81,9 +81,9 @@ static void	get_hitpt_n_normal_tri(t_shoot *shoot)
 	float	denom;
 	int		i;
 
-	vec_substr(shoot->obj->geo.tri.v0, shoot->src, px[0]);
-	vec_substr(shoot->obj->geo.tri.v1, shoot->src, px[1]);
-	vec_substr(shoot->obj->geo.tri.v2, shoot->src, px[2]);
+	vec_subtract(shoot->obj->geo.tri.v0, shoot->src, px[0]);
+	vec_subtract(shoot->obj->geo.tri.v1, shoot->src, px[1]);
+	vec_subtract(shoot->obj->geo.tri.v2, shoot->src, px[2]);
 	bary[0] = triple_scalar(shoot->dir, px[2], px[1]);
 	bary[1] = triple_scalar(shoot->dir, px[0], px[2]);
 	bary[2] = triple_scalar(shoot->dir, px[1], px[0]);
@@ -113,8 +113,8 @@ static void	get_hitpt_n_normal_cyl(t_shoot *shoot, float t)
 	shoot->hit_pt[0] = shoot->src[0] + t * shoot->dir[0];
 	shoot->hit_pt[1] = shoot->src[1] + t * shoot->dir[1];
 	shoot->hit_pt[2] = shoot->src[2] + t * shoot->dir[2];
-	vec_substr(shoot->hit_pt, shoot->obj->geo.cyl.center, tmp);
-	h = dot_13_13(tmp, shoot->obj->geo.cyl.dir);
+	vec_subtract(shoot->hit_pt, shoot->obj->geo.cyl.center, tmp);
+	h = dot_vec3(tmp, shoot->obj->geo.cyl.dir);
 	i = -1;
 	while (++i < 3)
 		tmp[i] = shoot->obj->geo.cyl.center[i] + h * shoot->obj->geo.cyl.dir[i];

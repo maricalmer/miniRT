@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:29:21 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 15:53:43 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:59:40 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	shoot_reflection_ray(t_shoot *shoot, t_shoot *new_shoot, t_data *data)
 	float			theta_ln;
 	float			bouncing_ray[3];
 
-	theta_ln = dot_13_13(shoot->normal, shoot->dir);
+	theta_ln = dot_vec3(shoot->normal, shoot->dir);
 	bouncing_ray[0] = shoot->dir[0] - 2 * theta_ln * shoot->normal[0];
 	bouncing_ray[1] = shoot->dir[1] - 2 * theta_ln * shoot->normal[1];
 	bouncing_ray[2] = shoot->dir[2] - 2 * theta_ln * shoot->normal[2];
@@ -69,7 +69,7 @@ static void	calculate_refraction_ray(float p[3], float n[3],
 	int		i;
 	float	kf;
 
-	v_dot_n_inv = 1 / (-dot_13_13(v, n));
+	v_dot_n_inv = 1 / (-dot_vec3(v, n));
 	i = -1;
 	while (++i < 3)
 		vp[i] = v[i] * v_dot_n_inv;

@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:51:30 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 19:57:26 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:01:57 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ void	normalize(float vector[3], float *magnitude)
 	vector[2] *= temp;
 }
 
-float	dot_13_13(float a[3], float b[3])
+float	dot_vec3(float a[3], float b[3])
 {
 	return (a[0] * b[0] + a[1] * b[1] + a[2] * b[2]);
 }
 
-void	vec_substr(float p2[3], float p1[3], float result[3])
+void	vec_subtract(float p2[3], float p1[3], float result[3])
 {
 	int	i;
 
@@ -50,7 +50,7 @@ void	vec_substr(float p2[3], float p1[3], float result[3])
 		result[i] = p2[i] - p1[i];
 }
 
-void	cprod_13_13(float a[3], float b[3], float res[3])
+void	cross_vec3(float a[3], float b[3], float res[3])
 {
 	res[0] = a[1] * b[2] - a[2] * b[1];
 	res[1] = a[2] * b[0] - a[0] * b[2];

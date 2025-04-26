@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 00:28:56 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/05 19:33:08 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:08:04 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	assert_double_matrices_equal(double mat1[4][4], double mat2[4][4])
 	return (1);
 }
 
-void	test_get_rotation_matrice_basic(void)
+void	test_get_rotation_matrix_basic(void)
 {
 	t_data	data;
 	double	expected_matrix[4][4] = {{-1.0, 0, 0, 0}, {0, 1.0, 0, 0}, {0, 0, -1.0, 0}, {0, 0, 0, 1.0}};
@@ -43,11 +43,11 @@ void	test_get_rotation_matrice_basic(void)
 	data.cam.t_mat[1][1] = 1;
 	data.cam.t_mat[2][2] = 1;
 	data.cam.t_mat[3][3] = 1;
-	get_rotation_matrice(data.cam.direction, data.cam.t_mat, (float [3]){0.0f, 0.0f, 0.0f});
+	get_rotation_matrix(data.cam.direction, data.cam.t_mat, (float [3]){0.0f, 0.0f, 0.0f});
 	CU_ASSERT_TRUE(assert_double_matrices_equal(data.cam.t_mat, expected_matrix));
 }
 
-void	test_get_rotation_matrice_normal_with_flip(void)
+void	test_get_rotation_matrix_normal_with_flip(void)
 {
 	t_data	data;
 	double	expected_matrix[4][4] = {{0, 0, -1, 0}, {0, 1, 0, 0}, {1, 0, 0, 0}, {0, 0, 0, 1}};
@@ -60,11 +60,11 @@ void	test_get_rotation_matrice_normal_with_flip(void)
 	data.cam.t_mat[1][1] = 1;
 	data.cam.t_mat[2][2] = 1;
 	data.cam.t_mat[3][3] = 1;
-	get_rotation_matrice(data.cam.direction, data.cam.t_mat, (float [3]){0.0f, 0.0f, 0.0f});
+	get_rotation_matrix(data.cam.direction, data.cam.t_mat, (float [3]){0.0f, 0.0f, 0.0f});
 	CU_ASSERT_TRUE(assert_double_matrices_equal(data.cam.t_mat, expected_matrix));
 }
 
-void	test_get_rotation_matrice_special_case_minus_z(void)
+void	test_get_rotation_matrix_special_case_minus_z(void)
 {
 	t_data	data;
 	double	identity_matrix[4][4] = {{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}};
@@ -77,11 +77,11 @@ void	test_get_rotation_matrice_special_case_minus_z(void)
 	data.cam.t_mat[1][1] = 1;
 	data.cam.t_mat[2][2] = 1;
 	data.cam.t_mat[3][3] = 1;
-	get_rotation_matrice(data.cam.direction, data.cam.t_mat, (float [3]){0.0f, 0.0f, 0.0f});
+	get_rotation_matrix(data.cam.direction, data.cam.t_mat, (float [3]){0.0f, 0.0f, 0.0f});
 	CU_ASSERT_TRUE(assert_double_matrices_equal(data.cam.t_mat, identity_matrix));
 }
 
-void	test_get_rotation_matrice_special_case_plus_z(void)
+void	test_get_rotation_matrix_special_case_plus_z(void)
 {
 	t_data	data;
 	double	special_case_plus_z_matrix[4][4] = {{-1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, -1, 0},{0, 0, 0, 1}};
@@ -94,11 +94,11 @@ void	test_get_rotation_matrice_special_case_plus_z(void)
 	data.cam.t_mat[1][1] = 1;
 	data.cam.t_mat[2][2] = 1;
 	data.cam.t_mat[3][3] = 1;
-	get_rotation_matrice(data.cam.direction, data.cam.t_mat, (float [3]){0.0f, 0.0f, 0.0f});
+	get_rotation_matrix(data.cam.direction, data.cam.t_mat, (float [3]){0.0f, 0.0f, 0.0f});
 	CU_ASSERT_TRUE(assert_double_matrices_equal(data.cam.t_mat, special_case_plus_z_matrix));
 }
 
-void	test_rodrigues_matrice_handler(void)
+void	test_rodrigues_matrix_handler(void)
 {
 	float	u[3] = {0.0f, 0.0f, 1.0f};
 	float	theta = M_PI / 2;
@@ -106,7 +106,7 @@ void	test_rodrigues_matrice_handler(void)
 	double	r[4][4];
 	double	expected_rotation_matrix[4][4] = {{0, -1, 0, 2}, {1, 0, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}};
 
-	rodrigues_matrice_handler(u, theta, c, r);
+	rodrigues_matrix_handler(u, theta, c, r);
 	CU_ASSERT_TRUE(assert_double_matrices_equal(r, expected_rotation_matrix));
 }
 
@@ -117,11 +117,11 @@ int	add_rodrigues_tests(void)
 	suite = CU_add_suite("add_rodrigues_tests", NULL, NULL);
 	if (!suite)
 		return (CU_get_error());
-	if (!CU_add_test(suite, "test_get_rotation_matrice_basic", test_get_rotation_matrice_basic)
-		|| !CU_add_test(suite, "test_get_rotation_matrice_normal_with_flip", test_get_rotation_matrice_normal_with_flip)
-		|| !CU_add_test(suite, "test_get_rotation_matrice_special_case_minus_z", test_get_rotation_matrice_special_case_minus_z)
-		|| !CU_add_test(suite, "test_get_rotation_matrice_special_case_plus_z", test_get_rotation_matrice_special_case_plus_z)
-		|| !CU_add_test(suite, "test_rodrigues_matrice_handler", test_rodrigues_matrice_handler))
+	if (!CU_add_test(suite, "test_get_rotation_matrix_basic", test_get_rotation_matrix_basic)
+		|| !CU_add_test(suite, "test_get_rotation_matrix_normal_with_flip", test_get_rotation_matrix_normal_with_flip)
+		|| !CU_add_test(suite, "test_get_rotation_matrix_special_case_minus_z", test_get_rotation_matrix_special_case_minus_z)
+		|| !CU_add_test(suite, "test_get_rotation_matrix_special_case_plus_z", test_get_rotation_matrix_special_case_plus_z)
+		|| !CU_add_test(suite, "test_rodrigues_matrix_handler", test_rodrigues_matrix_handler))
 	{
 		return (CU_get_error());
 	}

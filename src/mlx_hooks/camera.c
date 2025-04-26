@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:34:36 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/26 15:53:32 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:05:50 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ void	rotate_cam(t_data *data, float theta, float axis[3], int anti_fa)
 
 	data->anti_fa = anti_fa;
 	if (data->cam.mode)
-		rodrigues_matrice_handler(axis, theta, data->cam.origin, new_t_mat);
+		rodrigues_matrix_handler(axis, theta, data->cam.origin, new_t_mat);
 	else
-		rodrigues_matrice_handler(axis, theta, data->cam.world_center,
+		rodrigues_matrix_handler(axis, theta, data->cam.world_center,
 			new_t_mat);
 	matrix44_multiply_inplace(new_t_mat, data->cam.t_mat);
 	copy_r_mat(data);
