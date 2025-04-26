@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_bvh_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:00:36 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/22 19:43:40 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 13:20:14 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	get_group_size(t_data *data, t_bvh *bvh)
 	}
 }
 
-void	create_obj_list_root(t_data *data, t_bvh *bvh)
+void	create_root_obj_list(t_data *data, t_bvh *bvh)
 {
 	t_object	*obj;
 	int			i;
