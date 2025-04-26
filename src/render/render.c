@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:05:24 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 16:24:45 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:54:44 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,6 @@ void	calculate_img_packet(t_calc_img_arg *arg)
 	first_shoot.intens = 1;
 	i = -1;
 	while (++i < WIDTH)
-		calculate_pixel(arg, i, &first_shoot, hd_res);
+		render_pixel(arg, i, &first_shoot, hd_res);
 	free(hd_res);
 }

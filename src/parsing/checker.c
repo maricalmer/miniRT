@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:18 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 20:29:13 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:29:18 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 
 #include "minirt.h"
 
-static int	is_rt_extension(char *str);
-static void	check_filename(char *file, int *fd);
+static int	has_rt_extension(char *str);
+static void	check_filename(char *filename, int *fd);
 
 void	check_input(int ac, char **av, t_data *data)
 {
@@ -34,19 +34,19 @@ void	check_input(int ac, char **av, t_data *data)
 	check_filename(av[1], &data->rt_fd); 
 }
 
-static void	check_filename(char *file, int *fd)
+static void	check_filename(char *filename, int *fd)
 {
-	if (!ft_strncmp(file, "", 1) || !is_rt_extension(file))
+	if (!ft_strncmp(filename, "", 1) || !has_rt_extension(filename))
 	{
 		print_error(FILE_ERROR);
 		exit(EXIT_FAILURE);
 	}
-	*fd = open(file, O_RDONLY);
+	*fd = open(filename, O_RDONLY);
 	if (*fd < 0)
-		handle_file_error(__func__, file);
+		handle_file_error(__func__, filename);
 }
 
-static int	is_rt_extension(char *str)
+static int	has_rt_extension(char *str)
 {
 	int	str_len;
 

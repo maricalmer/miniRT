@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 20:36:30 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:38:18 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,17 +97,17 @@ int	get_obj_rgb(char **specs, int *color)
 	return (EXIT_SUCCESS);
 }
 
-int	get_refr_idx(char **specs, float *ratio)
+int	get_refraction_index(char **specs, float *ratio)
 {
-	char	*p;
+	char	*start_spec;
 
 	if (!ft_isdigit(**specs))
 		return (EXIT_FAILURE);
-	p = *specs;
+	start_spec = *specs;
 	*ratio = ft_strtof(*specs, specs);
 	if (errno == ERANGE || (*ratio < 0.0f || *ratio > 2.7f))
 		return (EXIT_FAILURE);
-	if (**specs != ' ' && *specs != p)
+	if (**specs != ' ' && *specs != start_spec)
 		return (EXIT_FAILURE);
 	if (**specs == ' ')
 		(*specs)++;

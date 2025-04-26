@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_file.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:39:09 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 23:13:29 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 16:52:30 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 static void	read_rt_file(t_data *data);
 static void	process_rt_line(t_data *data, char *specs);
-static int	handle_light_creation(t_data *data, char *specs);
+static int	handle_light_and_camera_creation(t_data *data, char *specs);
 static int	handle_object_creation(t_data *data, char *specs);
 
 void	create_elements_rt(t_data *data, char *filename)
@@ -76,12 +76,12 @@ static void	process_rt_line(t_data *data, char *specs)
 	}
 	else
 	{
-		if (handle_light_creation(data, specs) == EXIT_FAILURE)
+		if (handle_light_and_camera_creation(data, specs) == EXIT_FAILURE)
 			abort_scene_parsing_on_failure(data, specs);
 	}
 }
 
-static int	handle_light_creation(t_data *data, char *specs)
+static int	handle_light_and_camera_creation(t_data *data, char *specs)
 {
 	if (specs[0] == 'L')
 	{

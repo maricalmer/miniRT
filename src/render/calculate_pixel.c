@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:42:06 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 15:34:00 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:57:05 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@
 
 #include "minirt.h"
 
-static void	calc_p_ray(float x, float y, float res[3], float r_mat[3][3]);
+static void	calculate_primary_ray(float x, float y, float res[3], 
+				float r_mat[3][3]);
 static void	save_shoot_res_in_hd_res(t_shoot *shoot, int hd_res[3]);
 static void	average_hd_pixel(int (*hd_res)[3], int hd_size);
 
-void	calculate_pixel(t_calc_img_arg *arg, int p,
+void	render_pixel(t_calc_img_arg *arg, int p,
 	t_shoot *shoot, int (*hd_res)[3])
 {
 	int				i;
@@ -41,7 +42,7 @@ void	calculate_pixel(t_calc_img_arg *arg, int p,
 		j = -1;
 		while (++j < arg->data->anti_fa)
 		{
-			calc_p_ray(x, y, shoot->dir, arg->data->cam.r_mat);
+			calculate_primary_ray(x, y, shoot->dir, arg->data->cam.r_mat);
 			shoot_ray(arg->data, shoot);
 			x += arg->dx_hd;
 			save_shoot_res_in_hd_res(shoot, hd_res[i * arg->data->anti_fa + j]);
@@ -53,7 +54,8 @@ void	calculate_pixel(t_calc_img_arg *arg, int p,
 		= (hd_res[0][0] << 16 | hd_res[0][1] << 8 | hd_res[0][2]);
 }
 
-static void	calc_p_ray(float x, float y, float res[3], float r_mat[3][3])
+static void	calculate_primary_ray(float x, float y, float res[3],
+									float r_mat[3][3])
 {
 	res[0] = x;
 	res[1] = y;

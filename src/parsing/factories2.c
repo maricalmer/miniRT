@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   factories2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:49:04 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 22:45:22 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 16:36:55 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	create_sphere(t_data *data, char *specs)
 	if (get_ratio(&specs, &data->objects[data->objects_idx].mat.refr_coeff)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_refr_idx(&specs, &data->objects[data->objects_idx].mat.refr_idx)
+	if (get_refraction_index(&specs, &data->objects[data->objects_idx].mat.refr_idx)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

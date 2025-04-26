@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 09:49:05 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 20:53:04 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:40:12 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	get_coord(char **specs, float *value)
 	return (EXIT_SUCCESS);
 }
 
-int	get_vec_norm(char **specs, float *value)
+int	get_normalized_vec(char **specs, float *value)
 {
 	int	i;
 

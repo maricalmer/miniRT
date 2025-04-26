@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/26 14:22:03 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:42:57 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ static void	process_obj_file(t_obj_parser *parsers, char *specs)
 	if (!parsers[i].filename)
 		handle_memory_failure(__func__);
 	ft_strlcpy(parsers[i].filename, name_start, len + 1);
-	if (set_tri(&parsers[i], specs) == EXIT_FAILURE)
+	if (set_triangle_properties(&parsers[i], specs) == EXIT_FAILURE)
 	{
 		free(specs);
 		print_error(OBJ_ERROR);

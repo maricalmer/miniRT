@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:25:40 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/24 16:28:01 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:35:01 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,30 +21,31 @@
 
 #include "minirt.h"
 
-static int	count_tri_data(char *line, t_obj_parser *parser);
+static int	count_obj_data(char *line, t_obj_parser *parser);
 
-void	count_rt_elems(char *specs, t_data *data, int *n_cam, int *n_ambient)
+void	count_rt_scene_elems(char *parsed_line, t_data *data, int *n_cam,
+			int *n_ambient)
 {
-	if (is_object_file(specs))
+	if (is_object_file(parsed_line))
 		data->n_obj_files++;
-	else if (is_light(specs))
+	else if (is_light(parsed_line))
 		data->n_light++;
-	else if (is_cam(specs))
-		increase_if_uniq(n_cam, specs, data);
-	else if (is_ambient(specs))
-		increase_if_uniq(n_ambient, specs, data);
-	else if (is_plane(specs) || is_sphere(specs) || is_cylinder(specs)
-		|| is_rectangle(specs))
+	else if (is_cam(parsed_line))
+		increase_if_uniq(n_cam, parsed_line, data);
+	else if (is_ambient(parsed_line))
+		increase_if_uniq(n_ambient, parsed_line, data);
+	else if (is_plane(parsed_line) || is_sphere(parsed_line) 
+		|| is_cylinder(parsed_line) || is_rectangle(parsed_line))
 		data->n_obj++;
 	else
 	{
-		free(specs);
+		free(parsed_line);
 		print_error(MAND_SET_ERROR);
 		close(data->rt_fd);
 		exit(EXIT_FAILURE);
 	}
-	if (specs != NULL)
-		free(specs);
+	if (parsed_line != NULL)
+		free(parsed_line);
 }
 
 void	read_obj(t_data *data, t_obj_parser *parser)
@@ -66,35 +67,35 @@ void	read_obj(t_data *data, t_obj_parser *parser)
 			free(line);
 			continue ;
 		}
-		count_tri_data(line, parser);
+		count_obj_data(line, parser);
 	}
 	data->n_obj += parser->n_f;
 }
 
-static int	count_tri_data(char *line, t_obj_parser *parser)
+static int	count_obj_data(char *line, t_obj_parser *parser)
 {
-	char	*specs;
+	char	*parsed_line;
 
-	specs = format_string(line, ft_strlen(line));
-	if (specs[0] == 'v')
+	parsed_line = format_string(line, ft_strlen(line));
+	if (parsed_line[0] == 'v')
 	{
-		if (specs[1] == 'n' && specs[2] == ' ')
+		if (parsed_line[1] == 'n' && parsed_line[2] == ' ')
 			parser->n_vn++;
-		else if (specs[1] == ' ')
+		else if (parsed_line[1] == ' ')
 			parser->n_v++;
 		else
 		{
-			free(specs);
+			free(parsed_line);
 			return (print_error(TRI_ERROR), EXIT_FAILURE);
 		}
 	}
-	else if (is_face(specs))
+	else if (is_face(parsed_line))
 		parser->n_f++;
-	else if (!is_smoothing(specs))
+	else if (!is_smoothing(parsed_line))
 	{
-		free(specs);
+		free(parsed_line);
 		return (print_error(TRI_ERROR), EXIT_FAILURE);
 	}
-	free(specs);
+	free(parsed_line);
 	return (EXIT_SUCCESS);
 }

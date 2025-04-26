@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   factories4.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:08:59 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 22:53:15 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 16:42:31 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	create_light(t_data *data, char *specs)
 	return (EXIT_SUCCESS);
 }
 
-int	set_tri(t_obj_parser *parser, char *specs)
+int	set_triangle_properties(t_obj_parser *parser, char *specs)
 {
 	int	len_filepath;
 
@@ -58,7 +58,7 @@ int	set_tri(t_obj_parser *parser, char *specs)
 		return (EXIT_FAILURE);
 	if (get_ratio(&specs, &parser->tri_refr_coeff) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_refr_idx(&specs, &parser->tri_refr_idx) == EXIT_FAILURE)
+	if (get_refraction_index(&specs, &parser->tri_refr_idx) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

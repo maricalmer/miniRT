@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:49:20 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 16:12:33 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:54:37 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int			init_obj_lists(t_obj_parser *parser);
 /*counter.c*/
 void		read_rt(t_data *data);
 void		read_obj(t_data *data, t_obj_parser *parser);
-void		count_rt_elems(char *specs, t_data *data, int *n_cam,
+void		count_rt_scene_elems(char *specs, t_data *data, int *n_cam,
 				int *n_ambient);
 /*obj_file*/
 void		parse_obj_files(t_data *data, char *filename);
@@ -60,15 +60,15 @@ int			create_plane(t_data *data, char *specs);
 int			create_cylinder(t_data *data, char *specs);
 int			create_triangle(t_data *data, char *line, t_obj_parser *parser);
 int			create_rectangle(t_data *data, char *specs);
-int			set_tri(t_obj_parser *parser, char *specs);
+int			set_triangle_properties(t_obj_parser *parser, char *specs);
 /*factories_utils.c*/
 int			get_ratio(char **specs, float *ratio);
-int			get_refr_idx(char **specs, float *ratio);
+int			get_refraction_index(char **specs, float *ratio);
 int			get_rgb_norm(char **specs, float *color);
 int			get_rgb(char **specs, unsigned char *color);
 int			get_obj_rgb(char **specs, int *color);
 int			get_coord(char **specs, float *value);
-int			get_vec_norm(char **specs, float *value);
+int			get_normalized_vec(char **specs, float *value);
 int			get_fov_range(char **specs, int *fov);
 int			get_radius(char **specs, float *radius);
 int			get_length(char **specs, float *length);
@@ -88,7 +88,7 @@ void		free_obj_parser_and_exit_failure(t_obj_parser *parsers, int n_files);
 void		abort_scene_parsing_on_failure(t_data *data, char *specs);
 /*render.c*/
 void		render_first_image(t_data *data);
-void		calculate_pixel(t_calc_img_arg *arg, int p, t_shoot *shoot,
+void		render_pixel(t_calc_img_arg *arg, int p, t_shoot *shoot,
 				int (*hd_res)[3]);
 void		shoot_ray(t_data *data, t_shoot *shoot);
 void		first_rotation_matrix(t_data *data);

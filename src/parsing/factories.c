@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   factories.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 09:55:14 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 22:40:23 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 16:40:28 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	create_cam(t_data *data, char *specs)
 {
 	if (get_coord(&specs, data->cam.origin) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_vec_norm(&specs, data->cam.direction) == EXIT_FAILURE)
+	if (get_normalized_vec(&specs, data->cam.direction) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (get_fov_range(&specs, &data->cam.fov) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
@@ -52,7 +52,7 @@ int	create_plane(t_data *data, char *specs)
 	if (get_coord(&specs, data->objects[data->objects_idx].geo.pl.point)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_vec_norm(&specs, 
+	if (get_normalized_vec(&specs, 
 			data->objects[data->objects_idx].geo.pl.normal) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (get_rgb(&specs, data->objects[data->objects_idx].mat.rgb)
@@ -72,7 +72,7 @@ static int	get_bonus_data_pl(t_data *data, char *specs)
 	if (get_ratio(&specs, &data->objects[data->objects_idx].mat.refr_coeff)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_refr_idx(&specs, &data->objects[data->objects_idx].mat.refr_idx)
+	if (get_refraction_index(&specs, &data->objects[data->objects_idx].mat.refr_idx)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (get_pos_float(&specs,
@@ -93,10 +93,10 @@ static int	get_checker_data_pl(t_data *data, char *specs)
 	if (get_rgb(&specs, data->objects[data->objects_idx].mat.rgb2)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_vec_norm(&specs, data->objects[data->objects_idx].geo.pl.u)
+	if (get_normalized_vec(&specs, data->objects[data->objects_idx].geo.pl.u)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_vec_norm(&specs, data->objects[data->objects_idx].geo.pl.v)
+	if (get_normalized_vec(&specs, data->objects[data->objects_idx].geo.pl.v)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

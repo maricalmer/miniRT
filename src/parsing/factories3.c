@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   factories3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:53:31 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 22:49:05 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 16:41:29 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	create_cylinder(t_data *data, char *specs)
 	if (get_coord(&specs, data->objects[data->objects_idx].geo.cyl.center)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_vec_norm(&specs, data->objects[data->objects_idx].geo.cyl.dir)
+	if (get_normalized_vec(&specs, data->objects[data->objects_idx].geo.cyl.dir)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (get_radius(&specs, &data->objects[data->objects_idx].geo.cyl.radius)
@@ -56,7 +56,8 @@ static int	get_bonus_data_cy(t_data *data, char *specs)
 	if (get_ratio(&specs, &data->objects[data->objects_idx].mat.refr_coeff)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_refr_idx(&specs, &data->objects[data->objects_idx].mat.refr_idx)
+	if (get_refraction_index(&specs,
+			&data->objects[data->objects_idx].mat.refr_idx)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
@@ -67,7 +68,7 @@ int	create_rectangle(t_data *data, char *specs)
 	if (get_coord(&specs, data->objects[data->objects_idx].geo.pl.point)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_vec_norm(&specs, 
+	if (get_normalized_vec(&specs, 
 			data->objects[data->objects_idx].geo.pl.normal) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (get_rgb(&specs, data->objects[data->objects_idx].mat.rgb)
@@ -87,8 +88,8 @@ static int	get_bonus_data_rec(t_data *data, char *specs)
 	if (get_ratio(&specs, &data->objects[data->objects_idx].mat.refr_coeff)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_refr_idx(&specs, &data->objects[data->objects_idx].mat.refr_idx)
-		== EXIT_FAILURE)
+	if (get_refraction_index(&specs,
+			&data->objects[data->objects_idx].mat.refr_idx) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (get_pos_float(&specs,
 			&data->objects[data->objects_idx].geo.rec.uv_size) == EXIT_FAILURE)
@@ -109,10 +110,10 @@ static int	get_checker_size_data_rec(t_data *data, char *specs)
 	if (get_rgb(&specs, data->objects[data->objects_idx].mat.rgb2)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_vec_norm(&specs, data->objects[data->objects_idx].geo.pl.u)
+	if (get_normalized_vec(&specs, data->objects[data->objects_idx].geo.pl.u)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (get_vec_norm(&specs, data->objects[data->objects_idx].geo.pl.v)
+	if (get_normalized_vec(&specs, data->objects[data->objects_idx].geo.pl.v)
 		== EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

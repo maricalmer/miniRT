@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 12:38:13 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/24 16:29:28 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:49:01 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	read_rt(t_data *data)
 		specs = format_string(line, ft_strlen(line));
 		if (!specs)
 			continue ;
-		count_rt_elems(specs, data, &n_cam, &n_ambient);
+		count_rt_scene_elems(specs, data, &n_cam, &n_ambient);
 	}
 	close(data->rt_fd);
 }
