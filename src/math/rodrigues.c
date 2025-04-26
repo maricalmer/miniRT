@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 21:34:47 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 20:00:57 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:33:53 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	first_rotation_matrice(t_data *data)
 	ft_memcpy(data->cam.x, (float [3]){1, 0, 0}, sizeof(float [3]));
 	ft_memcpy(data->cam.y, (float [3]){0, 1, 0}, sizeof(float [3]));
 	ft_memcpy(data->cam.z, (float [3]){0, 0, 1}, sizeof(float [3]));
-	dot_inplace_33_13(data->cam.r_mat, data->cam.x);
-	dot_inplace_33_13(data->cam.r_mat, data->cam.y);
-	dot_inplace_33_13(data->cam.r_mat, data->cam.z);
+	matrix33_vec3_multiply_inplace(data->cam.r_mat, data->cam.x);
+	matrix33_vec3_multiply_inplace(data->cam.r_mat, data->cam.y);
+	matrix33_vec3_multiply_inplace(data->cam.r_mat, data->cam.z);
 }

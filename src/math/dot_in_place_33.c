@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:34:09 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 19:46:55 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:42:18 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 
 #include "minirt.h"
 
-static void	save_result_in_place_13(float res[3], float b[3]);
-static void	save_result_in_place_33(float res[3][3], float b[3][3]);
+static void	copy_vec3_inplace(float res[3], float b[3]);
+static void	copy_matrix3x3_inplace(float res[3][3], float b[3][3]);
 
-void	dot_inplace_34_13(double a[3][4], float b[3])
+void	matrix34_vec3_multiply_inplace(double matrix[3][4], float vector[3])
 {
 	int		i;
 	int		k;
@@ -35,13 +35,13 @@ void	dot_inplace_34_13(double a[3][4], float b[3])
 		res[i] = 0;
 		k = -1;
 		while (++k < 3)
-			res[i] += a[i][k] * b[k];
-		res[i] += a[i][3] * 1;
+			res[i] += matrix[i][k] * vector[k];
+		res[i] += matrix[i][3] * 1;
 	}
-	save_result_in_place_13(res, b);
+	copy_vec3_inplace(res, vector);
 }
 
-void	dot_inplace_33_13(float a[3][3], float b[3])
+void	matrix33_vec3_multiply_inplace(float matrix[3][3], float vector[3])
 {
 	int		i;
 	int		k;
@@ -53,12 +53,12 @@ void	dot_inplace_33_13(float a[3][3], float b[3])
 		res[i] = 0;
 		k = -1;
 		while (++k < 3)
-			res[i] += a[i][k] * b[k];
+			res[i] += matrix[i][k] * vector[k];
 	}
-	save_result_in_place_13(res, b);
+	copy_vec3_inplace(res, vector);
 }
 
-void	dot_inplace_33_33(float a[3][3], float b[3][3])
+void	matrix33_matrix33_multiply_inplace(float a[3][3], float b[3][3])
 {
 	int		i;
 	int		j;
@@ -77,10 +77,10 @@ void	dot_inplace_33_33(float a[3][3], float b[3][3])
 				res[i][j] += a[i][k] * b[k][j];
 		}
 	}
-	save_result_in_place_33(res, a);
+	copy_matrix3x3_inplace(res, a);
 }
 
-static void	save_result_in_place_13(float res[3], float b[3])
+static void	copy_vec3_inplace(float res[3], float b[3])
 {
 	int	i;
 
@@ -89,7 +89,7 @@ static void	save_result_in_place_13(float res[3], float b[3])
 		b[i] = res[i];
 }
 
-static void	save_result_in_place_33(float res[3][3], float b[3][3])
+static void	copy_matrix3x3_inplace(float res[3][3], float b[3][3])
 {
 	int	i;
 	int	j;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   events.c                                           :+:      :+:    :+:   */
+/*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:34:36 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 20:05:20 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:44:35 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	copy_r_mat(t_data *data)
 		while (++j < 3)
 			data->cam.r_mat[i][j] = data->cam.t_mat[i][j];
 	}
-	dot_inplace_33_33(data->cam.r_mat, data->cam.r_mat_0);
+	matrix33_matrix33_multiply_inplace(data->cam.r_mat, data->cam.r_mat_0);
 }
 
 void	copy_r_mat_0(t_data *data)
@@ -68,10 +68,10 @@ void	translate_cam(t_data *data, float v[3], float amp, int anti_fa)
 	new_t_mat[0][3] = t[0];
 	new_t_mat[1][3] = t[1];
 	new_t_mat[2][3] = t[2];
-	dot_inplace_44_44(new_t_mat, data->cam.t_mat);
+	matrix44_multiply_inplace(new_t_mat, data->cam.t_mat);
 	copy_r_mat(data);
 	ft_memcpy(data->cam.origin, data->cam.origin_backup, sizeof(float [3]));
-	dot_inplace_34_13(data->cam.t_mat, data->cam.origin);
+	matrix34_vec3_multiply_inplace(data->cam.t_mat, data->cam.origin);
 	calculate_img(data);
 }
 
@@ -85,15 +85,15 @@ void	rotate_cam(t_data *data, float theta, float axis[3], int anti_fa)
 	else
 		rodrigues_matrice_handler(axis, theta, data->cam.world_center,
 			new_t_mat);
-	dot_inplace_44_44(new_t_mat, data->cam.t_mat);
+	matrix44_multiply_inplace(new_t_mat, data->cam.t_mat);
 	copy_r_mat(data);
 	ft_memcpy(data->cam.origin, data->cam.origin_backup, sizeof(float [3]));
-	dot_inplace_34_13(data->cam.t_mat, data->cam.origin);
+	matrix34_vec3_multiply_inplace(data->cam.t_mat, data->cam.origin);
 	ft_memcpy(data->cam.x, (float [3]){1, 0, 0}, sizeof(float [3]));
 	ft_memcpy(data->cam.y, (float [3]){0, 1, 0}, sizeof(float [3]));
 	ft_memcpy(data->cam.z, (float [3]){0, 0, 1}, sizeof(float [3]));
-	dot_inplace_33_13(data->cam.r_mat, data->cam.x);
-	dot_inplace_33_13(data->cam.r_mat, data->cam.y);
-	dot_inplace_33_13(data->cam.r_mat, data->cam.z);
+	matrix33_vec3_multiply_inplace(data->cam.r_mat, data->cam.x);
+	matrix33_vec3_multiply_inplace(data->cam.r_mat, data->cam.y);
+	matrix33_vec3_multiply_inplace(data->cam.r_mat, data->cam.z);
 	calculate_img(data);
 }

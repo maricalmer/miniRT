@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:58:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 19:48:19 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:46:58 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@
 
 #include "minirt.h"
 
-static void	save_result_in_place_44(double res[4][4], double b[4][4]);
+static void	copy_matrix44_inplace(double res[4][4], double b[4][4]);
 
-void	dot_inplace_44_44(double a[4][4], double b[4][4])
+void	matrix44_multiply_inplace(double a[4][4], double b[4][4])
 {
 	int		i;
 	int		j;
 	int		k;
-	double	res[4][4];
+	double	result[4][4];
 
 	i = -1;
 	while (++i < 4)
@@ -34,16 +34,16 @@ void	dot_inplace_44_44(double a[4][4], double b[4][4])
 		j = -1;
 		while (++j < 4)
 		{
-			res[i][j] = 0;
+			result[i][j] = 0;
 			k = -1;
 			while (++k < 4)
-				res[i][j] += a[i][k] * b[k][j];
+				result[i][j] += a[i][k] * b[k][j];
 		}
 	}
-	save_result_in_place_44(res, b);
+	copy_matrix44_inplace(result, b);
 }
 
-static void	save_result_in_place_44(double res[4][4], double b[4][4])
+static void	copy_matrix44_inplace(double result[4][4], double b[4][4])
 {
 	int	i;
 	int	j;
@@ -53,6 +53,6 @@ static void	save_result_in_place_44(double res[4][4], double b[4][4])
 	{
 		j = -1;
 		while (++j < 4)
-			b[i][j] = res[i][j];
+			b[i][j] = result[i][j];
 	}
 }

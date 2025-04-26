@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:49:20 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 15:27:47 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:44:26 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,10 +130,10 @@ void		aabb_test_fast(t_bvh *bvh, int idx, t_shoot *shoot, char res[9]);
 void		copy_and_terminate(char *res, int *indices, int size);
 /*maths*/
 float		dot_13_13(float a[3], float b[3]);
-void		dot_inplace_34_13(double a[3][4], float b[3]);
-void		dot_inplace_33_13(float a[3][3], float b[3]);
-void		dot_inplace_33_33(float a[3][3], float b[3][3]);
-void		dot_inplace_44_44(double a[4][4], double b[4][4]);
+void		matrix34_vec3_multiply_inplace(double a[3][4], float b[3]);
+void		matrix33_vec3_multiply_inplace(float a[3][3], float b[3]);
+void		matrix33_matrix33_multiply_inplace(float a[3][3], float b[3][3]);
+void		matrix44_multiply_inplace(double a[4][4], double b[4][4]);
 void		cprod_13_13(float a[3], float b[3], float res[3]);
 void		normalize(float vector[3], float *magnitude);
 int			imin(int a, int b);

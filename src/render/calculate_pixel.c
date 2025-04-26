@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculate_pixel.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:42:06 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/24 11:18:06 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 15:34:00 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	calc_p_ray(float x, float y, float res[3], float r_mat[3][3])
 	res[1] = y;
 	res[2] = -1;
 	normalize(res, NULL);
-	dot_inplace_33_13(r_mat, res);
+	matrix33_vec3_multiply_inplace(r_mat, res);
 }
 
 static void	save_shoot_res_in_hd_res(t_shoot *shoot, int hd_res[3])
