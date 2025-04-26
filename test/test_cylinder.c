@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:26:31 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/06 19:30:30 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 14:52:41 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	test_cylinder_direct_hit(void)
 	t_object obj = create_test_cylinder();
 	float origin[3] = {2.0f, 0.0f, 0.0f};
 	float ray[3] = {-1.0f, 0.0f, 0.0f};
-	float t = test_cylinder(&obj, ray, origin);
+	float t = intersect_cylinder(&obj, ray, origin);
 
 	CU_ASSERT_TRUE(t > 0.0f);
 }
@@ -43,7 +43,7 @@ void	test_cylinder_parallel_ray(void)
 	t_object obj = create_test_cylinder();
 	float origin[3] = {2.0f, 0.0f, -2.0f};
 	float ray[3] = {0.0f, 0.0f, 1.0f};
-	float t = test_cylinder(&obj, ray, origin);
+	float t = intersect_cylinder(&obj, ray, origin);
 
 	CU_ASSERT_TRUE(assert_float_equal(t, 0.0f, EPSILON_TEST));
 }
@@ -53,7 +53,7 @@ void test_cylinder_outside_height(void)
 	t_object obj = create_test_cylinder();
 	float origin[3] = {0.9f, 0.0f, 3.0f};
 	float ray[3] = {-1.0f, 0.0f, 0.0f};
-	float t = test_cylinder(&obj, ray, origin);
+	float t = intersect_cylinder(&obj, ray, origin);
 
 	CU_ASSERT_TRUE(assert_float_equal(t, 0.0f, EPSILON_TEST));
 }
@@ -63,7 +63,7 @@ void test_cylinder_angled_hit(void)
 	t_object obj = create_test_cylinder();
 	float origin[3] = {2.0f, 2.0f, 0.0f};
 	float ray[3] = {-1.0f, -1.0f, 0.0f};
-	float t = test_cylinder(&obj, ray, origin);
+	float t = intersect_cylinder(&obj, ray, origin);
 
 	CU_ASSERT_TRUE(t > 0.0f);
 }

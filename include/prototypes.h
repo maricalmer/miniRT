@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:49:20 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 14:21:55 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 14:51:41 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,8 @@ t_obj_geo	*create_obj_geo_data(t_bvh *bvh);
 void		get_bboxes(t_bvh *bvh, int idx, t_cut_in_two *cut);
 void		get_bbox_min_max_root(t_bvh *bvh);
 /* tests*/
-float		visi_test_bvh_strict(t_bvh *bvh, int idx, t_shoot *shoot);
-float		visi_test_bvh_fast(t_bvh *bvh, int idx, t_shoot *shoot);
+float		visibility_test_bvh_strict(t_bvh *bvh, int idx, t_shoot *shoot);
+float		visibility_test_bvh_fast(t_bvh *bvh, int idx, t_shoot *shoot);
 float		shadow_test_bvh(t_shoot *shoot, t_bvh *bvh, int idx,
 				float dist_light);
 float		visi_tests(t_object *objects, t_shoot *shoot, int n_obj);
@@ -121,7 +121,7 @@ float		shadow_tests(t_shoot *shoot, t_object *objects,
 float		shadow_test_leafs(t_shoot *shoot, t_object **objects,
 				float dist_light, int n_obj);
 float		test_sphere(t_object *obj, float ray[3], float origin[3]);
-float		test_cylinder(t_object *obj, float ray[3], float origin[3]);
+float		intersect_cylinder(t_object *obj, float ray[3], float origin[3]);
 float		test_plane(t_object *obj, float p_ray[3], float origin[3]);
 float		test_rectangle(t_object *obj, float ray[3], float origin[3]);
 float		test_triangle(t_object *obj, float ray[3], float origin[3]);

@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:22:11 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 13:49:27 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 14:47:24 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 /*                                                                            */
 /* Implements BVH traversal using SIMD-accelerated AABB tests for visibility  */
 /* and shadows. Provides both strict (sorted by distance) and fast            */
-/* (early-exit) traversal modes. `visi_test_bvh_strict` finds the closest     */
-/* hit, while `visi_test_bvh_fast` exits on first hit. `shadow_test_bvh`      */
-/* checks for occlusion between a point and a light source. Utilizes SIMD     */
-/* to test 8 AABBs in parallel                .                               */
+/* (early-exit) traversal modes. `visibility_test_bvh_strict` finds the       */
+/* closest hit, while `visibility_test_bvh_fast` exits on first hit.          */
+/* `shadow_test_bvh` checks for occlusion between a point and a light source. */
+/* Utilizes SIMD to test 8 AABBs in parallel.                                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 static float	process_bvh_children(t_bvh *bvh, int idx, t_shoot *shoot,
 					float res[8]);
 
-float	visi_test_bvh_strict(t_bvh *bvh, int idx, t_shoot *shoot)
+float	visibility_test_bvh_strict(t_bvh *bvh, int idx, t_shoot *shoot)
 {
 	__m256	v_res;
 	float	res[8];
@@ -53,7 +53,7 @@ static float	process_bvh_children(t_bvh *bvh, int idx, t_shoot *shoot,
 	{
 		if (res[i] != -1)
 		{
-			t = visi_test_bvh_strict(bvh, bvh->children[idx] + i, shoot);
+			t = visibility_test_bvh_strict(bvh, bvh->children[idx] + i, shoot);
 			if (t > 0 && t < t_min)
 			{
 				t_min = t;
@@ -69,7 +69,7 @@ static float	process_bvh_children(t_bvh *bvh, int idx, t_shoot *shoot,
 	return (0);
 }
 
-float	visi_test_bvh_fast(t_bvh *bvh, int idx, t_shoot *shoot)
+float	visibility_test_bvh_fast(t_bvh *bvh, int idx, t_shoot *shoot)
 {
 	char		res[9];
 	int			i;
@@ -81,7 +81,7 @@ float	visi_test_bvh_fast(t_bvh *bvh, int idx, t_shoot *shoot)
 	i = -1;
 	while (res[++i] != -1)
 	{
-		t = visi_test_bvh_fast(bvh, bvh->children[idx] + res[i], shoot);
+		t = visibility_test_bvh_fast(bvh, bvh->children[idx] + res[i], shoot);
 		if (t > 0)
 			return (t);
 	}

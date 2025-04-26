@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 18:52:02 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 19:13:58 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 14:52:06 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,13 @@ static float	test_object(t_object *obj, t_shoot *shoot)
 	if (obj->type == PLANE)
 		return (test_plane(obj, shoot->dir, shoot->src));
 	else if (obj->type == CYLINDER)
-		return (test_cylinder(obj, shoot->dir, shoot->src));
+		return (intersect_cylinder(obj, shoot->dir, shoot->src));
 	else if (obj->type == BVH)
 	{
 		if (FAST_BVH_TRANSVERSAL)
-			return (visi_test_bvh_fast(obj->geo.bvh, 0, shoot));
+			return (visibility_test_bvh_fast(obj->geo.bvh, 0, shoot));
 		else
-			return (visi_test_bvh_strict(obj->geo.bvh, 0, shoot));
+			return (visibility_test_bvh_strict(obj->geo.bvh, 0, shoot));
 	}
 	return (0);
 }

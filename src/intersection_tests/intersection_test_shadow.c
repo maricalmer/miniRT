@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 18:29:38 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/23 19:07:08 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 14:52:04 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ float	shadow_tests(t_shoot *shoot, t_object *objects, float dist_light,
 		if (objects[i].type == PLANE)
 			t = test_plane(&objects[i], shoot->shadow_ray, hit_pt);
 		else if (objects[i].type == CYLINDER)
-			t = test_cylinder(&objects[i], shoot->shadow_ray, hit_pt);
+			t = intersect_cylinder(&objects[i], shoot->shadow_ray, hit_pt);
 		else
 			t = shadow_test_bvh(shoot, objects[i].geo.bvh, 0, dist_light);
 		if (t > 0 && dist_light > t)
