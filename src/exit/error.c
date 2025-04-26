@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:32:55 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 22:22:40 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 14:18:25 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 #include "minirt.h"
 
-static void	print_error_extended(int error_code);
+static void	print_scene_element_error(int error_code);
 
 void	handle_memory_failure(const char *function)
 {
@@ -56,10 +56,10 @@ void	print_error(int error_code)
 		printf("\n%sError%s%sWrong settings for camera element%s\n",
 			RED_BG_START, COLOR_END, RED_TXT_START, COLOR_END);
 	else
-		print_error_extended(error_code);
+		print_scene_element_error(error_code);
 }
 
-static void	print_error_extended(int error_code)
+static void	print_scene_element_error(int error_code)
 {
 	if (error_code == LIGHT_ERROR)
 		printf("\n%sError%s%sWrong settings for light element%s\n",

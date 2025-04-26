@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:49:20 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 14:09:53 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 14:21:55 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,11 @@ void		handle_file_error(const char *function, const char *filename);
 /*free.c*/
 void		free_bvh_nonleaf_and_geo(t_bvh *bvh);
 void		free_bvh_leaf_and_struct(t_bvh *bvh);
-void		cleanup_data_resources(t_data *data);
+void		free_data_resources(t_data *data);
 void		wait_for_render_threads(t_data *data);
 void		exit_with_obj_parser_cleanup(t_obj_parser *parsers, int n_files);
 void		free_obj_parser_resources(t_obj_parser *parsers, int n_files);
-void		cleanup_obj_parser_and_exit(t_obj_parser *parsers, int n_files);
+void		free_obj_parser_and_exit_failure(t_obj_parser *parsers, int n_files);
 void		abort_scene_parsing_on_failure(t_data *data, char *specs);
 /*render.c*/
 void		render_first_image(t_data *data);

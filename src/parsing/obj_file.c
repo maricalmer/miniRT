@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 10:59:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/24 18:31:14 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 14:22:03 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	parse_obj_files(t_data *data, char *filename)
 	while (++i < data->n_obj_files)
 	{
 		if (create_elements_obj(data, &parsers[i]) == EXIT_FAILURE)
-			cleanup_obj_parser_and_exit(parsers, data->n_obj_files);
+			free_obj_parser_and_exit_failure(parsers, data->n_obj_files);
 	}
 	print_tri_count(parsers[0].n_f);
 	free_obj_parser_resources(parsers, data->n_obj_files);

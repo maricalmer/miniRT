@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:22:11 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/23 18:50:16 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 14:30:17 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 
 static void	sort_indices(__m256 input, char res[9]);
 static int	filter_valid_values(float *tmp, float *values, int *indices);
-static void	handle_switch(float *values, int *indices, int size);
-static int	switch_consecutive(float *tab1, int *tab2, int i);
+static void	bubble_sort_values_indices(float *values, int *indices, int size);
+static int	switch_consecutive(float *values, int *indices, int i);
 
 void	aabb_test_fast(t_bvh *bvh, int idx, t_shoot *shoot, char res[9])
 {
@@ -44,7 +44,7 @@ static void	sort_indices(__m256 input, char res[9])
 
 	_mm256_storeu_ps(tmp, input);
 	size = filter_valid_values(tmp, values, indices);
-	handle_switch(values, indices, size);
+	bubble_sort_values_indices(values, indices, size);
 	copy_and_terminate(res, indices, size);
 }
 
@@ -67,7 +67,7 @@ static int	filter_valid_values(float *tmp, float *values, int *indices)
 	return (size);
 }
 
-static void	handle_switch(float *values, int *indices, int size)
+static void	bubble_sort_values_indices(float *values, int *indices, int size)
 {
 	int		has_switched;
 	int		i;
@@ -85,19 +85,19 @@ static void	handle_switch(float *values, int *indices, int size)
 	}
 }
 
-static int	switch_consecutive(float *tab1, int *tab2, int i)
+static int	switch_consecutive(float *values, int *indices, int i)
 {
 	int		temp;
 	float	tmp;
 
-	if (tab1[i] > tab1[i + 1])
+	if (values[i] > values[i + 1])
 	{
-		tmp = tab1[i];
-		tab1[i] = tab1[i + 1];
-		tab1[i + 1] = tmp;
-		temp = tab2[i];
-		tab2[i] = tab2[i + 1];
-		tab2[i + 1] = temp;
+		tmp = values[i];
+		values[i] = values[i + 1];
+		values[i + 1] = tmp;
+		temp = indices[i];
+		indices[i] = indices[i + 1];
+		indices[i + 1] = temp;
 		return (1);
 	}
 	else

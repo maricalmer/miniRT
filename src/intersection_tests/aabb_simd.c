@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:22:11 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/23 18:51:55 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 14:38:00 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,24 @@ static void	test_axis_generic(t_aabb_simd *x,
 
 __m256	aabb_test_simd(t_bvh *bvh, int idx, float dir[3], float src[3])
 {
-	t_aabb_simd	x;
+	t_aabb_simd	simd_data;
 
-	x.min = _mm256_set1_ps(0.0f);
-	x.max = _mm256_set1_ps(1e10f);
-	x.v_dir = _mm256_set1_ps(dir[0]);
-	x.v_src = _mm256_set1_ps(src[0]);
-	test_axis_generic(&x, &bvh->min_x[idx], &bvh->max_x[idx]);
-	x.v_dir = _mm256_set1_ps(dir[1]);
-	x.v_src = _mm256_set1_ps(src[1]);
-	test_axis_generic(&x, &bvh->min_y[idx], &bvh->max_y[idx]);
-	x.v_dir = _mm256_set1_ps(dir[2]);
-	x.v_src = _mm256_set1_ps(src[2]);
-	test_axis_generic(&x, &bvh->min_z[idx], &bvh->max_z[idx]);
-	x.mask = _mm256_cmp_ps(x.min, x.max, _CMP_GT_OQ);
-	x.min = _mm256_or_ps(_mm256_andnot_ps(x.mask, x.min),
-			_mm256_and_ps(x.mask, _mm256_set1_ps(-1.0f)));
-	return (x.min);
+	simd_data.min = _mm256_set1_ps(0.0f);
+	simd_data.max = _mm256_set1_ps(1e10f);
+	simd_data.v_dir = _mm256_set1_ps(dir[0]);
+	simd_data.v_src = _mm256_set1_ps(src[0]);
+	test_axis_generic(&simd_data, &bvh->min_x[idx], &bvh->max_x[idx]);
+	simd_data.v_dir = _mm256_set1_ps(dir[1]);
+	simd_data.v_src = _mm256_set1_ps(src[1]);
+	test_axis_generic(&simd_data, &bvh->min_y[idx], &bvh->max_y[idx]);
+	simd_data.v_dir = _mm256_set1_ps(dir[2]);
+	simd_data.v_src = _mm256_set1_ps(src[2]);
+	test_axis_generic(&simd_data, &bvh->min_z[idx], &bvh->max_z[idx]);
+	simd_data.mask = _mm256_cmp_ps(simd_data.min, simd_data.max, _CMP_GT_OQ);
+	simd_data.min = _mm256_or_ps(_mm256_andnot_ps(simd_data.mask,
+				simd_data.min), _mm256_and_ps(simd_data.mask,
+				_mm256_set1_ps(-1.0f)));
+	return (simd_data.min);
 }
 
 static void	test_axis_generic(t_aabb_simd *x, const float *min,

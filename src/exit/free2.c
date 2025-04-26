@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:37:58 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 22:22:02 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 14:22:17 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	free_obj_parser_resources(t_obj_parser *parsers, int n_files)
 	free(parsers);
 }
 
-void	cleanup_obj_parser_and_exit(t_obj_parser *parsers, int n_files)
+void	free_obj_parser_and_exit_failure(t_obj_parser *parsers, int n_files)
 {
 	free_obj_parser_resources(parsers, n_files);
 	exit(EXIT_FAILURE);

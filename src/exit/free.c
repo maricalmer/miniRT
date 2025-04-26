@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:33:11 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/26 13:48:11 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 14:20:03 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	wait_for_render_threads(t_data *data)
 	}
 }
 
-void	cleanup_data_resources(t_data *data)
+void	free_data_resources(t_data *data)
 {
 	free(data->all_objects);
 	free(data->objects);

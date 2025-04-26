@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:34:56 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/26 14:14:23 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 14:40:00 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	handle_close(t_data *data)
 	free_mlx(&data->mlx);
 	if (1)
 		free_bvh_leaf_and_struct(data->objects[0].geo.bvh);
-	cleanup_data_resources(data);
+	free_data_resources(data);
 	wait_for_render_threads(data);
 	print_outro();
 	exit(EXIT_SUCCESS);
@@ -85,13 +85,13 @@ int	handle_input(int keysym, t_data *data)
 
 static void	handle_input_extended(int keysym, t_data *data)
 {
-	if (keysym == 'j')
+	if (keysym == 'l')
 		rotate_cam(data, CAM_D_THETA * M_PI / 180, data->cam.y, 1);
-	else if (keysym == 'l')
+	else if (keysym == 'j')
 		rotate_cam(data, -CAM_D_THETA * M_PI / 180, data->cam.y, 1);
-	else if (keysym == 'i')
-		rotate_cam(data, CAM_D_THETA * M_PI / 180, data->cam.x, 1);
 	else if (keysym == 'k')
+		rotate_cam(data, CAM_D_THETA * M_PI / 180, data->cam.x, 1);
+	else if (keysym == 'i')
 		rotate_cam(data, -CAM_D_THETA * M_PI / 180, data->cam.x, 1);
 	else if (keysym == 'u')
 		rotate_cam(data, CAM_D_THETA * M_PI / 180, data->cam.z, 1);
