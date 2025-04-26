@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:22:11 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/23 18:58:35 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 13:49:27 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ float	visi_test_bvh_strict(t_bvh *bvh, int idx, t_shoot *shoot)
 	__m256	v_res;
 	float	res[8];
 
-	if (bvh->childs[idx] == -1)
+	if (bvh->children[idx] == -1)
 		return (visi_test_leafs(bvh->group[idx], shoot, bvh->group_size[idx]));
-	v_res = aabb_test_simd(bvh, bvh->childs[idx], shoot->dir, shoot->src);
+	v_res = aabb_test_simd(bvh, bvh->children[idx], shoot->dir, shoot->src);
 	_mm256_storeu_ps(res, v_res);
 	return (process_bvh_children(bvh, idx, shoot, res));
 }
@@ -53,7 +53,7 @@ static float	process_bvh_children(t_bvh *bvh, int idx, t_shoot *shoot,
 	{
 		if (res[i] != -1)
 		{
-			t = visi_test_bvh_strict(bvh, bvh->childs[idx] + i, shoot);
+			t = visi_test_bvh_strict(bvh, bvh->children[idx] + i, shoot);
 			if (t > 0 && t < t_min)
 			{
 				t_min = t;
@@ -75,13 +75,13 @@ float	visi_test_bvh_fast(t_bvh *bvh, int idx, t_shoot *shoot)
 	int			i;
 	float		t;
 
-	if (bvh->childs[idx] == -1)
+	if (bvh->children[idx] == -1)
 		return (visi_test_leafs(bvh->group[idx], shoot, bvh->group_size[idx]));
-	aabb_test_fast(bvh, bvh->childs[idx], shoot, res);
+	aabb_test_fast(bvh, bvh->children[idx], shoot, res);
 	i = -1;
 	while (res[++i] != -1)
 	{
-		t = visi_test_bvh_fast(bvh, bvh->childs[idx] + res[i], shoot);
+		t = visi_test_bvh_fast(bvh, bvh->children[idx] + res[i], shoot);
 		if (t > 0)
 			return (t);
 	}
@@ -95,10 +95,10 @@ float	shadow_test_bvh(t_shoot *shoot, t_bvh *bvh, int idx, float dist_light)
 	int			i;
 	float		t;
 
-	if (bvh->childs[idx] == -1)
+	if (bvh->children[idx] == -1)
 		return (shadow_test_leafs(shoot, bvh->group[idx], dist_light,
 				bvh->group_size[idx]));
-	v_res = aabb_test_simd(bvh, bvh->childs[idx], shoot->shadow_ray,
+	v_res = aabb_test_simd(bvh, bvh->children[idx], shoot->shadow_ray,
 			shoot->hit_pt);
 	_mm256_storeu_ps(res, v_res);
 	i = -1;
@@ -106,7 +106,7 @@ float	shadow_test_bvh(t_shoot *shoot, t_bvh *bvh, int idx, float dist_light)
 	{
 		if (res[i] != -1)
 		{
-			t = shadow_test_bvh(shoot, bvh, bvh->childs[idx] + i, dist_light);
+			t = shadow_test_bvh(shoot, bvh, bvh->children[idx] + i, dist_light);
 			if (t > 0)
 				return (t);
 		}

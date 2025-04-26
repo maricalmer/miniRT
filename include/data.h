@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:23:19 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/26 13:16:31 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 13:46:30 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,7 +269,7 @@ typedef struct s_bvh
 	float						max_x[BVH_SIZE_MAX];
 	float						max_y[BVH_SIZE_MAX];
 	float						max_z[BVH_SIZE_MAX];
-	int							childs[BVH_SIZE_MAX];
+	int							children[BVH_SIZE_MAX];
 	t_object					**group[BVH_SIZE_MAX];
 	int							group_size[BVH_SIZE_MAX];
 	int							depth[BVH_SIZE_MAX];

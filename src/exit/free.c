@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:33:11 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 22:22:11 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 13:48:11 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	free_bvh_nonleaf_and_geo(t_bvh *bvh)
 	int	i;
 
 	i = -1;
-	while (bvh->childs[++i] != BVH_CHILD_END)
+	while (bvh->children[++i] != BVH_CHILD_END)
 	{
-		if (bvh->childs[i] != BVH_LEAF)
+		if (bvh->children[i] != BVH_LEAF)
 			free(bvh->group[i]);
 		free(bvh->obj_geo[i]);
 	}
@@ -36,9 +36,9 @@ void	free_bvh_leaf_and_struct(t_bvh *bvh)
 	int	i;
 
 	i = -1;
-	while (bvh->childs[++i] != BVH_CHILD_END)
+	while (bvh->children[++i] != BVH_CHILD_END)
 	{
-		if (bvh->childs[i] == BVH_LEAF)
+		if (bvh->children[i] == BVH_LEAF)
 			free(bvh->group[i]);
 	}
 	free(bvh);

@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 12:28:39 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 13:38:26 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 13:58:27 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,26 @@
 
 #include "minirt.h"
 
-static void	set_cutting_plane_n_obj(t_bvh *bvh, int idx, t_cut_in_two *cut);
+static void	choose_split_axis_and_counts(t_bvh *bvh, int idx,
+				t_cut_in_two *cut);
 static void	create_child_groups(t_bvh *bvh, t_cut_in_two *cut);
 
-void	cut_in_two(t_bvh *bvh, int idx, int idx_c, int i)
+void	cut_in_two(t_bvh *bvh, int idx, int idx_child, int cut_lvl)
 {
 	t_cut_in_two	cut;
 
-	if (i == -1)
+	if (cut_lvl == -1)
 		return ;
-	if (i == 2)
-		cut.idx_left = idx_c;
+	if (cut_lvl == 2)
+		cut.idx_left = idx_child;
 	else
 		cut.idx_left = idx;
-	cut.idx_right = cut.idx_left + pow(2, i);
+	cut.idx_right = cut.idx_left + pow(2, cut_lvl);
 	cut.old_n_obj = bvh->group_size[idx];
 	cut.old_group = bvh->group[idx];
 	cut.old_geo = bvh->obj_geo[idx];
 	get_mid_planes(bvh, idx, &cut);
-	set_cutting_plane_n_obj(bvh, idx, &cut);
+	choose_split_axis_and_counts(bvh, idx, &cut);
 	malloc_groups_and_geo(bvh, &cut);
 	create_child_groups(bvh, &cut);
 	get_bboxes(bvh, idx, &cut);
@@ -51,11 +52,11 @@ void	cut_in_two(t_bvh *bvh, int idx, int idx_c, int i)
 		free(cut.old_group);
 		free(cut.old_geo);
 	}
-	cut_in_two(bvh, cut.idx_left, idx_c, i - 1);
-	cut_in_two(bvh, cut.idx_right, idx_c, i - 1);
+	cut_in_two(bvh, cut.idx_left, idx_child, cut_lvl - 1);
+	cut_in_two(bvh, cut.idx_right, idx_child, cut_lvl - 1);
 }
 
-static void	set_cutting_plane_n_obj(t_bvh *bvh, int idx, t_cut_in_two *cut)
+static void	choose_split_axis_and_counts(t_bvh *bvh, int idx, t_cut_in_two *cut)
 {
 	int		i;
 	int		j;
@@ -63,8 +64,8 @@ static void	set_cutting_plane_n_obj(t_bvh *bvh, int idx, t_cut_in_two *cut)
 	int		n_obj_r[3];
 	int		sum[3];
 
-	ft_memset(n_obj_l, 0, sizeof(float [3]));
-	ft_memset(n_obj_r, 0, sizeof(float [3]));
+	ft_memset(n_obj_l, 0, sizeof(int [3]));
+	ft_memset(n_obj_r, 0, sizeof(int [3]));
 	j = -1;
 	while (++j < 3)
 	{

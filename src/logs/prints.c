@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:39:30 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 19:34:37 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 13:49:42 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	print_bvh_stats(t_bvh *bvh)
 {
 	t_bvh_stats	stats;
 
-	if (bvh->childs[0] != BVH_CHILD_END)
+	if (bvh->children[0] != BVH_CHILD_END)
 	{
 		get_bvh_stats(bvh, &stats);
 		printf("%s  [BVH]\n\n", CYAN_TXT_START);
@@ -99,9 +99,9 @@ static void	get_bvh_stats(t_bvh *bvh, t_bvh_stats *stats)
 	ft_memset(stats, 0, sizeof(t_bvh_stats));
 	stats->min = INT_MAX;
 	i = -1;
-	while (bvh->childs[++i] != BVH_CHILD_END)
+	while (bvh->children[++i] != BVH_CHILD_END)
 	{
-		if (bvh->childs[i] == BVH_LEAF)
+		if (bvh->children[i] == BVH_LEAF)
 		{
 			stats->max_depth = imax(stats->max_depth, bvh->depth[i]);
 			stats->n_leafs++;
