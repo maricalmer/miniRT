@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 21:14:45 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 19:55:37 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:55:15 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 #include "minirt.h"
 
-void	ft_swap(float *t1, float *t2)
+void	swap_float(float *t1, float *t2)
 {
 	float	tmp;
 
@@ -45,16 +45,16 @@ int	imax(int a, int b)
 		return (b);
 }
 
-void	cpy_vec(float v1[3], float v2[3])
+void	copy_vec(float src[3], float dst[3])
 {
-	v2[0] = v1[0];
-	v2[1] = v1[1];
-	v2[2] = v1[2];
+	dst[0] = src[0];
+	dst[1] = src[1];
+	dst[2] = src[2];
 }
 
-void	scale_vec(float v[3], float amp)
+void	scale_vec(float v[3], float scalar)
 {
-	v[0] *= amp;
-	v[1] *= amp;
-	v[2] *= amp;
+	v[0] *= scalar;
+	v[1] *= scalar;
+	v[2] *= scalar;
 }

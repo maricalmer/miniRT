@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   whitted.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:23:09 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/24 11:52:34 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 15:52:57 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static float	get_fresnel(t_shoot *shoot)
 	n[0] = 1;
 	n[1] = shoot->obj->mat.refr_idx;
 	if (shoot->inside)
-		ft_swap(&n[0], &n[1]);
+		swap_float(&n[0], &n[1]);
 	cos_theta_i = -dot_13_13(shoot->dir, shoot->normal);
 	cos_theta_t = 1 - n[0] * n[0] / n[1] / n[1]
 		* (1 - cos_theta_i * cos_theta_i);

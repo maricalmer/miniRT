@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shoot_refrac_reflec.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maricalmer <maricalmer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:29:21 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/24 11:48:00 by maricalmer       ###   ########.fr       */
+/*   Updated: 2025/04/26 15:53:43 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	shoot_reflection_ray(t_shoot *shoot, t_shoot *new_shoot, t_data *data)
 	bouncing_ray[2] = shoot->dir[2] - 2 * theta_ln * shoot->normal[2];
 	normalize(bouncing_ray, NULL);
 	new_shoot->src = shoot->hit_pt;
-	cpy_vec(bouncing_ray, new_shoot->dir);
+	copy_vec(bouncing_ray, new_shoot->dir);
 	new_shoot->depth = shoot->depth + 1;
 	new_shoot->inside = shoot->inside;
 	shoot_ray(data, new_shoot);
@@ -55,7 +55,7 @@ void	shoot_refraction_ray(t_shoot *shoot, t_shoot *new_shoot, t_data *data)
 		calculate_refraction_ray(r_entry, shoot->normal,
 			shoot->dir, shoot->obj->mat.refr_idx);
 	new_shoot->src = shoot->hit_pt;
-	cpy_vec(r_entry, new_shoot->dir);
+	copy_vec(r_entry, new_shoot->dir);
 	new_shoot->depth = shoot->depth + 1;
 	new_shoot->inside = !shoot->inside;
 	shoot_ray(data, new_shoot);

@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:34:36 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/26 15:44:35 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:53:32 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	translate_cam(t_data *data, float v[3], float amp, int anti_fa)
 	double	new_t_mat[4][4];
 
 	data->anti_fa = anti_fa;
-	cpy_vec(v, t);
+	copy_vec(v, t);
 	scale_vec(t, amp);
 	ft_memset(new_t_mat, 0, sizeof(double [4][4]));
 	new_t_mat[0][0] = 1;

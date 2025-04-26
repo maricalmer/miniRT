@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:00:36 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 13:38:42 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:49:01 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,5 @@ void	get_mid_planes(t_bvh *bvh, int idx, t_cut_in_two *cut)
 
 	i = -1;
 	while (++i < 3)
-		cut->mid[i] = find_median_custom(bvh, idx, i);
+		cut->mid[i] = find_bvh_median(bvh, idx, i);
 }

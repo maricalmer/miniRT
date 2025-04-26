@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:49:20 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 15:44:26 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:55:38 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,10 +139,10 @@ void		normalize(float vector[3], float *magnitude);
 int			imin(int a, int b);
 int			imax(int a, int b);
 void		vec_substr(float p1[3], float p2[3], float result[3]);
-void		cpy_vec(float v1[3], float v2[3]);
+void		copy_vec(float src[3], float dst[3]);
 float		triple_scalar(float a[3], float b[3], float c[3]);
-void		ft_swap(float *t1, float *t2);
-float		find_median_custom(t_bvh *bvh, int idx, int axis);
+void		swap_float(float *t1, float *t2);
+float		find_bvh_median(t_bvh *bvh, int idx, int axis);
 void		get_rotation_matrice(float cam_dir[3], double t_mat[4][4],
 				float c[3]);
 void		copy_r_mat(t_data *data);

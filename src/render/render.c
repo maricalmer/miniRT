@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:05:24 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 15:27:50 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:53:37 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	render_first_image(t_data *data)
 			+ bvh->max_y[0] - bvh->min_z[0] + bvh->max_z[0]) / 3 / TRANS_SENS;
 	if (data->cam.d_trans < EPSILON)
 		data->cam.d_trans = 10;
-	cpy_vec(data->cam.origin, data->cam.origin_backup);
+	copy_vec(data->cam.origin, data->cam.origin_backup);
 	first_rotation_matrice(data);
 	calculate_img(data);
 }

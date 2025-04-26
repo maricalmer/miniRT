@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 22:39:15 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/23 19:53:30 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:51:17 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,27 @@ static float	quick_select(t_bvh *bvh, int bounds[2], int k,
 					int idx_axis[2]);
 static int		partition(t_bvh *bvh, int bounds[2], int idx_pivot,
 					int idx_axis[2]);
-static void		swap_custom(t_bvh *bvh, int idx_1, int idx_2, int node_idx);
+static void		swap_bvh_objects(t_bvh *bvh, int idx_1, int idx_2, int node_idx);
 
-float	find_median_custom(t_bvh *bvh, int idx, int axis)
+float	find_bvh_median(t_bvh *bvh, int idx, int axis)
 {
 	float	mid_l;
 	float	mid_r;
 	int		bounds[2];
 	int		n;
-	int		idx_axis[2];
+	int		t_node_axis[2];
 
 	n = bvh->group_size[idx];
 	bounds[0] = 0;
 	bounds[1] = n - 1;
-	idx_axis[0] = idx;
-	idx_axis[1] = axis;
+	t_node_axis[0] = idx;
+	t_node_axis[1] = axis;
 	if (n & 1)
-		return (quick_select(bvh, bounds, n * 0.5f, idx_axis));
+		return (quick_select(bvh, bounds, n * 0.5f, t_node_axis));
 	else
 	{
-		mid_l = quick_select(bvh, bounds, n * 0.5f - 1, idx_axis);
-		mid_r = quick_select(bvh, bounds, n * 0.5f, idx_axis);
+		mid_l = quick_select(bvh, bounds, n * 0.5f - 1, t_node_axis);
+		mid_r = quick_select(bvh, bounds, n * 0.5f, t_node_axis);
 		return ((mid_l + mid_r) * 0.5f);
 	}
 }
@@ -87,23 +87,23 @@ static int	partition(t_bvh *bvh, int bounds[2], int idx_pivot,
 	int		i;
 
 	pivot = bvh->obj_geo[idx_axis[0]][idx_pivot]->center[idx_axis[1]];
-	swap_custom(bvh, idx_pivot, bounds[1], idx_axis[0]);
+	swap_bvh_objects(bvh, idx_pivot, bounds[1], idx_axis[0]);
 	idx_final = bounds[0];
 	i = bounds[0];
 	while (i < bounds[1])
 	{
 		if (bvh->obj_geo[idx_axis[0]][i]->center[idx_axis[1]] < pivot)
 		{
-			swap_custom(bvh, i, idx_final, idx_axis[0]);
+			swap_bvh_objects(bvh, i, idx_final, idx_axis[0]);
 			idx_final++;
 		}
 		i++;
 	}
-	swap_custom(bvh, idx_final, bounds[1], idx_axis[0]);
+	swap_bvh_objects(bvh, idx_final, bounds[1], idx_axis[0]);
 	return (idx_final);
 }
 
-static void	swap_custom(t_bvh *bvh, int idx_1, int idx_2, int node_idx)
+static void	swap_bvh_objects(t_bvh *bvh, int idx_1, int idx_2, int node_idx)
 {
 	t_obj_geo	*tmp;
 	t_object	*object;
