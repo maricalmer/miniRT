@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:23:19 by dlemaire          #+#    #+#             */
-/*   Updated: 2025/04/26 15:24:47 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:22:55 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,7 @@ typedef struct s_data
 	int							mouse_y;
 	int							anti_fa;
 
-	atomic_int					joblist_top;
+	atomic_int					next_job_id;
 	atomic_int					active_threads;
 	t_calc_img_arg				joblist[HEIGHT];
 	pthread_mutex_t				joblist_mutex;

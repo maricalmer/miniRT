@@ -6,7 +6,7 @@
 /*   By: dlemaire <dlemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:05:24 by hruiz-fr          #+#    #+#             */
-/*   Updated: 2025/04/26 16:06:00 by dlemaire         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:24:45 by dlemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	calculate_img(t_data *data)
 	gettimeofday(&t_start, NULL);
 	init_data_ray(&data_ray, data);
 	pthread_mutex_lock(&data->joblist_mutex);
-	data->joblist_top = 0;
+	data->next_job_id = 0;
 	i = -1;
 	while (++i < HEIGHT)
 	{
