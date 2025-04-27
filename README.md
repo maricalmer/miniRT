@@ -1,10 +1,10 @@
 # MiniRT
 
-**MiniRT** is a lightweight ray tracer written in C, designed to create realistic 3D images and supported by the MinilibX
+**MiniRT** is a 3D rendering engine written in C, using the ray tracing method.
 
-In 3D computer graphics, ray tracing is a technique for modeling light transport for use in a wide variety of rendering algorithms for generating digital images. By tracing the paths of light rays through a virtual scene, it generates lifelike reflections, shadows, and materials with great accuracy.
+In 3D computer graphics, ray tracing simulates the behavior of light to create realistic digital images. By tracing the paths of light rays through a virtual scene, it produces highly accurate reflections, shadows, and material effects.
 
-This project is entirely CPU-based and built specifically for Linux environments.
+This project runs entirely on the CPU and is designed specifically for Linux systems.
 
 ---
 
@@ -69,3 +69,19 @@ make
 
 # Run scene
 ./miniRT scenes/suzanne.rt
+```
+
+---
+
+## 📚 **Resources**
+
+- [Nvidia intro to Ray Tracing](https://www.youtube.com/watch?v=gBPNO6ruevk)
+- [Physics in Ray Tracing](https://physique.cmaisonneuve.qc.ca/svezina/nyc/note_nyc/NYC_CHAP_6_IMPRIMABLE_4.pdf)
+- [Whitted algo](https://dl.acm.org/doi/pdf/10.1145/358876.358882)
+- [BVH structure](https://www.realtimerendering.com/raytracing/Ray%20Tracing_%20The%20Next%20Week.pdf)
+
+## 📝 **Authors**
+
+- [Harold Ruiz-Franck](https://github.com/haroldrf) ([**hruiz-fr**](https://profile-v3.intra.42.fr/users/hruiz-fr))
+- [David Lemaire](https://github.com/maricalmer) ([**dlemaire**](https://profile-v3.intra.42.fr/users/dlemaire))
+
