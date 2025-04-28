@@ -2,7 +2,7 @@
 
 **MiniRT** is a 3D rendering engine written in C, using the ray tracing method.
 
-In 3D computer graphics, ray tracing simulates the behavior of light to create realistic digital images. By tracing the paths of light rays through a virtual scene, it produces highly accurate reflections, shadows, and material effects.
+In 3D computer graphics, ray tracing simulates the behavior of light to create realistic digital images. By tracing the paths of light rays through a virtual scene, it produces highly accurate reflections, refractions and shadows.
 
 This project runs entirely on the CPU and is designed specifically for Linux systems.
 
