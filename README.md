@@ -17,8 +17,8 @@ This project runs entirely on the CPU and is designed specifically for Linux sys
 	</thead>
 	<tbody>
 		<tr>
+			<td><image src="assets/renders/mask_profile.png"></image></td>
 			<td><image src="assets/renders/suzanne.png"></image></td>
-			<td><image src="assets/renders/mask.png"></image></td>
 		</tr>
 		<tr>
 			<td><image src="assets/renders/duck.png"></image></td>
