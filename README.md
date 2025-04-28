@@ -12,7 +12,7 @@ This project runs entirely on the CPU and is designed specifically for Linux sys
 
 <div align="center">
   <a href="https://github.com/maricalmer/miniRT">
-    <img src="assets/100k.gif" max-width="100%" height="100%"/>
+    <img src="assets/renders/100k.gif" max-width="100%" height="100%"/>
   </a>
 </div>
 
