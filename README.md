@@ -99,7 +99,7 @@ cd minirt
 make
 
 # Run scene
-./miniRT scenes/suzanne.rt
+./miniRT assets/scenes/100k_happy.rt
 ```
 
 ---
