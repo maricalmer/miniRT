@@ -116,7 +116,7 @@ make
 ## 🏭 **Further development**
 
 - Write more tests
-- Add portability for all platforms
+- Add portability for main platforms
 
 ---
 
