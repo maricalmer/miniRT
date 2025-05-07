@@ -104,6 +104,19 @@ make
 
 ---
 
+## 📐 **Coding standard**
+
+Strict coding guidelines for the 42 School curriculum. Here is a concise summary of the most important aspects of this coding style:
+- **Files:** Max 5 functions per file; lines ≤ 80 chars.
+- **Functions:** Max 25 lines; max 4 parameters
+- **Naming:** snake_case
+- **Control Flow:** Only if, else, and while allowed; ❌ No for, switch, ternary (?:), or do...while ❌
+- **Variables:** Declared only at the start of functions; no VLAs
+- **Macros:** Only for constants; no function-like macros
+- (...)
+
+---
+
 ## 📚 **Resources**
 
 - [Nvidia intro to Ray Tracing](https://www.youtube.com/watch?v=gBPNO6ruevk)
