@@ -8,7 +8,7 @@ This project runs entirely on the CPU and is designed specifically for **Linux s
 
 ---
 
-## 🔮 100k spheres
+## 🔮 100k spheres real time
 
 <div align="center">
   <a href="https://github.com/maricalmer/miniRT">
